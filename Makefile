@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/03/26 16:29:21 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/03/27 12:03:30 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ CFLAGS      = -Wall -Wextra -Werror -g
 
 LIBFT_DIR   = lib/libft
 LIBFT_A     = $(LIBFT_DIR)/libft.a
+OBJ_DIR		= build
 READLINE    = -lreadline
 
 INCLUDES    = -I$(LIBFT_DIR) -Iincludes
@@ -40,7 +41,7 @@ INCLUDES    = -I$(LIBFT_DIR) -Iincludes
 SRCS        = src/main.c \
               #src/tokens.c\
 
-OBJS        = $(SRCS:.c=.o)
+OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # ==============================================================================
 # RULES
@@ -51,11 +52,23 @@ all: $(NAME)
 $(NAME): $(LIBFT_A) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) $(READLINE) -o $(NAME)
 
-%.o: %.c
+$(OBJ_DIR)/%.o: %.c
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# ^ Gera um arquivo .o dentro da pasta $(OBJ_DIR) a partir de um .c
+# | %.o e %.c -> O Makefile substitui o % pelo nome base do arquivo
+# | Exemplo: src/main.c %(OBJ_DIR) definido como build
+# | Entao fica build/main.o: src/main.c
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
+	mkdir -p $(OBJ_DIR)/libft
+	find $(LIBFT_DIR) -name "*.o" -exec mv {} $(OBJ_DIR)/libft/ \;
+# ^ Compila o libft
+# | Cria a pasta build/ se nao existir
+# | Procura no diretorio do libft todos os ficheiros .o
+# | Move os *.o para a pasta build
+
 
 valgrind: $(NAME)
 	valgrind --leak-check=full \
@@ -73,10 +86,18 @@ valgrind: $(NAME)
 clean:
 	$(MAKE) clean -C $(LIBFT_DIR)
 	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)/libft
+	rm -rf $(OBJ_DIR)/src
+# ^ Apaga todos os ficheiros .o da pasta Build
+# | Mantem o executavel
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFT_DIR)
 	rm -f $(NAME)
+	rm -rf $(OBJ_DIR)/libft
+	rm -rf $(OBJ_DIR)/src
+# ^ Apaga todos os ficheiros .o da pasta build e o executavel
+# | 
 
 re: fclean all
 

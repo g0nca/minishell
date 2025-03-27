@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/03/26 16:30:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:56:59 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int     main(void)
 {
     char    *rl;
+    t_token tokens;
 
     while (1)
     {
@@ -23,7 +24,6 @@ int     main(void)
             break;
         if (*rl)
             add_history(rl);
-        
         if (strcmp(rl, "exit") == 0)
         {
             printf("Limpando...\n");
@@ -36,3 +36,4 @@ int     main(void)
     }
     return (0);
 }
+

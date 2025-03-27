@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/03/27 12:03:30 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/03/27 12:08:22 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,8 +96,9 @@ fclean: clean
 	rm -f $(NAME)
 	rm -rf $(OBJ_DIR)/libft
 	rm -rf $(OBJ_DIR)/src
+	rm -f Valgrind/...
 # ^ Apaga todos os ficheiros .o da pasta build e o executavel
-# | 
+# | Apaga o arquivo log do Valgrind
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 10:38:28 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:28:40 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,27 @@
 # include <signal.h>
 # include <fcntl.h>
 
-/*typedef enum e_token_type {
-    WORD,
-    PIPE,
-    REDIR_IN,
-    REDIR_OUT,
-    APPEND,
-    HEREDOC
-}   t_token_type;
+# define COMMAND 1
+# define W_SPACE 2
+# define D_QUOTE 3
+# define S_QUOTE 4
+# define PIPE 5
+# define REDIR_IN 6
+# define REDIR_OUT 7
+# define APPEND 8
+# define HEREDOC 9
+# define ENV 10
+# define FILE 11
+
+# define EXIT_SUCCESS 0
+# define EXIT_FAILURE 1
 
 typedef struct s_token {
     char            *value;
-    t_token_type    type;
+    int             type;
     struct s_token  *next;
-}   t_token;*/
+    struct s_token *prev;
+}   t_token;
 
 typedef struct s_shell
 {
@@ -46,13 +53,29 @@ typedef struct s_shell
     int last_exit_status;
     int running;
 }   t_shell;
+// last_exit_status serve para guardar o codigo de saida do ultimo comando
+// executado no shell | EXEMPLO :
+// --> Se fizermos ls "arquivo existente" o comando sera executado corretamente
+// em seguida se fizermos echo $? mostra nos esse codigo de saida que sera 0
+// -------------------------------------------------------------------------
+// --> Se fizermos ls "arquivo que nao existe" o comando mostra uma mensagem de erro
+// echo $? ira mostrar 1 porque houve um erro na execucao do comando anterior
 
 
 int     main(int ac, char **av, char **envp);
-char    **copy_env(char **envp);
+
+//APAGAR
+void    print_envp(char *line, t_shell *shell);
+int    exit_program(char *line, t_shell *shell);
 
 //  free_functions
 void free_env(char **env);
+void    free_struct(t_shell *shell);
+
+//  init_shell.c
+char    **copy_env(char **envp);
+t_shell     *init_shell(int ac, char **av, char **envp);
+
 
 
 //      LIBFT

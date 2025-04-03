@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/03 10:36:33 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/04/03 12:33:39 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ INCLUDES    = -I$(LIBFT_DIR) -Iincludes
 # Adicione manualmente seus arquivos .c aqui:
 SRCS        = src/main.c \
 				src/free_function/free.c \
+				src/init_shell.c \
               #src/tokens.c\
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)

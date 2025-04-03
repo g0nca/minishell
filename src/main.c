@@ -6,34 +6,51 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/03/27 12:56:59 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/03 10:53:37 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int     main(void)
+char **copy_env(char **envp)
 {
-    char    *rl;
-    t_token tokens;
+    int i, count = 0;
+    char **env_copy;
 
-    while (1)
+    while (envp[count])
+        count++;
+    env_copy = malloc(sizeof(char *) * (count + 1));
+    if (!env_copy)
+        return NULL;
+    for (i = 0; i < count; i++)
+        env_copy[i] = ft_strdup(envp[i]);
+    env_copy[i] = NULL;
+    return env_copy;
+}
+
+int     main(int ac, char **av, char **envp)
+{
+    (void)ac;
+    (void)av;
+    t_shell shell;
+    char    *line;
+
+    shell.env = copy_env(envp);
+    shell.last_exit_status = 0;
+    shell.running = 1;
+
+    while (shell.running)
     {
-        rl = readline("minishell$");
-        if (!rl)
+        line = readline("minishell$");
+        if (!line)
             break;
-        if (*rl)
-            add_history(rl);
-        if (strcmp(rl, "exit") == 0)
-        {
-            printf("Limpando...\n");
-            rl_clear_history();
-            free(rl);
-            break;
-        }
-        printf("%s\n", rl);
-        free(rl);
+        if (*line)
+            add_history(line);
+        else
+            printf("%s\n", line);
+        free(line);
     }
+    free_env(shell.env);
     return (0);
 }
 

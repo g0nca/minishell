@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:22:45 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 13:28:27 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:07:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,24 @@
 
 char **copy_env(char **envp)
 {
-    int i, count = 0;
+    int i;
+    int count;
     char **env_copy;
 
+    count = 0;
+    i = 0;
     while (envp[count])
         count++;
     env_copy = malloc(sizeof(char *) * (count + 1));
     if (!env_copy)
         return NULL;
-    for (i = 0; i < count; i++)
+    while (envp[i])
+    {
         env_copy[i] = ft_strdup(envp[i]);
+        i++;
+    }
     env_copy[i] = NULL;
-    return env_copy;
+    return (env_copy);
 }
 
 t_shell     *init_shell(int ac, char **av, char **envp)

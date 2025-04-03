@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 14:42:26 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:05:17 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-//# include "ft_printf.h"
+# include "../lib/libft/libft.h"
 #include <ctype.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -24,6 +24,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
+
 
 # define COMMAND 1
 # define W_SPACE 2
@@ -84,8 +85,8 @@ t_shell     *init_shell(int ac, char **av, char **envp);
 
 
 //      LIBFT
-int	ft_strcmp(char *s1, char *s2);
-char	*ft_strdup(const char *s);
+//int	ft_strcmp(char *s1, char *s2);
+//char	*ft_strdup(const char *s);
 
 
 

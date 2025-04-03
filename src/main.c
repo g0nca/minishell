@@ -6,27 +6,11 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 13:27:35 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:49:50 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-char **copy_env(char **envp)
-{
-    int i, count = 0;
-    char **env_copy;
-
-    while (envp[count])
-        count++;
-    env_copy = malloc(sizeof(char *) * (count + 1));
-    if (!env_copy)
-        return NULL;
-    for (i = 0; i < count; i++)
-        env_copy[i] = ft_strdup(envp[i]);
-    env_copy[i] = NULL;
-    return env_copy;
-}
 
 int     main(int ac, char **av, char **envp)
 {
@@ -43,13 +27,13 @@ int     main(int ac, char **av, char **envp)
             break;
         if (*line)
             add_history(line);
+        parse_line(line);
         if (exit_program(line, shell) == 0)
             return (0);
         print_envp(line, shell);
         printf("%s\n", line);
         free(line);
     }
-    free_struct(shell);
     return (0);
 }
 

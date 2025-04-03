@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 13:28:40 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:42:26 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ typedef struct s_token {
     struct s_token *prev;
 }   t_token;
 
+typedef struct s_cmd
+{
+    char **args;
+}   t_cmd;
+
 typedef struct s_shell
 {
     char **env;
@@ -73,7 +78,7 @@ void free_env(char **env);
 void    free_struct(t_shell *shell);
 
 //  init_shell.c
-char    **copy_env(char **envp);
+char **copy_env(char **envp);
 t_shell     *init_shell(int ac, char **av, char **envp);
 
 

@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/03 12:33:39 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/04/03 16:00:22 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,19 +28,20 @@
 NAME        = minishell
 
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -g
+CFLAGS      = -Wall -Wextra -Werror -g3
 
 LIBFT_DIR   = lib/libft
 LIBFT_A     = $(LIBFT_DIR)/libft.a
 OBJ_DIR		= build
 READLINE    = -lreadline
 
-INCLUDES    = -I$(LIBFT_DIR) -Iincludes
+
 
 # Adicione manualmente seus arquivos .c aqui:
 SRCS        = src/main.c \
 				src/free_function/free.c \
 				src/init_shell.c \
+				src/parser/parser.c\
               #src/tokens.c\
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
@@ -56,7 +57,7 @@ $(NAME): $(LIBFT_A) $(OBJS)
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 # ^ Gera um arquivo .o dentro da pasta $(OBJ_DIR) a partir de um .c
 # | %.o e %.c -> O Makefile substitui o % pelo nome base do arquivo
 # | Exemplo: src/main.c %(OBJ_DIR) definido como build
@@ -73,6 +74,7 @@ $(LIBFT_A):
 
 
 valgrind: $(NAME)
+	mkdir Valgrind
 	valgrind --leak-check=full \
 	--track-fds=yes --track-origins=yes \
     --log-file=Valgrind/...   \

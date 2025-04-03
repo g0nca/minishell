@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 15:05:17 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:06:00 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ void    free_struct(t_shell *shell);
 char **copy_env(char **envp);
 t_shell     *init_shell(int ac, char **av, char **envp);
 
+
+// parser.c
+int     parse_line(char *line);
 
 
 //      LIBFT

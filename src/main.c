@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 15:19:40 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:06:33 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int     main(int ac, char **av, char **envp)
             break;
         if (*line)
             add_history(line);
-        //parse_line(line);
+        printf("N:%d\n", parse_line(line));
         if (exit_program(line, shell) == 0)
             return (0);
         print_envp(line, shell);

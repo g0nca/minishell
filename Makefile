@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/03 16:00:22 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/04/07 11:32:22 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,9 @@ READLINE    = -lreadline
 SRCS        = src/main.c \
 				src/free_function/free.c \
 				src/init_shell.c \
-				src/parser/parser.c\
-              #src/tokens.c\
+				src/tokenizer/tokenizer.c \
+				src/tokenizer/init_tokens.c \
+#src/parser/parser.c\
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 

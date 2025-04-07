@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 16:06:00 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/07 14:12:04 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,33 @@
 # include <signal.h>
 # include <fcntl.h>
 
-
-# define COMMAND 1
-# define W_SPACE 2
-# define D_QUOTE 3
-# define S_QUOTE 4
-# define PIPE 5
-# define REDIR_IN 6
-# define REDIR_OUT 7
-# define APPEND 8
-# define HEREDOC 9
-# define ENV 10
-# define FILE 11
-
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
 
-typedef struct s_token {
+typedef enum e_token_type
+{
+    TOKEN_WORD,     // command || argumentos
+    TOKEN_PIPE,     // |
+    TOKEN_REDIR_IN, // <
+    TOKEN_REDIR_OUT,// >
+    TOKEN_APPEND,   // >>
+    TOKEN_HERE_DOC, // <<
+}   t_token_type;
+
+typedef struct s_token 
+{
     char            *value;
-    int             type;
+    t_token_type    type;
     struct s_token  *next;
     struct s_token *prev;
 }   t_token;
 
-typedef struct s_cmd
+typedef struct s_token_list
 {
-    char **args;
-}   t_cmd;
+    t_token *tokens;
+    int size;
+    int capacity;
+}   t_token_list;
 
 typedef struct s_shell
 {
@@ -73,10 +73,19 @@ int     main(int ac, char **av, char **envp);
 //APAGAR
 void    print_envp(char *line, t_shell *shell);
 int    exit_program(char *line, t_shell *shell);
+void print_tokens(t_token_list *list);
+
+//  tokenizer.c
+void add_token(t_token_list *list, char *val, t_token_type type);
+t_token_list *tokenizer(char *line);
+
+t_token_list    init_token_struct(t_token_list *list);
+t_token_list    *tokenizer_word(t_token_list *list, int *i, char *line);
 
 //  free_functions
 void free_env(char **env);
 void    free_struct(t_shell *shell);
+void free_tokens(t_token_list *list);
 
 //  init_shell.c
 char **copy_env(char **envp);
@@ -84,7 +93,7 @@ t_shell     *init_shell(int ac, char **av, char **envp);
 
 
 // parser.c
-int     parse_line(char *line);
+//int     parse_line(char *line);
 
 
 //      LIBFT

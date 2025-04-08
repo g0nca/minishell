@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 12:19:49 by joaomart          #+#    #+#             */
-/*   Updated: 2024/10/28 12:22:21 by joaomart         ###   ########.fr       */
+/*   Created: 2025/04/07 11:55:36 by ggomes-v          #+#    #+#             */
+/*   Updated: 2025/04/08 15:20:29 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_isspace(int c)
 {
-	if (s)
-		write(fd, s, ft_strlen(s));
+	if (c == 32)
+		return (1);
+	return (0);
 }

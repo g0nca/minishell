@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 13:16:29 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:10:32 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-// free the copy of enviroment variables and the pointer
 void free_env(char **env)
 {
     int i;
@@ -28,4 +27,20 @@ void    free_struct(t_shell *shell)
 {
     free_env(shell->env);
     free(shell);
+}
+
+void free_tokens(t_token_list *list)
+{
+    t_token *current = list->tokens;
+    t_token *next;
+
+    while (current)
+    {
+        next = current->next;
+        free(current->value);
+        free(current);
+        current = next;
+    }
+
+    free(list);
 }

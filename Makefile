@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
+#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/08 10:46:16 by andrade          ###   ########.fr        #
+#    Updated: 2025/04/08 15:14:49 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,13 @@ FT_PRINTF_DIR = libs/ft_printf_fd
 FT_PRINTF = $(FT_PRINTF_DIR)/ft_printf_fd.a
 
 # Adicione manualmente seus arquivos .c aqui:
-MINISHELL_SRCS = srcs/main.c srcs/init_shell.c \
+MINISHELL_SRCS = srcs/main.c \
 				srcs/free_functions/free.c \
+				srcs/init_shell.c \
+				srcs/tokenizer/tokenizer.c \
+				srcs/tokenizer/process_token.c \
+				srcs/tokenizer/process_token2.c \
+				srcs/tokenizer/init_tokens.c \
 
 MINISHELL_OBJS_DIR = srcs/objs
 MINISHELL_OBJS = $(patsubst srcs/%.c, $(MINISHELL_OBJS_DIR)/%.o, $(MINISHELL_SRCS))

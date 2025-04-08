@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   init_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/03 14:29:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 15:11:02 by joaomart         ###   ########.fr       */
+/*   Created: 2025/04/07 11:32:48 by ggomes-v          #+#    #+#             */
+/*   Updated: 2025/04/08 15:12:27 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int     parse_line(char *line)
+t_token_list    init_token_struct(t_token_list *list)
 {
-    int i;
-    int d_quotes;
+    list->tokens = NULL;
+    list->size = 0;
+    list->capacity = 0;
+    return (*list);
+}
 
-    d_quotes = 0;
-    i = 0;
-    while (line[i])
-    {
-        if (line[i] == 34)
-            d_quotes += 1;
-        i++;
-    }
-    return (d_quotes);
+t_token_list *init_token_list(void)
+{
+    t_token_list *list = malloc(sizeof(t_token_list));
+    if (!list)
+        return NULL;
+    list->tokens = NULL;
+    list->size = 0;
+    list->capacity = 0; // não é necessário com lista encadeada, mas deixamos para compatibilidade
+    return list;
 }

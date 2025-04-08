@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 13:05:21 by joaomart          #+#    #+#             */
-/*   Updated: 2024/10/28 13:08:30 by joaomart         ###   ########.fr       */
+/*   Created: 2025/04/07 13:11:24 by ggomes-v          #+#    #+#             */
+/*   Updated: 2025/04/08 15:23:04 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+char	*ft_strndup(const char *s, size_t n)
 {
-	if (s)
+	char	*dup;
+	size_t	i;
+
+	i = 0;
+	dup = malloc(n + 1);
+	if (!dup)
+		return NULL;
+	while (i < n)
 	{
-		write(fd, s, ft_strlen(s));
-		write(fd, "\n", 1);
+		dup[i] = s[i];
+		i++;
 	}
+	dup[n] = '\0';
+	return (dup);
 }

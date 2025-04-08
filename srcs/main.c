@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 15:19:40 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:13:43 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 int     main(int ac, char **av, char **envp)
 {
-    (void)ac;
+    (void) ac;
     (void)av;
     t_shell *shell;
     char    *line;
-    
+    t_token_list *test;
+
     shell = init_shell(ac, av, envp);
     while (shell->running)
     {
@@ -27,11 +28,14 @@ int     main(int ac, char **av, char **envp)
             break;
         if (*line)
             add_history(line);
-        //parse_line(line);
         if (exit_program(line, shell) == 0)
             return (0);
         print_envp(line, shell);
         printf("%s\n", line);
+        test = tokenizer(line);
+        print_tokens(test);
+        free_tokens(test);
+        test = NULL;
         free(line);
     }
     return (0);
@@ -61,4 +65,19 @@ int    exit_program(char *line, t_shell *shell)
         return (0);
     }
     return (1);
+}
+void print_tokens(t_token_list *list)
+{
+    if (!list)
+        return;
+
+    int i = 0;
+    t_token *current = list->tokens;
+
+    while (current)
+    {
+        printf("token[%d] (%d): %s\n", i, current->type, current->value);
+        current = current->next;
+        i++;
+    }
 }

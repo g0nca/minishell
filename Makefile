@@ -3,21 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
+#    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/07 11:32:22 by ggomes-v         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: yourname <your@email.com>                   +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/26 00:00:00 by yourname          #+#    #+#              #
-#    Updated: 2025/03/26 00:00:00 by yourname         ###   ########.fr        #
+#    Updated: 2025/04/08 10:46:16 by andrade          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,27 +14,22 @@
 # VARIABLES
 # ==============================================================================
 
-NAME        = minishell
+NAME = minishell
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g3
+READLINE = -lreadline
 
-CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -g3
-
-LIBFT_DIR   = lib/libft
-LIBFT_A     = $(LIBFT_DIR)/libft.a
-OBJ_DIR		= build
-READLINE    = -lreadline
-
-
+LIBFT_DIR = libs/libft
+LIBFT = $(LIBFT_DIR)/libft.a
+FT_PRINTF_DIR = libs/ft_printf_fd
+FT_PRINTF = $(FT_PRINTF_DIR)/ft_printf_fd.a
 
 # Adicione manualmente seus arquivos .c aqui:
-SRCS        = src/main.c \
-				src/free_function/free.c \
-				src/init_shell.c \
-				src/tokenizer/tokenizer.c \
-				src/tokenizer/init_tokens.c \
-#src/parser/parser.c\
+MINISHELL_SRCS = srcs/main.c srcs/init_shell.c \
+				srcs/free_functions/free.c \
 
-OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+MINISHELL_OBJS_DIR = srcs/objs
+MINISHELL_OBJS = $(patsubst srcs/%.c, $(MINISHELL_OBJS_DIR)/%.o, $(MINISHELL_SRCS))
 
 # ==============================================================================
 # RULES
@@ -53,34 +37,47 @@ OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT_A) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) $(READLINE) -o $(NAME)
+$(NAME): $(MINISHELL_OBJS) $(LIBFT) $(FT_PRINTF)
+	@echo "$(BOLD_BLUE)╔══════════════════════════════════════╗"
+	@echo "$(BOLD_BLUE)║       🔨 Building $(NAME)...       ║"
+	@echo "$(BOLD_BLUE)╚══════════════════════════════════════╝$(RESET)"
+	@$(CC) $(CFLAGS) $(MINISHELL_OBJS) $(LIBFT) $(READLINE) -o $(NAME)
+	@echo "$(BOLD_GREEN)✅ $(NAME) built successfully!$(RESET)"
 
-$(OBJ_DIR)/%.o: %.c
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(MINISHELL_OBJS_DIR)/%.o: srcs/%.c
+	@mkdir -p $(dir $@)
+	@echo "$(YELLOW)🛠️  Compiling $<...$(RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@
 # ^ Gera um arquivo .o dentro da pasta $(OBJ_DIR) a partir de um .c
 # | %.o e %.c -> O Makefile substitui o % pelo nome base do arquivo
 # | Exemplo: src/main.c %(OBJ_DIR) definido como build
 # | Entao fica build/main.o: src/main.c
 
-$(LIBFT_A):
-	$(MAKE) -C $(LIBFT_DIR)
-	mkdir -p $(OBJ_DIR)/libft
-	find $(LIBFT_DIR) -name "*.o" -exec mv {} $(OBJ_DIR)/libft/ \;
+$(LIBFT):
+	@echo "$(BOLD_BLUE)╔══════════════════════════════════════╗"
+	@echo "$(BOLD_BLUE)║        📚 Compiling libft...         ║"
+	@echo "$(BOLD_BLUE)╚══════════════════════════════════════╝$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+	@echo "$(BOLD_GREEN)✅ libft.a built successfully!$(RESET)"
 # ^ Compila o libft
 # | Cria a pasta build/ se nao existir
 # | Procura no diretorio do libft todos os ficheiros .o
 # | Move os *.o para a pasta build
 
+$(FT_PRINTF):
+	@echo "$(BOLD_BLUE)╔══════════════════════════════════════╗"
+	@echo "$(BOLD_BLUE)║     🖨️  Compiling ft_printf_fd...     ║"
+	@echo "$(BOLD_BLUE)╚══════════════════════════════════════╝$(RESET)"
+	@$(MAKE) -C $(FT_PRINTF_DIR) --no-print-directory
+	@echo "$(BOLD_GREEN)✅ libftprintf.a built successfully!$(RESET)"
 
 valgrind: $(NAME)
-	mkdir Valgrind
-	valgrind --leak-check=full \
+	@mkdir -p Valgrind
+	@valgrind --leak-check=full \
 	--track-fds=yes --track-origins=yes \
-    --log-file=Valgrind/...   \
+    --log-file=Valgrind/... \
 	./$(NAME)
-# --leak-check=full --> Mostra todos os blocos de memoria que 
+# --leak-check=full --> Mostra todos os blocos de memoria que
 #       nao foram libertados no fim da execucao do programa.
 #       Mostra o relatorio detalhado sobre cada leak
 #       Indica a linha exata do codigo onde o bloco de memoria foi alocado
@@ -89,22 +86,35 @@ valgrind: $(NAME)
 # --track-origins=yes --> Mostra onde o conteudo invalido de memoria comecou
 
 clean:
-	$(MAKE) clean -C $(LIBFT_DIR)
-	rm -f $(OBJS)
-	rm -rf $(OBJ_DIR)/libft
-	rm -rf $(OBJ_DIR)/src
+	@echo "$(BOLD_BLUE)╔══════════════════════════════════════╗"
+	@echo "$(BOLD_BLUE)║     🧹 Cleaning object files...      ║"
+	@echo "$(BOLD_BLUE)╚══════════════════════════════════════╝$(RESET)"
+	@rm -rf $(MINISHELL_OBJS_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
+	@$(MAKE) -C $(FT_PRINTF_DIR) clean --no-print-directory
 # ^ Apaga todos os ficheiros .o da pasta Build
 # | Mantem o executavel
 
 fclean: clean
-	$(MAKE) fclean -C $(LIBFT_DIR)
-	rm -f $(NAME)
-	rm -rf $(OBJ_DIR)/libft
-	rm -rf $(OBJ_DIR)/src
-	rm -f Valgrind/...
+	@echo "$(BOLD_BLUE)╔══════════════════════════════════════╗"
+	@echo "$(BOLD_BLUE)║         🗑️  Removing all...           ║"
+	@echo "$(BOLD_BLUE)╚══════════════════════════════════════╝$(RESET)"
+	@rm -rf $(NAME)
+	@rm -rf Valgrind
+	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
+	@$(MAKE) -C $(FT_PRINTF_DIR) fclean --no-print-directory
 # ^ Apaga todos os ficheiros .o da pasta build e o executavel
 # | Apaga o arquivo log do Valgrind
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
+# Cores #
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+BLUE = \033[0;34m
+BOLD_GREEN = \033[1;32m
+BOLD_YELLOW = \033[1;33m
+BOLD_BLUE = \033[1;34m
+RESET = \033[0m

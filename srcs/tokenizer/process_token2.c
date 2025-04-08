@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_token2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:18:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 15:13:05 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:25:06 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,16 @@ void    check_command(t_token_list *list)
         if (!ft_strcmp(head->value, "cd") && head->type == 0)
             head->type = 1;
         else if(!ft_strcmp(head->value, "pwd") && head->type == 0)
+            head->type = 1;
+        else if(!ft_strcmp(head->value, "echo") && head->type == 0)
+            head->type = 1;
+        else if(!ft_strcmp(head->value, "env") && head->type == 0)
+            head->type = 1;
+        else if(!ft_strcmp(head->value, "exit") && head->type == 0)
+            head->type = 1;
+        else if(!ft_strcmp(head->value, "export") && head->type == 0)
+            head->type = 1;
+        else if(!ft_strcmp(head->value, "unset") && head->type == 0)
             head->type = 1;
         if (head->next != NULL)
             head = head->next;

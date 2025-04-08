@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 15:13:43 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:33:34 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int     main(int ac, char **av, char **envp)
     shell = init_shell(ac, av, envp);
     while (shell->running)
     {
-        line = readline("minishell$");
+        line = readline("minishell$ ");
         if (!line)
             break;
         if (*line)

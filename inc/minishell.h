@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 15:10:14 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:21:02 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef enum e_token_type
     TOKEN_SIMPLE_QUOTE, // '                  // 8
 }   t_token_type;
 
-typedef struct s_token {
+typedef struct  s_token {
     char            *value;
     int             type;
     struct s_token  *next;

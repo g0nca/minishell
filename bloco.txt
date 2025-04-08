@@ -1,0 +1,1 @@
+mudar o makefile do printf, tirar o wildcard

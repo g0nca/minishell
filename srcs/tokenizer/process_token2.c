@@ -6,101 +6,122 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:18:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 16:25:06 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:18:24 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/*t_token_list    *tokenizer_word(t_token_list *list, int *i, char *line)
+// Function to handle quoted text in tokenizer
+char *handle_quoted_text(char *line, int *i, int *type_quotes)
 {
-    int start;
+    char quote = line[*i];
     char *word;
-
+    int start;
+    
+    // Set quote type
+    *type_quotes = (quote == '\'') ? 1 : 2;
+    
+    (*i)++;  // Move past opening quote
     start = *i;
-    while (line[*i] && !ft_isspace(line[*i]) && line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
-    {
+    
+    // Find closing quote
+    while (line[*i] && line[*i] != quote)
         (*i)++;
-    }
+    
+    // Extract content inside quotes
     word = ft_strndup(&line[start], *i - start);
-    add_token(list, word, TOKEN_WORD);
-    free(word); // Free the temporary string after it's been copied
-    return (list);
-}*/
+    
+    // Move past closing quote if found
+    if (line[*i])
+        (*i)++;
+        
+    return word;
+}
+
+// Function to handle regular text in tokenizer
+char *handle_regular_text(char *line, int *i)
+{
+    int start = *i;
+    
+    // Find end of word
+    while (line[*i] && !ft_isspace(line[*i]) &&
+           line[*i] != '|' && line[*i] != '<' &&
+           line[*i] != '>' && line[*i] != '\'' && line[*i] != '"')
+        (*i)++;
+    
+    // Extract the word
+    return ft_strndup(&line[start], *i - start);
+}
+
+// Function to join new word with existing text
+char *join_word(char *joined, char *word)
+{
+    char *temp;
+    
+    if (!word)
+        return joined;
+        
+    if (!joined)
+        return word;
+    
+    temp = ft_strjoin(joined, word);
+    free(joined);
+    free(word);
+    
+    return temp;
+}
+
+// Main tokenizer_word function
 void tokenizer_word(t_token_list *list, int *i, char *line)
 {
-    int     start;
-    char    *word;
-    char    quote;
-    char    *joined = NULL;
-    char    *temp;
-    int     quotes;
-
-    while (line[*i] && !ft_isspace(line[*i])  &&
-          line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
+    char *word;
+    char *joined = NULL;
+    int type_quotes = 0;
+    
+    if (!list || !i || !line)
+        return;
+    
+    // Process all characters in current word
+    while (line[*i] && !ft_isspace(line[*i]) &&
+           line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
     {
-        quotes = 0;
-        // Se encontra aspas
         if (line[*i] == '\'' || line[*i] == '\"')
-        {
-            if (line[*i] == '\'')
-                quotes = 1;
-            else if (line[*i] == '\"')
-                quotes = 2;
-            quote = line[*i];
-            (*i)++;
-            start = *i;
-            while (line[*i] && line[*i] != quote)
-                (*i)++;
-            word = ft_strndup(&line[start], *i - start); // conteúdo dentro das aspas
-            (*i)++; // avançar após a aspa de fecho
-
-            if (!joined)
-                joined = word;
-            else
-            {
-                temp = ft_strjoin(joined, word);
-                free(joined);
-                free(word);
-                joined = temp;
-            }
-        }
+            word = handle_quoted_text(line, i, &type_quotes);
         else
-        {
-            start = *i;
-            while (line[*i] && !ft_isspace(line[*i]) &&
-                   line[*i] != '|' && line[*i] != '<' &&
-                   line[*i] != '>' && line[*i] != '\'' && line[*i] != '"')
-                (*i)++;
+            word = handle_regular_text(line, i);
+            
+        joined = join_word(joined, word);
+        if (!joined)
+            return;
+    }
+    
+    // Add the final token to the list
+    add_final_token(list, joined, type_quotes);
+}
 
-            word = ft_strndup(&line[start], *i - start);
-            if (!joined)
-                joined = word;
-            else
-            {
-                temp = ft_strjoin(joined, word);
-                free(joined);
-                free(word);
-                joined = temp;
-            }
-        }
-    }
-    if (joined)
-    {
-        if (quotes == 2)
-            add_token(list, joined, TOKEN_DOUBLE_QUOTE);
-        else if (quotes == 1)
-            add_token(list, joined, TOKEN_SIMPLE_QUOTE);
-        else
-            add_token(list, joined, TOKEN_WORD);
-        free(joined);
-    }
+// Function to add the final token to the list
+void add_final_token(t_token_list *list, char *joined, int type_quotes)
+{
+    if (!joined)
+        return;
+        
+    if (type_quotes == 2)
+        add_token(list, joined, TOKEN_DOUBLE_QUOTE);
+    else if (type_quotes == 1)
+        add_token(list, joined, TOKEN_SIMPLE_QUOTE);
+    else
+        add_token(list, joined, TOKEN_WORD);
+        
+    free(joined);
 }
 
 void    check_command(t_token_list *list)
 {
     t_token *head;
 
+    if (!list->tokens)
+        return ;
     head = list->tokens;
     while (head->value)
     {

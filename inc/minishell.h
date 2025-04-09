@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 16:21:02 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:23:33 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,17 @@ typedef enum e_token_type
 typedef struct  s_token {
     char            *value;
     int             type;
-    struct s_token  *next;
-    struct s_token *prev;
+    int             quotes_check; // Verifica se aspas fecham 0 -> "" || 1 -> "
+    int             type_quotes; // type of quotes "" or '' 0 -> Sem aspas
+    struct s_token  *next;                          // 1 -> Aspas Simples ''
+    struct s_token *prev;                           // 2 -> Aspas Duplas ""
 }   t_token;
 
 typedef struct s_token_list
 {
     t_token *tokens;
     int size;
-    int capacity;
+    //int capacity;
 }   t_token_list;
 
 typedef struct s_shell
@@ -69,10 +71,6 @@ typedef struct s_shell
 // --> Se fizermos ls "arquivo que nao existe" o comando mostra uma mensagem de erro
 // echo $? ira mostrar 1 porque houve um erro na execucao do comando anterior
 
-void free_tokens(t_token_list *list);
-t_token_list *init_token_list(void);
-void add_token(t_token_list *list, char *val, t_token_type type);
-
 
 int     main(int ac, char **av, char **envp);
 
@@ -82,6 +80,7 @@ int    exit_program(char *line, t_shell *shell);
 void print_tokens(t_token_list *list);
 
 //  tokenizer.c ==========================================================
+t_token_list *tokenizer(char *line);
 void add_token(t_token_list *list, char *val, t_token_type type);
 void add_token_to_list(t_token_list *list, t_token *new_token);
 t_token *create_token(char *val, t_token_type type);
@@ -95,15 +94,22 @@ void process_redir_out_token(t_token_list *list, int *i);
 void process_redir_in_token(t_token_list *list, int *i);
 //==================================================================
 
-// process_token2.c ================================================
-
-t_token_list *tokenizer(char *line);
+// process_token2.c ===============================================
+char *handle_quoted_text(char *line, int *i, int *type_quotes);
+char *handle_regular_text(char *line, int *i);
+char *join_word(char *joined, char *word);
 void tokenizer_word(t_token_list *list, int *i, char *line);
+void add_final_token(t_token_list *list, char *joined, int type_quotes);
+// ================================================================
+
+// process_token3.c ================================================
 void    check_command(t_token_list *list);
+void	commands(t_token_list *list);
 //==================================================================
 
+
+
 // init_tokens.c ================================================
-t_token_list *init_token_list(void);
 t_token_list    init_token_struct(t_token_list *list);
 //===============================================================
 

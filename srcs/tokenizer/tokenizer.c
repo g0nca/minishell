@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 15:13:20 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:19:06 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,47 +24,49 @@ t_token_list *tokenizer(char *line)
     i = 0;
     while (line[i])
     {
-        if (ft_isspace(line[i]))
+        if (line[i] == '\0')
+            break ;
+        else if (ft_isspace(line[i]))
             i++;
         else if (line[i])
             process_token(list, line, &i);
     }
     check_command(list);
-    //adicionar aqui a nova funcao para atribuir o valor de comando
     return (list);
 }
 
 void add_token(t_token_list *list, char *val, t_token_type type)
 {
+    t_token *new_token;
+
     if (!list || !val)
         return;
-
-    t_token *new_token = create_token(val, type);
+    new_token = create_token(val, type);
     if (!new_token)
         return;
-
     add_token_to_list(list, new_token);
 }
+
 t_token *create_token(char *val, t_token_type type)
 {
+    t_token *new_token;
+
     if (!val)
         return (NULL);
-
-    t_token *new_token = malloc(sizeof(t_token));
+    new_token = malloc(sizeof(t_token));
     if (!new_token)
         return (NULL);
-
     new_token->value = ft_strdup(val);
     if (!new_token->value)
     {
         free(new_token);
         return (NULL);
     }
-
+    new_token->quotes_check = 0;
+    new_token->type_quotes = 0;
     new_token->type = type;
     new_token->next = NULL;
     new_token->prev = NULL;
-
     return (new_token);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 16:33:34 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:22:03 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int     main(int ac, char **av, char **envp)
     char    *line;
     t_token_list *test;
 
+    line = NULL;
     shell = init_shell(ac, av, envp);
     while (shell->running)
     {
@@ -30,12 +31,14 @@ int     main(int ac, char **av, char **envp)
             add_history(line);
         if (exit_program(line, shell) == 0)
             return (0);
-        print_envp(line, shell);
-        printf("%s\n", line);
-        test = tokenizer(line);
-        print_tokens(test);
-        free_tokens(test);
-        test = NULL;
+        if (line != NULL && *line)
+        {
+            print_envp(line, shell);
+            test = tokenizer(line);
+            print_tokens(test);
+            free_tokens(test);
+            test = NULL;
+        }
         free(line);
     }
     return (0);

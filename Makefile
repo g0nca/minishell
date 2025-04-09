@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/08 15:14:49 by joaomart         ###   ########.fr        #
+#    Updated: 2025/04/09 15:47:36 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/tokenizer/tokenizer.c \
 				srcs/tokenizer/process_token.c \
 				srcs/tokenizer/process_token2.c \
+				srcs/tokenizer/process_token3.c \
 				srcs/tokenizer/init_tokens.c \
 
 MINISHELL_OBJS_DIR = srcs/objs

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/09 15:23:33 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:50:46 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void add_final_token(t_token_list *list, char *joined, int type_quotes);
 
 // process_token3.c ================================================
 void    check_command(t_token_list *list);
-void	commands(t_token_list *list);
+void    commands(t_token *head);
 //==================================================================
 
 

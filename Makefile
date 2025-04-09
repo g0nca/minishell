@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/08 15:14:49 by joaomart         ###   ########.fr        #
+#    Updated: 2025/04/09 10:20:05 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/tokenizer/process_token.c \
 				srcs/tokenizer/process_token2.c \
 				srcs/tokenizer/init_tokens.c \
+				srcs/run/run_builtin.c \
+				srcs/builtins/ft_echo.c
 
 MINISHELL_OBJS_DIR = srcs/objs
 MINISHELL_OBJS = $(patsubst srcs/%.c, $(MINISHELL_OBJS_DIR)/%.o, $(MINISHELL_SRCS))
@@ -46,7 +48,7 @@ $(NAME): $(MINISHELL_OBJS) $(LIBFT) $(FT_PRINTF)
 	@echo "$(BOLD_BLUE)╔══════════════════════════════════════╗"
 	@echo "$(BOLD_BLUE)║       🔨 Building $(NAME)...       ║"
 	@echo "$(BOLD_BLUE)╚══════════════════════════════════════╝$(RESET)"
-	@$(CC) $(CFLAGS) $(MINISHELL_OBJS) $(LIBFT) $(READLINE) -o $(NAME)
+	@$(CC) $(CFLAGS) $(MINISHELL_OBJS) $(LIBFT) $(FT_PRINTF) $(READLINE) -o $(NAME)
 	@echo "$(BOLD_GREEN)✅ $(NAME) built successfully!$(RESET)"
 
 $(MINISHELL_OBJS_DIR)/%.o: srcs/%.c

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/09 15:23:33 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:28:11 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ typedef enum e_token_type
 typedef struct  s_token {
     char            *value;
     int             type;
-    int             quotes_check; // Verifica se aspas fecham 0 -> "" || 1 -> "
-    int             type_quotes; // type of quotes "" or '' 0 -> Sem aspas
-    struct s_token  *next;                          // 1 -> Aspas Simples ''
-    struct s_token *prev;                           // 2 -> Aspas Duplas ""
+    struct s_token  *next;
+    struct s_token  *prev;
 }   t_token;
 
 typedef struct s_token_list
@@ -122,6 +120,17 @@ void free_tokens(t_token_list *list);
 char **copy_env(char **envp);
 t_shell     *init_shell(int ac, char **av, char **envp);
 
+// run_builtin.c
+void	verify_token(t_token_list *type, t_shell *shell);
+void	run_builtin(t_token_list *cmd, t_shell *shell);
+//===============================================================
+
+// builtins/*.c
+void	ft_echo(t_token_list *list, t_shell *shell);
+int	is_n_flag(char *arg);
+/* void	have_n(t_token_list *list);
+int	n_value(char *current); */
+//===============================================================
 
 // parser.c
 //int     parse_line(char *line);

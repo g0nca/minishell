@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 16:33:34 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:22:26 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ int     main(int ac, char **av, char **envp)
         if (exit_program(line, shell) == 0)
             return (0);
         print_envp(line, shell);
-        printf("%s\n", line);
+        //printf("%s\n", line);
         test = tokenizer(line);
+		verify_token(test, shell);
         print_tokens(test);
         free_tokens(test);
         test = NULL;

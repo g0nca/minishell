@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 16:21:02 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:46:41 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct  s_token {
     char            *value;
     int             type;
     struct s_token  *next;
-    struct s_token *prev;
+    struct s_token  *prev;
 }   t_token;
 
 typedef struct s_token_list
@@ -116,6 +116,17 @@ void free_tokens(t_token_list *list);
 char **copy_env(char **envp);
 t_shell     *init_shell(int ac, char **av, char **envp);
 
+// run_builtin.c
+void	verify_token(t_token_list *type, t_shell *shell);
+void	run_builtin(t_token_list *cmd, t_shell *shell);
+//===============================================================
+
+// builtins/*.c
+void	ft_echo(t_token_list *list, t_shell *shell);
+int	is_n_flag(char *arg);
+/* void	have_n(t_token_list *list);
+int	n_value(char *current); */
+//===============================================================
 
 // parser.c
 //int     parse_line(char *line);

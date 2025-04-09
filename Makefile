@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
+#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/09 10:20:05 by joaomart         ###   ########.fr        #
+#    Updated: 2025/04/09 15:39:05 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/tokenizer/tokenizer.c \
 				srcs/tokenizer/process_token.c \
 				srcs/tokenizer/process_token2.c \
+				srcs/tokenizer/process_token3.c \
 				srcs/tokenizer/init_tokens.c \
 				srcs/run/run_builtin.c \
 				srcs/builtins/ft_echo.c

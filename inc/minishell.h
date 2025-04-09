@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/09 15:28:11 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:49:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ typedef enum e_token_type
 typedef struct  s_token {
     char            *value;
     int             type;
-    struct s_token  *next;
-    struct s_token  *prev;
+    int             quotes_check; // Verifica se aspas fecham 0 -> "" || 1 -> "
+    int             type_quotes; // type of quotes "" or '' 0 -> Sem aspas
+    struct s_token  *next;                          // 1 -> Aspas Simples ''
+    struct s_token *prev;                           // 2 -> Aspas Duplas ""
 }   t_token;
 
 typedef struct s_token_list
@@ -102,7 +104,7 @@ void add_final_token(t_token_list *list, char *joined, int type_quotes);
 
 // process_token3.c ================================================
 void    check_command(t_token_list *list);
-void	commands(t_token_list *list);
+void	commands(t_token *head);
 //==================================================================
 
 

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:18:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/09 15:18:24 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:40:36 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,32 +116,3 @@ void add_final_token(t_token_list *list, char *joined, int type_quotes)
     free(joined);
 }
 
-void    check_command(t_token_list *list)
-{
-    t_token *head;
-
-    if (!list->tokens)
-        return ;
-    head = list->tokens;
-    while (head->value)
-    {
-        if (!ft_strcmp(head->value, "cd") && head->type == 0)
-            head->type = 1;
-        else if(!ft_strcmp(head->value, "pwd") && head->type == 0)
-            head->type = 1;
-        else if(!ft_strcmp(head->value, "echo") && head->type == 0)
-            head->type = 1;
-        else if(!ft_strcmp(head->value, "env") && head->type == 0)
-            head->type = 1;
-        else if(!ft_strcmp(head->value, "exit") && head->type == 0)
-            head->type = 1;
-        else if(!ft_strcmp(head->value, "export") && head->type == 0)
-            head->type = 1;
-        else if(!ft_strcmp(head->value, "unset") && head->type == 0)
-            head->type = 1;
-        if (head->next != NULL)
-            head = head->next;
-        else
-            break ;
-    }
-}

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:19:51 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/09 15:23:03 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:49:37 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void    check_command(t_token_list *list)
     head = list->tokens;
     while (head->value)
     {
-		commands(list);
+		commands(head);
         if (head->next != NULL)
             head = head->next;
         else
@@ -29,8 +29,10 @@ void    check_command(t_token_list *list)
     }
 }
 
-void	commands(t_token_list *list)
+void	commands(t_token *head)
 {
+	if (!head)
+		return ;
 	if (!ft_strcmp(head->value, "cd") && head->type == 0)
 		head->type = 1;
 	else if(!ft_strcmp(head->value, "pwd") && head->type == 0)

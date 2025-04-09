@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/09 15:28:47 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/09 16:00:56 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ int     main(int ac, char **av, char **envp)
         {
             print_envp(line, shell);
             test = tokenizer(line);
-            print_tokens(test);
+            if (test && test->tokens)
+            {
+                verify_token(test, shell);
+                print_tokens(test);
+            }
             free_tokens(test);
             test = NULL;
         }

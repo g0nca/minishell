@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 15:13:37 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:27:48 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,6 @@ typedef struct s_shell
 int     main(int ac, char **av, char **envp);
 int     main_auxiliar(char *line, t_shell *shell, t_token *test);
 
-//APAGAR
-void    print_envp(char *line, t_shell *shell);
-int    exit_program(char *line, t_shell *shell);
-void    animation(char *mensagem);
-void print_tokens(t_token *list);
-
 //  tokenizer.c ==========================================================
 t_token *tokenizer(char *line);
 void add_token(t_token *list, char *val, t_token_type type);
@@ -112,25 +106,25 @@ int		ternary_operator(t_token *list, char quote);
 t_token    init_token_struct(t_token *list);
 //===============================================================
 
-//  free_functions
+//  free_functions ==========================================================
 void free_env(char **env);
 void    free_struct(t_shell *shell);
 void free_tokens(t_token *list);
+//===============================================================
 
-//  init_shell.c
+//  init_shell.c ==========================================================
 char **copy_env(char **envp);
 t_shell     *init_shell(int ac, char **av, char **envp);
+//===============================================================
 
 // run_builtin.c
 void	verify_token(t_token *type, t_shell *shell);
 void	run_builtin(t_token *cmd, t_shell *shell);
 //===============================================================
 
-// builtins/*.c
+// builtins/*.c ==========================================================
 void	ft_echo(t_token *list, t_shell *shell);
 int	is_n_flag(char *arg);
-/* void	have_n(t_token *list);
-int	n_value(char *current); */
 //===============================================================
 
 // parser.c
@@ -141,5 +135,11 @@ int	n_value(char *current); */
 //int	ft_strcmp(char *s1, char *s2);
 //char	*ft_strdup(const char *s);
 
+//EXTRAS ==========================================================
+void    print_envp(char *line, t_shell *shell);
+int    exit_program(char *line, t_shell *shell);
+void    animation(char *mensagem);
+void print_tokens(t_token *list);
+//========================================================================
 
 #endif

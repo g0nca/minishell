@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 16:55:00 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:41:49 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@
 
 typedef enum e_token_type
 {
-    TOKEN_WORD,     // words                  // 0
-    TOKEN_CMD,      // commands               // 1
-    TOKEN_PIPE,     // |                      // 2
-    TOKEN_REDIR_IN, // <                      // 3
-    TOKEN_REDIR_OUT,// >                      // 4
-    TOKEN_APPEND,   // >>                     // 5
-    TOKEN_HERE_DOC, // <<                     // 6
-    TOKEN_DOUBLE_QUOTE, // "                  // 7
-    TOKEN_SIMPLE_QUOTE, // '                  // 8
+    TOKEN_WORD,         // words                  // 0
+    TOKEN_CMD,          // commands               // 1
+    TOKEN_PIPE,         // |                      // 2
+    TOKEN_REDIR_IN,     // <                      // 3
+    TOKEN_REDIR_OUT,    // >                      // 4
+    TOKEN_APPEND,       // >>                     // 5
+    TOKEN_HERE_DOC,     // <<                     // 6
+    TOKEN_DOUBLE_QUOTE, // "                      // 7
+    TOKEN_SIMPLE_QUOTE, // '                      // 8
 }   t_token_type;
 
 typedef struct  s_token {
@@ -70,12 +70,12 @@ typedef struct s_shell
 int     main(int ac, char **av, char **envp);
 int     main_auxiliar(char *line, t_shell *shell, t_token *token);
 
-//  tokenizer.c ==========================================================
+//  tokenizer.c ====================================================
 t_token *tokenizer(char *line);
 void add_token(t_token *list, char *val, t_token_type type);
 void add_token_to_list(t_token *list, t_token *new_token);
 t_token *create_token(char *val, t_token_type type);
-//========================================================================
+//==================================================================
 
 // process_token.c ================================================
 void process_token(t_token *list, char *line, int *i);
@@ -100,20 +100,19 @@ void	commands(t_token *head);
 
 // utils1.c ========================================================
 int		ternary_operator(t_token *list, char quote);
-
 //=================================================================
 
 // init_tokens.c ================================================
 t_token    init_token_struct(t_token *list);
 //===============================================================
 
-//  free_functions ==========================================================
+//  free_functions ===============================================
 void free_env(char **env);
 void    free_struct(t_shell *shell);
 void free_tokens(t_token *list);
 //===============================================================
 
-//  init_shell.c ==========================================================
+//  init_shell.c ==================================================
 char **copy_env(char **envp);
 t_shell     *init_shell(int ac, char **av, char **envp);
 //===============================================================
@@ -123,7 +122,7 @@ void	verify_token(t_token *type, t_shell *shell);
 void	run_builtin(t_token *cmd, t_shell *shell);
 //===============================================================
 
-// builtins/*.c ==========================================================
+// builtins/*.c =================================================
 void	ft_echo(t_token *list, t_shell *shell);
 int	is_n_flag(char *arg);
 void	ft_pwd(t_shell *shell);
@@ -134,13 +133,9 @@ void	shell_error(t_shell *shell, char *str, int error, bool exit_flag);
 void	ft_error(int error, char *str);
 //===============================================================
 
-// parser.c
+// parser.c =====================================================
 //int     parse_line(char *line);
-
-
-//      LIBFT
-//int	ft_strcmp(char *s1, char *s2);
-//char	*ft_strdup(const char *s);
+//===============================================================
 
 //EXTRAS ==========================================================
 void    print_envp(char *line, t_shell *shell);

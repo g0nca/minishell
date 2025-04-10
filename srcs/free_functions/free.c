@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 11:17:32 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:19:46 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,20 @@ void    free_struct(t_shell *shell)
 }
 void free_tokens(t_token *list)
 {
+    t_token *current;
+    t_token *next;
+
     if (!list)
         return;
-        
-    t_token *current = list;
-    t_token *next;
-    
+    current  = list;
     while (current)
     {
         next = current->next; // Save the next node before freeing
-        
-        // Free the token's value
-        if (current->value)
+        if (current->value) // Free the token's value
             free(current->value);
-            
-        // Free the token itself
-        free(current);
-        
+        free(current); // Free the token itself
         current = next; // Move to the next token
     }
-    
-    // Don't free 'list' again - it was freed in the loop!
 }
 /* void free_tokens(t_token *list)
 {

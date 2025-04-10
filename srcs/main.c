@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 12:34:17 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:06:23 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ int     main(int ac, char **av, char **envp)
             add_history(line);
         if (exit_program(line, shell) == 0)
             return (0);
+        printf("b");
         if (line != NULL && *line)
         {
+            printf("a");
             main_auxiliar(line, shell, test);
         }
         free(line);

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 11:12:56 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:34:17 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,14 @@ int    exit_program(char *line, t_shell *shell)
     if (ft_strcmp(line, "exit") == 0)
     {
         shell->running = 0;
-        printf("A sair");
+        animation("Leaving Without Leaks :) ");
         free_struct(shell);
         free(line);
         return (0);
     }
     return (1);
 }
+
 void print_tokens(t_token *list)
 {
     if (!list)
@@ -91,5 +92,16 @@ void print_tokens(t_token *list)
         printf("token[%d] (%d): %s\n", i, current->type, current->value);
         current = current->next;
         i++;
+    }
+}
+
+void animation(char *mensagem)
+{
+    int i;
+    printf("\n");
+    for (i = 0; mensagem[i] != '\0'; i++) {
+        printf("%c", mensagem[i]);
+    fflush(stdout);        // força o print imediato
+    usleep(100000);        // 0.1 segundos (100ms)
     }
 }

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 11:08:53 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:28:05 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *test);
 //APAGAR
 void    print_envp(char *line, t_shell *shell);
 int    exit_program(char *line, t_shell *shell);
+void    animation(char *mensagem);
 void print_tokens(t_token *list);
 
 //  tokenizer.c ==========================================================

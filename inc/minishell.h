@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 15:27:48 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:55:00 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
@@ -50,7 +51,7 @@ typedef struct  s_token {
     struct s_token  *next;                          // 1 -> Aspas Simples ''
     struct s_token *prev;                           // 2 -> Aspas Duplas ""
 }   t_token;
- 
+
 typedef struct s_shell
 {
     char **env;
@@ -67,7 +68,7 @@ typedef struct s_shell
 
 
 int     main(int ac, char **av, char **envp);
-int     main_auxiliar(char *line, t_shell *shell, t_token *test);
+int     main_auxiliar(char *line, t_shell *shell, t_token *token);
 
 //  tokenizer.c ==========================================================
 t_token *tokenizer(char *line);
@@ -125,6 +126,12 @@ void	run_builtin(t_token *cmd, t_shell *shell);
 // builtins/*.c ==========================================================
 void	ft_echo(t_token *list, t_shell *shell);
 int	is_n_flag(char *arg);
+void	ft_pwd(t_shell *shell);
+//===============================================================
+
+// errors.c ==========================================================
+void	shell_error(t_shell *shell, char *str, int error, bool exit_flag);
+void	ft_error(int error, char *str);
 //===============================================================
 
 // parser.c

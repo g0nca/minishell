@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_builtin.c                                      :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 17:08:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/10 16:38:37 by joaomart         ###   ########.fr       */
+/*   Created: 2025/04/10 15:54:02 by joaomart          #+#    #+#             */
+/*   Updated: 2025/04/10 16:47:16 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	run_builtin(t_token *cmd, t_shell *shell)
+void	ft_pwd(t_shell *shell)
 {
-	if (ft_strcmp(cmd->value, "echo") == 0)
-		ft_echo(cmd, shell);
-	else if (ft_strcmp(cmd->value, "pwd") == 0)
-		ft_pwd(shell);
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		shell->last_exit_status = EXIT_FAILURE;
+		shell_error(shell, "PWD Error", 0, false);
+		return;
+	}
+	ft_printf_fd(STDOUT_FILENO, "%s\n", pwd);
+	free(pwd);
+	shell->last_exit_status = EXIT_SUCCESS;
 }
 
-void	verify_token(t_token *type, t_shell *shell)
-{
-	if (!type || !shell)
-		return ;
-	if (type->next)
-		type = type->next;
-	else
-		return ;
-	if (type->type == 1)
-	{
-		run_builtin(type, shell);
-	}
-}

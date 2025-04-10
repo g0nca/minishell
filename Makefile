@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
+#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/10 15:15:07 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/04/10 16:55:31 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,9 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/tokenizer/process_token3.c \
 				srcs/tokenizer/init_tokens.c \
 				srcs/run/run_builtin.c \
-				srcs/builtins/ft_echo.c
+				srcs/builtins/ft_echo.c \
+				srcs/builtins/ft_pwd.c \
+				srcs/error_functions/errors.c
 
 MINISHELL_OBJS_DIR = srcs/objs
 MINISHELL_OBJS = $(patsubst srcs/%.c, $(MINISHELL_OBJS_DIR)/%.o, $(MINISHELL_SRCS))
@@ -80,7 +82,7 @@ $(FT_PRINTF):
 	@$(MAKE) -C $(FT_PRINTF_DIR) --no-print-directory
 	@echo "$(BOLD_GREEN)✅ libftprintf.a built successfully!$(RESET)"
 
-valgrind: $(NAME)
+va: $(NAME)
 	@mkdir -p Valgrind
 	@valgrind --leak-check=full \
 	--track-fds=yes --track-origins=yes \
@@ -117,7 +119,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all va clean fclean re
 
 # Cores #
 GREEN = \033[0;32m

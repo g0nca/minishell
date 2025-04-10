@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 15:27:48 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:55:13 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_shell
 
 
 int     main(int ac, char **av, char **envp);
-int     main_auxiliar(char *line, t_shell *shell, t_token *test);
+int     main_auxiliar(char *line, t_shell *shell, t_token *token);
 
 //  tokenizer.c ==========================================================
 t_token *tokenizer(char *line);

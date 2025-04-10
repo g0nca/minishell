@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:18:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 09:36:44 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:04:55 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char *join_word(char *joined, char *word)
 }
 
 // Main tokenizer_word function
-void tokenizer_word(t_token_list *list, int *i, char *line)
+void tokenizer_word(t_token *list, int *i, char *line)
 {
     char *word;
     char *joined;
@@ -93,7 +93,7 @@ void tokenizer_word(t_token_list *list, int *i, char *line)
 }
 
 // Function to add the final token to the list
-void add_final_token(t_token_list *list, char *joined, int type_quotes)
+void add_final_token(t_token *list, char *joined, int type_quotes)
 {
     if (!joined)
         return;

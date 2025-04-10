@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:18:33 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/09 14:50:52 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:08:38 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	is_n_flag(char *arg)
 	return (arg[i] == '\0');
 }
 
-void	ft_echo(t_token_list *list, t_shell *shell)
+void	ft_echo(t_token *list, t_shell *shell)
 {
 	t_token *current;
 	int no_newline;
 
 	no_newline = 0;
-	current = list->tokens->next;
+	current = list->next;
 	while (current && is_n_flag(current->value))
 	{
 		no_newline = 1;

@@ -6,19 +6,20 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:19:51 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/09 15:49:37 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:59:33 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void    check_command(t_token_list *list)
+void    check_command(t_token *list)
 {
     t_token *head;
 
-    if (!list->tokens)
+    if (!list)
         return ;
-    head = list->tokens;
+    head = list;
+	head = head->next;
     while (head->value)
     {
 		commands(head);

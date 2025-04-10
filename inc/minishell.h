@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 10:31:17 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:08:53 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ typedef struct  s_token {
     struct s_token *prev;                           // 2 -> Aspas Duplas ""
 }   t_token;
 
-typedef struct s_token_list
+/* typedef struct s_token_list
 {
     t_token *tokens;
     int size;
     //int capacity;
-}   t_token_list;
+}   t_token; */
  
 typedef struct s_shell
 {
@@ -74,65 +74,65 @@ typedef struct s_shell
 
 
 int     main(int ac, char **av, char **envp);
-int     main_auxiliar(char *line, t_shell *shell, t_token_list *test);
+int     main_auxiliar(char *line, t_shell *shell, t_token *test);
 
 //APAGAR
 void    print_envp(char *line, t_shell *shell);
 int    exit_program(char *line, t_shell *shell);
-void print_tokens(t_token_list *list);
+void print_tokens(t_token *list);
 
 //  tokenizer.c ==========================================================
-t_token_list *tokenizer(char *line);
-void add_token(t_token_list *list, char *val, t_token_type type);
-void add_token_to_list(t_token_list *list, t_token *new_token);
+t_token *tokenizer(char *line);
+void add_token(t_token *list, char *val, t_token_type type);
+void add_token_to_list(t_token *list, t_token *new_token);
 t_token *create_token(char *val, t_token_type type);
 //========================================================================
 
 // process_token.c ================================================
-void process_token(t_token_list *list, char *line, int *i);
-void process_append_token(t_token_list *list, int *i);
-void process_heredoc_token(t_token_list *list, int *i);
-void process_redir_out_token(t_token_list *list, int *i);
-void process_redir_in_token(t_token_list *list, int *i);
+void process_token(t_token *list, char *line, int *i);
+void process_append_token(t_token *list, int *i);
+void process_heredoc_token(t_token *list, int *i);
+void process_redir_out_token(t_token *list, int *i);
+void process_redir_in_token(t_token *list, int *i);
 //==================================================================
 
 // process_token2.c ===============================================
 char *handle_quoted_text(char *line, int *i, int *type_quotes);
 char *handle_regular_text(char *line, int *i);
 char *join_word(char *joined, char *word);
-void tokenizer_word(t_token_list *list, int *i, char *line);
-void add_final_token(t_token_list *list, char *joined, int type_quotes);
+void tokenizer_word(t_token *list, int *i, char *line);
+void add_final_token(t_token *list, char *joined, int type_quotes);
 // ================================================================
 
 // process_token3.c ================================================
-void    check_command(t_token_list *list);
+void    check_command(t_token *list);
 void	commands(t_token *head);
 //==================================================================
 
 
 
 // init_tokens.c ================================================
-t_token_list    init_token_struct(t_token_list *list);
+t_token    init_token_struct(t_token *list);
 //===============================================================
 
 //  free_functions
 void free_env(char **env);
 void    free_struct(t_shell *shell);
-void free_tokens(t_token_list *list);
+void free_tokens(t_token *list);
 
 //  init_shell.c
 char **copy_env(char **envp);
 t_shell     *init_shell(int ac, char **av, char **envp);
 
 // run_builtin.c
-void	verify_token(t_token_list *type, t_shell *shell);
-void	run_builtin(t_token_list *cmd, t_shell *shell);
+void	verify_token(t_token *type, t_shell *shell);
+void	run_builtin(t_token *cmd, t_shell *shell);
 //===============================================================
 
 // builtins/*.c
-void	ft_echo(t_token_list *list, t_shell *shell);
+void	ft_echo(t_token *list, t_shell *shell);
 int	is_n_flag(char *arg);
-/* void	have_n(t_token_list *list);
+/* void	have_n(t_token *list);
 int	n_value(char *current); */
 //===============================================================
 

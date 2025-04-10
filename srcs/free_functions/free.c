@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 15:10:32 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:17:32 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,36 @@ void    free_struct(t_shell *shell)
     free_env(shell->env);
     free(shell);
 }
-
-void free_tokens(t_token_list *list)
+void free_tokens(t_token *list)
 {
-    t_token *current = list->tokens;
+    if (!list)
+        return;
+        
+    t_token *current = list;
+    t_token *next;
+    
+    while (current)
+    {
+        next = current->next; // Save the next node before freeing
+        
+        // Free the token's value
+        if (current->value)
+            free(current->value);
+            
+        // Free the token itself
+        free(current);
+        
+        current = next; // Move to the next token
+    }
+    
+    // Don't free 'list' again - it was freed in the loop!
+}
+/* void free_tokens(t_token *list)
+{
+    t_token *current;
     t_token *next;
 
+    current = list;
     while (current)
     {
         next = current->next;
@@ -41,6 +65,5 @@ void free_tokens(t_token_list *list)
         free(current);
         current = next;
     }
-
     free(list);
-}
+} */

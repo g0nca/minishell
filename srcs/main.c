@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 10:18:03 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:12:56 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int     main(int ac, char **av, char **envp)
     (void)av;
     t_shell *shell;
     char    *line;
-    t_token_list *test;
+    t_token *test;
 
     test = NULL;
     line = NULL;
@@ -38,11 +38,11 @@ int     main(int ac, char **av, char **envp)
     }
     return (0);
 }
-int     main_auxiliar(char *line, t_shell *shell, t_token_list *test)
+int     main_auxiliar(char *line, t_shell *shell, t_token *test)
 {
     print_envp(line, shell);
     test = tokenizer(line);
-    if (test && test->tokens)
+    if (test)
     {
         verify_token(test, shell);
         print_tokens(test);
@@ -77,13 +77,13 @@ int    exit_program(char *line, t_shell *shell)
     }
     return (1);
 }
-void print_tokens(t_token_list *list)
+void print_tokens(t_token *list)
 {
     if (!list)
         return;
 
     int i = 0;
-    t_token *current = list->tokens;
+    t_token *current = list;
 
     printf("\n------------------------------------------------\n");
     while (current)

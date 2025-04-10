@@ -6,25 +6,25 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/09 15:43:56 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:56:51 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_token_list *tokenizer(char *line)
+t_token *tokenizer(char *line)
 {
-    t_token_list    *list;
+    t_token    *list;
     int             i;
 
-    list = malloc(sizeof(t_token_list));
+    list = malloc(sizeof(t_token));
     if (!list)
         return (NULL);
     init_token_struct(list);
     i = 0;
     while (line[i])
     {
-        if (line[i] == '\0')
+        if (line[i] == '\0' && list->type != 0)
             break ;
         else if (ft_isspace(line[i]))
             i++;
@@ -35,7 +35,7 @@ t_token_list *tokenizer(char *line)
     return (list);
 }
 
-void add_token(t_token_list *list, char *val, t_token_type type)
+void add_token(t_token *list, char *val, t_token_type type)
 {
     t_token *new_token;
 
@@ -70,15 +70,17 @@ t_token *create_token(char *val, t_token_type type)
     return (new_token);
 }
 
-void add_token_to_list(t_token_list *list, t_token *new_token)
+void add_token_to_list(t_token *list, t_token *new_token)
 {
+    t_token *last;
+
     if (!list || !new_token)
         return;
-    if (!list->tokens)
-        list->tokens = new_token;
+    if (!list)
+        list = new_token;
     else
     {
-        t_token *last = list->tokens;
+        last = list;
         while (last->next)
             last = last->next;
         if (last)
@@ -87,7 +89,7 @@ void add_token_to_list(t_token_list *list, t_token *new_token)
             new_token->prev = last;
         }
         else
-            list->tokens = new_token;
+            list = new_token;
     }
     list->size++;
 }

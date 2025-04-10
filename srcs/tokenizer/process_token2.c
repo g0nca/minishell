@@ -6,31 +6,57 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:18:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 11:04:55 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:18:50 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+// Main tokenizer_word function
+void tokenizer_word(t_token *list, int *i, char *line)
+{
+    char *word;
+    char *joined;
+    int type_quotes;
 
+    type_quotes = 0;
+    joined = NULL;
+    if (!list || !i || !line)
+        return;
+    // Process all characters in current word
+    while (line[*i] && !ft_isspace(line[*i]) &&
+           line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
+    {
+        if (line[*i] == '\'' || line[*i] == '\"')
+            word = handle_quoted_text(line, i, &type_quotes, list);
+        else
+            word = handle_regular_text(line, i);
+        joined = join_word(joined, word);
+        if (!joined)
+            return ;
+    }
+    // Add the final token to the list
+    add_final_token(list, joined, type_quotes);
+}
 // Function to handle quoted text in tokenizer
-char *handle_quoted_text(char *line, int *i, int *type_quotes)
+char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list)
 {
     char quote;
     char *word;
     int start;
     
     quote = line[*i];
-    // Set quote type
-    *type_quotes = (quote == '\'') ? 1 : 2;
-    (*i)++;  // Move past opening quote
+    list->quotes_check = 1;
+    *type_quotes = ternary_operator(list, quote);
+    (*i)++; // Move past opening quote
     start = *i;
-    // Find closing quote
-    while (line[*i] && line[*i] != quote)
+    while (line[*i] && line[*i] != quote) // Find closing quote
+    {
+        if (line[*i] == quote)
+            list->quotes_check = 0;
         (*i)++;
-    // Extract content inside quotes
-    word = ft_strndup(&line[start], *i - start);
-    // Move past closing quote if found
-    if (line[*i])
+    }
+    word = ft_strndup(&line[start], *i - start); // Extract content inside quotes
+    if (line[*i]) // Move past closing quote if found
         (*i)++;
     return (word);
 }
@@ -63,33 +89,6 @@ char *join_word(char *joined, char *word)
     free(joined);
     free(word);
     return temp;
-}
-
-// Main tokenizer_word function
-void tokenizer_word(t_token *list, int *i, char *line)
-{
-    char *word;
-    char *joined;
-    int type_quotes;
-
-    type_quotes = 0;
-    joined = NULL;
-    if (!list || !i || !line)
-        return;
-    // Process all characters in current word
-    while (line[*i] && !ft_isspace(line[*i]) &&
-           line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
-    {
-        if (line[*i] == '\'' || line[*i] == '\"')
-            word = handle_quoted_text(line, i, &type_quotes);
-        else
-            word = handle_regular_text(line, i);
-        joined = join_word(joined, word);
-        if (!joined)
-            return ;
-    }
-    // Add the final token to the list
-    add_final_token(list, joined, type_quotes);
 }
 
 // Function to add the final token to the list

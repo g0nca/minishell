@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 12:28:05 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:13:37 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,11 @@ typedef struct  s_token {
     char            *value;
     int             type;
     int             size;
-    int             quotes_check; // Verifica se aspas fecham 0 -> "" || 1 -> "
+    int             quotes_check; // Verifica se aspas fecham 1 -> " || 0 -> ""
     int             type_quotes; // type of quotes "" or '' 0 -> Sem aspas
     struct s_token  *next;                          // 1 -> Aspas Simples ''
     struct s_token *prev;                           // 2 -> Aspas Duplas ""
 }   t_token;
-
-/* typedef struct s_token_list
-{
-    t_token *tokens;
-    int size;
-    //int capacity;
-}   t_token; */
  
 typedef struct s_shell
 {
@@ -98,7 +91,7 @@ void process_redir_in_token(t_token *list, int *i);
 //==================================================================
 
 // process_token2.c ===============================================
-char *handle_quoted_text(char *line, int *i, int *type_quotes);
+char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list);
 char *handle_regular_text(char *line, int *i);
 char *join_word(char *joined, char *word);
 void tokenizer_word(t_token *list, int *i, char *line);
@@ -110,7 +103,10 @@ void    check_command(t_token *list);
 void	commands(t_token *head);
 //==================================================================
 
+// utils1.c ========================================================
+int		ternary_operator(t_token *list, char quote);
 
+//=================================================================
 
 // init_tokens.c ================================================
 t_token    init_token_struct(t_token *list);

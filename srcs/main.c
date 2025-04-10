@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 13:06:23 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:22:00 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int     main(int ac, char **av, char **envp)
     (void)av;
     t_shell *shell;
     char    *line;
-    t_token *test;
+    t_token *token;
 
-    test = NULL;
+    token = NULL;
     line = NULL;
     shell = init_shell(ac, av, envp);
     while (shell->running)
@@ -30,27 +30,25 @@ int     main(int ac, char **av, char **envp)
             add_history(line);
         if (exit_program(line, shell) == 0)
             return (0);
-        printf("b");
         if (line != NULL && *line)
         {
-            printf("a");
-            main_auxiliar(line, shell, test);
+            main_auxiliar(line, shell, token);
         }
         free(line);
     }
     return (0);
 }
-int     main_auxiliar(char *line, t_shell *shell, t_token *test)
+int     main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
     print_envp(line, shell);
-    test = tokenizer(line);
-    if (test)
+    token = tokenizer(line);
+    if (token)
     {
-        verify_token(test, shell);
-        print_tokens(test);
+        verify_token(token, shell);
+        print_tokens(token);
     }
-    free_tokens(test);
-    test = NULL;
+    free_tokens(token);
+    token = NULL;
     return (0);
 }
 
@@ -88,10 +86,10 @@ void print_tokens(t_token *list)
     int i = 0;
     t_token *current = list;
 
-    printf("\n------------------------------------------------\n");
     while (current)
     {
         printf("token[%d] (%d): %s\n", i, current->type, current->value);
+        //printf("\nType_Quotes : [%d]\nQuotes_Check : [%d]\n", current->type_quotes, current->quotes_check);
         current = current->next;
         i++;
     }

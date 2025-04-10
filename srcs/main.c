@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/09 16:00:56 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:18:03 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,35 @@ int     main(int ac, char **av, char **envp)
     char    *line;
     t_token_list *test;
 
+    test = NULL;
     line = NULL;
     shell = init_shell(ac, av, envp);
     while (shell->running)
     {
         line = readline("minishell$ ");
-        if (!line)
-            break;
         if (*line)
             add_history(line);
         if (exit_program(line, shell) == 0)
             return (0);
         if (line != NULL && *line)
         {
-            print_envp(line, shell);
-            test = tokenizer(line);
-            if (test && test->tokens)
-            {
-                verify_token(test, shell);
-                print_tokens(test);
-            }
-            free_tokens(test);
-            test = NULL;
+            main_auxiliar(line, shell, test);
         }
         free(line);
     }
+    return (0);
+}
+int     main_auxiliar(char *line, t_shell *shell, t_token_list *test)
+{
+    print_envp(line, shell);
+    test = tokenizer(line);
+    if (test && test->tokens)
+    {
+        verify_token(test, shell);
+        print_tokens(test);
+    }
+    free_tokens(test);
+    test = NULL;
     return (0);
 }
 
@@ -81,6 +85,7 @@ void print_tokens(t_token_list *list)
     int i = 0;
     t_token *current = list->tokens;
 
+    printf("\n------------------------------------------------\n");
     while (current)
     {
         printf("token[%d] (%d): %s\n", i, current->type, current->value);

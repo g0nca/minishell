@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:06:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 15:12:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:11:58 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ternary_operator(t_token *list, char quote)
 	}
 	else if (quote == '\'')
 	{
-		list->type_quotes = 1;	
+		list->type_quotes = 1;
 		return (1);
 	}
 	else
@@ -29,5 +29,4 @@ int		ternary_operator(t_token *list, char quote)
 		list->type_quotes = 0;
 		return (0);
 	}
-		
 }

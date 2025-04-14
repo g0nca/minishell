@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/10 16:55:31 by joaomart         ###   ########.fr        #
+#    Updated: 2025/04/14 15:34:18 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/run/run_builtin.c \
 				srcs/builtins/ft_echo.c \
 				srcs/builtins/ft_pwd.c \
+				srcs/builtins/ft_cd.c \
 				srcs/error_functions/errors.c
 
 MINISHELL_OBJS_DIR = srcs/objs

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/14 12:22:10 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:37:44 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,9 @@ void	commands(t_token *head);
 
 // expand.c ========================================================
 void	expander(t_token *list, t_shell *shell);
+char *expand_variables(const char *input, char **envp);
+size_t calculate_final_size(const char *input, char **envp);
+char *get_env_value(const char *name, char **envp);
 
 //==================================================================
 

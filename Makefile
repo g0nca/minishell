@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/10 15:15:07 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/04/14 11:35:24 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/tokenizer/process_token2.c \
 				srcs/tokenizer/process_token3.c \
 				srcs/tokenizer/init_tokens.c \
+				srcs/expand/expand.c \
 				srcs/run/run_builtin.c \
 				srcs/builtins/ft_echo.c
 

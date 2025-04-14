@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 15:22:00 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/14 12:02:21 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
     {
         verify_token(token, shell);
         print_tokens(token);
+        expander(token, shell);
     }
     free_tokens(token);
     token = NULL;
@@ -88,7 +89,7 @@ void print_tokens(t_token *list)
 
     while (current)
     {
-        printf("token[%d] (%d): %s\n", i, current->type, current->value);
+        printf("token[%d] type(%d) %s\n", i, current->type, current->value);
         //printf("\nType_Quotes : [%d]\nQuotes_Check : [%d]\n", current->type_quotes, current->quotes_check);
         current = current->next;
         i++;

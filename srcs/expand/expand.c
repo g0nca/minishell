@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/14 15:48:58 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:28:56 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	expander(t_token *list, t_shell *shell)
 	while (list)
 	{
 		if (list->value && list->type != TOKEN_SIMPLE_QUOTE)
-			list->value = expand_variables(list->value, shell->env);
+			list->value = expand_variables(list->value, shell->env, shell);
 		list = list->next;
 	}	
 }
@@ -46,21 +46,19 @@ char *get_env_value(const char *name, char **envp)
 size_t calculate_final_size(const char *input, char **envp)
 {
     size_t size;
-    const char *p;
-    char var[256];
+    char var[1024];
     char *value;
     int i;
 
     size = 0;
-    p = input;
-    while (*p)
+    while (*input)
     {
-        if (*p == '$' && ft_isalpha(*(p + 1)))
+        if (*input == '$' && ft_isalpha(*(input + 1)))
         {
-            p++;
+            input++;
             i = 0;
-            while (ft_isalnum(*p) || *p == '_')
-                var[i++] = *p++;
+            while (ft_isalnum(*input) || *input == '_')
+                var[i++] = *input++;
             var[i] = '\0';
             value = get_env_value(var, envp);
             if (value)
@@ -69,39 +67,35 @@ size_t calculate_final_size(const char *input, char **envp)
         else
         {
             size += 1;
-            p++;
+            input++;
         }
     }
     return (size);
 }
 
-char *expand_variables(const char *input, char **envp)
+char *expand_variables(const char *input, char **envp, t_shell *shell)
 {
-    const char *p;
     char *result;
     char *current;
-    size_t final_size;
-    char var[256];
+    char enviroment_var[1024];
     char *value;
     int i;
+    (void)shell;
 
-    final_size = calculate_final_size(input, envp);
-    result = (char *)malloc(final_size + 1);
+    result = (char *)malloc(calculate_final_size(input, envp) + 1);
     if (!result)
         return (NULL);
     current = result;
-    p = input;
-    while (*p)
+    while (*input)
     {
-        if (*p == '$' && ft_isalpha(*(p + 1)))
+        if (*input == '$' && ft_isalpha(*(input + 1)))
         {
-            p++;
+            input++;
             i = 0;
-            while (ft_isalnum(*p) || *p == '_')
-                var[i++] = *p++;
-            var[i] = '\0';
-            
-            value = get_env_value(var, envp);
+            while (ft_isalnum(*input) || *input == '_')
+                enviroment_var[i++] = *input++;
+            enviroment_var[i] = '\0';
+            value = get_env_value(enviroment_var, envp);
             if (value)
             {
                 while (*value)
@@ -110,9 +104,9 @@ char *expand_variables(const char *input, char **envp)
         }
         else
         {
-            *current = *p;
+            *current = *input;
             current++;
-            p++;
+            input++;
         }
     }
     *current = '\0';

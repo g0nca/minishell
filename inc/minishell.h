@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/15 11:06:11 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:25:31 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
@@ -96,6 +97,8 @@ char *handle_regular_text(char *line, int *i);
 char *join_word(char *joined, char *word);
 void tokenizer_word(t_token *list, int *i, char *line);
 void add_final_token(t_token *list, char *joined, int type_quotes);
+void add_final_token(t_token *list, char *joined, int type_quotes);
+void    type_quote_struct(t_token *list, char quote);
 // ================================================================
 
 // process_token3.c ================================================
@@ -105,10 +108,17 @@ void	commands(t_token *head);
 
 // expand.c ========================================================
 void	expander(t_token *list, t_shell *shell);
-char *expand_variables(const char *input, char **envp);
+char *expand_variables(const char *input, char **envp, t_shell *shell);
 size_t calculate_final_size(const char *input, char **envp);
 char *get_env_value(const char *name, char **envp);
+//==================================================================
 
+// syntax_error.c ==================================================
+int	is_quote(char c);
+int	skip_quote(const char *str, int i);
+int	skip_spaces(const char *str, int i);
+int	check_unclosed_quotes(const char *str, t_shell *shell);
+int	check_syntax_errors(const char *str, t_shell *shell);
 //==================================================================
 
 // utils1.c ========================================================

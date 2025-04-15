@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:18:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/15 10:55:04 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:27:15 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char *handle_quoted_text(char *line, int *i, t_token *list)
     int start;
     
     quote = line[*i];
+    type_quote_struct(list, quote);
     list->quotes_check = 1;
     //*type_quotes = ternary_operator(list, quote);
     (*i)++; // Move past opening quote
@@ -55,12 +56,19 @@ char *handle_quoted_text(char *line, int *i, t_token *list)
             list->quotes_check = 0;
         (*i)++;
     }
-    if (list->quotes_check == 1)
-        ft_error(12, "Quotes Unclosed");
     word = ft_strndup(&line[start], *i - start); // Extract content inside quotes
     if (line[*i]) // Move past closing quote if found
         (*i)++;
     return (word);
+}
+void    type_quote_struct(t_token *list, char quote)
+{
+    if (quote == '"')
+        list->type_quotes = 2;
+    else if (quote == '\'')
+        list->type_quotes = 1;
+    else
+        list->type_quotes = 0;
 }
 
 // Function to handle regular text in tokenizer

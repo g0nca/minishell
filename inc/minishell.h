@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/14 15:37:44 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:56:55 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void process_redir_in_token(t_token *list, int *i);
 //==================================================================
 
 // process_token2.c ===============================================
-char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list);
+char *handle_quoted_text(char *line, int *i, t_token *list);
 char *handle_regular_text(char *line, int *i);
 char *join_word(char *joined, char *word);
 void tokenizer_word(t_token *list, int *i, char *line);
@@ -112,7 +112,7 @@ char *get_env_value(const char *name, char **envp);
 //==================================================================
 
 // utils1.c ========================================================
-int		ternary_operator(t_token *list, char quote);
+//int		ternary_operator(t_token *list, char quote);
 
 //=================================================================
 
@@ -120,23 +120,30 @@ int		ternary_operator(t_token *list, char quote);
 t_token    init_token_struct(t_token *list);
 //===============================================================
 
-//  free_functions
+//  free_functions ================================================
 void free_env(char **env);
 void    free_struct(t_shell *shell);
 void free_tokens(t_token *list);
+//=================================================================
 
-//  init_shell.c
+//  init_shell.c ==================================================
 char **copy_env(char **envp);
 t_shell     *init_shell(int ac, char **av, char **envp);
+//=================================================================
 
-// run_builtin.c
+// run_builtin.c ==================================================
 void	verify_token(t_token *type, t_shell *shell);
 void	run_builtin(t_token *cmd, t_shell *shell);
-//===============================================================
+//=================================================================
 
-// builtins/*.c
+// builtins/*.c ===================================================
 void	ft_echo(t_token *list, t_shell *shell);
 int	is_n_flag(char *arg);
+//=================================================================
+
+//error.c =========================================================
+void	ft_error(int error, char *str);
+//=================================================================
 /* void	have_n(t_token *list);
 int	n_value(char *current); */
 //===============================================================

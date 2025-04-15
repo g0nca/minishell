@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:18:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/14 11:45:22 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:55:04 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void tokenizer_word(t_token *list, int *i, char *line)
            line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
     {
         if (line[*i] == '\'' || line[*i] == '\"')
-            word = handle_quoted_text(line, i, &type_quotes, list);
+            word = handle_quoted_text(line, i, list);
         else
             word = handle_regular_text(line, i);
         joined = join_word(joined, word);
@@ -38,7 +38,7 @@ void tokenizer_word(t_token *list, int *i, char *line)
     add_final_token(list, joined, type_quotes);
 }
 // Function to handle quoted text in tokenizer
-char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list)
+char *handle_quoted_text(char *line, int *i, t_token *list)
 {
     char quote;
     char *word;
@@ -46,7 +46,7 @@ char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list)
     
     quote = line[*i];
     list->quotes_check = 1;
-    *type_quotes = ternary_operator(list, quote);
+    //*type_quotes = ternary_operator(list, quote);
     (*i)++; // Move past opening quote
     start = *i;
     while (line[*i] && line[*i] != quote) // Find closing quote
@@ -55,6 +55,8 @@ char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list)
             list->quotes_check = 0;
         (*i)++;
     }
+    if (list->quotes_check == 1)
+        ft_error(12, "Quotes Unclosed");
     word = ft_strndup(&line[start], *i - start); // Extract content inside quotes
     if (line[*i]) // Move past closing quote if found
         (*i)++;

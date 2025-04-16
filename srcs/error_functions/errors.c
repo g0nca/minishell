@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/04/10 16:53:33 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:33:37 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,18 @@ void	ft_error(int error, char *str)
 	else
 		ft_printf_fd(STDERR_FILENO, "%s\n", str);
 }
-
 void	shell_error(t_shell *shell, char *str, int error, bool exit_flag)
 {
 	int	status;
 
 	status = shell->last_exit_status;
-	ft_error(error, str);
+	if (error == 0)
+		shell->last_exit_status = 0;
+	else
+	{
+		shell->last_exit_status = 1;
+		ft_error(error, str);
+	}
 	if (exit_flag)
 		exit(status);
 }

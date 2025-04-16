@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/14 15:34:18 by joaomart         ###   ########.fr        #
+#    Updated: 2025/04/16 15:33:04 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,10 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/tokenizer/process_token2.c \
 				srcs/tokenizer/process_token3.c \
 				srcs/tokenizer/init_tokens.c \
+				srcs/error_functions/errors.c \
+				srcs/syntax_error/syntax_error.c \
+				srcs/expand/expand.c \
+				srcs/expand/expand2.c \
 				srcs/run/run_builtin.c \
 				srcs/builtins/ft_echo.c \
 				srcs/builtins/ft_pwd.c \

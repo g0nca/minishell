@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:32:48 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 11:33:51 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:02:55 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_token    init_token_struct(t_token *list)
     list->value = NULL;
     list->type = -1;
     list->size = 0;
-    list->quotes_check = 0;
+    //list->quotes_check = 0;
     list->type_quotes = 0;
     return (*list);
 }

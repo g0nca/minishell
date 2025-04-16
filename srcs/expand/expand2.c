@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 09:18:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/16 12:19:48 by ggomes-v         ###   ########.fr       */
+/*   Created: 2025/04/16 14:29:58 by ggomes-v          #+#    #+#             */
+/*   Updated: 2025/04/16 14:30:21 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/minishell.h"
 
-size_t	ft_strlen(const char *s)
+char *get_env_value(const char *name, char **envp)
 {
-	int	i;
+    int len;
+	int i;
 
+	if (!name || !envp)
+		return (NULL);
+	len = ft_strlen(name);
 	i = 0;
-	while (s[i])
+    while (envp[i]) 
+	{
+        if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
+            return (envp[i] + len + 1);
 		i++;
-	return (i);
+    }
+    return (NULL);
 }
-
-/* int	main(void)
-{
-	char	str[100] = "C🦄";
-
-	size_t  len;
-	len = ft_strlen(str);
-	printf("o comprimento da string e: %zu\n", len);
-	return (0);
-} */

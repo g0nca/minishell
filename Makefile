@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/16 17:12:22 by joaomart         ###   ########.fr        #
+#    Updated: 2025/04/16 17:20:54 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 FT_PRINTF_DIR = libs/ft_printf_fd
 FT_PRINTF = $(FT_PRINTF_DIR)/ft_printf_fd.a
 
-# Adicione manualmente seus arquivos .c aqui:
+# Adicione manualmente seus arquivos.c aqui:
 MINISHELL_SRCS = srcs/main.c \
 				srcs/free_functions/free.c \
 				srcs/init_shell.c \

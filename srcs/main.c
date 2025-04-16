@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 15:22:00 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:06:35 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@ int     main(int ac, char **av, char **envp)
 int     main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
     print_envp(line, shell);
-    token = tokenizer(line);
+    if (check_syntax_errors(line, shell) == 0)
+        token = tokenizer(line);
     if (token)
     {
+        expander(token, shell);
         verify_token(token, shell);
-        print_tokens(token);
+        print_tokens(token, shell);
     }
     free_tokens(token);
     token = NULL;
@@ -78,7 +80,7 @@ int    exit_program(char *line, t_shell *shell)
     return (1);
 }
 
-void print_tokens(t_token *list)
+void print_tokens(t_token *list, t_shell *shell)
 {
     if (!list)
         return;
@@ -93,6 +95,7 @@ void print_tokens(t_token *list)
         current = current->next;
         i++;
     }
+    printf("last_exit_status:%d\n", shell->last_exit_status);
 }
 
 void animation(char *mensagem)

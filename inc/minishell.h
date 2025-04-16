@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/10 15:55:13 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:18:01 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
@@ -45,7 +46,6 @@ typedef struct  s_token {
     char            *value;
     int             type;
     int             size;
-    int             quotes_check; // Verifica se aspas fecham 1 -> " || 0 -> ""
     int             type_quotes; // type of quotes "" or '' 0 -> Sem aspas
     struct s_token  *next;                          // 1 -> Aspas Simples ''
     struct s_token *prev;                           // 2 -> Aspas Duplas ""
@@ -67,13 +67,14 @@ typedef struct s_shell
 
 
 int     main(int ac, char **av, char **envp);
-int     main_auxiliar(char *line, t_shell *shell, t_token *token);
+int     main_auxiliar(char *line, t_shell *shell, t_token *test);
 
 //  tokenizer.c ==========================================================
 t_token *tokenizer(char *line);
 void add_token(t_token *list, char *val, t_token_type type);
 void add_token_to_list(t_token *list, t_token *new_token);
 t_token *create_token(char *val, t_token_type type);
+void add_final_token(t_token *list, char *joined, int type_quotes);
 //========================================================================
 
 // process_token.c ================================================
@@ -89,12 +90,31 @@ char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list);
 char *handle_regular_text(char *line, int *i);
 char *join_word(char *joined, char *word);
 void tokenizer_word(t_token *list, int *i, char *line);
-void add_final_token(t_token *list, char *joined, int type_quotes);
 // ================================================================
 
 // process_token3.c ================================================
 void    check_command(t_token *list);
 void	commands(t_token *head);
+//==================================================================
+
+// expand.c ========================================================
+void	expander(t_token *list, t_shell *shell);
+char	*expand_variables(const char *input, char **envp);
+void	copy_env_value(const char **input, char **current, char **envp);
+size_t	calculate_final_size(const char *input, char **envp);
+void	process_env_var(const char **input, size_t *size, char **envp);
+//==================================================================
+
+// expand2.c =======================================================
+char *get_env_value(const char *name, char **envp);
+//==================================================================
+
+// syntax_error.c ==================================================
+int	is_quote(char c);
+int	skip_quote(const char *str, int i);
+int	skip_spaces(const char *str, int i);
+int	check_unclosed_quotes(const char *str, t_shell *shell);
+int	check_syntax_errors(const char *str, t_shell *shell);
 //==================================================================
 
 // utils1.c ========================================================
@@ -106,34 +126,42 @@ int		ternary_operator(t_token *list, char quote);
 t_token    init_token_struct(t_token *list);
 //===============================================================
 
+//  free_functions ================================================
 //  free_functions ==========================================================
 void free_env(char **env);
 void    free_struct(t_shell *shell);
 void free_tokens(t_token *list);
+//=================================================================
 //===============================================================
 
+//  init_shell.c ==================================================
 //  init_shell.c ==========================================================
 char **copy_env(char **envp);
 t_shell     *init_shell(int ac, char **av, char **envp);
+//=================================================================
 //===============================================================
 
-// run_builtin.c
+// run_builtin.c ==================================================
 void	verify_token(t_token *type, t_shell *shell);
 void	run_builtin(t_token *cmd, t_shell *shell);
-//===============================================================
+//=================================================================
 
+// builtins/*.c ===================================================
 // builtins/*.c ==========================================================
 void	ft_echo(t_token *list, t_shell *shell);
 int	is_n_flag(char *arg);
+//=================================================================
+
+//error.c =========================================================
+void	shell_error(t_shell *shell, char *str, int error, bool exit_flag);
+void	ft_error(int error, char *str);
+//=================================================================
+/* void	have_n(t_token *list);
+int	n_value(char *current); */
 //===============================================================
 
 // parser.c
-//int     parse_line(char *line);
-
-
-//      LIBFT
-//int	ft_strcmp(char *s1, char *s2);
-//char	*ft_strdup(const char *s);
+int     parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
 void    print_envp(char *line, t_shell *shell);

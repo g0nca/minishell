@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/04/08 15:40:03 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/15 13:59:56 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,19 @@ void	ft_error(int error, char *str)
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: filename argument required\n", str);
 	else
 		ft_printf_fd(STDERR_FILENO, "%s\n", str);
+}
+void	shell_error(t_shell *shell, char *str, int error, bool exit_flag)
+{
+	int	status;
+
+	status = shell->last_exit_status;
+	if (error == 0)
+		shell->last_exit_status = 0;
+	else
+	{
+		shell->last_exit_status = 1;
+		ft_error(error, str);
+	}
+	if (exit_flag)
+		exit(status);
 }

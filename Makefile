@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/15 11:51:43 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/04/16 14:31:20 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/error_functions/errors.c \
 				srcs/syntax_error/syntax_error.c \
 				srcs/expand/expand.c \
+				srcs/expand/expand2.c \
 				srcs/run/run_builtin.c \
 				srcs/builtins/ft_echo.c
 

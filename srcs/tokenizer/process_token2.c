@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:18:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 10:58:35 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:55:48 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,4 @@ char *join_word(char *joined, char *word)
     free(joined);
     free(word);
     return temp;
-}
-
-// Function to add the final token to the list
-void add_final_token(t_token *list, char *joined, int type_quotes)
-{
-    if (!joined)
-        return;
-    if (type_quotes == 2)
-        add_token(list, joined, TOKEN_DOUBLE_QUOTE);
-    else if (type_quotes == 1)
-        add_token(list, joined, TOKEN_SIMPLE_QUOTE);
-    else
-        add_token(list, joined, TOKEN_WORD);
-    free(joined);
 }

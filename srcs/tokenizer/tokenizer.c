@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 12:02:46 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:56:11 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,24 @@ void add_token_to_list(t_token *list, t_token *new_token)
     if (!list || !new_token)
         return;
     last = list;
+
     while (last->next)
         last = last->next;
-    
+        
     last->next = new_token;
     new_token->prev = last;
     list->size++;
+}
+// Function to add the final token to the list
+void add_final_token(t_token *list, char *joined, int type_quotes)
+{
+    if (!joined)
+        return;
+    if (type_quotes == 2)
+        add_token(list, joined, TOKEN_DOUBLE_QUOTE);
+    else if (type_quotes == 1)
+        add_token(list, joined, TOKEN_SIMPLE_QUOTE);
+    else
+        add_token(list, joined, TOKEN_WORD);
+    free(joined);
 }

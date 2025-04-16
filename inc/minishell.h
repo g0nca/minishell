@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 11:00:55 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:08:42 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,14 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *test);
 void    print_envp(char *line, t_shell *shell);
 int    exit_program(char *line, t_shell *shell);
 void    animation(char *mensagem);
-void print_tokens(t_token *list);
+void print_tokens(t_token *list, t_shell *shell);
 
 //  tokenizer.c ==========================================================
 t_token *tokenizer(char *line);
 void add_token(t_token *list, char *val, t_token_type type);
 void add_token_to_list(t_token *list, t_token *new_token);
 t_token *create_token(char *val, t_token_type type);
+void add_final_token(t_token *list, char *joined, int type_quotes);
 //========================================================================
 
 // process_token.c ================================================
@@ -95,7 +96,6 @@ char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list);
 char *handle_regular_text(char *line, int *i);
 char *join_word(char *joined, char *word);
 void tokenizer_word(t_token *list, int *i, char *line);
-void add_final_token(t_token *list, char *joined, int type_quotes);
 // ================================================================
 
 // process_token3.c ================================================
@@ -105,9 +105,12 @@ void	commands(t_token *head);
 
 // expand.c ========================================================
 void	expander(t_token *list, t_shell *shell);
-char *expand_variables(const char *input, char **envp, t_shell *shell);
-size_t calculate_final_size(const char *input, char **envp);
+char	*expand_variables(const char *input, char **envp, t_shell *shell);
+size_t	calculate_final_size(const char *input, char **envp);
+void	process_env_var(const char **input, size_t *size, char **envp);
+void	copy_env_value(const char **input, char **current, char **envp);
 char *get_env_value(const char *name, char **envp);
+//size_t calculate_final_size(const char *input, char **envp);
 //==================================================================
 
 // syntax_error.c ==================================================
@@ -157,7 +160,7 @@ int	n_value(char *current); */
 //===============================================================
 
 // parser.c
-//int     parse_line(char *line);
+int     parse_line(t_token *shell, char *line);
 
 
 //      LIBFT

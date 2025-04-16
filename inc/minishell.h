@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 15:18:01 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:20:51 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int     parse_line(t_token *shell, char *line);
 void    print_envp(char *line, t_shell *shell);
 int    exit_program(char *line, t_shell *shell);
 void    animation(char *mensagem);
-void print_tokens(t_token *list);
+void print_tokens(t_token *list, t_shell *shell);
 //========================================================================
 
 #endif

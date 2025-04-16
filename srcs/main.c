@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 15:06:35 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:31:28 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void print_tokens(t_token *list, t_shell *shell)
 {
     if (!list)
         return;
-
+    
     int i = 0;
     t_token *current = list;
 

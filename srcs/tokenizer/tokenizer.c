@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/15 15:28:30 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:02:46 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_token *create_token(char *val, t_token_type type)
         free(new_token);
         return (NULL);
     }
-    new_token->quotes_check = 0;
+    //new_token->quotes_check = 0;
     new_token->type_quotes = 0;
     new_token->type = type;
     new_token->next = NULL;

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 17:37:11 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:39:49 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void	ft_cd(t_token *cmdargs, t_shell *shell);
 void	cd_home(t_shell *shell);
 void	cd_oldpwd(t_shell *shell);
 void	cd_val(char *target, t_shell *shell);
+int	update_env_var(t_shell *shell, const char *name, const char *value);
 void	ft_env(t_shell *shell);
 //=================================================================
 

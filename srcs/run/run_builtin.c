@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 17:08:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/14 15:33:53 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:13:36 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	run_builtin(t_token *cmd, t_shell *shell)
 		ft_pwd(shell);
 	else if (ft_strcmp(cmd->value,"cd") == 0)
 		ft_cd(cmd, shell);
+	else if (ft_strcmp(cmd->value, "env") == 0)
+		ft_env(shell);
 }
 
 void	verify_token(t_token *type, t_shell *shell)

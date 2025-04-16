@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 15:40:49 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:14:48 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	ft_echo(t_token *list, t_shell *shell);
 int	is_n_flag(char *arg);
 void	ft_pwd(t_shell *shell);
 void	ft_cd(t_token *cmdargs, t_shell *shell);
+void	ft_env(t_shell *shell);
 //=================================================================
 
 //error.c =========================================================
@@ -162,7 +163,6 @@ int	n_value(char *current); */
 int     parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
-void    print_envp(char *line, t_shell *shell);
 int    exit_program(char *line, t_shell *shell);
 void    animation(char *mensagem);
 void print_tokens(t_token *list, t_shell *shell);

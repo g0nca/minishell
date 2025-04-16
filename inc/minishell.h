@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/15 16:25:31 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/16 11:00:55 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct  s_token {
     char            *value;
     int             type;
     int             size;
-    int             quotes_check; // Verifica se aspas fecham 1 -> " || 0 -> ""
     int             type_quotes; // type of quotes "" or '' 0 -> Sem aspas
     struct s_token  *next;                          // 1 -> Aspas Simples ''
     struct s_token *prev;                           // 2 -> Aspas Duplas ""
@@ -92,13 +91,11 @@ void process_redir_in_token(t_token *list, int *i);
 //==================================================================
 
 // process_token2.c ===============================================
-char *handle_quoted_text(char *line, int *i, t_token *list);
+char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list);
 char *handle_regular_text(char *line, int *i);
 char *join_word(char *joined, char *word);
 void tokenizer_word(t_token *list, int *i, char *line);
 void add_final_token(t_token *list, char *joined, int type_quotes);
-void add_final_token(t_token *list, char *joined, int type_quotes);
-void    type_quote_struct(t_token *list, char quote);
 // ================================================================
 
 // process_token3.c ================================================
@@ -122,7 +119,7 @@ int	check_syntax_errors(const char *str, t_shell *shell);
 //==================================================================
 
 // utils1.c ========================================================
-//int		ternary_operator(t_token *list, char quote);
+int		ternary_operator(t_token *list, char quote);
 
 //=================================================================
 

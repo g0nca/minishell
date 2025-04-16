@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 15:34:58 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:37:01 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,8 @@ void	run_builtin(t_token *cmd, t_shell *shell);
 // builtins/*.c ===================================================
 void	ft_echo(t_token *list, t_shell *shell);
 int	is_n_flag(char *arg);
+void	ft_pwd(t_shell *shell);
+void	ft_cd(t_token *cmdargs, t_shell *shell);
 //=================================================================
 
 //error.c =========================================================

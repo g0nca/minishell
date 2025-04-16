@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 17:14:48 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:37:11 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,9 @@ void	ft_echo(t_token *list, t_shell *shell);
 int	is_n_flag(char *arg);
 void	ft_pwd(t_shell *shell);
 void	ft_cd(t_token *cmdargs, t_shell *shell);
+void	cd_home(t_shell *shell);
+void	cd_oldpwd(t_shell *shell);
+void	cd_val(char *target, t_shell *shell);
 void	ft_env(t_shell *shell);
 //=================================================================
 

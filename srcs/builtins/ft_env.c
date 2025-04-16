@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:39 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/16 17:19:37 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:39:50 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	ft_env(t_shell *shell)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (shell->env[i])
 	{
 		printf("%s\n", shell->env[i]);

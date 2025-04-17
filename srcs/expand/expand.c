@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 14:50:42 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/17 10:38:08 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	expander(t_token *list, t_shell *shell)
 {
-	int i;
+	/* int i; */
 	(void)shell;
-	i = 0;
+	/* i = 0; */
 	while (list)
 	{
 		if (list->value && list->type != TOKEN_SIMPLE_QUOTE)

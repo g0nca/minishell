@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/04/16 15:33:37 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/21 11:27:18 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_error(int error, char *str)
 	else if (error == 3)
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", str);
 	else if (error == 4)
-		ft_printf_fd(STDERR_FILENO, "minishell: ambiguous redirect\n", str);
+		ft_printf_fd(STDERR_FILENO, "minishell: ambiguous redirect\n");
 	else if (error == 5)
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", str);
 	else if (error == 6)

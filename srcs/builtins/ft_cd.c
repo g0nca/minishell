@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:05:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/21 09:49:54 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/21 11:23:14 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static bool	cd_process_path(t_token *current, t_shell *shell)
 		return (shell->last_exit_status == EXIT_SUCCESS);
 	}
 	else if (!ft_strcmp(current->value, "-"))
+	{
 		return cd_oldpwd(shell);
+		return (shell->last_exit_status == EXIT_SUCCESS);
+	}
 	else
 	{
 		cd_val(current->value, shell);

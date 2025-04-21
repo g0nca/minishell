@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 17:08:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/16 17:13:36 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/21 11:42:18 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	run_builtin(t_token *cmd, t_shell *shell)
 		ft_cd(cmd, shell);
 	else if (ft_strcmp(cmd->value, "env") == 0)
 		ft_env(shell);
+	else if (ft_strcmp(cmd->value, "export") == 0)
+		ft_export(cmd, shell);
 }
 
 void	verify_token(t_token *type, t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/21 09:52:14 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:20:34 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,16 +150,20 @@ int		is_n_flag(char *arg);
 //pwd:
 void	ft_pwd(t_shell *shell);
 //cd:
+void	ft_cd(t_token *cmdargs, t_shell *shell);
+void	sucess_cd(char *old_pwd, t_shell *shell);
 void	cd_home(t_shell *shell);
 bool	cd_oldpwd(t_shell *shell);
 void	cd_val(char *target, t_shell *shell);
 char	*cd_getenv(t_shell *shell, const char *name);
 int		update_env_var(t_shell *shell, const char *name, const char *value);
 int		add_env_var(t_shell *shell, char *new_entry, int env_size);
-void	ft_cd(t_token *cmdargs, t_shell *shell);
-void	sucess_cd(char *old_pwd, t_shell *shell);
 //env:
 void	ft_env(t_shell *shell);
+//export:
+void	ft_export(t_token *cmdargs, t_shell *shell);
+void	print_export(t_shell *shell);
+bool	is_valid_identifier(const char *str);
 //=================================================================
 
 //error.c =========================================================

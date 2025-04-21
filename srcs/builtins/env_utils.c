@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export1.c                                       :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:59:51 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/21 14:00:24 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:18:45 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 void	env_add(t_shell *shell, char *new_var)
 {
@@ -56,11 +55,12 @@ int	find_env_index(char **env, const char *key)
 	int		i;
 	int		key_len;
 
-	key_len = ft_strlen(key);
 	i = 0;
+	key_len = ft_strlen(key);
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], key, key_len) && env[i][key_len] == '=')
+		if (ft_strncmp(env[i], key, key_len) == 0 &&
+			(env[i][key_len] == '=' || env[i][key_len] == '\0'))
 			return (i);
 		i++;
 	}

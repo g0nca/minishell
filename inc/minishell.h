@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/21 13:57:44 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:49:25 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,9 @@ void	add_or_update_env(t_shell *shell, char *arg);
 int		find_env_index(char **env, const char *key);
 char	*get_env_key(const char *str);
 void	env_add(t_shell *shell, char *new_var);
+//unset:
+void	ft_unset(t_token *cmdargs, t_shell *shell);
+void	remove_env_var(t_shell *shell, const char *key);
 //=================================================================
 
 //error.c =========================================================

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:18:11 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/21 14:00:21 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:32:03 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_export(t_token *cmdargs, t_shell *shell)
 	{
 		if (!is_valid_identifier(current->value))
 		{
-			ft_error(10, current->value);
+			shell_error(shell, current->value, 10, false);
 			shell->last_exit_status = 1;
 		}
 		else if (ft_strchr(current->value, '='))

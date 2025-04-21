@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 15:40:49 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:14:19 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,10 @@ char *get_env_value(const char *name, char **envp);
 //==================================================================
 
 // syntax_error.c ==================================================
-int	is_quote(char c);
-int	skip_quote(const char *str, int i);
-int	skip_spaces(const char *str, int i);
-int	check_unclosed_quotes(const char *str, t_shell *shell);
-int	check_syntax_errors(const char *str, t_shell *shell);
+int	check_syntax_errors_main(const char *str, t_shell *shell);
+int	check_pipe(const char *str, t_shell *shell, int *i);
+int	check_redir(const char *str, t_shell *shell, int *i);
+int	skip_spaces(const char *str, int *i);
 //==================================================================
 
 // utils1.c ========================================================

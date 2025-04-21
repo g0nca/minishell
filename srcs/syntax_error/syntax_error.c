@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:50:03 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/21 15:13:35 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:14:58 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ int check_syntax_errors_main(const char *str, t_shell *shell)
 	i = 0;
 	while (str[i])
 	{
-		while (str[i] == ' ')
-			i++;
 		if (str[i] == '|')
 		{
 			if (check_pipe(str, shell, &i))
@@ -125,7 +123,8 @@ int check_syntax_errors_main(const char *str, t_shell *shell)
 			if (check_quote(str, shell, &i))
 				return (1);
 		}
-		i++;
+		if (str[i])
+			i++;
 	}
     return (0);
 }

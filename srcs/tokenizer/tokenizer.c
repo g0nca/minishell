@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 15:05:23 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:29:48 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_token *tokenizer(char *line)
     t_token    *list;
     int             i;
 
+    if (!line || !*line)
+        return (NULL);
     list = malloc(sizeof(t_token));
     if (!list)
         return (NULL);
@@ -80,9 +82,9 @@ void add_token_to_list(t_token *list, t_token *new_token)
 
     while (last->next)
         last = last->next;
-        
+
     last->next = new_token;
-    new_token->prev = last;
+    //new_token->prev = last;
     list->size++;
 }
 // Function to add the final token to the list

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/21 09:47:48 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:24:05 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int     main(int ac, char **av, char **envp)
         line = readline("minishell$ ");
         if (*line)
             add_history(line);
-        if (exit_program(line, shell) == 0)
+        if (exit_program(line, shell) == 1)
             return (0);
         if (line != NULL && *line)
         {
@@ -75,9 +75,9 @@ int    exit_program(char *line, t_shell *shell)
         animation("Leaving Without Leaks :) ");
         free_struct(shell);
         free(line);
-        return (0);
+        return (1);
     }
-    return (1);
+    return (0);
 }
 
 void print_tokens(t_token *list, t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:18:11 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/21 12:23:18 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:00:21 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,6 @@ static void	sort_env(char **env, int count)
 		}
 	}
 }
-
-bool	is_valid_identifier(const char *str)
-{
-	int	i;
-
-	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
-		return (false);
-	i = 1;
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 
 static void	print_export_line(char *env_var)
 {
@@ -107,12 +90,18 @@ void	ft_export(t_token *cmdargs, t_shell *shell)
 	{
 		if (!is_valid_identifier(current->value))
 		{
-			ft_error(10, current->value); // invalid identifier
+			ft_error(10, current->value);
 			shell->last_exit_status = 1;
+		}
+		else if (ft_strchr(current->value, '='))
+		{
+			add_or_update_env(shell, current->value);
+			shell->last_exit_status = 0;
 		}
 		else
 		{
-			// add_or_update_env(shell, current->value); // your own function to insert/update env
+			if (find_env_index(shell->env, current->value) == -1)
+				env_add(shell, current->value);
 			shell->last_exit_status = 0;
 		}
 		current = current->next;

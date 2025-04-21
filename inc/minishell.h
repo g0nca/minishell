@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/17 10:46:35 by andrade          ###   ########.fr       */
+/*   Updated: 2025/04/21 09:52:14 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,15 +144,21 @@ void	run_builtin(t_token *cmd, t_shell *shell);
 //=================================================================
 
 // builtins/*.c ===================================================
+//echo:
 void	ft_echo(t_token *list, t_shell *shell);
-int	is_n_flag(char *arg);
+int		is_n_flag(char *arg);
+//pwd:
 void	ft_pwd(t_shell *shell);
-void	ft_cd(t_token *cmdargs, t_shell *shell);
+//cd:
 void	cd_home(t_shell *shell);
-/* void	cd_oldpwd(t_shell *shell); */
+bool	cd_oldpwd(t_shell *shell);
 void	cd_val(char *target, t_shell *shell);
-int	update_env_var(t_shell *shell, const char *name, const char *value);
-char *cd_getenv(t_shell *shell, const char *name);
+char	*cd_getenv(t_shell *shell, const char *name);
+int		update_env_var(t_shell *shell, const char *name, const char *value);
+int		add_env_var(t_shell *shell, char *new_entry, int env_size);
+void	ft_cd(t_token *cmdargs, t_shell *shell);
+void	sucess_cd(char *old_pwd, t_shell *shell);
+//env:
 void	ft_env(t_shell *shell);
 //=================================================================
 

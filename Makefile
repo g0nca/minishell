@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/21 16:00:06 by joaomart         ###   ########.fr        #
+#    Updated: 2025/04/22 15:23:00 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ FT_PRINTF = $(FT_PRINTF_DIR)/ft_printf_fd.a
 # Adicione manualmente seus arquivos.c aqui:
 MINISHELL_SRCS = srcs/main.c \
 				srcs/free_functions/free.c \
+				srcs/free_functions/free2.c \
 				srcs/init_shell.c \
 				srcs/utils/utils1.c \
 				srcs/tokenizer/tokenizer.c \
@@ -46,6 +47,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/ft_export.c \
 				srcs/builtins/ft_unset.c \
 				srcs/builtins/env_utils.c \
+				srcs/builtins/env_utils2.c \
 				srcs/builtins/ft_env.c
 
 MINISHELL_OBJS_DIR = srcs/objs

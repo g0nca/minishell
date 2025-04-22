@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/21 14:49:25 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:26:42 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ t_token    init_token_struct(t_token *list);
 void free_env(char **env);
 void    free_struct(t_shell *shell);
 void free_tokens(t_token *list);
+void	free_sorted_env(int i, char **sorted_env);
 //=================================================================
 //===============================================================
 
@@ -163,14 +164,19 @@ void	ft_env(t_shell *shell);
 //export:
 void	ft_export(t_token *cmdargs, t_shell *shell);
 void	print_export(t_shell *shell);
-bool	is_valid_identifier(const char *str);
-void	add_or_update_env(t_shell *shell, char *arg);
-int		find_env_index(char **env, const char *key);
-char	*get_env_key(const char *str);
-void	env_add(t_shell *shell, char *new_var);
+void	print_export_line(char *env_var);
 //unset:
 void	ft_unset(t_token *cmdargs, t_shell *shell);
 void	remove_env_var(t_shell *shell, const char *key);
+//env_utils:
+void	env_add(t_shell *shell, char *new_var);
+char	*get_env_key(const char *str);
+int	find_env_index(char **env, const char *key);
+void	add_or_update_env(t_shell *shell, char *arg);
+bool is_valid_identifier(const char *str);
+int	env_count(char **env);
+void	sort_env(char **env, int count);
+char	**copy_and_sort_env(t_shell *shell, int *count);
 //=================================================================
 
 //error.c =========================================================

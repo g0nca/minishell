@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:46:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/22 10:46:41 by andrade          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:35:18 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ static int	is_env_key_match(const char *env_var, const char *key)
 	return (0);
 }
 
+static int	count_env_entries(char **env)
+{
+	int	count = 0;
+	while (env[count])
+		count++;
+	return (count);
+}
+
 static char	**create_env_without_key(char **env, const char *key)
 {
 	int		i;
@@ -31,9 +39,7 @@ static char	**create_env_without_key(char **env, const char *key)
 	int		count;
 	char	**new_env;
 
-	count = 0;
-	while (env[count])
-		count++;
+	count = count_env_entries(env);
 	new_env = malloc(sizeof(char *) * count);
 	if (!new_env)
 		return (NULL);
@@ -42,10 +48,7 @@ static char	**create_env_without_key(char **env, const char *key)
 	while (env[i])
 	{
 		if (!is_env_key_match(env[i], key))
-		{
-			new_env[j] = env[i];
-			j++;
-		}
+			new_env[j++] = env[i];
 		else
 			free(env[i]);
 		i++;
@@ -57,7 +60,7 @@ static char	**create_env_without_key(char **env, const char *key)
 void	remove_env_var(t_shell *shell, const char *key)
 {
 	char **new_env;
-	
+
 	if (find_env_index(shell->env, key) == -1)
 		return;
 	new_env = create_env_without_key(shell->env, key);

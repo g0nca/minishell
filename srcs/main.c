@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/21 11:37:17 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:00:03 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,6 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
     return (0);
 }
 
-int    exit_program(char *line, t_shell *shell)
-{
-    if (ft_strcmp(line, "exit") == 0)
-    {
-        shell->running = 0;
-        animation("Leaving Without Leaks :) ");
-        free_struct(shell);
-        free(line);
-        return (0);
-    }
-    return (1);
-}
-
 void print_tokens(t_token *list, t_shell *shell)
 {
     if (!list)
@@ -82,15 +69,4 @@ void print_tokens(t_token *list, t_shell *shell)
         i++;
     }
     printf("last_exit_status:%d\n", shell->last_exit_status);
-}
-
-void animation(char *mensagem)
-{
-    int i;
-    printf("\n");
-    for (i = 0; mensagem[i] != '\0'; i++) {
-        printf("%c", mensagem[i]);
-    fflush(stdout);        // força o print imediato
-    usleep(100000);        // 0.1 segundos (100ms)
-    }
 }

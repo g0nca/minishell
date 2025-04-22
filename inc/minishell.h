@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/22 15:26:42 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:01:45 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,8 @@ bool is_valid_identifier(const char *str);
 int	env_count(char **env);
 void	sort_env(char **env, int count);
 char	**copy_and_sort_env(t_shell *shell, int *count);
+//exit:
+int	exit_program(char *line, t_shell *shell);
 //=================================================================
 
 //error.c =========================================================
@@ -191,7 +193,6 @@ int	n_value(char *current); */
 int     parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
-int    exit_program(char *line, t_shell *shell);
 void    animation(char *mensagem);
 void print_tokens(t_token *list, t_shell *shell);
 //========================================================================

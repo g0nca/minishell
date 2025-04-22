@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 14:50:42 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:04:16 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,29 @@ void	expander(t_token *list, t_shell *shell)
 {
 	int i;
 	(void)shell;
-	i = 0;
 	while (list)
 	{
-		if (list->value && list->type != TOKEN_SIMPLE_QUOTE)
-			list->value = expand_variables(list->value, shell->env);
+		if (list->type == TOKEN_WORD || list->type == TOKEN_SIMPLE_QUOTE || list->type == TOKEN_DOUBLE_QUOTE)
+		{	
+			i = 0;
+			while (list->value[i])
+			{
+				if (list->value[i] == '$' && ft_isalpha(list->value[i + 1]) && list->type != TOKEN_SIMPLE_QUOTE)
+				{
+					list->value = expand_variables(list->value, shell->env, list);
+					break ;
+				}
+				i++;
+			}
+		}
 		list = list->next;
-	}	
+	}
 }
-
-char	*expand_variables(const char *input, char **envp)
+char	*expand_variables(const char *input, char **envp, t_token *list)
 {
 	char	*result;
 	char	*current;
-
+	(void)list;
 	result = (char *)malloc(calculate_final_size(input, envp) + 1);
 	if (!result)
 		return (NULL);
@@ -77,6 +86,8 @@ size_t	calculate_final_size(const char *input, char **envp)
 	size_t	size;
 
 	size = 0;
+	if (!input || !envp)
+		return (-1);
 	while (*input)
 	{
 		if (*input == '$' && ft_isalpha(*(input + 1)))

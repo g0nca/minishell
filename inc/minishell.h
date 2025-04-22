@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/21 16:29:52 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:04:01 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	commands(t_token *head);
 
 // expand.c ========================================================
 void	expander(t_token *list, t_shell *shell);
-char	*expand_variables(const char *input, char **envp);
+char	*expand_variables(const char *input, char **envp, t_token *list);
 void	copy_env_value(const char **input, char **current, char **envp);
 size_t	calculate_final_size(const char *input, char **envp);
 void	process_env_var(const char **input, size_t *size, char **envp);
@@ -127,7 +127,7 @@ t_token    init_token_struct(t_token *list);
 //  free_functions ================================================
 void free_env(char **env);
 void    free_struct(t_shell *shell);
-void free_tokens(t_token *list);
+void free_tokens(t_token **list);
 //=================================================================
 //===============================================================
 

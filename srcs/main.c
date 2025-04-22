@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/21 16:24:05 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:27:21 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int     main(int ac, char **av, char **envp)
         line = readline("minishell$ ");
         if (*line)
             add_history(line);
-        if (exit_program(line, shell) == 1)
-            return (0);
         if (line != NULL && *line)
         {
             main_auxiliar(line, shell, token);
         }
+        if (exit_program(line, shell) == 1)
+            return (0);
         free(line);
     }
     return (0);
@@ -49,7 +49,7 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         verify_token(token, shell);
         print_tokens(token, shell);
     }
-    free_tokens(token);
+    free_tokens(&token);
     token = NULL;
     return (0);
 }
@@ -105,6 +105,6 @@ void animation(char *mensagem)
     for (i = 0; mensagem[i] != '\0'; i++) {
         printf("%c", mensagem[i]);
     fflush(stdout);        // força o print imediato
-    usleep(100000);        // 0.1 segundos (100ms)
+    usleep(100);        // 0.1 segundos (100ms)
     }
 }

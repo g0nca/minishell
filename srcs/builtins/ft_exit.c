@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:59:40 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/22 18:00:33 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:45:31 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	animation(char *mensagem)
 	}
 }
 
-int	exit_program(char *line, t_shell *shell)
+int	ft_exit(char *line, t_shell *shell)
 {
 	if (ft_strcmp(line, "exit") == 0)
 	{

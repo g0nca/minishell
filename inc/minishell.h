@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/22 18:01:45 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:46:18 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int	env_count(char **env);
 void	sort_env(char **env, int count);
 char	**copy_and_sort_env(t_shell *shell, int *count);
 //exit:
-int	exit_program(char *line, t_shell *shell);
+int	ft_exit(char *line, t_shell *shell);
 //=================================================================
 
 //error.c =========================================================

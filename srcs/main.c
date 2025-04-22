@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/22 18:00:03 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:49:47 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int     main(int ac, char **av, char **envp)
         line = readline("minishell$ ");
         if (*line)
             add_history(line);
-        if (exit_program(line, shell) == 0)
+        if (ft_exit(line, shell) == 0)
             return (0);
         if (line != NULL && *line)
         {

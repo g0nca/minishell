@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:59:51 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/21 15:18:45 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 10:43:58 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,28 @@
 void	env_add(t_shell *shell, char *new_var)
 {
 	int		i;
+	int		j;
 	char	**new_env;
 
 	i = 0;
 	while (shell->env[i])
 		i++;
-
 	new_env = malloc(sizeof(char *) * (i + 2));
 	if (!new_env)
-		return ;
-
-	for (int j = 0; j < i; j++)
+		return;
+	j = 0;
+	while (j < i)
+	{
 		new_env[j] = shell->env[j];
-
+		j++;
+	}
 	new_env[i] = ft_strdup(new_var);
+	if (!new_env[i])
+	{
+		free(new_env);
+		return;
+	}
 	new_env[i + 1] = NULL;
-
 	free(shell->env);
 	shell->env = new_env;
 }
@@ -52,11 +58,14 @@ char	*get_env_key(const char *str)
 
 int	find_env_index(char **env, const char *key)
 {
-	int		i;
-	int		key_len;
+	int i;
+	int key_len;
 
-	i = 0;
+	if (!env || !key)
+		return (-1);
+		
 	key_len = ft_strlen(key);
+	i = 0;
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], key, key_len) == 0 &&
@@ -86,12 +95,13 @@ void	add_or_update_env(t_shell *shell, char *arg)
 	free(key);
 }
 
-bool	is_valid_identifier(const char *str)
+bool is_valid_identifier(const char *str)
 {
-	int	i;
+	int i;
 
-	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+	if (!str || str[0] == '\0' || (!ft_isalpha(str[0]) && str[0] != '_'))
 		return (false);
+		
 	i = 1;
 	while (str[i] && str[i] != '=')
 	{

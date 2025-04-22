@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:46:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/21 16:30:43 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 10:46:41 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,21 @@ static char	**create_env_without_key(char **env, const char *key)
 	int		count;
 	char	**new_env;
 
-	i = 0;
-	j = 0;
 	count = 0;
 	while (env[count])
 		count++;
-	new_env = malloc(sizeof(char *) * (count));
+	new_env = malloc(sizeof(char *) * count);
 	if (!new_env)
 		return (NULL);
+	i = 0;
+	j = 0;
 	while (env[i])
 	{
 		if (!is_env_key_match(env[i], key))
-			new_env[j++] = env[i];
+		{
+			new_env[j] = env[i];
+			j++;
+		}
 		else
 			free(env[i]);
 		i++;
@@ -53,16 +56,13 @@ static char	**create_env_without_key(char **env, const char *key)
 
 void	remove_env_var(t_shell *shell, const char *key)
 {
-	char	**new_env;
-	int		index;
-
-	index = find_env_index(shell->env, key);
-	if (index == -1)
-		return ;
-	free(shell->env[index]);
+	char **new_env;
+	
+	if (find_env_index(shell->env, key) == -1)
+		return;
 	new_env = create_env_without_key(shell->env, key);
 	if (!new_env)
-		return ;
+		return;
 	free(shell->env);
 	shell->env = new_env;
 }
@@ -74,7 +74,7 @@ void	ft_unset(t_token *cmdargs, t_shell *shell)
 	current = cmdargs->next;
 	while (current)
 	{
-		if (!is_valid_identifier(current->value))
+		if (!current->value || !is_valid_identifier(current->value))
 		{
 			shell_error(shell, current->value, 10, false);
 			shell->last_exit_status = 1;

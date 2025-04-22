@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:18:11 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/21 16:32:03 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 10:45:12 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ static int	env_count(char **env)
 
 static void	sort_env(char **env, int count)
 {
-	int		i, j;
+	int		i;
+	int		j;
 	char	*tmp;
 
-	for (i = 0; i < count - 1; i++)
+	i = 0;
+	while (i < count - 1)
 	{
-		for (j = i + 1; j < count; j++)
+		j = i + 1;
+		while (j < count)
 		{
 			if (ft_strcmp(env[i], env[j]) > 0)
 			{
@@ -35,7 +38,9 @@ static void	sort_env(char **env, int count)
 				env[i] = env[j];
 				env[j] = tmp;
 			}
+			j++;
 		}
+		i++;
 	}
 }
 
@@ -63,18 +68,40 @@ void	print_export(t_shell *shell)
 	count = env_count(shell->env);
 	sorted_env = malloc(sizeof(char *) * (count + 1));
 	if (!sorted_env)
-		return ;
+		return;
 	i = 0;
 	while (i < count)
 	{
-		sorted_env[i] = shell->env[i];
+		if (shell->env[i] == NULL) {
+			printf("Warning: NULL environment entry at index %d\n", i);
+			break;
+		}
+		sorted_env[i] = ft_strdup(shell->env[i]);
+		if (!sorted_env[i])
+		{
+			while (i > 0)
+			{
+				i--;
+				free(sorted_env[i]);
+			}
+			free(sorted_env);
+			return;
+		}
 		i++;
 	}
 	sorted_env[i] = NULL;
 	sort_env(sorted_env, count);
 	i = 0;
 	while (sorted_env[i])
-		print_export_line(sorted_env[i++]);
+	{
+		if (sorted_env[i][0] == '\0') {
+			printf("Warning: Empty environment entry at index %d\n", i);
+		} else {
+			print_export_line(sorted_env[i]);
+		}
+		free(sorted_env[i]);
+		i++;
+	}
 	free(sorted_env);
 	shell->last_exit_status = EXIT_SUCCESS;
 }

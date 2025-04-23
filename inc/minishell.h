@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/22 16:04:01 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:51:25 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,18 @@ void	commands(t_token *head);
 //==================================================================
 
 // expand.c ========================================================
-void	expander(t_token *list, t_shell *shell);
+int	expander(t_token *list, t_shell *shell);
+int	expander2(t_token *list, t_shell *shell);
+int	verifiy_enviroment_var(t_shell *shell, char *token);
+int	ft_strcmp_enviroment_variables(char *s1, char *s2);
+//==================================================================
+
+// expand2.c =======================================================
 char	*expand_variables(const char *input, char **envp, t_token *list);
 void	copy_env_value(const char **input, char **current, char **envp);
 size_t	calculate_final_size(const char *input, char **envp);
 void	process_env_var(const char **input, size_t *size, char **envp);
-//==================================================================
+//===================================================================
 
 // expand2.c =======================================================
 char *get_env_value(const char *name, char **envp);

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/23 14:50:16 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:56:30 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,51 @@ int	expander2(t_token *list, t_shell *shell)
 				free(list->value);
 				list->value = expanded;
 			}
+			else if (list->value[i] == '$' && ft_isalpha(list->value[i + 1]))
+				invalid_env_var(list, shell);
 			i++;
 		}
 	}
 	return (0);
 }
+
+void	invalid_env_var(t_token *token, t_shell *shell)
+{
+	int		i = 0;
+	int		start;
+	char	*new_value;
+	char	*var_name;
+	char	*tmp;
+
+	while (token->value[i])
+	{
+		if (token->value[i] == '$' && token->value[i + 1]
+			&& ft_isalpha(token->value[i + 1]))
+		{
+			start = i + 1;
+			i++;
+			while (token->value[i] && (ft_isalnum(token->value[i]) || token->value[i] == '_'))
+				i++;
+
+			var_name = ft_substr(token->value, start, i - start);
+			if (!get_env_value(var_name, shell->env))
+			{
+				tmp = ft_substr(token->value, 0, start - 1);
+				new_value = ft_strjoin(tmp, token->value + i);
+				free(tmp);
+				free(token->value);
+				token->value = new_value;
+				free(var_name);
+				i = -1; // restart
+			}
+			else
+				free(var_name);
+		}
+		i++;
+	}
+}
+
+
 /**
  * @brief Checks if a given token (environment variable name)
  * exists in the shell environment.
@@ -109,23 +149,35 @@ int	ft_strcmp_enviroment_variables(char *env_var, char *token)
 {
 	int i;
 	int j;
-	
-	i = 0;
-	j = 0;
+	int start;
 
 	if (!env_var || !token)
 		return (1);
-	while (token[j] == '$')
-		j++;
-	while (env_var[i] && env_var[i] != '=' && token[j])
+	i = 0;
+	while (token[i])
 	{
-		if (env_var[i] != token[j])
-			return (1);
-		i++;
-		j++;
+		if (token[i] == '$')
+		{
+			i++;
+			start = i;
+			while (ft_isalnum(token[i]) || token[i] == '_')
+				i++;
+			j = 0;
+			while (env_var[j] && env_var[j] != '=' && start < i)
+			{
+				if (env_var[j] != token[start])
+					break;
+				j++;
+				start++;
+			}
+			if (env_var[j] == '=' && start == i)
+				return (0);
+		}
+		else
+			i++;
 	}
-	if (env_var[i] == '=' && (token[j] == '\0' || token[j] == ' ')) 
-		return (0);
 	return (1);
 }
+
+
 

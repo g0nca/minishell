@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/23 14:51:25 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:31:00 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	expander(t_token *list, t_shell *shell);
 int	expander2(t_token *list, t_shell *shell);
 int	verifiy_enviroment_var(t_shell *shell, char *token);
 int	ft_strcmp_enviroment_variables(char *s1, char *s2);
+void	invalid_env_var(t_token *token, t_shell *shell);
 //==================================================================
 
 // expand2.c =======================================================

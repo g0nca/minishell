@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoinV2.c                                     :+:      :+:    :+:   */
+/*   ft_strjoin_v2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 17:22:54 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/03 17:22:58 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:27:21 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoinV2(char const *s1, char const *s2)
+char	*ft_strjoin_v2(char const *s1, char const *s2)
 {
 	char	*str1;
 	size_t	total_len;

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:11:24 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/08 15:23:04 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:18:56 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strndup(const char *s, size_t n)
 	i = 0;
 	dup = malloc(n + 1);
 	if (!dup)
-		return NULL;
+		return (NULL);
 	while (i < n)
 	{
 		dup[i] = s[i];

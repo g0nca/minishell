@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/04/21 11:27:18 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:36:51 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_error(int error, char *str)
 {
 	if (error == 1)
-		ft_printf_fd(STDERR_FILENO, "%s: command not found\n", str);
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", str);
 	else if (error == 2)
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", str);
 	else if (error == 3)

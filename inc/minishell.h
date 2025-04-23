@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/22 18:46:18 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:25:01 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void free_env(char **env);
 void    free_struct(t_shell *shell);
 void free_tokens(t_token *list);
 void	free_sorted_env(int i, char **sorted_env);
+void	free_args(char **args);
 //=================================================================
 //===============================================================
 
@@ -179,6 +180,18 @@ void	sort_env(char **env, int count);
 char	**copy_and_sort_env(t_shell *shell, int *count);
 //exit:
 int	ft_exit(char *line, t_shell *shell);
+//=================================================================
+
+//exec.c===========================================================
+void	execute_command(t_token *token, t_shell *shell);
+void	execute_external_command(t_token *token, t_shell *shell);
+char	**token_to_args(t_token *token);
+int	is_builtin(char *cmd);
+void	handle_env_path_execution(char **args, t_shell *shell);
+bool	handle_absolute_path(char **args, t_shell *shell);
+char	*get_path_env(char **env);
+int	try_paths(char **args, t_shell *shell, char *path_env);
+void	exec_with_full_path(char **args, t_shell *shell);
 //=================================================================
 
 //error.c =========================================================

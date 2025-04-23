@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/22 18:02:06 by joaomart         ###   ########.fr        #
+#    Updated: 2025/04/23 15:24:20 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,10 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/env_utils.c \
 				srcs/builtins/env_utils2.c \
 				srcs/builtins/ft_env.c \
-				srcs/builtins/ft_exit.c
+				srcs/builtins/ft_exit.c \
+				srcs/exec/exec.c \
+				srcs/exec/exec2.c \
+				srcs/exec/exec3.c
 
 MINISHELL_OBJS_DIR = srcs/objs
 MINISHELL_OBJS = $(patsubst srcs/%.c, $(MINISHELL_OBJS_DIR)/%.o, $(MINISHELL_SRCS))

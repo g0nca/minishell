@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:19:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/22 15:25:27 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:05:12 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,18 @@ void	free_sorted_env(int i, char **sorted_env)
 	while (i > 0)
 		free(sorted_env[--i]);
 	free(sorted_env);
+}
+
+void	free_args(char **args)
+{
+	int	i = 0;
+
+	if (!args)
+		return;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
 }

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:07:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/23 14:57:00 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:12:03 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	execute_command(t_token *token, t_shell *shell)
 {
 	t_token	*current;
 
+	handle_heredoc(token, shell);
 	current = token->next;
 	if (current && current->type == TOKEN_CMD && is_builtin(current->value))
 	{

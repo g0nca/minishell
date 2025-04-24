@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/23 15:24:56 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:09:05 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,54 @@ int	try_paths(char **args, t_shell *shell, char *path_env)
 
 void	execute_external_command(t_token *token, t_shell *shell)
 {
-	char	**args;
+	char	**args = NULL;
+	pid_t	pid;
+	int		status;
 
+	// Verifica se o comando tem algum heredoc e processa o heredoc antes
+	if (token->heredoc_path)
+	{
+		// Redirecionar o stdin para o arquivo do heredoc
+		int fd = open(token->heredoc_path, O_RDONLY);
+		if (fd < 0)
+		{
+			perror("open heredoc");
+			free_args(args);
+			return;
+		}
+		dup2(fd, STDIN_FILENO); // Redireciona o stdin
+		close(fd); // Fecha o descritor de arquivo
+
+		// Remove o arquivo temporário do heredoc após redirecionamento
+		unlink(token->heredoc_path);
+		free(token->heredoc_path);
+		token->heredoc_path = NULL;
+	}
+
+	// Agora o comando pode ser executado normalmente
 	args = token_to_args(token);
 	if (!args || !args[0])
 		return (free_args(args), (void)0);
-	if (!handle_absolute_path(args, shell))
-		handle_env_path_execution(args, shell);
+
+	// Fork para executar o comando
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		free_args(args);
+		return;
+	}
+	else if (pid == 0) // Processo filho
+	{
+		// Caso não tenha sido tratado ainda, executa o comando normalmente
+		if (!handle_absolute_path(args, shell))
+			handle_env_path_execution(args, shell);
+		free_args(args);
+		exit(EXIT_FAILURE); // Caso o execve falhe
+	}
+	waitpid(pid, &status, 0);
 	free_args(args);
 }
+
+
 

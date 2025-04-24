@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/24 10:28:46 by joaomart         ###   ########.fr        #
+#    Updated: 2025/04/24 10:47:16 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/exec/exec.c \
 				srcs/exec/exec2.c \
 				srcs/exec/exec3.c \
+				srcs/heredoc/heredoc.c \
 				srcs/signals/signals.c
 
 MINISHELL_OBJS_DIR = srcs/objs

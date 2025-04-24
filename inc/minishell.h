@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 10:30:16 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:03:31 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct  s_token {
     int             type_quotes; // type of quotes "" or '' 0 -> Sem aspas
     struct s_token  *next;                          // 1 -> Aspas Simples ''
     struct s_token *prev;                           // 2 -> Aspas Duplas ""
+    char           *heredoc_path;
 }   t_token;
 
 typedef struct s_shell
@@ -193,6 +194,11 @@ bool	handle_absolute_path(char **args, t_shell *shell);
 char	*get_path_env(char **env);
 int	try_paths(char **args, t_shell *shell, char *path_env);
 void	exec_with_full_path(char **args, t_shell *shell);
+//=================================================================
+
+//heredoc.c========================================================
+void	handle_heredoc(t_token *token, t_shell *shell);
+int		process_heredoc(t_token *token, t_shell *shell);
 //=================================================================
 
 //signals.c========================================================

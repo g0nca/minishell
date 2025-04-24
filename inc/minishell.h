@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/23 15:31:11 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 10:30:16 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void    free_struct(t_shell *shell);
 void free_tokens(t_token *list);
 void	free_sorted_env(int i, char **sorted_env);
 void	free_args(char **args);
+void	free_shell(t_shell *shell);
 //=================================================================
 //===============================================================
 
@@ -192,6 +193,11 @@ bool	handle_absolute_path(char **args, t_shell *shell);
 char	*get_path_env(char **env);
 int	try_paths(char **args, t_shell *shell, char *path_env);
 void	exec_with_full_path(char **args, t_shell *shell);
+//=================================================================
+
+//signals.c========================================================
+void	setup_signals(void);
+void	handle_sigint(int sig);
 //=================================================================
 
 //error.c =========================================================

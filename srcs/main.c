@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/23 15:30:01 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 10:27:39 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,16 @@ int     main(int ac, char **av, char **envp)
     token = NULL;
     line = NULL;
     shell = init_shell(ac, av, envp);
+    setup_signals();
     while (shell->running)
     {
         line = readline("minishell$ ");
+        if (line == NULL)  // Ctrl-D
+		{
+			printf("exit\n");
+			free_shell(shell);  // se tiveres cleanup
+			exit(0);
+		}
         if (*line)
             add_history(line);
         if (line != NULL && *line)
@@ -36,6 +43,7 @@ int     main(int ac, char **av, char **envp)
     }
     return (0);
 }
+
 int     main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
     if (check_syntax_errors(line, shell) == 0)

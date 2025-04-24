@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free2.c                                            :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 15:19:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/24 10:30:02 by joaomart         ###   ########.fr       */
+/*   Created: 2025/04/24 10:24:06 by joaomart          #+#    #+#             */
+/*   Updated: 2025/04/24 10:24:33 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	free_sorted_env(int i, char **sorted_env)
+void	handle_sigint(int sig)
 {
-	while (i > 0)
-		free(sorted_env[--i]);
-	free(sorted_env);
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-void	free_args(char **args)
+void	setup_signals(void)
 {
-	int	i = 0;
-
-	if (!args)
-		return;
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
+	signal(SIGINT, handle_sigint);  // Ctrl-C: mostra novo prompt
+	signal(SIGQUIT, SIG_IGN);       // Ctrl-\: ignora
 }
-
-void	free_shell(t_shell *shell)
-{
-	if (!shell)
-		return;
-	free_struct(shell);
-}
-

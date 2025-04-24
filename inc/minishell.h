@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 10:30:16 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:05:50 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ typedef enum e_token_type
 }   t_token_type;
 
 typedef struct  s_token {
-    char            *value;
-    int             type;
-    int             size;
-    int             type_quotes; // type of quotes "" or '' 0 -> Sem aspas
-    struct s_token  *next;                          // 1 -> Aspas Simples ''
-    struct s_token *prev;                           // 2 -> Aspas Duplas ""
-}   t_token;
+	char			*value;
+	int				type;
+	int				size;
+	int				type_quotes; // type of quotes "" or '' 0 -> Sem aspas
+	struct s_token	*next;                          // 1 -> Aspas Simples ''
+	struct s_token	*prev;                           // 2 -> Aspas Duplas ""
+}	t_token;
 
 typedef struct s_shell
 {

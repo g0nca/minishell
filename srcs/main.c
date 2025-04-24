@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 10:27:39 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:17:20 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int     main(int ac, char **av, char **envp)
         {
             main_auxiliar(line, shell, token);
         }
+        if (exit_program(line, shell) == 1)
+            return (0);
         free(line);
     }
     return (0);
@@ -50,12 +52,12 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         token = tokenizer(line);
     if (token)
     {
-        expander(token, shell);
+        expander(&token, shell);
         verify_token(token, shell);
         execute_command(token, shell);
         print_tokens(token, shell);
     }
-    free_tokens(token);
+    free_tokens(&token);
     token = NULL;
     return (0);
 }

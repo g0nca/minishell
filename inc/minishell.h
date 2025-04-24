@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 12:05:50 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:18:20 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,23 +98,30 @@ void	commands(t_token *head);
 //==================================================================
 
 // expand.c ========================================================
-void	expander(t_token *list, t_shell *shell);
-char	*expand_variables(const char *input, char **envp);
+int expander(t_token **tokens, t_shell *shell);
+int	expander2(t_token *list, t_shell *shell);
+int expander3(t_token *list, t_shell *shell);
+int	verifiy_enviroment_var(t_shell *shell, char *token);
+int	ft_strcmp_enviroment_variables(char *s1, char *s2);
+int	invalid_env_var(t_token *token, t_shell *shell);
+//==================================================================
+
+// expand2.c =======================================================
+char	*expand_variables(const char *input, char **envp, t_token *list);
 void	copy_env_value(const char **input, char **current, char **envp);
 size_t	calculate_final_size(const char *input, char **envp);
 void	process_env_var(const char **input, size_t *size, char **envp);
-//==================================================================
+//===================================================================
 
 // expand2.c =======================================================
 char *get_env_value(const char *name, char **envp);
 //==================================================================
 
 // syntax_error.c ==================================================
-int	is_quote(char c);
-int	skip_quote(const char *str, int i);
-int	skip_spaces(const char *str, int i);
-int	check_unclosed_quotes(const char *str, t_shell *shell);
-int	check_syntax_errors(const char *str, t_shell *shell);
+int	check_syntax_errors_main(const char *str, t_shell *shell);
+int	check_pipe(const char *str, t_shell *shell, int *i);
+int	check_redir(const char *str, t_shell *shell, int *i);
+int	skip_spaces(const char *str, int *i);
 //==================================================================
 
 // utils1.c ========================================================

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 17:08:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/24 11:57:31 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:16:02 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ void	run_builtin(t_token *cmd, t_shell *shell)
 void	verify_token(t_token *type, t_shell *shell)
 {
 	if (!type || !shell)
-		return ;
-	if (type->next)
-		type = type->next;
-	else
 		return ;
 	if (type->type == 1)
 	{

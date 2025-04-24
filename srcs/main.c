@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 13:54:16 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:52:10 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int     main(int ac, char **av, char **envp)
 int     main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
     if (check_syntax_errors_main(line, shell) == 0)
-        token = tokenizer(line);
+        token = tokenizer(line, shell);
     if (token)
     {
         expander(&token, shell);

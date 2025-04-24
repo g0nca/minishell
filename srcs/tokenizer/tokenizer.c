@@ -6,13 +6,13 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/22 13:39:30 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:46:33 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_token *tokenizer(char *line)
+t_token *tokenizer(char *line, t_shell *shell)
 {
     t_token    *list;
     int             i;
@@ -33,8 +33,27 @@ t_token *tokenizer(char *line)
         else if (line[i])
             process_token(list, line, &i);
     }
-    check_command(list);
+    print_tokens_without_shell(list);
+    check_command(list, shell);
+    printf("----------------- DEPOIS DO CHECK_COMMAND -------------------------\n");
+    print_tokens_without_shell(list);
     return (list);
+}
+void print_tokens_without_shell(t_token *list)
+{
+    if (!list)
+        return;
+
+    int i = 0;
+    t_token *current = list;
+    printf("---------------------------------------------------------\n");
+    while (current)
+    {
+        printf("token[%d] (%d): %s\n", i, current->type, current->value);
+        current = current->next;
+        i++;
+    }
+    printf("---------------------------------------------------------\n");
 }
 
 void add_token(t_token *list, char *val, t_token_type type)

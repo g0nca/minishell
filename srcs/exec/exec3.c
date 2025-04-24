@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:22:07 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/23 15:24:01 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:07:44 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	handle_absolute_path(char **args, t_shell *shell)
 			shell_error(shell, args[0], 1, false);
 		return true;
 	}
-	return false;
+	return (false);
 }
 
 void	handle_env_path_execution(char **args, t_shell *shell)

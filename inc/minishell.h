@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 13:53:03 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:52:27 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int     main(int ac, char **av, char **envp);
 int     main_auxiliar(char *line, t_shell *shell, t_token *token);
 
 //  tokenizer.c ====================================================
-t_token *tokenizer(char *line);
+t_token *tokenizer(char *line, t_shell *shell);
 void add_token(t_token *list, char *val, t_token_type type);
 void add_token_to_list(t_token *list, t_token *new_token);
 t_token *create_token(char *val, t_token_type type);
@@ -93,8 +93,9 @@ void tokenizer_word(t_token *list, int *i, char *line);
 // ================================================================
 
 // process_token3.c ================================================
-void    check_command(t_token *list);
-void	commands(t_token *head);
+void check_command(t_token *list, t_shell *shell);
+void	commands(t_token *head, t_shell *shell);
+int check_executable_cmd(t_token *head, t_shell *shell);
 //==================================================================
 
 // expand.c ========================================================
@@ -219,6 +220,7 @@ int     parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
 void print_tokens(t_token *list, t_shell *shell);
+void print_tokens_without_shell(t_token *list);
 //========================================================================
 
 #endif

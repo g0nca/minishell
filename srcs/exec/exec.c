@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:07:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/23 14:57:00 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/24 13:54:32 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,8 @@ char	**token_to_args(t_token *token)
 
 void	execute_command(t_token *token, t_shell *shell)
 {
-	t_token	*current;
-
-	current = token->next;
-	if (current && current->type == TOKEN_CMD && is_builtin(current->value))
-	{
-		verify_token(current, shell);
+	if (token && token->type == TOKEN_CMD && is_builtin(token->value))
 		return;
-	}
 	else
-		execute_external_command(current, shell);
+		execute_external_command(token, shell);
 }

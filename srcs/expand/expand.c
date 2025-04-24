@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 12:15:11 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:02:29 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int expander3(t_token *list, t_shell *shell)
 			free(list->value);
 			list->value = expanded;
 		}
+		else if (verifiy_enviroment_var(shell, list->value) == 1 && list->type == TOKEN_SIMPLE_QUOTE)
+			break ;
 		else if (list->value[i] == '$' && ft_isalpha(list->value[i + 1]))
 		{
 			invalid_env_var(list, shell);

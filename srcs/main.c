@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 12:17:20 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/24 13:54:16 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int     main(int ac, char **av, char **envp)
         line = readline("minishell$ ");
         if (line == NULL)  // Ctrl-D
 		{
-			printf("exit\n");
-			free_shell(shell);  // se tiveres cleanup
+			free_struct(shell);  // se tiveres cleanup
 			exit(0);
 		}
         if (*line)
@@ -39,8 +38,6 @@ int     main(int ac, char **av, char **envp)
         {
             main_auxiliar(line, shell, token);
         }
-        if (exit_program(line, shell) == 1)
-            return (0);
         free(line);
     }
     return (0);
@@ -48,7 +45,7 @@ int     main(int ac, char **av, char **envp)
 
 int     main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
-    if (check_syntax_errors(line, shell) == 0)
+    if (check_syntax_errors_main(line, shell) == 0)
         token = tokenizer(line);
     if (token)
     {

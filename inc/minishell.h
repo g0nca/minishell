@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 12:18:20 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/24 13:53:03 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,9 @@ t_token    init_token_struct(t_token *list);
 //  free_functions ================================================
 void free_env(char **env);
 void    free_struct(t_shell *shell);
-void free_tokens(t_token *list);
+void free_tokens(t_token **list);
 void	free_sorted_env(int i, char **sorted_env);
 void	free_args(char **args);
-void	free_shell(t_shell *shell);
 //=================================================================
 //===============================================================
 
@@ -219,7 +218,6 @@ int	n_value(char *current); */
 int     parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
-void    animation(char *mensagem);
 void print_tokens(t_token *list, t_shell *shell);
 //========================================================================
 

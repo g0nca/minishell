@@ -1,35 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free2.c                                            :+:      :+:    :+:   */
+/*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 15:19:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/24 13:53:10 by ggomes-v         ###   ########.fr       */
+/*   Created: 2025/04/24 13:34:10 by ggomes-v          #+#    #+#             */
+/*   Updated: 2025/04/24 13:34:13 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	free_sorted_env(int i, char **sorted_env)
-{
-	while (i > 0)
-		free(sorted_env[--i]);
-	free(sorted_env);
-}
 
-void	free_args(char **args)
-{
-	int	i = 0;
 
-	if (!args)
-		return;
-	while (args[i])
+char *get_env_value(const char *name, char **envp)
+
+{
+
+    int len;
+
+	int i;
+
+
+
+	if (!name || !envp)
+
+		return (NULL);
+
+	len = ft_strlen(name);
+
+	i = 0;
+
+    while (envp[i]) 
+
 	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
-}
 
+        if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
+
+            return (envp[i] + len + 1);
+
+		i++;
+
+    }
+
+    return (NULL);
+
+}

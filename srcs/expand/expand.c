@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 14:02:29 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:23:02 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,26 @@
  * @return Always returns 0.
  */
 
- int expander(t_token **tokens, t_shell *shell)
- {
-	 t_token *current;
-	 t_token *next;
-	 int skip_current;
-	 
-	 if (!tokens || !*tokens)
-		 return (0);
-	 current = *tokens;
-	 while (current)
-	 {
-		 next = current->next;
-		 skip_current = expander2(current, shell);
-		 if (skip_current || current->type == -1)
-		 {
-			 if (current->prev == NULL)
-				 *tokens = current->next;
-			 if (current->prev)
-				 current->prev->next = current->next;
-			 if (current->next)
-				 current->next->prev = current->prev;
-			 if (current->value)
-				 free(current->value);
-			 free(current);
-		 }
-		 current = next;
-	 }
-	 return (0);
+int expander(t_token **tokens, t_shell *shell)
+{
+	t_token *current;
+	t_token *next;
+	int skip_current;
+	
+	if (!tokens || !*tokens)
+		return (0);
+	current = *tokens;
+	while (current)
+	{
+		next = current->next;
+		skip_current = expander2(current, shell);
+		if (skip_current || current->type == -1)
+			remove_invalid_env_variable(tokens, current);
+		current = next;
+	}
+	return (0);
 }
- 
+
 /**
  * @brief Expands environment variables in a given token if applicable.
  *
@@ -80,126 +70,74 @@ int	expander2(t_token *list, t_shell *shell)
 	return (skip_token);
 }
 
+/**
+ * Main expander function that processes a token for environment variables
+ * 
+ * @param list The token to process
+ * @param shell The shell structure
+ * @return 0 for normal execution, 1 if token should be skipped
+ */
 int expander3(t_token *list, t_shell *shell)
 {
-	int i;
-	int skip_token;
-	char *expanded;
-
-	skip_token = 0;
-	expanded = NULL;
-	i = 0;
-	while (list->value[i])
-	{
-		if (list->value[i] == '$' && ft_isalpha(list->value[i + 1])
-			&& list->type != TOKEN_SIMPLE_QUOTE
-			&& verifiy_enviroment_var(shell, list->value) == 1)
-		{
-			expanded = expand_variables(list->value, shell->env, list);
-			free(list->value);
-			list->value = expanded;
-		}
-		else if (verifiy_enviroment_var(shell, list->value) == 1 && list->type == TOKEN_SIMPLE_QUOTE)
-			break ;
-		else if (list->value[i] == '$' && ft_isalpha(list->value[i + 1]))
-		{
-			invalid_env_var(list, shell);
-			break ;
-		}
-		i++;
-	}
-	return (skip_token);
-}
-
-/**
- * Handles invalid environment variable expansion by nullifying the node data
- * instead of immediately deleting it to prevent access to freed memory.
- * 
- * @param list The token node containing the invalid environment variable
- * @param shell The shell structure
- * @return 1 to signal to expander2 that the token needs to be skipped
- */
-int    invalid_env_var(t_token *list, t_shell *shell)
-{
-    if (!list)
+    int i;
+    
+    if (should_skip_expansion(list, shell) == 1)
         return (0);
-    if (list->value)
+    i = 0;
+    while (list->value[i])
     {
-        free(list->value);
-        list->value = NULL;
+        if (list->value[i] == '$' && 
+            process_dollar_sign(list, shell, i))
+            return (1);
+        i++;
     }
-    list->type = -1;
-    shell->last_exit_status = 1;
-    return (1);
-}
-
-
-
-/**
- * @brief Checks if a given token (environment variable name)
- * exists in the shell environment.
- *
- * This function iterates through the environment variables stored in the shell
- * and checks whether the provided token matches any of the variable names.
- *
- * @param shell Pointer to the shell structure containing the environment array.
- * @param token The token to be checked (e.g., "$PATH", "$HOME").
- * @return 1 if the environment variable is found, 0 otherwise.
- */
-int	verifiy_enviroment_var(t_shell *shell, char *token)
-{
-	int j;
-	
-	j = 0;
-	while (shell->env[j])
-	{
-		if (ft_strcmp_enviroment_variables(shell->env[j], token) == 0)
-			return (1);
-		j++;
-	}
-	return (0);
+    
+    return (0);
 }
 /**
- * @brief Compares an environment variable with a token representing a variable name.
- *
- * Skips any leading '$' characters in the token and compares the variable name part
- * (before the '=' character) of the environment variable with the token.
- *
- * @param env_var A string in the form "VAR=value".
- * @param token A token like "$VAR", possibly with multiple leading '$'.
- * @return 0 if the names match, 1 otherwise.
+ * Check if token should be skipped due to quote type
+ * 
+ * @param list The token to check
+ * @param shell The shell structure
+ * @return 1 if token should be skipped, 0 otherwise
  */
-int	ft_strcmp_enviroment_variables(char *env_var, char *token)
+int should_skip_expansion(t_token *list, t_shell *shell)
 {
-	int i;
-	int j;
-	int start;
+    if (!list || !list->value)
+        return (1);
+	else if (list->type == TOKEN_SIMPLE_QUOTE)
+        return (1);
+    else if (verifiy_enviroment_var(shell, list->value) == 1)
+		return (0); 
+    return (0);
+}
 
-	if (!env_var || !token)
-		return (1);
-	i = 0;
-	while (token[i])
-	{
-		if (token[i] == '$')
-		{
-			i++;
-			start = i;
-			while (ft_isalnum(token[i]) || token[i] == '_')
-				i++;
-			j = 0;
-			while (env_var[j] && env_var[j] != '=' && start < i)
-			{
-				if (env_var[j] != token[start])
-					break;
-				j++;
-				start++;
-			}
-			if (env_var[j] == '=' && start == i)
-				return (0);
-		}
-		else
-			i++;
-	}
-	return (1);
+/**
+ * Process dollar sign in token value
+ * 
+ * @param list The token containing the value
+ * @param shell The shell structure
+ * @param i Current position in value string
+ * @return 1 if token marked invalid, 0 otherwise
+ */
+int process_dollar_sign(t_token *list, t_shell *shell, int i)
+{
+    char *expanded;
+
+    if (!ft_isalpha(list->value[i + 1]))
+        return (0);
+    if (verifiy_enviroment_var(shell, list->value) == 1 &&
+        list->type != TOKEN_SIMPLE_QUOTE)
+    {
+        expanded = expand_variables(list->value, shell->env, list);
+        free(list->value);
+        list->value = expanded;
+        return (0);
+    }
+    else
+    {
+        invalid_env_var(list, shell);
+        return (1);
+    }
 }
 

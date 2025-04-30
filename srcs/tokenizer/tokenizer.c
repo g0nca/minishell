@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 14:46:33 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:03:57 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,8 @@ t_token *tokenizer(char *line, t_shell *shell)
         else if (line[i])
             process_token(list, line, &i);
     }
-    print_tokens_without_shell(list);
     check_command(list, shell);
-    printf("----------------- DEPOIS DO CHECK_COMMAND -------------------------\n");
-    print_tokens_without_shell(list);
     return (list);
-}
-void print_tokens_without_shell(t_token *list)
-{
-    if (!list)
-        return;
-
-    int i = 0;
-    t_token *current = list;
-    printf("---------------------------------------------------------\n");
-    while (current)
-    {
-        printf("token[%d] (%d): %s\n", i, current->type, current->value);
-        current = current->next;
-        i++;
-    }
-    printf("---------------------------------------------------------\n");
 }
 
 void add_token(t_token *list, char *val, t_token_type type)
@@ -91,22 +72,6 @@ t_token *create_token(char *val, t_token_type type)
     return (new_token);
 }
 
-/* void add_token_to_list(t_token *list, t_token *new_token)
-{
-    t_token *last;
-
-    if (!list || !new_token)
-        return;
-    last = list;
-
-    while (last->next)
-        last = last->next;
-
-    last->next = new_token;
-    new_token->prev = last;
-    list->size++;
-} */
-
 void add_token_to_list(t_token *list, t_token *new_token)
 {
     t_token *last;
@@ -130,7 +95,7 @@ void add_token_to_list(t_token *list, t_token *new_token)
     }
     list->size++;
 }
-// Function to add the final token to the list
+// Function to add the final token to the list with the correct quote
 void add_final_token(t_token *list, char *joined, int type_quotes)
 {
     if (!joined)

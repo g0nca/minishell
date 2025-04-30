@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:29:58 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/23 14:50:11 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:05:32 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ char *get_env_value(const char *name, char **envp)
  * @return A newly allocated string with the expanded variables. Must be freed by the caller.
  */
 
- char	*expand_variables(const char *input, char **envp, t_token *list)
- {
+char	*expand_variables(const char *input, char **envp, t_token *list)
+{
 	 char	*result;
 	 char	*current;
 	 (void)list;
@@ -79,7 +79,7 @@ char *get_env_value(const char *name, char **envp)
 	 }
 	 *current = '\0';
 	 return (result);
- }
+}
  /**
   * @brief Copies the value of an environment variable to the result buffer.
   *
@@ -93,8 +93,8 @@ char *get_env_value(const char *name, char **envp)
   * @param envp Array of environment variables in the format "VAR=value".
   */
  
- void	copy_env_value(const char **input, char **current, char **envp)
- {
+void	copy_env_value(const char **input, char **current, char **envp)
+{
 	 char	*var;
 	 char	*value;
 	 int		i;
@@ -114,7 +114,7 @@ char *get_env_value(const char *name, char **envp)
 		 while (*value)
 			 *(*current)++ = *value++;
 	 }
- }
+}
  /**
   * @brief Calculates the total length of the input string after variable expansion.
   *
@@ -127,8 +127,8 @@ char *get_env_value(const char *name, char **envp)
   *         or (size_t)-1 if input or envp is NULL.
   */
  
- size_t	calculate_final_size(const char *input, char **envp)
- {
+size_t	calculate_final_size(const char *input, char **envp)
+{
 	 size_t	size;
  
 	 size = 0;
@@ -145,7 +145,7 @@ char *get_env_value(const char *name, char **envp)
 		 }
 	 }
 	 return (size);
- }
+}
  /**
   * @brief Parses and processes a single environment variable to update the size counter.
   *
@@ -156,9 +156,8 @@ char *get_env_value(const char *name, char **envp)
   * @param size Pointer to the size accumulator to be incremented by the variable value length.
   * @param envp Array of environment variables in the format "VAR=value".
   */
- 
- void	process_env_var(const char **input, size_t *size, char **envp)
- {
+void	process_env_var(const char **input, size_t *size, char **envp)
+{
 	 char	*var;
 	 char	*value;
 	 int		i;
@@ -175,4 +174,4 @@ char *get_env_value(const char *name, char **envp)
 	 free(var);
 	 if (value)
 		 *size += ft_strlen(value);
- }
+}

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 14:52:27 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:10:22 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,8 @@ int check_executable_cmd(t_token *head, t_shell *shell);
 int expander(t_token **tokens, t_shell *shell);
 int	expander2(t_token *list, t_shell *shell);
 int expander3(t_token *list, t_shell *shell);
-int	verifiy_enviroment_var(t_shell *shell, char *token);
-int	ft_strcmp_enviroment_variables(char *s1, char *s2);
-int	invalid_env_var(t_token *token, t_shell *shell);
+int process_dollar_sign(t_token *list, t_shell *shell, int i);
+int should_skip_expansion(t_token *list, t_shell *shell);
 //==================================================================
 
 // expand2.c =======================================================
@@ -112,11 +111,16 @@ char	*expand_variables(const char *input, char **envp, t_token *list);
 void	copy_env_value(const char **input, char **current, char **envp);
 size_t	calculate_final_size(const char *input, char **envp);
 void	process_env_var(const char **input, size_t *size, char **envp);
+char *get_env_value(const char *name, char **envp);
 //===================================================================
 
-// expand2.c =======================================================
-char *get_env_value(const char *name, char **envp);
-//==================================================================
+// env_var_compare.c ================================================
+int compare_env_name(char *env_var, char *token, int start, int end);
+int ft_strcmp_enviroment_variables(char *env_var, char *token);
+int	verifiy_enviroment_var(t_shell *shell, char *token);
+int    invalid_env_var(t_token *list, t_shell *shell);
+int	remove_invalid_env_variable(t_token **tokens, t_token *current);
+//===================================================================
 
 // syntax_error.c ==================================================
 int	check_syntax_errors_main(const char *str, t_shell *shell);
@@ -220,7 +224,7 @@ int     parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
 void print_tokens(t_token *list, t_shell *shell);
-void print_tokens_without_shell(t_token *list);
+//void print_tokens_without_shell(t_token *list);
 //========================================================================
 
 #endif

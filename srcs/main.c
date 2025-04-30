@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 14:52:10 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:03:02 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,3 +76,19 @@ void print_tokens(t_token *list, t_shell *shell)
     }
     printf("last_exit_status:%d\n", shell->last_exit_status);
 }
+/* void print_tokens_without_shell(t_token *list)
+{
+    if (!list)
+        return;
+
+    int i = 0;
+    t_token *current = list;
+    printf("---------------------------------------------------------\n");
+    while (current)
+    {
+        printf("token[%d] (%d): %s\n", i, current->type, current->value);
+        current = current->next;
+        i++;
+    }
+    printf("---------------------------------------------------------\n");
+} */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/22 15:15:13 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:07:18 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,31 @@ void    free_struct(t_shell *shell)
 void free_tokens(t_token **list)
 {
     t_token *next;
-    int i;
 
     if (!*list)
         return;
+
     while (*list)
     {
-        i = 0;
         next = (*list)->next; // Save the next node before freeing
+
+        // Close heredoc file descriptor if it's open
+        if ((*list)->heredoc_fd != -1)
+        {
+            close((*list)->heredoc_fd);
+            (*list)->heredoc_fd = -1;
+        }
+
         if ((*list)->value) // Free the token's value
         {
             free((*list)->value);
             (*list)->value = NULL;
         }
+
         free((*list)); // Free the token itself
         (*list) = next; // Move to the next token
     }
+
     (*list) = NULL;
 }
 

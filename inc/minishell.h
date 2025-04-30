@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 14:16:58 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:10:37 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct  s_token {
 	int				type;
 	int				size;
 	int				type_quotes; // type of quotes "" or '' 0 -> Sem aspas
+    int             heredoc_fd;
 	struct s_token	*next;                          // 1 -> Aspas Simples ''
 	struct s_token	*prev;                           // 2 -> Aspas Duplas ""
 }	t_token;
@@ -209,6 +210,16 @@ bool	handle_absolute_path(char **args, t_shell *shell);
 char	*get_path_env(char **env);
 int	try_paths(char **args, t_shell *shell, char *path_env);
 void	exec_with_full_path(char **args, t_shell *shell);
+//=================================================================
+
+//heredoc.c========================================================
+int     handle_heredoc(char *delimiter, t_shell *shell);
+char    *generate_temp_filename(void);
+void    setup_heredoc_signals(void);
+void    heredoc_signal_handler(int signum);
+int     process_heredocs(t_token *token, t_shell *shell);
+int     handle_all_heredocs(t_token *token, t_shell *shell);
+int	setup_redirections(t_token *token);
 //=================================================================
 
 //signals.c========================================================

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 16:10:37 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:49:54 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,12 +213,13 @@ void	exec_with_full_path(char **args, t_shell *shell);
 //=================================================================
 
 //heredoc.c========================================================
-int     handle_heredoc(char *delimiter, t_shell *shell);
-char    *generate_temp_filename(void);
-void    setup_heredoc_signals(void);
-void    heredoc_signal_handler(int signum);
-int     process_heredocs(t_token *token, t_shell *shell);
-int     handle_all_heredocs(t_token *token, t_shell *shell);
+char	*generate_temp_filename(void);
+void	heredoc_signal_handler(int signum);
+void	setup_heredoc_signals(void);
+int	read_heredoc_input(char *delimiter, char *filename);
+int	handle_heredoc(char *delimiter, t_shell *shell);
+int	handle_all_heredocs(t_token *token, t_shell *shell);
+char **build_command_args(t_token *token, int *cmd_count);
 int	setup_redirections(t_token *token);
 //=================================================================
 

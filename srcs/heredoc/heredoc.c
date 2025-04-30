@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/30 16:12:14 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:46:23 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,12 +161,75 @@ int	handle_all_heredocs(t_token *token, t_shell *shell)
 			if (heredoc_fd == -1)
 				return (-1);
 
-			// Store the file descriptor in the delimiter token
-			current->next->heredoc_fd = heredoc_fd;
+			// Store the file descriptor in the HERE_DOC token itself
+			current->heredoc_fd = heredoc_fd;
 		}
 		current = current->next;
 	}
 	return (0);
+}
+
+/*
+ * Build command arguments array, skipping redirection tokens and their arguments
+ */
+char **build_command_args(t_token *token, int *cmd_count)
+{
+    t_token *current;
+    int count = 0;
+    char **args;
+    int i = 0;
+
+    // First, count how many arguments we need
+    current = token;
+    while (current)
+    {
+        // Skip redirection tokens and their arguments
+        if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT ||
+            current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
+        {
+            current = current->next ? current->next->next : NULL;
+            continue;
+        }
+        // Skip pipe tokens
+        if (current->type == TOKEN_PIPE)
+        {
+            break;
+        }
+        count++;
+        current = current->next;
+    }
+
+    *cmd_count = count;
+
+    // Allocate memory for arguments array (plus NULL terminator)
+    args = (char **)malloc(sizeof(char *) * (count + 1));
+    if (!args)
+        return NULL;
+
+    // Fill the arguments array
+    current = token;
+    i = 0;
+    while (current && i < count)
+    {
+        // Skip redirection tokens and their arguments
+        if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT ||
+            current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
+        {
+            current = current->next ? current->next->next : NULL;
+            continue;
+        }
+        // Skip pipe tokens
+        if (current->type == TOKEN_PIPE)
+        {
+            break;
+        }
+
+        args[i++] = ft_strdup(current->value);
+        current = current->next;
+    }
+    args[i] = NULL;  // NULL terminate the array
+
+    return args;
 }
 
 /*
@@ -177,6 +240,8 @@ int	setup_redirections(t_token *token)
 	t_token *current;
 	int input_fd = STDIN_FILENO;
 	int output_fd = STDOUT_FILENO;
+	int saved_stdin = dup(STDIN_FILENO);
+	int saved_stdout = dup(STDOUT_FILENO);
 
 	current = token;
 	while (current)
@@ -185,7 +250,11 @@ int	setup_redirections(t_token *token)
 		{
 			// Input redirection (<)
 			if (!current->next || !current->next->value)
+			{
+				close(saved_stdin);
+				close(saved_stdout);
 				return (1);
+			}
 
 			if (input_fd != STDIN_FILENO)
 				close(input_fd);
@@ -194,6 +263,10 @@ int	setup_redirections(t_token *token)
 			if (input_fd == -1)
 			{
 				perror("minishell");
+				dup2(saved_stdin, STDIN_FILENO);
+				dup2(saved_stdout, STDOUT_FILENO);
+				close(saved_stdin);
+				close(saved_stdout);
 				return (1);
 			}
 		}
@@ -201,7 +274,11 @@ int	setup_redirections(t_token *token)
 		{
 			// Output redirection (>)
 			if (!current->next || !current->next->value)
+			{
+				close(saved_stdin);
+				close(saved_stdout);
 				return (1);
+			}
 
 			if (output_fd != STDOUT_FILENO)
 				close(output_fd);
@@ -210,6 +287,10 @@ int	setup_redirections(t_token *token)
 			if (output_fd == -1)
 			{
 				perror("minishell");
+				dup2(saved_stdin, STDIN_FILENO);
+				dup2(saved_stdout, STDOUT_FILENO);
+				close(saved_stdin);
+				close(saved_stdout);
 				return (1);
 			}
 		}
@@ -217,7 +298,11 @@ int	setup_redirections(t_token *token)
 		{
 			// Append redirection (>>)
 			if (!current->next || !current->next->value)
+			{
+				close(saved_stdin);
+				close(saved_stdout);
 				return (1);
+			}
 
 			if (output_fd != STDOUT_FILENO)
 				close(output_fd);
@@ -226,6 +311,10 @@ int	setup_redirections(t_token *token)
 			if (output_fd == -1)
 			{
 				perror("minishell");
+				dup2(saved_stdin, STDIN_FILENO);
+				dup2(saved_stdout, STDOUT_FILENO);
+				close(saved_stdin);
+				close(saved_stdout);
 				return (1);
 			}
 		}
@@ -233,16 +322,24 @@ int	setup_redirections(t_token *token)
 		{
 			// Heredoc redirection (<<)
 			if (!current->next || !current->next->value)
+			{
+				close(saved_stdin);
+				close(saved_stdout);
 				return (1);
+			}
 
 			if (input_fd != STDIN_FILENO)
 				close(input_fd);
 
 			// Use the heredoc file descriptor that was set up earlier
-			input_fd = current->next->heredoc_fd;
+			input_fd = current->heredoc_fd;
 			if (input_fd == -1)
 			{
 				fprintf(stderr, "minishell: heredoc failed\n");
+				dup2(saved_stdin, STDIN_FILENO);
+				dup2(saved_stdout, STDOUT_FILENO);
+				close(saved_stdin);
+				close(saved_stdout);
 				return (1);
 			}
 		}
@@ -263,5 +360,7 @@ int	setup_redirections(t_token *token)
 		close(output_fd);
 	}
 
+	close(saved_stdin);
+	close(saved_stdout);
 	return (0);
 }

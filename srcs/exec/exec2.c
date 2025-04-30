@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/30 13:54:09 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:06:02 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	exec_with_full_path(char **args, t_shell *shell)
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, &status, 0);
-	free_args(args);
 }
 
 static int	execute_from_path(char *full_path, char **args, t_shell *shell)

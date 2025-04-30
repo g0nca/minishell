@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 14:16:58 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:40:27 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,6 @@
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
 
-typedef enum e_token_type
-{
-    TOKEN_WORD,         // words                  // 0
-    TOKEN_CMD,          // commands               // 1
-    TOKEN_PIPE,         // |                      // 2
-    TOKEN_REDIR_IN,     // <                      // 3
-    TOKEN_REDIR_OUT,    // >                      // 4
-    TOKEN_APPEND,       // >>                     // 5
-    TOKEN_HERE_DOC,     // <<                     // 6
-    TOKEN_DOUBLE_QUOTE, // "                      // 7
-    TOKEN_SIMPLE_QUOTE, // '                      // 8
-}   t_token_type;
-
-typedef struct  s_token {
-	char			*value;
-	int				type;
-	int				size;
-	int				type_quotes; // type of quotes "" or '' 0 -> Sem aspas
-	struct s_token	*next;                          // 1 -> Aspas Simples ''
-	struct s_token	*prev;                           // 2 -> Aspas Duplas ""
-}	t_token;
-
 typedef struct s_shell
 {
     char **env;
@@ -65,6 +43,28 @@ typedef struct s_shell
 // --> Se fizermos ls "arquivo que nao existe" o comando mostra uma mensagem de erro
 // echo $? ira mostrar 1 porque houve um erro na execucao do comando anterior
 
+typedef enum e_token_type
+{
+    TOKEN_WORD,         // words                  // 0
+    TOKEN_CMD,          // commands               // 1
+    TOKEN_PIPE,         // |                      // 2
+    TOKEN_REDIR_IN,     // <                      // 3
+    TOKEN_REDIR_OUT,    // >                      // 4
+    TOKEN_APPEND,       // >>                     // 5
+    TOKEN_HERE_DOC,     // <<                     // 6
+    TOKEN_DOUBLE_QUOTE, // "                      // 7
+    TOKEN_SIMPLE_QUOTE, // '                      // 8
+}   t_token_type;
+
+typedef struct  s_token {
+    t_shell         shell_ref;
+	char			*value;
+	int				type;
+	int				size;
+	int				type_quotes; // type of quotes "" or '' 0 -> Sem aspas
+	struct s_token	*next;                          // 1 -> Aspas Simples ''
+	struct s_token	*prev;                           // 2 -> Aspas Duplas ""
+}	t_token;
 
 int     main(int ac, char **av, char **envp);
 int     main_auxiliar(char *line, t_shell *shell, t_token *token);
@@ -104,6 +104,8 @@ int	expander2(t_token *list, t_shell *shell);
 int expander3(t_token *list, t_shell *shell);
 int process_dollar_sign(t_token *list, t_shell *shell, int i);
 int should_skip_expansion(t_token *list, t_shell *shell);
+
+
 //==================================================================
 
 // expand2.c =======================================================
@@ -123,7 +125,6 @@ int	remove_invalid_env_variable(t_token **tokens, t_token *current);
 //===================================================================
 
 // special_expansion.c ==============================================
-int	expansion_getpid(t_token *list, t_shell *shell, int i);
 
 // ==================================================================
 

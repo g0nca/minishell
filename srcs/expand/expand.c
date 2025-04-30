@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 15:02:44 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:44:20 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,123 @@ int process_dollar_sign(t_token *list, t_shell *shell, int i)
         list->value = expanded;
         return (0);
     }
+	if (list->value[i + 1] == '$')
+	{
+		expanded = expand_variable_special_cases(list->value, list);
+		free(list->value);
+		list->value = expanded;
+	}
     else
     {
         invalid_env_var(list, shell);
         return (1);
     }
+	return (0);
+}
+/**
+ * Calculate the length needed for the expanded string
+ * 
+ * @param str The original string with special variables
+ * @param list The token containing shell reference
+ * @return The length needed for the expanded string
+ */
+int calculate_expanded_length(char *str, t_token *list)
+{
+    int i;
+    int len;
+    char *temp;
+    
+    len = 0;
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '$' && str[i + 1] == '$')
+        {
+            temp = ft_itoa(getpid());
+            len += ft_strlen(temp);
+            free(temp);
+            i += 2;
+        }
+        else if (str[i] == '$' && str[i + 1] == '?')
+        {
+            temp = ft_itoa(list->shell_ref.last_exit_status);
+            len += ft_strlen(temp);
+            free(temp);
+            i += 2;
+        }
+        else
+        {
+            len++;
+            i++;
+        }
+    }
+    return (len);
+}
+
+/**
+ * Copy a special variable value into the destination string
+ * 
+ * @param dest The destination string
+ * @param value The value to copy
+ * @param pos Current position in destination string (updated)
+ */
+void copy_special_var(char *dest, char *value, int *pos)
+{
+    int i;
+    
+    i = 0;
+    while (value[i])
+    {
+        dest[*pos] = value[i];
+        (*pos)++;
+        i++;
+    }
+}
+
+/**
+ * Expands special variable cases like $$ (process ID) and $? (exit status)
+ * 
+ * @param str The string containing the special variable
+ * @param list The token being processed
+ * @return The expanded string with special variables replaced
+ */
+char *expand_variable_special_cases(char *str, t_token *list)
+{
+    char *expanded;
+    char *temp;
+    int i;
+    int j;
+    
+    if (!str)
+        return (NULL);
+    
+    expanded = (char *)malloc(sizeof(char) * (calculate_expanded_length(str, list) + 1));
+    if (!expanded)
+        return (NULL);
+    
+    i = 0;
+    j = 0;
+    while (str[i])
+    {
+        if (str[i] == '$' && str[i + 1] == '$')
+        {
+            temp = ft_itoa(getpid());
+            copy_special_var(expanded, temp, &j);
+            free(temp);
+            i += 2;
+        }
+        else if (str[i] == '$' && str[i + 1] == '?')
+        {
+            temp = ft_itoa(list->shell_ref.last_exit_status);
+            copy_special_var(expanded, temp, &j);
+            free(temp);
+            i += 2;
+        }
+        else
+            expanded[j++] = str[i++];
+    }
+    expanded[j] = '\0';
+    
+    return (expanded);
 }
 

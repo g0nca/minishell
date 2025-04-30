@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/23 15:24:56 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:50:52 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	exec_with_full_path(char **args, t_shell *shell)
 	if (pid == -1)
 	{
 		perror("fork");
-		free_args(args);
 		return;
 	}
 	else if (pid == 0)
@@ -32,7 +31,6 @@ void	exec_with_full_path(char **args, t_shell *shell)
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, &status, 0);
-	free_args(args);
 }
 
 static int	execute_from_path(char *full_path, char **args, t_shell *shell)
@@ -116,4 +114,3 @@ void	execute_external_command(t_token *token, t_shell *shell)
 		handle_env_path_execution(args, shell);
 	free_args(args);
 }
-

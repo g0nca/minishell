@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 13:54:16 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:55:55 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int     main(int ac, char **av, char **envp)
         line = readline("minishell$ ");
         if (line == NULL)  // Ctrl-D
 		{
+            printf("exit\n");
 			free_struct(shell);  // se tiveres cleanup
 			exit(0);
 		}

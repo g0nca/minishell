@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:59:40 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/24 13:56:38 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:56:26 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_exit(t_shell *shell)
 {
+	printf("exit\n");
 	free_struct(shell);
 	exit (0);
 }

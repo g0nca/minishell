@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:22:07 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/24 15:07:44 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:48:00 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	handle_absolute_path(char **args, t_shell *shell)
 			exec_with_full_path(args, shell);
 		else
 			shell_error(shell, args[0], 1, false);
-		return true;
+		return (true);
 	}
 	return (false);
 }

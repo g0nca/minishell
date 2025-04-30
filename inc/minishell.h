@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 12:10:22 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:16:58 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,11 @@ int	verifiy_enviroment_var(t_shell *shell, char *token);
 int    invalid_env_var(t_token *list, t_shell *shell);
 int	remove_invalid_env_variable(t_token **tokens, t_token *current);
 //===================================================================
+
+// special_expansion.c ==============================================
+int	expansion_getpid(t_token *list, t_shell *shell, int i);
+
+// ==================================================================
 
 // syntax_error.c ==================================================
 int	check_syntax_errors_main(const char *str, t_shell *shell);

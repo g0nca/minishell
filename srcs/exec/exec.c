@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:07:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/24 13:54:32 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:44:14 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**token_to_args(t_token *token)
 	temp = token;
 	while (temp)
 	{
-		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD)
+		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
 			count++;
 		temp = temp->next;
 	}
@@ -48,7 +48,7 @@ char	**token_to_args(t_token *token)
 	temp = token;
 	while (temp)
 	{
-		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD)
+		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
 			args[i++] = ft_strdup(temp->value);
 		temp = temp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 12:23:02 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:02:44 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,20 @@ int	expander2(t_token *list, t_shell *shell)
 int expander3(t_token *list, t_shell *shell)
 {
     int i;
-    
+
     if (should_skip_expansion(list, shell) == 1)
         return (0);
     i = 0;
     while (list->value[i])
     {
-        if (list->value[i] == '$' && 
-            process_dollar_sign(list, shell, i))
-            return (1);
+        /* if (list->value[i] == '$' && process_dollar_sign(list, shell, i) == 3) // $$
+            expansion_getpid(list, shell, i);
+		else if (list->value[i] == '$' && process_dollar_sign(list, shell, i) == 4) // $?
+			return (1); */
+		if (list->value[i] == '$' && process_dollar_sign(list, shell, i))
+			return (1);
         i++;
     }
-    
     return (0);
 }
 /**
@@ -124,7 +126,7 @@ int process_dollar_sign(t_token *list, t_shell *shell, int i)
 {
     char *expanded;
 
-    if (!ft_isalpha(list->value[i + 1]))
+    if (!ft_isalpha(list->value[i + 1]) && list->value[i + 1] == '$' && list->value[i + 1] == '?')
         return (0);
     if (verifiy_enviroment_var(shell, list->value) == 1 &&
         list->type != TOKEN_SIMPLE_QUOTE)

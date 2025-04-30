@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/30 12:14:29 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/04/30 14:19:12 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/expand/expand.c \
 				srcs/expand/expand2.c \
 				srcs/expand/env_var_compare.c \
+				srcs/expand/special_expansion.c \
 				srcs/run/run_builtin.c \
 				srcs/builtins/ft_echo.c \
 				srcs/builtins/ft_pwd.c \

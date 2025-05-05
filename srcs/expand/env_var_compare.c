@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:06:55 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 12:13:59 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:36:22 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int	verifiy_enviroment_var(t_shell *shell, char *token)
  *
  * Return: 0 on success.
  */
-int	remove_invalid_env_variable(t_token **tokens, t_token *current)
+int	remove_old_env_variable(t_token **tokens, t_token *current)
 {
 	if (current->prev == NULL)
 		*tokens = current->next;

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 15:44:20 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:17:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int expander(t_token **tokens, t_shell *shell)
 		next = current->next;
 		skip_current = expander2(current, shell);
 		if (skip_current || current->type == -1)
-			remove_invalid_env_variable(tokens, current);
+			remove_old_env_variable(tokens, current);
 		current = next;
 	}
 	return (0);
@@ -80,21 +80,52 @@ int	expander2(t_token *list, t_shell *shell)
 int expander3(t_token *list, t_shell *shell)
 {
     int i;
+    char *expanded;
+    int dollar_count;
 
     if (should_skip_expansion(list, shell) == 1)
         return (0);
     i = 0;
     while (list->value[i])
     {
-        /* if (list->value[i] == '$' && process_dollar_sign(list, shell, i) == 3) // $$
-            expansion_getpid(list, shell, i);
-		else if (list->value[i] == '$' && process_dollar_sign(list, shell, i) == 4) // $?
-			return (1); */
-		if (list->value[i] == '$' && process_dollar_sign(list, shell, i))
-			return (1);
+        //printf("LIST->VALUE: %s\n", list->value);
+        dollar_count = count_dollar_sign(list->value);
+        printf("dollar_count:%d\n", dollar_count);
+        /* while (list->value[i] && list->value[i] != '$')
+            i++; */
+        if (list->value[i] == '$' && list->value[i + 1] == '$')
+        {
+            expanded = expand_variable_special_cases(list->value, list);
+            free(list->value);
+            list->value = expanded;
+        }
+        else if (verifiy_enviroment_var(shell, list->value) == 1 &&
+            list->type != TOKEN_SIMPLE_QUOTE)
+        {
+            expanded = expand_variables(list->value, shell->env, list);
+            free(list->value);
+            list->value = expanded;
+        }
+        else
+        {
+            //invalid_env_var (list, shell);
+            return (0);
+        }
+        //printf("list->value:%s\n", list->value);
         i++;
     }
+    printf("VALOR DO I:%d\n", i);
     return (0);
+}
+
+int count_dollar_sign(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i] == '$')
+        i++;
+    return (i);
 }
 /**
  * Check if token should be skipped due to quote type
@@ -122,12 +153,16 @@ int should_skip_expansion(t_token *list, t_shell *shell)
  * @param i Current position in value string
  * @return 1 if token marked invalid, 0 otherwise
  */
-int process_dollar_sign(t_token *list, t_shell *shell, int i)
+
+/* int process_dollar_sign(t_token *list, t_shell *shell, int i)
 {
     char *expanded;
+    int dollar_count;
 
     if (!ft_isalpha(list->value[i + 1]) && list->value[i + 1] == '$' && list->value[i + 1] == '?')
         return (0);
+    dollar_count = count_dollar_sign(list->value);
+    printf("dollar_count:%d\n", dollar_count);
     if (verifiy_enviroment_var(shell, list->value) == 1 &&
         list->type != TOKEN_SIMPLE_QUOTE)
     {
@@ -144,11 +179,12 @@ int process_dollar_sign(t_token *list, t_shell *shell, int i)
 	}
     else
     {
-        invalid_env_var(list, shell);
+        invalid_env_var (list, shell);
         return (1);
     }
+    printf("list->value:%s\n", list->value);
 	return (0);
-}
+} */
 /**
  * Calculate the length needed for the expanded string
  * 

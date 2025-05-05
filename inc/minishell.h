@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 15:40:27 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:27:32 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct  s_token {
 	char			*value;
 	int				type;
 	int				size;
+    int             dollar_sign;
 	int				type_quotes; // type of quotes "" or '' 0 -> Sem aspas
 	struct s_token	*next;                          // 1 -> Aspas Simples ''
 	struct s_token	*prev;                           // 2 -> Aspas Duplas ""
@@ -104,6 +105,8 @@ int	expander2(t_token *list, t_shell *shell);
 int expander3(t_token *list, t_shell *shell);
 int process_dollar_sign(t_token *list, t_shell *shell, int i);
 int should_skip_expansion(t_token *list, t_shell *shell);
+char *expand_variable_special_cases(char *str, t_token *list);
+int count_dollar_sign(char *str);
 
 
 //==================================================================
@@ -121,7 +124,7 @@ int compare_env_name(char *env_var, char *token, int start, int end);
 int ft_strcmp_enviroment_variables(char *env_var, char *token);
 int	verifiy_enviroment_var(t_shell *shell, char *token);
 int    invalid_env_var(t_token *list, t_shell *shell);
-int	remove_invalid_env_variable(t_token **tokens, t_token *current);
+int	remove_old_env_variable(t_token **tokens, t_token *current);
 //===================================================================
 
 // special_expansion.c ==============================================

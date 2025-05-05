@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 16:13:24 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:34:35 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,12 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
     if (token)
     {
         expander(&token, shell);
-        if (handle_all_heredocs(token, shell) != -1)
-        {
-            verify_token(token, shell);
-            execute_command(token, shell);
-        }
+        handle_heredoc(token, shell);
+        verify_token(token, shell);
+        execute_command(token, shell);
         print_tokens(token, shell);
     }
-    free_tokens(&token);
+    free_tokens(token);
     token = NULL;
     return (0);
 }

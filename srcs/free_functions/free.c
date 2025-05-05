@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 16:07:18 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:10:16 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,35 +29,22 @@ void    free_struct(t_shell *shell)
     free(shell);
 }
 
-void free_tokens(t_token **list)
+void free_tokens(t_token *list)
 {
+    t_token *current;
     t_token *next;
 
-    if (!*list)
+    if (!list)
         return;
-
-    while (*list)
+    current  = list;
+    while (current)
     {
-        next = (*list)->next; // Save the next node before freeing
-
-        // Close heredoc file descriptor if it's open
-        if ((*list)->heredoc_fd != -1)
-        {
-            close((*list)->heredoc_fd);
-            (*list)->heredoc_fd = -1;
-        }
-
-        if ((*list)->value) // Free the token's value
-        {
-            free((*list)->value);
-            (*list)->value = NULL;
-        }
-
-        free((*list)); // Free the token itself
-        (*list) = next; // Move to the next token
+        next = current->next; // Save the next node before freeing
+        if (current->value) // Free the token's value
+            free(current->value);
+        free(current); // Free the token itself
+        current = next; // Move to the next token
     }
-
-    (*list) = NULL;
 }
 
 /* void free_tokens(t_token *list)

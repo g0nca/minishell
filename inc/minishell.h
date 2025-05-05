@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 16:49:54 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:11:27 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct  s_token {
 	int				type;
 	int				size;
 	int				type_quotes; // type of quotes "" or '' 0 -> Sem aspas
-    int             heredoc_fd;
+    char            *heredoc_path;
 	struct s_token	*next;                          // 1 -> Aspas Simples ''
 	struct s_token	*prev;                           // 2 -> Aspas Duplas ""
 }	t_token;
@@ -146,7 +146,7 @@ t_token    init_token_struct(t_token *list);
 //  free_functions ================================================
 void free_env(char **env);
 void    free_struct(t_shell *shell);
-void free_tokens(t_token **list);
+void free_tokens(t_token *list);
 void	free_sorted_env(int i, char **sorted_env);
 void	free_args(char **args);
 //=================================================================
@@ -213,14 +213,8 @@ void	exec_with_full_path(char **args, t_shell *shell);
 //=================================================================
 
 //heredoc.c========================================================
-char	*generate_temp_filename(void);
-void	heredoc_signal_handler(int signum);
-void	setup_heredoc_signals(void);
-int	read_heredoc_input(char *delimiter, char *filename);
-int	handle_heredoc(char *delimiter, t_shell *shell);
-int	handle_all_heredocs(t_token *token, t_shell *shell);
-char **build_command_args(t_token *token, int *cmd_count);
-int	setup_redirections(t_token *token);
+void	handle_heredoc(t_token *token, t_shell *shell);
+int		process_heredoc(t_token *token, t_shell *shell);
 //=================================================================
 
 //signals.c========================================================

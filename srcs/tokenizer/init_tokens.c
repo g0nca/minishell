@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:32:48 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 16:03:57 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:09:20 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_token    init_token_struct(t_token *list)
     list->size = 0;
     //list->quotes_check = 0;
     list->type_quotes = 0;
-    list->heredoc_fd = -1;
     return (*list);
 }
 

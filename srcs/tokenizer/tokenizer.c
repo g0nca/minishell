@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 16:04:18 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:11:53 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ t_token *create_token(char *val, t_token_type type)
     new_token->type = type;
     new_token->next = NULL;
     new_token->prev = NULL;
-    new_token->heredoc_fd = -1;
     return (new_token);
 }
 

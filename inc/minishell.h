@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/05 15:27:32 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:40:52 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct  s_token {
 	char			*value;
 	int				type;
 	int				size;
+    int             expansion;
     int             dollar_sign;
 	int				type_quotes; // type of quotes "" or '' 0 -> Sem aspas
 	struct s_token	*next;                          // 1 -> Aspas Simples ''

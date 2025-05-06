@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:06:55 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/05 13:36:22 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:49:24 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int ft_strcmp_enviroment_variables(char *env_var, char *token)
     
     if (!env_var || !token)
         return (1);
-        
     i = 0;
     while (token[i])
     {
@@ -62,10 +61,8 @@ int ft_strcmp_enviroment_variables(char *env_var, char *token)
         {
             i++;
             start = i;
-            
-            while (ft_isalnum(token[i]) || token[i] == '_')
+            while ((ft_isalnum(token[i]) || token[i] == '_'))
                 i++;
-                
             if (compare_env_name(env_var, token, start, i) == 0)
                 return (0);
         }

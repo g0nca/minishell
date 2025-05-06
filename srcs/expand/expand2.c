@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:29:58 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/05 13:34:21 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:57:57 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,16 @@ char	*expand_variables(const char *input, char **envp, t_token *list)
 	 char	*result;
 	 char	*current;
 	 (void)list;
-	 result = (char *)malloc(calculate_final_size(input, envp) + 1);
-	 if (!result)
-		 return (NULL);
-	 current = result;
-	 while (*input)
+	 int	dollar;
+	 
+	dollar = 0;
+	result = (char *)malloc(calculate_final_size(input, envp) + 1);
+	if (!result)
+		return (NULL);
+	current = result;
+	while (*input)
 	 {
-		 if (*input == '$' && ft_isalpha(*(input + 1)))
+		if (*input == '$' && ft_isalpha(*(input + 1)))
 			 copy_env_value(&input, &current, envp);
 		  else
 		 {

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/05 16:17:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:57:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,38 +81,27 @@ int expander3(t_token *list, t_shell *shell)
 {
     int i;
     char *expanded;
-    int dollar_count;
 
     if (should_skip_expansion(list, shell) == 1)
         return (0);
     i = 0;
     while (list->value[i])
     {
-        //printf("LIST->VALUE: %s\n", list->value);
-        dollar_count = count_dollar_sign(list->value);
-        printf("dollar_count:%d\n", dollar_count);
-        /* while (list->value[i] && list->value[i] != '$')
-            i++; */
-        if (list->value[i] == '$' && list->value[i + 1] == '$')
-        {
-            expanded = expand_variable_special_cases(list->value, list);
-            free(list->value);
-            list->value = expanded;
-        }
-        else if (verifiy_enviroment_var(shell, list->value) == 1 &&
+        if (verifiy_enviroment_var(shell, list->value) == 1 &&
             list->type != TOKEN_SIMPLE_QUOTE)
         {
             expanded = expand_variables(list->value, shell->env, list);
             free(list->value);
             list->value = expanded;
         }
-        else
+        else if ((list->value[i] == '$' && list->value[i + 1] == '$') || (list->value[i] == '$' && list->value[i + 1] == '?'))
         {
-            //invalid_env_var (list, shell);
-            return (0);
+            expanded = expand_variable_special_cases(list->value, list);
+            free(list->value);
+            list->value = expanded;
         }
-        //printf("list->value:%s\n", list->value);
-        i++;
+        else
+            i++;
     }
     printf("VALOR DO I:%d\n", i);
     return (0);

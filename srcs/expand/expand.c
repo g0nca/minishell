@@ -79,31 +79,16 @@ int	expander2(t_token *list, t_shell *shell)
  */
 int expander3(t_token *list, t_shell *shell)
 {
-    int i;
     char *expanded;
 
     if (should_skip_expansion(list, shell) == 1)
         return (0);
-    i = 0;
-    while (list->value[i])
+    else
     {
-        if (verifiy_enviroment_var(shell, list->value) == 1 &&
-            list->type != TOKEN_SIMPLE_QUOTE)
-        {
-            expanded = expand_variables(list->value, shell->env, list);
-            free(list->value);
-            list->value = expanded;
-        }
-        else if ((list->value[i] == '$' && list->value[i + 1] == '$') || (list->value[i] == '$' && list->value[i + 1] == '?'))
-        {
-            expanded = expand_variable_special_cases(list->value, list);
-            free(list->value);
-            list->value = expanded;
-        }
-        else
-            i++;
+        expanded = expand_variables(list->value, shell->env, list);
+        free(list->value);
+        list->value = expanded;
     }
-    printf("VALOR DO I:%d\n", i);
     return (0);
 }
 
@@ -134,46 +119,6 @@ int should_skip_expansion(t_token *list, t_shell *shell)
     return (0);
 }
 
-/**
- * Process dollar sign in token value
- * 
- * @param list The token containing the value
- * @param shell The shell structure
- * @param i Current position in value string
- * @return 1 if token marked invalid, 0 otherwise
- */
-
-/* int process_dollar_sign(t_token *list, t_shell *shell, int i)
-{
-    char *expanded;
-    int dollar_count;
-
-    if (!ft_isalpha(list->value[i + 1]) && list->value[i + 1] == '$' && list->value[i + 1] == '?')
-        return (0);
-    dollar_count = count_dollar_sign(list->value);
-    printf("dollar_count:%d\n", dollar_count);
-    if (verifiy_enviroment_var(shell, list->value) == 1 &&
-        list->type != TOKEN_SIMPLE_QUOTE)
-    {
-        expanded = expand_variables(list->value, shell->env, list);
-        free(list->value);
-        list->value = expanded;
-        return (0);
-    }
-	if (list->value[i + 1] == '$')
-	{
-		expanded = expand_variable_special_cases(list->value, list);
-		free(list->value);
-		list->value = expanded;
-	}
-    else
-    {
-        invalid_env_var (list, shell);
-        return (1);
-    }
-    printf("list->value:%s\n", list->value);
-	return (0);
-} */
 /**
  * Calculate the length needed for the expanded string
  * 

@@ -59,29 +59,26 @@ char *get_env_value(const char *name, char **envp)
 
 char	*expand_variables(const char *input, char **envp, t_token *list)
 {
-	 char	*result;
-	 char	*current;
-	 (void)list;
-	 int	dollar;
-	 
-	dollar = 0;
+	char	*result;
+	char	*current;
+	(void)list;
 	result = (char *)malloc(calculate_final_size(input, envp) + 1);
 	if (!result)
 		return (NULL);
 	current = result;
 	while (*input)
-	 {
+	{
 		if (*input == '$' && ft_isalpha(*(input + 1)))
 			 copy_env_value(&input, &current, envp);
-		  else
-		 {
-			  *current = *input;
-			 current++;
-			 input++;
-		 } 
-	 }
-	 *current = '\0';
-	 return (result);
+		else
+		{
+			*current = *input;
+			current++;
+			input++;
+		} 
+	}
+	*current = '\0';
+	return (result);
 }
  /**
   * @brief Copies the value of an environment variable to the result buffer.
@@ -102,7 +99,7 @@ void	copy_env_value(const char **input, char **current, char **envp)
 	 char	*value;
 	 int		i;
  
-	 var = (char *)malloc(sizeof(char *) * ft_strlen(*input));
+	 var = (char *)malloc(sizeof(char ) * ft_strlen(*input));
 	 if (!var)
 		 return ;
 	 (*input)++;

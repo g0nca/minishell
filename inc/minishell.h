@@ -26,6 +26,8 @@
 # include <fcntl.h>
 # include <stdbool.h>
 
+extern int g_exit_status;
+
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
 

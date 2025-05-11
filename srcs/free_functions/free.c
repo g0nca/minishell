@@ -32,13 +32,11 @@ void    free_struct(t_shell *shell)
 void free_tokens(t_token **list)
 {
     t_token *next;
-    int i;
 
     if (!*list)
         return;
     while (*list)
     {
-        i = 0;
         next = (*list)->next; // Save the next node before freeing
         if ((*list)->value) // Free the token's value
         {

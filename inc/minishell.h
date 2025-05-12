@@ -109,8 +109,6 @@ int expander3(t_token *list, t_shell *shell);
 int process_dollar_sign(t_token *list, t_shell *shell, int i);
 int should_skip_expansion(t_token *list, t_shell *shell);
 char *expand_variable_special_cases(char *str, t_token *list);
-int count_dollar_sign(char *str);
-
 
 //==================================================================
 

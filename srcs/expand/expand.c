@@ -91,16 +91,6 @@ int expander3(t_token *list, t_shell *shell)
     }
     return (0);
 }
-
-int count_dollar_sign(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i] == '$')
-        i++;
-    return (i);
-}
 /**
  * Check if token should be skipped due to quote type
  * 

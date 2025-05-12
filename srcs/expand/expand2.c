@@ -50,7 +50,11 @@ char *get_env_value(const char *name, char **envp)
  * retrieves its value from the environment (envp) and appends it to the result.
  *
  * Non-variable characters are copied directly to the result string.
- *
+				** Percorre a string de input e copia caractere por caractere para a string de saída.
+				** Quando encontra um '$' seguido de uma variável (ex: $USER), substitui pelo valor correspondente.
+				** Utiliza um ponteiro auxiliar 'current' para escrever na memória alocada,
+				** enquanto 'result' permanece apontando para o início da string resultante.
+				** No final, retorna 'result', que contém o input expandido com as variáveis de ambiente.
  * @param input The input string that may contain environment variables.
  * @param envp The array of environment variables in the form "VAR=value".
  * @param list Unused in this function (reserved for future use or context).
@@ -68,7 +72,7 @@ char	*expand_variables(const char *input, char **envp, t_token *list)
 	current = result;
 	while (*input)
 	{
-		if (*input == '$' && ft_isalpha(*(input + 1)))
+		if (*input == '$')
 			 copy_env_value(&input, &current, envp);
 		else
 		{
@@ -92,29 +96,79 @@ char	*expand_variables(const char *input, char **envp, t_token *list)
   *                The pointer is advanced after writing the value.
   * @param envp Array of environment variables in the format "VAR=value".
   */
- 
-void	copy_env_value(const char **input, char **current, char **envp)
-{
+ void	copy_env_value(const char **input, char **current, char **envp)
+ {
 	 char	*var;
 	 char	*value;
 	 int		i;
  
-	 var = (char *)malloc(sizeof(char ) * ft_strlen(*input));
-	 if (!var)
-		 return ;
-	 (*input)++;
-	 i = 0;
-	 while (ft_isalnum(**input) || **input == '_')
-		 var[i++] = *(*input)++;
-	 var[i] = '\0';
-	 value = get_env_value(var, envp);
-	 free(var);
-	 if (value)
+	 // estamos garantidos que *input[0] == '$'
+	 (*input)++; // avança para o próximo caractere
+ 
+	 if (**input == '$') // caso $$ → PID
 	 {
-		 while (*value)
-			 *(*current)++ = *value++;
+		 char pid_str[20];
+		 int pid = getpid();
+		 sprintf(pid_str, "%d", pid);
+ 
+		 // Substituindo o for por while
+		 i = 0;
+		 while (pid_str[i])
+		 {
+			 *(*current)++ = pid_str[i];
+			 i++;
+		 }
+		 (*input)++; // consome o segundo '$'
+		 return ;
 	 }
-}
+ 
+	 if (**input == '?') // caso $? → exit status
+	 {
+		 char status_str[12];
+		 sprintf(status_str, "%d", g_exit_status);
+ 
+		 // Substituindo o for por while
+		 i = 0;
+		 while (status_str[i])
+		 {
+			 *(*current)++ = status_str[i];
+			 i++;
+		 }
+		 (*input)++;
+		 return ;
+	 }
+ 
+	 // caso $VARIAVEL
+	 if (ft_isalpha(**input) || **input == '_')
+	 {
+		 var = (char *)malloc(sizeof(char) * (ft_strlen(*input) + 1));
+		 if (!var)
+			 return ;
+		 i = 0;
+		 while (ft_isalnum(**input) || **input == '_')
+		 {
+			 var[i++] = *(*input)++;
+		 }
+		 var[i] = '\0';
+ 
+		 value = get_env_value(var, envp);
+		 free(var);
+		 if (value)
+		 {
+			 // Substituindo o for por while
+			 i = 0;
+			 while (value[i])
+			 {
+				 *(*current)++ = value[i];
+				 i++;
+			 }
+		 }
+		 return ;
+	 }
+ 
+	 // se não for nada reconhecido ($$ $?) → escreve só '$'
+	 *(*current)++ = '$';
+ }
  /**
   * @brief Calculates the total length of the input string after variable expansion.
   *

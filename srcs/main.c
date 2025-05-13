@@ -52,6 +52,8 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         token = tokenizer(line, shell);
     if (token)
     {
+        print_tokens(token, shell);
+        printf("==========================================================\n");
         expander(&token, shell);
         verify_token(token, shell);
         execute_command(token, shell);

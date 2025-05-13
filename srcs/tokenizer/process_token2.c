@@ -43,18 +43,26 @@ char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list)
     char quote;
     char *word;
     int start;
+    int end;
     
     quote = line[*i];
     *type_quotes = ternary_operator(list, quote);
-    (*i)++; // Move past opening quote
-    start = *i;
-    while (line[*i] && line[*i] != quote) // Find closing quote
-        (*i)++;
-    word = ft_strndup(&line[start], *i - start); // Extract content inside quotes
-    if (line[*i]) // Move past closing quote if found
-        (*i)++;
+    start = *i;           // Marca a posição da aspa inicial
+    (*i)++;               // Avança para dentro das aspas
+
+    while (line[*i] && line[*i] != quote)
+        (*i)++;           // Avança até encontrar a aspa de fechamento
+
+    if (line[*i] == quote)
+        (*i)++;           // Inclui a aspa de fechamento no recorte final
+
+    end = *i;
+
+    // Caso haja outra aspa imediatamente a seguir (ex: 'abc'"def")
+    word = ft_strndup(&line[start], end - start); // Inclui aspas
     return (word);
 }
+
 
 // Function to handle regular text in tokenizer
 char *handle_regular_text(char *line, int *i)

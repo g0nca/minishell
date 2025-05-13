@@ -102,8 +102,6 @@ int should_skip_expansion(t_token *list, t_shell *shell)
 {
     if (!list || !list->value)
         return (1);
-	else if (list->type == TOKEN_SIMPLE_QUOTE)
-        return (1);
     else if (verifiy_enviroment_var(shell, list->value) == 1)
 		return (0); 
     return (0);

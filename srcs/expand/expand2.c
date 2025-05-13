@@ -63,30 +63,39 @@ char *get_env_value(const char *name, char **envp)
 
 char *expand_variables(const char *input, char **envp, t_token *list)
 {
-    char *result;
-    char *current;
-    (void)list;
-	size_t size;
+    char    *result;
+    char    *current;
+    size_t  size;
+    int     in_single_quote;
 
+    (void)list;
     size = calculate_final_size(input, envp);
     result = (char *)malloc(size + 1);
     if (!result)
         return (NULL);
     current = result;
+    in_single_quote = 0;
+
     while (*input)
     {
-        if (*input == '$')
+        if (*input == '\'')
+        {
+            in_single_quote = !in_single_quote;   // alterna flag
+            *current++ = *input++;
+        }
+        else if (*input == '$' && !in_single_quote)
+        {
             copy_env_value(&input, &current, envp);
+        }
         else
         {
-            *current = *input;
-            current++;
-            input++;
-        } 
+            *current++ = *input++;
+        }
     }
     *current = '\0';
     return (result);
 }
+
  /**
   * @brief Copies the value of an environment variable to the result buffer.
   *

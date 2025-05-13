@@ -61,28 +61,31 @@ char *get_env_value(const char *name, char **envp)
  * @return A newly allocated string with the expanded variables. Must be freed by the caller.
  */
 
-char	*expand_variables(const char *input, char **envp, t_token *list)
+char *expand_variables(const char *input, char **envp, t_token *list)
 {
-	char	*result;
-	char	*current;
-	(void)list;
-	result = (char *)malloc(calculate_final_size(input, envp) + 1);
-	if (!result)
-		return (NULL);
-	current = result;
-	while (*input)
-	{
-		if (*input == '$')
-			 copy_env_value(&input, &current, envp);
-		else
-		{
-			*current = *input;
-			current++;
-			input++;
-		} 
-	}
-	*current = '\0';
-	return (result);
+    char *result;
+    char *current;
+    (void)list;
+	size_t size;
+
+    size = calculate_final_size(input, envp);
+    result = (char *)malloc(size + 1);
+    if (!result)
+        return (NULL);
+    current = result;
+    while (*input)
+    {
+        if (*input == '$')
+            copy_env_value(&input, &current, envp);
+        else
+        {
+            *current = *input;
+            current++;
+            input++;
+        } 
+    }
+    *current = '\0';
+    return (result);
 }
  /**
   * @brief Copies the value of an environment variable to the result buffer.
@@ -96,79 +99,88 @@ char	*expand_variables(const char *input, char **envp, t_token *list)
   *                The pointer is advanced after writing the value.
   * @param envp Array of environment variables in the format "VAR=value".
   */
- void	copy_env_value(const char **input, char **current, char **envp)
- {
+void	copy_env_value(const char **input, char **current, char **envp)
+{
 	 char	*var;
 	 char	*value;
 	 int		i;
  
-	 // estamos garantidos que *input[0] == '$'
 	 (*input)++; // avança para o próximo caractere
  
 	 if (**input == '$') // caso $$ → PID
 	 {
-		 char pid_str[20];
+		 char *pid_str;
 		 int pid = getpid();
-		 sprintf(pid_str, "%d", pid);
- 
-		 // Substituindo o for por while
-		 i = 0;
-		 while (pid_str[i])
-		 {
-			 *(*current)++ = pid_str[i];
-			 i++;
-		 }
-		 (*input)++; // consome o segundo '$'
-		 return ;
+		 pid_str = ft_itoa(pid);
+		
+		if (pid_str)
+		{
+			i = 0;
+			while (pid_str[i])
+			{
+				*(*current)++ = pid_str[i];
+				i++;
+			}
+			free(pid_str);
+		}
+		(*input)++; // consome o segundo '$'
+		return ;
 	 }
  
-	 if (**input == '?') // caso $? → exit status
-	 {
-		 char status_str[12];
-		 sprintf(status_str, "%d", g_exit_status);
- 
-		 // Substituindo o for por while
-		 i = 0;
-		 while (status_str[i])
-		 {
-			 *(*current)++ = status_str[i];
-			 i++;
-		 }
-		 (*input)++;
-		 return ;
-	 }
- 
-	 // caso $VARIAVEL
-	 if (ft_isalpha(**input) || **input == '_')
-	 {
-		 var = (char *)malloc(sizeof(char) * (ft_strlen(*input) + 1));
-		 if (!var)
-			 return ;
-		 i = 0;
-		 while (ft_isalnum(**input) || **input == '_')
-		 {
-			 var[i++] = *(*input)++;
-		 }
-		 var[i] = '\0';
- 
-		 value = get_env_value(var, envp);
-		 free(var);
-		 if (value)
-		 {
-			 // Substituindo o for por while
-			 i = 0;
-			 while (value[i])
-			 {
-				 *(*current)++ = value[i];
-				 i++;
-			 }
-		 }
-		 return ;
-	 }
- 
-	 // se não for nada reconhecido ($$ $?) → escreve só '$'
-	 *(*current)++ = '$';
- }
+	if (**input == '?') // caso $? → exit status
+	{
+		 char *status_str;
+		 status_str = ft_itoa(g_exit_status);
+
+		if (status_str)
+		{
+			i = 0;
+			while (status_str[i])
+			{
+				*(*current)++ = status_str[i];
+				i++;
+			}
+			free(status_str);
+		}
+		(*input)++;
+		return ;
+	}
+    if (ft_isalpha(**input) || **input == '_')  // Case $VARIABLE
+    {
+        int var_len;
+        const char *tmp;
+		
+		var_len = 0;
+		tmp = *input;
+        while (ft_isalnum(tmp[var_len]) || tmp[var_len] == '_')
+            var_len++; // Count the variable name length first
+        var = (char *)malloc(sizeof(char) * (var_len + 1));
+        if (!var)
+            return;
+        i = 0; // Extract the variable name
+        while (i < var_len)
+        {
+            var[i] = **input;
+            (*input)++;
+            i++;
+        }
+        var[i] = '\0';
+        value = get_env_value(var, envp);
+        free(var);
+        if (value)
+        {
+            i = 0;
+            while (value[i])
+            {
+                *(*current)++ = value[i];
+                i++;
+            }
+        }
+        return ;
+    }
+    *(*current)++ = '$'; // If not recognized ($$ $?) → write only '$'
+}
+
  /**
   * @brief Calculates the total length of the input string after variable expansion.
   *
@@ -181,25 +193,60 @@ char	*expand_variables(const char *input, char **envp, t_token *list)
   *         or (size_t)-1 if input or envp is NULL.
   */
  
-size_t	calculate_final_size(const char *input, char **envp)
+size_t calculate_final_size(const char *input, char **envp)
 {
-	 size_t	size;
- 
-	 size = 0;
-	 if (!input || !envp)
-		 return (-1);
-	 while (*input)
-	 {
-		 if (*input == '$' && ft_isalpha(*(input + 1)))
-			 process_env_var(&input, &size, envp);
-		 else
-		 {
-			 size += 1;
-			 input++;
-		 }
-	 }
-	 return (size);
+    size_t size = 0;
+    size_t var_len;
+    char *var;
+    char *value;
+    
+    while (*input)
+    {
+        if (*input == '$')
+        {
+            input++; // Skip '$'
+            if (*input == '$') // Handle $$ (PID)
+            {
+                size += 10; //Add space for PID; 
+                input++;
+            }
+            else if (*input == '?') // Handle $? (exit status)
+            {
+                size += 5; // Add space for exit status
+                input++;
+            }
+            else if (ft_isalpha(*input) || *input == '_') // Handle $VARIABLE 
+            {
+                const char *start;
+				
+				start = input;
+                var_len = 0;
+                while (ft_isalnum(*input) || *input == '_')
+                {
+                    var_len++;
+                    input++;
+                }
+                var = (char *)malloc(sizeof(char) * (var_len + 1)); // Extract variable name
+                if (!var)
+                    return (size);
+                strncpy(var, start, var_len);
+                var[var_len] = '\0';
+                value = get_env_value(var, envp);
+                free(var);
+                if (value)
+                    size += strlen(value);
+            }
+            size++;
+        }
+        else
+        {
+            size++;
+            input++;
+        }
+    }
+    return (size);
 }
+
  /**
   * @brief Parses and processes a single environment variable to update the size counter.
   *

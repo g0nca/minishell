@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/05 17:11:27 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:29:05 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_shell
     char **env;
     int last_exit_status;
     int running;
+    t_list *heredoc_files;
 }   t_shell;
 // last_exit_status serve para guardar o codigo de saida do ultimo comando
 // executado no shell | EXEMPLO :
@@ -214,7 +215,8 @@ void	exec_with_full_path(char **args, t_shell *shell);
 
 //heredoc.c========================================================
 void	handle_heredoc(t_token *token, t_shell *shell);
-int		process_heredoc(t_token *token, t_shell *shell);
+int	process_heredoc(t_token *token, t_shell *shell);
+void cleanup_heredoc_files(t_shell *shell);
 //=================================================================
 
 //signals.c========================================================

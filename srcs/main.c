@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/05 17:34:35 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:17:51 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
     {
         expander(&token, shell);
         handle_heredoc(token, shell);
-        verify_token(token, shell);
+        /* verify_token(token, shell); */
         execute_command(token, shell);
         print_tokens(token, shell);
     }

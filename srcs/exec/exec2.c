@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/30 15:06:02 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/13 10:15:32 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,19 @@
 
 void	exec_with_full_path(char **args, t_shell *shell)
 {
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		free_args(args);
-		return;
-	}
-	else if (pid == 0)
-	{
-		execve(args[0], args, shell->env);
-		perror("execve");
-		free_args(args);
-		exit(EXIT_FAILURE);
-	}
-	waitpid(pid, &status, 0);
+	execve(args[0], args, shell->env);
+	perror("minishell: execve");
+	free_args(args);
+	exit(EXIT_FAILURE);
 }
 
 static int	execute_from_path(char *full_path, char **args, t_shell *shell)
 {
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return (-1);
-	}
-	else if (pid == 0)
-	{
-		execve(full_path, args, shell->env);
-		perror("execve");
-		free(full_path);
-		free_args(args);
-		exit(EXIT_FAILURE);
-	}
-	waitpid(pid, &status, 0);
-	return (1);
+	execve(full_path, args, shell->env);
+	perror("minishell: execve");
+	free(full_path);
+	free_args(args);
+	exit(EXIT_FAILURE);
 }
 
 static int	try_path_execution(char *dir, char **args, t_shell *shell)
@@ -73,7 +45,6 @@ static int	try_path_execution(char *dir, char **args, t_shell *shell)
 	if (access(full_path, X_OK) == 0)
 	{
 		result = execute_from_path(full_path, args, shell);
-		free(full_path);
 		return (result);
 	}
 	free(full_path);
@@ -110,9 +81,15 @@ void	execute_external_command(t_token *token, t_shell *shell)
 
 	args = token_to_args(token);
 	if (!args || !args[0])
-		return (free_args(args), (void)0);
+	{
+		free_args(args);
+		exit(EXIT_FAILURE);
+	}
 	if (!handle_absolute_path(args, shell))
 		handle_env_path_execution(args, shell);
+	
+	// Clean up and exit if execution fails
 	free_args(args);
+	exit(EXIT_FAILURE);
 }
 

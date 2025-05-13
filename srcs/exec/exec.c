@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:07:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/02 11:56:47 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:24:29 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ char	**token_to_args(t_token *token)
 	{
 		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
 			count++;
+		// Skip redirection tokens AND their targets
+		if (temp->type == TOKEN_REDIR_IN || temp->type == TOKEN_REDIR_OUT || 
+			temp->type == TOKEN_APPEND || temp->type == TOKEN_HERE_DOC)
+		{
+			temp = temp->next;
+			if (temp) // Skip the next token which is the target of the redirection
+				temp = temp->next;
+			continue;
+		}
 		temp = temp->next;
 	}
 	char **args = malloc(sizeof(char *) * (count + 1));
@@ -50,16 +59,134 @@ char	**token_to_args(t_token *token)
 	{
 		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
 			args[i++] = ft_strdup(temp->value);
+		// Skip redirection tokens AND their targets
+		if (temp->type == TOKEN_REDIR_IN || temp->type == TOKEN_REDIR_OUT || 
+			temp->type == TOKEN_APPEND || temp->type == TOKEN_HERE_DOC)
+		{
+			temp = temp->next;
+			if (temp) // Skip the next token which is the target of the redirection
+				temp = temp->next;
+			continue;
+		}
 		temp = temp->next;
 	}
 	args[i] = NULL;
 	return (args);
 }
 
+// New function to handle redirections
+static int setup_redirections(t_token *token)
+{
+	t_token *current;
+	int fd;
+	int stdin_backup = dup(STDIN_FILENO);
+	int stdout_backup = dup(STDOUT_FILENO);
+
+	current = token;
+	while (current)
+	{
+		if (current->type == TOKEN_REDIR_IN)
+		{
+			fd = open(current->value, O_RDONLY);
+			if (fd < 0)
+			{
+				perror("minishell");
+				dup2(stdin_backup, STDIN_FILENO);
+				dup2(stdout_backup, STDOUT_FILENO);
+				close(stdin_backup);
+				close(stdout_backup);
+				return (1);
+			}
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		else if (current->type == TOKEN_REDIR_OUT)
+		{
+			fd = open(current->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd < 0)
+			{
+				perror("minishell");
+				dup2(stdin_backup, STDIN_FILENO);
+				dup2(stdout_backup, STDOUT_FILENO);
+				close(stdin_backup);
+				close(stdout_backup);
+				return (1);
+			}
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (current->type == TOKEN_APPEND)
+		{
+			fd = open(current->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd < 0)
+			{
+				perror("minishell");
+				dup2(stdin_backup, STDIN_FILENO);
+				dup2(stdout_backup, STDOUT_FILENO);
+				close(stdin_backup);
+				close(stdout_backup);
+				return (1);
+			}
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		current = current->next;
+	}
+	close(stdin_backup);
+	close(stdout_backup);
+	return (0);
+}
+
+// Modified function to execute commands with redirections
 void	execute_command(t_token *token, t_shell *shell)
 {
-	if (token && token->type == TOKEN_CMD && is_builtin(token->value))
+	pid_t pid;
+	int status;
+	int stdin_backup = dup(STDIN_FILENO);
+	int stdout_backup = dup(STDOUT_FILENO);
+
+	if (!token)
 		return;
+
+	if (token && token->type == TOKEN_CMD && is_builtin(token->value))
+	{
+		// Handle redirections for built-in commands
+		if (setup_redirections(token) == 0)
+		{
+			run_builtin(token, shell);
+			// Restore standard streams
+			dup2(stdin_backup, STDIN_FILENO);
+			dup2(stdout_backup, STDOUT_FILENO);
+		}
+	}
 	else
-		execute_external_command(token, shell);
+	{
+		// Fork for external commands
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("minishell: fork");
+			return;
+		}
+		else if (pid == 0)
+		{
+			// Child process
+			setup_redirections(token);
+			execute_external_command(token, shell);
+			exit(EXIT_FAILURE); // Should not reach here
+		}
+		else
+		{
+			// Parent process
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				shell->last_exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				shell->last_exit_status = 128 + WTERMSIG(status);
+		}
+	}
+	
+	close(stdin_backup);
+	close(stdout_backup);
+	cleanup_heredoc_files(shell);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
+#    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/04/30 15:38:44 by joaomart         ###   ########.fr        #
+#    Updated: 2025/05/14 17:13:31 by andrade          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,9 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/exec/exec.c \
 				srcs/exec/exec2.c \
 				srcs/exec/exec3.c \
+				srcs/exec/exec4.c \
+				srcs/exec/exec5.c \
+				srcs/exec/exec6.c \
 				srcs/signals/signals.c \
 				srcs/heredoc/heredoc.c
 

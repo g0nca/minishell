@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:22:07 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/13 10:15:59 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:53:39 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void	handle_env_path_execution(char **args, t_shell *shell)
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", args[0]);
 		exit(127);
 	}
-	exit(127); // Should not reach here
+	exit(127);
 }

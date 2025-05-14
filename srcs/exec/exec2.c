@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/13 10:15:32 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:37:10 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ void	execute_external_command(t_token *token, t_shell *shell)
 	}
 	if (!handle_absolute_path(args, shell))
 		handle_env_path_execution(args, shell);
-	
-	// Clean up and exit if execution fails
 	free_args(args);
 	exit(EXIT_FAILURE);
 }

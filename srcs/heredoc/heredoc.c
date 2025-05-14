@@ -6,23 +6,23 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/14 10:24:12 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:39:32 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void handle_heredoc_sigint(int sig)
+static void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
 	exit(1);
 }
 
-static char *generate_temp_filename(int i)
+static char	*generate_temp_filename(int i)
 {
-	char *num_str;
-	char *filename;
+	char	*num_str;
+	char	*filename;
 
 	num_str = ft_itoa(i);
 	if (!num_str)
@@ -32,11 +32,11 @@ static char *generate_temp_filename(int i)
 	return (filename);
 }
 
-static int create_temp_file(char **out_filename)
+static int	create_temp_file(char **out_filename)
 {
-	char *filename;
-	int fd;
-	int i;
+	char	*filename;
+	int		fd;
+	int		i;
 
 	i = 0;
 	while (1)
@@ -55,10 +55,11 @@ static int create_temp_file(char **out_filename)
 	}
 }
 
-static int read_heredoc_input(const char *delimiter, int fd)
+static int	read_heredoc_input(const char *delimiter, int fd)
 {
-	char *line;
-	int delimiter_len;
+	char	*line;
+	int		delimiter_len;
+	
 	delimiter_len = ft_strlen(delimiter);
 	signal(SIGINT, handle_heredoc_sigint);
 	while (1)
@@ -84,7 +85,7 @@ static int read_heredoc_input(const char *delimiter, int fd)
 	return (0);
 }
 
-static char *create_heredoc(const char *delimiter, t_shell *shell)
+static char	*create_heredoc(const char *delimiter, t_shell *shell)
 {
 	int fd;
 	char *filename;
@@ -100,14 +101,12 @@ static char *create_heredoc(const char *delimiter, t_shell *shell)
 		return (NULL);
 	}
 	close(fd);
-
 	new_node = ft_lstnew(filename);
 	ft_lstadd_back(&shell->heredoc_files, new_node);
-
 	return (filename);
 }
 
-void cleanup_heredoc_files(t_shell *shell)
+void	cleanup_heredoc_files(t_shell *shell)
 {
 	t_list *temp;
 	while (shell->heredoc_files)
@@ -120,11 +119,13 @@ void cleanup_heredoc_files(t_shell *shell)
 	}
 }
 
-static void remove_token(t_token **head, t_token *to_remove)
+static void	remove_token(t_token **head, t_token *to_remove)
 {
-	t_token *prev = NULL;
-	t_token *curr = *head;
-
+	t_token	*prev;
+	t_token	*curr;
+	
+	prev = NULL;
+	curr = *head;
 	while (curr)
 	{
 		if (curr == to_remove)
@@ -142,28 +143,26 @@ static void remove_token(t_token **head, t_token *to_remove)
 	}
 }
 
-int process_heredoc(t_token *token, t_shell *shell)
+int	process_heredoc(t_token *token, t_shell *shell)
 {
-	t_token *current = token;
+	t_token	*current;
 
+	current = token;
 	while (current)
 	{
 		if (current->type == TOKEN_HERE_DOC && current->next)
 		{
 			t_token *heredoc_token = current;
 			t_token *delimiter_token = current->next;
-
 			char *filename = create_heredoc(delimiter_token->value, shell);
 			if (!filename)
 			{
 				shell_error(shell, "Failed to create heredoc", 0, false);
 				return (1);
 			}
-
 			free(heredoc_token->value);
 			heredoc_token->value = ft_strdup(filename);
 			heredoc_token->type = TOKEN_REDIR_IN;
-
 			remove_token(&token, delimiter_token);
 			current = heredoc_token->next;
 			continue;
@@ -173,7 +172,7 @@ int process_heredoc(t_token *token, t_shell *shell)
 	return (0);
 }
 
-void handle_heredoc(t_token *token, t_shell *shell)
+void	handle_heredoc(t_token *token, t_shell *shell)
 {
 	if (process_heredoc(token, shell) != 0)
 		shell->last_exit_status = 1;

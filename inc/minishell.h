@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/14 10:32:46 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/14 17:13:22 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,9 @@ void	run_builtin(t_token *cmd, t_shell *shell);
 // builtins/*.c ===================================================
 //echo:
 void	ft_echo(t_token *list, t_shell *shell);
+void	ft_print_tokens(t_token *current);
+int	ft_check_n_flag(t_token **current);
+void	ft_skip_redirections(t_token **current);
 //pwd:
 void	ft_pwd(t_shell *shell);
 //cd:
@@ -204,12 +207,24 @@ void	ft_exit(t_shell *shell);
 void	execute_command(t_token *token, t_shell *shell);
 void	execute_external_command(t_token *token, t_shell *shell);
 char	**token_to_args(t_token *token);
+int	count_args(t_token *token);
+char	**allocate_args(int count);
+void	fill_args(t_token *token, char **args);
 int	is_builtin(char *cmd);
 void	handle_env_path_execution(char **args, t_shell *shell);
 bool	handle_absolute_path(char **args, t_shell *shell);
 char	*get_path_env(char **env);
 int	try_paths(char **args, t_shell *shell, char *path_env);
 void	exec_with_full_path(char **args, t_shell *shell);
+int	setup_redirections(t_token *token);
+int	ft_token_redir_in(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_token_redir_out(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_std_close(int stdin_backup, int stdout_backup);
+int	ft_backup_stdio(int *stdin_backup, int *stdout_backup);
+void	ft_restore_stdio(int stdin_backup, int stdout_backup);
+void	ft_execute_builtin(t_token *token, t_shell *shell, int stdin_backup, int stdout_backup);
+void	ft_execute_external(t_token *token, t_shell *shell);
 //=================================================================
 
 //heredoc.c========================================================

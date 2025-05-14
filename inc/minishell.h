@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/12 15:29:05 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:32:46 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,6 @@ void	run_builtin(t_token *cmd, t_shell *shell);
 // builtins/*.c ===================================================
 //echo:
 void	ft_echo(t_token *list, t_shell *shell);
-int		is_n_flag(char *arg);
 //pwd:
 void	ft_pwd(t_shell *shell);
 //cd:

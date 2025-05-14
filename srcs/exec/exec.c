@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 20:07:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/13 10:24:29 by andrade          ###   ########.fr       */
+/*   Created: 2025/05/14 10:30:17 by andrade           #+#    #+#             */
+/*   Updated: 2025/05/14 10:30:53 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-char	**token_to_args(t_token *token)
+char **token_to_args(t_token *token)
 {
 	int		count;
 	int		i;
@@ -38,34 +38,36 @@ char	**token_to_args(t_token *token)
 	temp = token;
 	while (temp)
 	{
-		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
+		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || 
+			temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
 			count++;
-		// Skip redirection tokens AND their targets
-		if (temp->type == TOKEN_REDIR_IN || temp->type == TOKEN_REDIR_OUT || 
-			temp->type == TOKEN_APPEND || temp->type == TOKEN_HERE_DOC)
+		else if (temp->type == TOKEN_REDIR_IN || temp->type == TOKEN_REDIR_OUT || 
+				temp->type == TOKEN_APPEND || temp->type == TOKEN_HERE_DOC)
 		{
 			temp = temp->next;
-			if (temp) // Skip the next token which is the target of the redirection
-				temp = temp->next;
+			if (!temp)
+				break;
 			continue;
 		}
 		temp = temp->next;
 	}
+	
 	char **args = malloc(sizeof(char *) * (count + 1));
 	if (!args)
 		return (NULL);
+	
 	temp = token;
 	while (temp)
 	{
-		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
+		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || 
+			temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
 			args[i++] = ft_strdup(temp->value);
-		// Skip redirection tokens AND their targets
-		if (temp->type == TOKEN_REDIR_IN || temp->type == TOKEN_REDIR_OUT || 
-			temp->type == TOKEN_APPEND || temp->type == TOKEN_HERE_DOC)
+		else if (temp->type == TOKEN_REDIR_IN || temp->type == TOKEN_REDIR_OUT || 
+				temp->type == TOKEN_APPEND || temp->type == TOKEN_HERE_DOC)
 		{
 			temp = temp->next;
-			if (temp) // Skip the next token which is the target of the redirection
-				temp = temp->next;
+			if (!temp)
+				break;
 			continue;
 		}
 		temp = temp->next;
@@ -74,13 +76,13 @@ char	**token_to_args(t_token *token)
 	return (args);
 }
 
-// New function to handle redirections
 static int setup_redirections(t_token *token)
 {
 	t_token *current;
 	int fd;
 	int stdin_backup = dup(STDIN_FILENO);
 	int stdout_backup = dup(STDOUT_FILENO);
+	int had_error = 0;
 
 	current = token;
 	while (current)
@@ -132,36 +134,38 @@ static int setup_redirections(t_token *token)
 		}
 		current = current->next;
 	}
-	close(stdin_backup);
-	close(stdout_backup);
+	if (had_error)
+	{
+		close(stdin_backup);
+		close(stdout_backup);
+		return (1);
+	}
 	return (0);
 }
 
-// Modified function to execute commands with redirections
-void	execute_command(t_token *token, t_shell *shell)
+void execute_command(t_token *token, t_shell *shell)
 {
-	pid_t pid;
-	int status;
-	int stdin_backup = dup(STDIN_FILENO);
-	int stdout_backup = dup(STDOUT_FILENO);
+	pid_t	pid;
+	int		status;
+	int		stdin_backup = dup(STDIN_FILENO);
+	int		stdout_backup = dup(STDOUT_FILENO);
 
 	if (!token)
 		return;
-
+	t_token *temp = token;
+	while (temp)
+		temp = temp->next;
 	if (token && token->type == TOKEN_CMD && is_builtin(token->value))
 	{
-		// Handle redirections for built-in commands
 		if (setup_redirections(token) == 0)
 		{
 			run_builtin(token, shell);
-			// Restore standard streams
 			dup2(stdin_backup, STDIN_FILENO);
 			dup2(stdout_backup, STDOUT_FILENO);
 		}
 	}
 	else
 	{
-		// Fork for external commands
 		pid = fork();
 		if (pid < 0)
 		{
@@ -177,7 +181,6 @@ void	execute_command(t_token *token, t_shell *shell)
 		}
 		else
 		{
-			// Parent process
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
 				shell->last_exit_status = WEXITSTATUS(status);
@@ -185,7 +188,6 @@ void	execute_command(t_token *token, t_shell *shell)
 				shell->last_exit_status = 128 + WTERMSIG(status);
 		}
 	}
-	
 	close(stdin_backup);
 	close(stdout_backup);
 	cleanup_heredoc_files(shell);

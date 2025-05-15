@@ -110,18 +110,19 @@ char *expand_variables(const char *input, char **envp, t_token *list)
   */
 void	copy_env_value(const char **input, char **current, char **envp)
 {
-	 char	*var;
-	 char	*value;
-	 int		i;
+	char	*var;
+	char	*value;
+    int		i;
  
-	 (*input)++; // avança para o próximo caractere
+	(*input)++; // avança para o próximo caractere
  
-	 if (**input == '$') // caso $$ → PID
-	 {
-		 char *pid_str;
-		 int pid = getpid();
-		 pid_str = ft_itoa(pid);
-		
+	if (**input == '$') // caso $$ → PID
+	{
+		char *pid_str;
+		int pid;
+
+        pid = getpid();
+		pid_str = ft_itoa(pid);
 		if (pid_str)
 		{
 			i = 0;
@@ -138,8 +139,8 @@ void	copy_env_value(const char **input, char **current, char **envp)
  
 	if (**input == '?') // caso $? → exit status
 	{
-		 char *status_str;
-		 status_str = ft_itoa(g_exit_status);
+		char *status_str;
+		status_str = ft_itoa(g_exit_status);
 
 		if (status_str)
 		{
@@ -204,48 +205,61 @@ void	copy_env_value(const char **input, char **current, char **envp)
  
 size_t calculate_final_size(const char *input, char **envp)
 {
-    size_t size = 0;
+    size_t size;
     size_t var_len;
     char *var;
     char *value;
-    
+    int in_single_quote;
+
+    size = 0;
+    in_single_quote = 0;
     while (*input)
     {
-        if (*input == '$')
+        if (*input == '\'')
+        {
+            in_single_quote = !in_single_quote;
+            size++;     // conta a aspa no resultado
+            input++;
+        }
+        else if (*input == '$' && !in_single_quote)
         {
             input++; // Skip '$'
-            if (*input == '$') // Handle $$ (PID)
+            if (*input == '$') // Handle $$
             {
-                size += 10; //Add space for PID; 
+                size += 10; // espaço suficiente para PID
                 input++;
             }
-            else if (*input == '?') // Handle $? (exit status)
+            else if (*input == '?') // Handle $?
             {
-                size += 5; // Add space for exit status
+                size += 5; // espaço suficiente para status
                 input++;
             }
-            else if (ft_isalpha(*input) || *input == '_') // Handle $VARIABLE 
+            else if (ft_isalpha(*input) || *input == '_') // Handle $VAR
             {
-                const char *start;
-				
-				start = input;
+                const char *start; 
+                
+                start = input;
                 var_len = 0;
                 while (ft_isalnum(*input) || *input == '_')
                 {
                     var_len++;
                     input++;
                 }
-                var = (char *)malloc(sizeof(char) * (var_len + 1)); // Extract variable name
+                var = (char *)malloc(sizeof(char) * (var_len + 1));
                 if (!var)
-                    return (size);
-                strncpy(var, start, var_len);
+                    return size;
+                ft_strncpy(var, start, var_len);
                 var[var_len] = '\0';
                 value = get_env_value(var, envp);
                 free(var);
                 if (value)
-                    size += strlen(value);
+                    size += ft_strlen(value);
             }
-            size++;
+            else
+            {
+                // caso especial: "$" sozinho ou com caractere inválido
+                size++; // para o próprio '$'
+            }
         }
         else
         {
@@ -255,6 +269,7 @@ size_t calculate_final_size(const char *input, char **envp)
     }
     return (size);
 }
+
 
  /**
   * @brief Parses and processes a single environment variable to update the size counter.

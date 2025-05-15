@@ -113,11 +113,24 @@ char *expand_variable_special_cases(char *str, t_token *list);
 //==================================================================
 
 // expand2.c =======================================================
-char	*expand_variables(const char *input, char **envp, t_token *list);
+char	*expand_variables(const char *input, char **envp);
 void	copy_env_value(const char **input, char **current, char **envp);
-size_t	calculate_final_size(const char *input, char **envp);
-void	process_env_var(const char **input, size_t *size, char **envp);
 char *get_env_value(const char *name, char **envp);
+
+//===================================================================
+
+// expand_util.c ====================================================
+char *get_env_value(const char *name, char **envp);
+int should_skip_expansion(t_token *list, t_shell *shell);
+//void copy_special_var(char *dest, char *value, int *pos);
+//int calculate_expanded_length(char *str, t_token *list);
+
+//===================================================================
+// calculate_final_size.c ===========================================
+size_t handle_dollar(const char **input, char **envp, int in_single_quote);
+size_t handle_env_variable(const char **input, char **envp);
+size_t calculate_final_size(const char *input, char **envp);
+
 //===================================================================
 
 // env_var_compare.c ================================================
@@ -128,9 +141,6 @@ int    invalid_env_var(t_token *list, t_shell *shell);
 int	remove_old_env_variable(t_token **tokens, t_token *current);
 //===================================================================
 
-// special_expansion.c ==============================================
-
-// ==================================================================
 
 // syntax_error.c ==================================================
 int	check_syntax_errors_main(const char *str, t_shell *shell);

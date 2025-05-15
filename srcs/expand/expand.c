@@ -85,132 +85,56 @@ int expander3(t_token *list, t_shell *shell)
         return (0);
     else
     {
-        expanded = expand_variables(list->value, shell->env, list);
+        expanded = expand_variables(list->value, shell->env);
         free(list->value);
         list->value = expanded;
     }
     return (0);
 }
 /**
- * Check if token should be skipped due to quote type
- * 
- * @param list The token to check
- * @param shell The shell structure
- * @return 1 if token should be skipped, 0 otherwise
+ * @brief Expands environment variables found in a given input string.
+ *
+ * This function scans the input string for environment variable patterns
+ * prefixed with '$' (e.g., $HOME, $PATH). When a variable is detected, it
+ * retrieves its value from the environment (envp) and appends it to the result.
+ *
+ * Non-variable characters are copied directly to the result string.
+				** Percorre a string de input e copia caractere por caractere para a string de saída.
+				** Quando encontra um '$' seguido de uma variável (ex: $USER), substitui pelo valor correspondente.
+				** Utiliza um ponteiro auxiliar 'current' para escrever na memória alocada,
+				** enquanto 'result' permanece apontando para o início da string resultante.
+				** No final, retorna 'result', que contém o input expandido com as variáveis de ambiente.
+ * @param input The input string that may contain environment variables.
+ * @param envp The array of environment variables in the form "VAR=value".
+ * @param list Unused in this function (reserved for future use or context).
+ * @return A newly allocated string with the expanded variables. Must be freed by the caller.
  */
-int should_skip_expansion(t_token *list, t_shell *shell)
-{
-    if (!list || !list->value)
-        return (1);
-    else if (verifiy_enviroment_var(shell, list->value) == 1)
-		return (0); 
-    return (0);
-}
 
-/**
- * Calculate the length needed for the expanded string
- * 
- * @param str The original string with special variables
- * @param list The token containing shell reference
- * @return The length needed for the expanded string
- */
-int calculate_expanded_length(char *str, t_token *list)
+char *expand_variables(const char *input, char **envp)
 {
-    int i;
-    int len;
-    char *temp;
-    
-    len = 0;
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == '$' && str[i + 1] == '$')
-        {
-            temp = ft_itoa(getpid());
-            len += ft_strlen(temp);
-            free(temp);
-            i += 2;
-        }
-        else if (str[i] == '$' && str[i + 1] == '?')
-        {
-            temp = ft_itoa(list->shell_ref.last_exit_status);
-            len += ft_strlen(temp);
-            free(temp);
-            i += 2;
-        }
-        else
-        {
-            len++;
-            i++;
-        }
-    }
-    return (len);
-}
+    char    *result;
+    char    *current;
+    size_t  size;
+    int     in_single_quote;
 
-/**
- * Copy a special variable value into the destination string
- * 
- * @param dest The destination string
- * @param value The value to copy
- * @param pos Current position in destination string (updated)
- */
-void copy_special_var(char *dest, char *value, int *pos)
-{
-    int i;
-    
-    i = 0;
-    while (value[i])
-    {
-        dest[*pos] = value[i];
-        (*pos)++;
-        i++;
-    }
-}
-
-/**
- * Expands special variable cases like $$ (process ID) and $? (exit status)
- * 
- * @param str The string containing the special variable
- * @param list The token being processed
- * @return The expanded string with special variables replaced
- */
-char *expand_variable_special_cases(char *str, t_token *list)
-{
-    char *expanded;
-    char *temp;
-    int i;
-    int j;
-    
-    if (!str)
+    size = calculate_final_size(input, envp);
+    result = (char *)malloc(size + 1);
+    if (!result)
         return (NULL);
-    
-    expanded = (char *)malloc(sizeof(char) * (calculate_expanded_length(str, list) + 1));
-    if (!expanded)
-        return (NULL);
-    
-    i = 0;
-    j = 0;
-    while (str[i])
+    current = result;
+    in_single_quote = 0;
+    while (*input)
     {
-        if (str[i] == '$' && str[i + 1] == '$')
+        if (*input == '\'')
         {
-            temp = ft_itoa(getpid());
-            copy_special_var(expanded, temp, &j);
-            free(temp);
-            i += 2;
+            in_single_quote = !in_single_quote;   // alterna flag
+            *current++ = *input++;
         }
-        else if (str[i] == '$' && str[i + 1] == '?')
-        {
-            temp = ft_itoa(list->shell_ref.last_exit_status);
-            copy_special_var(expanded, temp, &j);
-            free(temp);
-            i += 2;
-        }
+        else if (*input == '$' && !in_single_quote)
+            copy_env_value(&input, &current, envp);
         else
-            expanded[j++] = str[i++];
+            *current++ = *input++;
     }
-    expanded[j] = '\0';
-    
-    return (expanded);
+    *current = '\0';
+    return (result);
 }
-

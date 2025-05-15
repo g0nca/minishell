@@ -39,8 +39,9 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/syntax_error/syntax_error.c \
 				srcs/expand/expand.c \
 				srcs/expand/expand2.c \
-				srcs/expand/env_var_compare.c \
-				srcs/expand/special_expansion.c \
+				srcs/expand/calculate_final_size.c \
+				srcs/expand/expand_utils.c \
+				srcs/expand/expand_utils2.c \
 				srcs/run/run_builtin.c \
 				srcs/builtins/ft_echo.c \
 				srcs/builtins/ft_pwd.c \

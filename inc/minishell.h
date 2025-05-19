@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/14 17:13:22 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/19 10:33:21 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,10 @@ void	ft_execute_external(t_token *token, t_shell *shell);
 void	handle_heredoc(t_token *token, t_shell *shell);
 int	process_heredoc(t_token *token, t_shell *shell);
 void cleanup_heredoc_files(t_shell *shell);
+//=================================================================
+
+//redirects.c======================================================
+
 //=================================================================
 
 //signals.c========================================================

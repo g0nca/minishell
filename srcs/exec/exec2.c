@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/14 16:37:10 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/19 10:32:36 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,3 @@ void	execute_external_command(t_token *token, t_shell *shell)
 	free_args(args);
 	exit(EXIT_FAILURE);
 }
-

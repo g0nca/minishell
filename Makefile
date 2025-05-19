@@ -6,7 +6,7 @@
 #    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/14 17:13:31 by andrade          ###   ########.fr        #
+#    Updated: 2025/05/19 10:33:32 by andrade          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,8 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/exec/exec5.c \
 				srcs/exec/exec6.c \
 				srcs/signals/signals.c \
-				srcs/heredoc/heredoc.c
+				srcs/redirects/heredoc.c \
+				srcs/redirects/redirects.c
 
 MINISHELL_OBJS_DIR = srcs/objs
 MINISHELL_OBJS = $(patsubst srcs/%.c, $(MINISHELL_OBJS_DIR)/%.o, $(MINISHELL_SRCS))

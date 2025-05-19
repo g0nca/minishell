@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:22:45 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/03 15:07:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:22:39 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ t_shell     *init_shell(int ac, char **av, char **envp)
     shell->env = copy_env(envp);
     shell->last_exit_status = 0;
     shell->running = 1;
+    shell->heredoc_files = 0;
     return (shell);
 }

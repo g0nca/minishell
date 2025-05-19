@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/19 15:13:35 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:19:22 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,8 @@ typedef struct s_shell
     char **env;
     int last_exit_status;
     int running;
+    t_list *heredoc_files;
 }   t_shell;
-// last_exit_status serve para guardar o codigo de saida do ultimo comando
-// executado no shell | EXEMPLO :
-// --> Se fizermos ls "arquivo existente" o comando sera executado corretamente
-// em seguida se fizermos echo $? mostra nos esse codigo de saida que sera 0
-// -------------------------------------------------------------------------
-// --> Se fizermos ls "arquivo que nao existe" o comando mostra uma mensagem de erro
-// echo $? ira mostrar 1 porque houve um erro na execucao do comando anterior
 
 typedef enum e_token_type
 {
@@ -70,22 +64,6 @@ typedef struct  s_token {
 	struct s_token	*next;                          // 1 -> Aspas Simples ''
 	struct s_token	*prev;                           // 2 -> Aspas Duplas ""
 }	t_token;
-
-typedef struct s_shell
-{
-    char **env;
-    int last_exit_status;
-    int running;
-    t_list *heredoc_files;
-}   t_shell;
-// last_exit_status serve para guardar o codigo de saida do ultimo comando
-// executado no shell | EXEMPLO :
-// --> Se fizermos ls "arquivo existente" o comando sera executado corretamente
-// em seguida se fizermos echo $? mostra nos esse codigo de saida que sera 0
-// -------------------------------------------------------------------------
-// --> Se fizermos ls "arquivo que nao existe" o comando mostra uma mensagem de erro
-// echo $? ira mostrar 1 porque houve um erro na execucao do comando anterior
-
 
 int     main(int ac, char **av, char **envp);
 int     main_auxiliar(char *line, t_shell *shell, t_token *token);

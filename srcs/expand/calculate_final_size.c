@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   calculate_final_size.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/19 11:27:38 by ggomes-v          #+#    #+#             */
+/*   Updated: 2025/05/19 11:27:38 by ggomes-v         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
@@ -38,6 +49,7 @@ size_t handle_dollar(const char **input, char **envp, int in_single_quote)
     size = 0;
     if (**input == '$' && !in_single_quote)
     {
+        (*input)++;
         if (**input == '$')
         {
             size += 10;
@@ -48,10 +60,14 @@ size_t handle_dollar(const char **input, char **envp, int in_single_quote)
             size += 5;
             (*input)++;
         }
-        else if (ft_isalpha(**input) || **input == '_')
+        else if (ft_isalpha(**input) == 1 || **input == '_')
+        {
             size += handle_env_variable(input, envp);
+        }
         else
+        {
             size += 1;
+        }
     }
     return (size);
 }

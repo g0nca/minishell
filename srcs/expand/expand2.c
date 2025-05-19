@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:29:58 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/06 14:57:57 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/19 11:30:31 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	copy_env_value(const char **input, char **current, char **envp)
                 *(*current)++ = value[i];
                 i++;
             }
+            *(*current) = '\0';
         }
         return ;
     }

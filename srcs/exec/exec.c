@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 20:07:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/30 12:44:14 by ggomes-v         ###   ########.fr       */
+/*   Created: 2025/05/14 10:30:17 by andrade           #+#    #+#             */
+/*   Updated: 2025/05/19 10:31:46 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,36 +30,52 @@ int	is_builtin(char *cmd)
 char	**token_to_args(t_token *token)
 {
 	int		count;
-	int		i;
-	t_token	*temp;
-
-	count = 0;
-	i = 0;
-	temp = token;
-	while (temp)
-	{
-		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
-			count++;
-		temp = temp->next;
-	}
-	char **args = malloc(sizeof(char *) * (count + 1));
+	char	**args;
+	
+	count = count_args(token);
+	args = allocate_args(count);
 	if (!args)
 		return (NULL);
-	temp = token;
-	while (temp)
-	{
-		if (temp->type == TOKEN_CMD || temp->type == TOKEN_WORD || temp->type == TOKEN_DOUBLE_QUOTE || temp->type == TOKEN_SIMPLE_QUOTE)
-			args[i++] = ft_strdup(temp->value);
-		temp = temp->next;
-	}
-	args[i] = NULL;
+	fill_args(token, args);
 	return (args);
+}
+
+int	setup_redirections(t_token *token)
+{
+	t_token	*current;
+	int		stdin_backup;
+	int		stdout_backup;
+	int		had_error;
+
+	current = token;
+	stdin_backup = dup(STDIN_FILENO);
+	stdout_backup = dup(STDOUT_FILENO);
+	had_error = 0;
+	while (current)
+	{
+		if (current->type == TOKEN_REDIR_IN)
+			ft_token_redir_in(current, stdin_backup, stdout_backup);
+		else if (current->type == TOKEN_REDIR_OUT)
+			ft_token_redir_out(current, stdin_backup, stdout_backup);
+		else if (current->type == TOKEN_APPEND)
+			ft_token_append(current, stdin_backup, stdout_backup);
+		current = current->next;
+	}
+	if (had_error)
+		ft_std_close(stdin_backup, stdout_backup);
+	return (0);
 }
 
 void	execute_command(t_token *token, t_shell *shell)
 {
-	if (token && token->type == TOKEN_CMD && is_builtin(token->value))
+	int	stdin_backup;
+	int	stdout_backup;
+
+	if (!token || !ft_backup_stdio(&stdin_backup, &stdout_backup))
 		return;
+	if (token->type == TOKEN_CMD && is_builtin(token->value))
+		ft_execute_builtin(token, shell, stdin_backup, stdout_backup);
 	else
-		execute_external_command(token, shell);
+		ft_execute_external(token, shell);
+	cleanup_heredoc_files(shell);
 }

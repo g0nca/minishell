@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/19 15:08:22 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:13:43 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,12 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         //print_tokens(token, shell);
         //printf("==========================================================\n");
         expander(&token, shell);
-        verify_token(token, shell);
+        handle_heredoc(token, shell);
+        /* verify_token(token, shell); */
         execute_command(token, shell);
         print_tokens(token, shell);
     }
-    free_tokens(&token);
+    free_tokens(token);
     token = NULL;
     return (0);
 }

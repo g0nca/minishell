@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/22 15:15:13 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:13:08 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ void    free_struct(t_shell *shell)
 
 void free_tokens(t_token **list)
 {
+    t_token *current;
     t_token *next;
+    int i;
 
-    if (!*list)
+    if (!list)
         return;
     while (*list)
     {
@@ -46,7 +48,6 @@ void free_tokens(t_token **list)
         free((*list)); // Free the token itself
         (*list) = next; // Move to the next token
     }
-    (*list) = NULL;
 }
 
 /* void free_tokens(t_token *list)

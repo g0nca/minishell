@@ -3,47 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 09:18:33 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/14 16:45:05 by joaomart         ###   ########.fr       */
+/*   Created: 2025/05/14 16:37:53 by andrade           #+#    #+#             */
+/*   Updated: 2025/05/14 16:43:34 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	is_n_flag(char *arg)
+void	ft_skip_redirections(t_token **current)
 {
-	int	i;
-
-	if (!arg || arg[0] != '-')
-		return (0);
-	i = 1;
-	while (arg[i] == 'n')
-		i++;
-	return (arg[i] == '\0');
+	while (*current && ((*current)->type == TOKEN_REDIR_IN || (*current)->type == TOKEN_REDIR_OUT || 
+				   (*current)->type == TOKEN_APPEND || (*current)->type == TOKEN_HERE_DOC))
+	{
+		*current = (*current)->next;
+		if (*current)
+			*current = (*current)->next;
+	}
 }
 
-void	ft_echo(t_token *cmdargs, t_shell *shell)
+int	ft_check_n_flag(t_token **current)
 {
-	t_token	*current;
-	int		no_newline;
+	int n_flag = 0;
 
-	no_newline = 0;
-	current = cmdargs->next;
-	while (current && is_n_flag(current->value))
+	while (*current && ft_strncmp((*current)->value, "-n", 2) == 0)
 	{
-		no_newline = 1;
-		current = current->next;
+		int valid_flag = 1;
+		size_t i = 2;
+		while ((*current)->value[i])
+		{
+			if ((*current)->value[i] != 'n')
+			{
+				valid_flag = 0;
+				break;
+			}
+			i++;
+		}
+		if (!valid_flag)
+			break;
+		n_flag = 1;
+		*current = (*current)->next;
+		ft_skip_redirections(current);
 	}
+	return (n_flag);
+}
+
+void	ft_print_tokens(t_token *current)
+{
 	while (current)
 	{
+		if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT || 
+			current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
+		{
+			current = current->next;
+			if (current)
+				current = current->next;
+			continue;
+		}
 		ft_printf_fd(STDOUT_FILENO, "%s", current->value);
-		if (current->next)
-			ft_printf_fd(STDOUT_FILENO, " ");
 		current = current->next;
+		if (current && !(current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT || 
+					  current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC))
+			ft_printf_fd(STDOUT_FILENO, " ");
 	}
-	if (!no_newline)
+}
+
+void	ft_echo(t_token *list, t_shell *shell)
+{
+	t_token *current;
+	int n_flag;
+
+	current = list->next;
+	ft_skip_redirections(&current);
+	n_flag = ft_check_n_flag(&current);
+	ft_print_tokens(current);
+	if (!n_flag)
 		ft_printf_fd(STDOUT_FILENO, "\n");
 	shell->last_exit_status = EXIT_SUCCESS;
 }
+

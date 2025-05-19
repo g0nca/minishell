@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/06 10:40:52 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:13:35 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,26 @@ typedef struct  s_token {
     int             expansion;
     int             dollar_sign;
 	int				type_quotes; // type of quotes "" or '' 0 -> Sem aspas
+    char            *heredoc_path;
 	struct s_token	*next;                          // 1 -> Aspas Simples ''
 	struct s_token	*prev;                           // 2 -> Aspas Duplas ""
 }	t_token;
+
+typedef struct s_shell
+{
+    char **env;
+    int last_exit_status;
+    int running;
+    t_list *heredoc_files;
+}   t_shell;
+// last_exit_status serve para guardar o codigo de saida do ultimo comando
+// executado no shell | EXEMPLO :
+// --> Se fizermos ls "arquivo existente" o comando sera executado corretamente
+// em seguida se fizermos echo $? mostra nos esse codigo de saida que sera 0
+// -------------------------------------------------------------------------
+// --> Se fizermos ls "arquivo que nao existe" o comando mostra uma mensagem de erro
+// echo $? ira mostrar 1 porque houve um erro na execucao do comando anterior
+
 
 int     main(int ac, char **av, char **envp);
 int     main_auxiliar(char *line, t_shell *shell, t_token *token);
@@ -180,7 +197,9 @@ void	run_builtin(t_token *cmd, t_shell *shell);
 // builtins/*.c ===================================================
 //echo:
 void	ft_echo(t_token *list, t_shell *shell);
-int		is_n_flag(char *arg);
+void	ft_print_tokens(t_token *current);
+int	ft_check_n_flag(t_token **current);
+void	ft_skip_redirections(t_token **current);
 //pwd:
 void	ft_pwd(t_shell *shell);
 //cd:
@@ -218,12 +237,34 @@ void	ft_exit(t_shell *shell);
 void	execute_command(t_token *token, t_shell *shell);
 void	execute_external_command(t_token *token, t_shell *shell);
 char	**token_to_args(t_token *token);
+int	count_args(t_token *token);
+char	**allocate_args(int count);
+void	fill_args(t_token *token, char **args);
 int	is_builtin(char *cmd);
 void	handle_env_path_execution(char **args, t_shell *shell);
 bool	handle_absolute_path(char **args, t_shell *shell);
 char	*get_path_env(char **env);
 int	try_paths(char **args, t_shell *shell, char *path_env);
 void	exec_with_full_path(char **args, t_shell *shell);
+int	setup_redirections(t_token *token);
+int	ft_token_redir_in(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_token_redir_out(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_std_close(int stdin_backup, int stdout_backup);
+int	ft_backup_stdio(int *stdin_backup, int *stdout_backup);
+void	ft_restore_stdio(int stdin_backup, int stdout_backup);
+void	ft_execute_builtin(t_token *token, t_shell *shell, int stdin_backup, int stdout_backup);
+void	ft_execute_external(t_token *token, t_shell *shell);
+//=================================================================
+
+//heredoc.c========================================================
+void	handle_heredoc(t_token *token, t_shell *shell);
+int	process_heredoc(t_token *token, t_shell *shell);
+void cleanup_heredoc_files(t_shell *shell);
+//=================================================================
+
+//redirects.c======================================================
+
 //=================================================================
 
 //signals.c========================================================

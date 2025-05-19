@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/30 15:07:01 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:08:22 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         token = tokenizer(line, shell);
     if (token)
     {
-        print_tokens(token, shell);
-        printf("==========================================================\n");
+        //print_tokens(token, shell);
+        //printf("==========================================================\n");
         expander(&token, shell);
         verify_token(token, shell);
         execute_command(token, shell);

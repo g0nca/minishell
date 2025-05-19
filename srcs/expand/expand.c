@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/19 12:39:24 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:19:26 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ char *expand_variables(const char *input, char **envp)
     int     in_single_quote;
 
     size = calculate_final_size(input, envp);
+    printf("SIZE:%zu\n", size);
     result = (char *)malloc(size + 1);
     if (!result)
         return (NULL);

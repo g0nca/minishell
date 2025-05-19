@@ -22,12 +22,15 @@ size_t calculate_final_size(const char *input, char **envp)
     size = 0;
     while (*input)
     {
+        printf("a\n");
         if (*input == '\'')
         {
             in_single_quote = !in_single_quote;
             size++;
             input++;
         }
+        else if (*input == '\0')
+            break ;
         else
         {
             added = handle_dollar(&input, envp, in_single_quote);
@@ -63,6 +66,7 @@ size_t handle_dollar(const char **input, char **envp, int in_single_quote)
         else if (ft_isalpha(**input) == 1 || **input == '_')
         {
             size += handle_env_variable(input, envp);
+            printf("SIZE_inside:%zu\n", size);
         }
         else
         {

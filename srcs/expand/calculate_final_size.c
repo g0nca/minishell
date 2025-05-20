@@ -22,7 +22,6 @@ size_t calculate_final_size(const char *input, char **envp)
     size = 0;
     while (*input)
     {
-        //printf("a\n");
         if (*input == '\'')
         {
             in_single_quote = !in_single_quote;
@@ -38,8 +37,9 @@ size_t calculate_final_size(const char *input, char **envp)
                 size += added;
             else
             {
+                if (size > 0)
+                    input++;
                 size++;
-                input++;
             }
         }
     }
@@ -53,6 +53,7 @@ size_t handle_dollar(const char **input, char **envp, int in_single_quote)
     if (**input == '$' && !in_single_quote)
     {
         (*input)++;
+        //printf("CARACTER:%c\n", **input);
         if (**input == '$')
         {
             size += 10;

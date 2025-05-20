@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/20 14:24:32 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:39:28 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,9 @@ void	handle_heredoc(t_token *token, t_shell *shell);
 int	process_heredoc(t_token *token, t_shell *shell);
 void cleanup_heredoc_files(t_shell *shell);
 void	remove_token(t_token **head, t_token *to_remove);
+char	*generate_temp_filename(int i);
+int	create_temp_file(char **out_filename);
+void	error_heredoc(const char *delimiter);
 //=================================================================
 
 //redirects.c======================================================

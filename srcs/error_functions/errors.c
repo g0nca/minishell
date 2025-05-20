@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/14 16:34:48 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:30:08 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_error(int error, char *str)
 	else
 		ft_printf_fd(STDERR_FILENO, "%s\n", str);
 }
+
 void	shell_error(t_shell *shell, char *str, int error, bool exit_flag)
 {
 	int	status;

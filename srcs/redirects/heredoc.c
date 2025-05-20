@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/19 10:33:13 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/20 10:21:21 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	cleanup_heredoc_files(t_shell *shell)
 	}
 }
 
-static void	remove_token(t_token **head, t_token *to_remove)
+void	remove_token(t_token **head, t_token *to_remove)
 {
 	t_token	*prev;
 	t_token	*curr;

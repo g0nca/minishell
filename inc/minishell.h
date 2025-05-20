@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/19 15:19:22 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:11:15 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,10 +239,12 @@ void	ft_execute_external(t_token *token, t_shell *shell);
 void	handle_heredoc(t_token *token, t_shell *shell);
 int	process_heredoc(t_token *token, t_shell *shell);
 void cleanup_heredoc_files(t_shell *shell);
+void	remove_token(t_token **head, t_token *to_remove);
 //=================================================================
 
 //redirects.c======================================================
-
+/* int process_redirects(t_token **token_list);
+void cleanup_redirects(t_token *token_list); */
 //=================================================================
 
 //signals.c========================================================

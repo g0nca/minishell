@@ -6,7 +6,7 @@
 #    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/19 10:33:32 by andrade          ###   ########.fr        #
+#    Updated: 2025/05/20 12:18:14 by andrade          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,6 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/exec/exec3.c \
 				srcs/exec/exec4.c \
 				srcs/exec/exec5.c \
-				srcs/exec/exec6.c \
 				srcs/signals/signals.c \
 				srcs/redirects/heredoc.c \
 				srcs/redirects/redirects.c

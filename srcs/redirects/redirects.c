@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:55:23 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/20 12:17:59 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:24:23 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,32 @@ int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup)
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
+	return (0);
+}
+
+int	setup_redirections(t_token *token)
+{
+	t_token	*current;
+	int		stdin_backup;
+	int		stdout_backup;
+	int		had_error;
+
+	current = token;
+	stdin_backup = dup(STDIN_FILENO);
+	stdout_backup = dup(STDOUT_FILENO);
+	had_error = 0;
+	while (current)
+	{
+		if (current->type == TOKEN_REDIR_IN)
+			ft_token_redir_in(current, stdin_backup, stdout_backup);
+		else if (current->type == TOKEN_REDIR_OUT)
+			ft_token_redir_out(current, stdin_backup, stdout_backup);
+		else if (current->type == TOKEN_APPEND)
+			ft_token_append(current, stdin_backup, stdout_backup);
+		current = current->next;
+	}
+	if (had_error)
+		ft_std_close(stdin_backup, stdout_backup);
 	return (0);
 }
 

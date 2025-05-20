@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/20 11:11:15 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:24:32 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,11 +224,6 @@ bool	handle_absolute_path(char **args, t_shell *shell);
 char	*get_path_env(char **env);
 int	try_paths(char **args, t_shell *shell, char *path_env);
 void	exec_with_full_path(char **args, t_shell *shell);
-int	setup_redirections(t_token *token);
-int	ft_token_redir_in(t_token *current, int stdin_backup, int stdout_backup);
-int	ft_token_redir_out(t_token *current, int stdin_backup, int stdout_backup);
-int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup);
-int	ft_std_close(int stdin_backup, int stdout_backup);
 int	ft_backup_stdio(int *stdin_backup, int *stdout_backup);
 void	ft_restore_stdio(int stdin_backup, int stdout_backup);
 void	ft_execute_builtin(t_token *token, t_shell *shell, int stdin_backup, int stdout_backup);
@@ -243,8 +238,11 @@ void	remove_token(t_token **head, t_token *to_remove);
 //=================================================================
 
 //redirects.c======================================================
-/* int process_redirects(t_token **token_list);
-void cleanup_redirects(t_token *token_list); */
+int	setup_redirections(t_token *token);
+int	ft_token_redir_in(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_token_redir_out(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_std_close(int stdin_backup, int stdout_backup);
 //=================================================================
 
 //signals.c========================================================

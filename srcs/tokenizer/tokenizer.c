@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/05 17:11:53 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/20 12:37:47 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token *tokenizer(char *line, t_shell *shell)
     list = malloc(sizeof(t_token));
     if (!list)
         return (NULL);
-    init_token_struct(list);
+    init_token_struct_inicial(list);
     i = 0;
     while (line[i])
     {
@@ -64,11 +64,7 @@ t_token *create_token(char *val, t_token_type type)
         free(new_token);
         return (NULL);
     }
-    //new_token->quotes_check = 0;
-    new_token->type_quotes = 0;
-    new_token->type = type;
-    new_token->next = NULL;
-    new_token->prev = NULL;
+    new_token = init_token_struct_new_node(new_token, type);
     return (new_token);
 }
 

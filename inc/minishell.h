@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/19 15:19:22 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:37:28 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,18 @@ typedef enum e_token_type
 }   t_token_type;
 
 typedef struct  s_token {
-    t_shell         shell_ref;
+    //t_shell         shell_ref;
 	char			*value;
 	int				type;
 	int				size;
     int             expansion;
     int             dollar_sign;
-	int				type_quotes; // type of quotes "" or '' 0 -> Sem aspas
+	int				in_single_quotes; // 1 in '' / 0 out ''
+    int				in_double_quotes; // 1 in "" / 0 out ''
+	int				type_quotes;
     char            *heredoc_path;
-	struct s_token	*next;                          // 1 -> Aspas Simples ''
-	struct s_token	*prev;                           // 2 -> Aspas Duplas ""
+	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
 int     main(int ac, char **av, char **envp);
@@ -108,7 +110,7 @@ char *expand_variable_special_cases(char *str, t_token *list);
 //==================================================================
 
 // expand2.c =======================================================
-char	*expand_variables(const char *input, char **envp);
+char *expand_variables(const char *input, char **envp, t_token *list);
 void	copy_env_value(const char **input, char **current, char **envp);
 char *get_env_value(const char *name, char **envp);
 
@@ -122,9 +124,9 @@ int should_skip_expansion(t_token *list, t_shell *shell);
 
 //===================================================================
 // calculate_final_size.c ===========================================
-size_t handle_dollar(const char **input, char **envp, int in_single_quote);
+size_t handle_dollar(const char **input, char **envp, t_token *list);
 size_t handle_env_variable(const char **input, char **envp);
-size_t calculate_final_size(const char *input, char **envp);
+size_t calculate_final_size(const char *input, char **envp, t_token *list);
 
 //===================================================================
 
@@ -149,7 +151,9 @@ int		ternary_operator(t_token *list, char quote);
 //=================================================================
 
 // init_tokens.c ================================================
-t_token    init_token_struct(t_token *list);
+t_token    *init_token_struct_new_node(t_token *list, t_token_type type);
+t_token     *init_token_struct_inicial(t_token *list);
+
 //===============================================================
 
 //  free_functions ================================================

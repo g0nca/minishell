@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/19 15:07:51 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:56:02 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int expander3(t_token *list, t_shell *shell)
         return (0);
     else
     {
-        expanded = expand_variables(list->value, shell->env);
+        expanded = expand_variables(list->value, shell->env, list);
         free(list->value);
         list->value = expanded;
     }
@@ -110,28 +110,26 @@ int expander3(t_token *list, t_shell *shell)
  * @return A newly allocated string with the expanded variables. Must be freed by the caller.
  */
 
-char *expand_variables(const char *input, char **envp)
+char *expand_variables(const char *input, char **envp, t_token *list)
 {
     char    *result;
     char    *current;
     size_t  size;
-    int     in_single_quote;
 
-    size = calculate_final_size(input, envp);
-    //printf("SIZE:%zu\n", size);
-    result = (char *)malloc(size + 1);
+    size = calculate_final_size(input, envp, list);
+    printf("SIZE:%zu\n", size);
+    result = (char *)malloc(size + 10);
     if (!result)
         return (NULL);
     current = result;
-    in_single_quote = 0;
     while (*input)
     {
         if (*input == '\'')
         {
-            in_single_quote = !in_single_quote;   // alterna flag
+            list->in_single_quotes = !list->in_single_quotes;   // alterna flag
             *current++ = *input++;
         }
-        else if (*input == '$' && !in_single_quote)
+        else if (*input == '$' && !list->in_single_quotes)
             copy_env_value(&input, &current, envp);
         else
             *current++ = *input++;

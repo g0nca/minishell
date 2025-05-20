@@ -12,48 +12,44 @@
 
 #include "../../inc/minishell.h"
 
-size_t calculate_final_size(const char *input, char **envp)
+size_t calculate_final_size(const char *input, char **envp, t_token *list)
 {
     size_t size;
-    int in_single_quote;
     size_t added;
 
-    in_single_quote = 0;
     size = 0;
     while (*input)
     {
         if (*input == '\'')
         {
-            in_single_quote = !in_single_quote;
+            list->in_single_quotes = !list->in_single_quotes;
             size++;
             input++;
         }
-        else if (*input == '\0')
-            break ;
         else
         {
-            added = handle_dollar(&input, envp, in_single_quote);
+            added = handle_dollar(&input, envp, list);
             if (added > 0)
                 size += added;
             else
             {
-                if (size > 0)
-                    input++;
+                input++;
                 size++;
             }
         }
     }
     return (size);
 }
-size_t handle_dollar(const char **input, char **envp, int in_single_quote)
+size_t handle_dollar(const char **input, char **envp, t_token *list)
 {
     size_t size;
 
     size = 0;
-    if (**input == '$' && !in_single_quote)
+    if (**input == '$' && *(*input + 1) && !list->in_single_quotes)
     {
         (*input)++;
-        //printf("CARACTER:%c\n", **input);
+        if (!**input)
+            return (0); 
         if (**input == '$')
         {
             size += 10;
@@ -65,14 +61,9 @@ size_t handle_dollar(const char **input, char **envp, int in_single_quote)
             (*input)++;
         }
         else if (ft_isalpha(**input) == 1 || **input == '_')
-        {
             size += handle_env_variable(input, envp);
-            //printf("SIZE_inside:%zu\n", size);
-        }
         else
-        {
             size += 1;
-        }
     }
     return (size);
 }

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/20 12:37:28 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:26:15 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,6 @@ int check_executable_cmd(t_token *head, t_shell *shell);
 int expander(t_token **tokens, t_shell *shell);
 int	expander2(t_token *list, t_shell *shell);
 int expander3(t_token *list, t_shell *shell);
-int process_dollar_sign(t_token *list, t_shell *shell, int i);
-int should_skip_expansion(t_token *list, t_shell *shell);
-char *expand_variable_special_cases(char *str, t_token *list);
-
 //==================================================================
 
 // expand2.c =======================================================
@@ -127,6 +123,8 @@ int should_skip_expansion(t_token *list, t_shell *shell);
 size_t handle_dollar(const char **input, char **envp, t_token *list);
 size_t handle_env_variable(const char **input, char **envp);
 size_t calculate_final_size(const char *input, char **envp, t_token *list);
+size_t	double_quotes(t_token *list, const char **input);
+size_t	simple_quotes(t_token *list, const char **input);
 
 //===================================================================
 

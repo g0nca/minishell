@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/21 15:16:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:18:14 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ char *expand_variables(const char *input, char **envp, t_token *list)
     size_t  size;
 
     size = calculate_final_size(input, envp, list);
-    printf("SIZE:%zu\n", size);
     result = (char *)malloc((size + 1) * sizeof(char));
     if (!result)
         return (NULL);

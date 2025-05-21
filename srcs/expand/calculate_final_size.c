@@ -20,17 +20,9 @@ size_t calculate_final_size(const char *input, char **envp, t_token *list)
     while (*input)
     {
 		if (*input == '\"')
-		{
-            list->in_double_quotes = !list->in_double_quotes;
-            size++;
-            input++;
-        }
+			size += double_quotes(list, &input);
         else if (*input == '\'' && list->in_double_quotes == 0)
-        {
-            list->in_single_quotes = !list->in_single_quotes;
-            size++;
-            input++;
-        }
+			size += simple_quotes(list, &input);
         else if (*input == '$' && list->in_single_quotes == 0)
             size += handle_dollar(&input, envp, list);
         else
@@ -40,6 +32,26 @@ size_t calculate_final_size(const char *input, char **envp, t_token *list)
         }
     }
     return (size);
+}
+size_t	double_quotes(t_token *list, const char **input)
+{
+	size_t size;
+
+	size = 0;
+	list->in_double_quotes = !list->in_double_quotes;
+	size++;
+	(*input)++;
+	return (size);
+}
+size_t	simple_quotes(t_token *list, const char **input)
+{
+	size_t size;
+
+	size = 0;
+	list->in_single_quotes = !list->in_single_quotes;
+	size++;
+	(*input)++;
+	return (size);
 }
 size_t handle_dollar(const char **input, char **envp, t_token *list)
 {

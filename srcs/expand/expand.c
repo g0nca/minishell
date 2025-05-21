@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/21 13:19:51 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:16:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,18 +117,24 @@ char *expand_variables(const char *input, char **envp, t_token *list)
     size_t  size;
 
     size = calculate_final_size(input, envp, list);
+    printf("SIZE:%zu\n", size);
     result = (char *)malloc((size + 1) * sizeof(char));
     if (!result)
         return (NULL);
     current = result;
     while (*input)
-    {
-        if (*input == '\'')
+    {		
+        if (*input == '\"')
+		{
+            list->in_double_quotes = !list->in_double_quotes;
+            *current++ = *input++;
+        }
+        else if (*input == '\'' && list->in_double_quotes == 0)
         {
             list->in_single_quotes = !list->in_single_quotes;  // alterna flag
             *current++ = *input++;
         }
-        else if (*input == '$' && !list->in_single_quotes)
+        else if (*input == '$' && list->in_single_quotes == 0)
             copy_env_value(&input, &current, envp);
         else
             *current++ = *input++;

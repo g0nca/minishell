@@ -19,14 +19,19 @@ size_t calculate_final_size(const char *input, char **envp, t_token *list)
     size = 0;
     while (*input)
     {
-        printf("a");
-        if (*input == '\'')
+		if (*input == '\"')
+		{
+            list->in_double_quotes = !list->in_double_quotes;
+            size++;
+            input++;
+        }
+        else if (*input == '\'' && list->in_double_quotes == 0)
         {
             list->in_single_quotes = !list->in_single_quotes;
             size++;
             input++;
         }
-        else if (*input == '$' && list->in_single_quotes != 1)
+        else if (*input == '$' && list->in_single_quotes == 0)
             size += handle_dollar(&input, envp, list);
         else
         {
@@ -45,8 +50,7 @@ size_t handle_dollar(const char **input, char **envp, t_token *list)
     {
         if ((*input)[1] == '\0' || (*input)[1] == ' ')
             return ((*input)++, 1);
-        if (!**input)
-            return (0); 
+		(*input)++;
         if (**input == '$')
         {
             size += 10;
@@ -65,7 +69,7 @@ size_t handle_dollar(const char **input, char **envp, t_token *list)
     return (size);
 }
 
-size_t handle_env_variable(const char **input, char **envp)
+size_t  handle_env_variable(const char **input, char **envp)
 {
     const char  *start;
     size_t      var_len;

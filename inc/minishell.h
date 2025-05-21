@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/21 15:26:15 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:16:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,11 @@ int check_executable_cmd(t_token *head, t_shell *shell);
 int expander(t_token **tokens, t_shell *shell);
 int	expander2(t_token *list, t_shell *shell);
 int expander3(t_token *list, t_shell *shell);
+char *expand_variables(const char *input, char **envp, t_token *list);
+void    input_with_quotes(const char **input, char **current, int wich_quote, t_token *list);
 //==================================================================
 
 // expand2.c =======================================================
-char *expand_variables(const char *input, char **envp, t_token *list);
 void	copy_env_value(const char **input, char **current, char **envp);
 char *get_env_value(const char *name, char **envp);
 

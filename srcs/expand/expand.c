@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/21 15:18:14 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:19:54 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,15 +124,9 @@ char *expand_variables(const char *input, char **envp, t_token *list)
     while (*input)
     {		
         if (*input == '\"')
-		{
-            list->in_double_quotes = !list->in_double_quotes;
-            *current++ = *input++;
-        }
+            input_with_quotes(&input, &current, 2, list);
         else if (*input == '\'' && list->in_double_quotes == 0)
-        {
-            list->in_single_quotes = !list->in_single_quotes;  // alterna flag
-            *current++ = *input++;
-        }
+            input_with_quotes(&input, &current, 1, list);
         else if (*input == '$' && list->in_single_quotes == 0)
             copy_env_value(&input, &current, envp);
         else
@@ -140,4 +134,19 @@ char *expand_variables(const char *input, char **envp, t_token *list)
     }
     *current = '\0';
     return (result);
+}
+void    input_with_quotes(const char **input, char **current, int wich_quote, t_token *list)
+{
+    if (wich_quote == 2)// double_quote ""
+    {
+        list->in_double_quotes = !list->in_double_quotes;
+        *(*current)++ = *(*input)++;
+    }
+    else if (wich_quote == 1)// simple_quote ''
+    {
+        list->in_single_quotes = !list->in_single_quotes;  // alterna flag
+        *(*current)++ = *(*input)++;
+    }
+    else
+        return ;
 }

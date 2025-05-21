@@ -15,27 +15,23 @@
 size_t calculate_final_size(const char *input, char **envp, t_token *list)
 {
     size_t size;
-    size_t added;
 
     size = 0;
     while (*input)
     {
+        printf("a");
         if (*input == '\'')
         {
             list->in_single_quotes = !list->in_single_quotes;
             size++;
             input++;
         }
+        else if (*input == '$' && list->in_single_quotes != 1)
+            size += handle_dollar(&input, envp, list);
         else
         {
-            added = handle_dollar(&input, envp, list);
-            if (added > 0)
-                size += added;
-            else
-            {
-                input++;
-                size++;
-            }
+            size++;
+            input++;
         }
     }
     return (size);
@@ -45,9 +41,10 @@ size_t handle_dollar(const char **input, char **envp, t_token *list)
     size_t size;
 
     size = 0;
-    if (**input == '$' && *(*input + 1) && !list->in_single_quotes)
+    if (**input == '$' && !list->in_single_quotes)
     {
-        (*input)++;
+        if ((*input)[1] == '\0' || (*input)[1] == ' ')
+            return ((*input)++, 1);
         if (!**input)
             return (0); 
         if (**input == '$')

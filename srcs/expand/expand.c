@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/20 15:32:05 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:19:51 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char *expand_variables(const char *input, char **envp, t_token *list)
     size_t  size;
 
     size = calculate_final_size(input, envp, list);
-    result = (char *)malloc(size + 1);
+    result = (char *)malloc((size + 1) * sizeof(char));
     if (!result)
         return (NULL);
     current = result;
@@ -125,7 +125,7 @@ char *expand_variables(const char *input, char **envp, t_token *list)
     {
         if (*input == '\'')
         {
-            list->in_single_quotes = !list->in_single_quotes;   // alterna flag
+            list->in_single_quotes = !list->in_single_quotes;  // alterna flag
             *current++ = *input++;
         }
         else if (*input == '$' && !list->in_single_quotes)

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/21 16:16:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:54:52 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,10 @@ void    input_with_quotes(const char **input, char **current, int wich_quote, t_
 
 // expand2.c =======================================================
 void	copy_env_value(const char **input, char **current, char **envp);
-char *get_env_value(const char *name, char **envp);
-
+//static void    handle_double_dollar(const char **input, char **current);
+//static void    handle_question_mark(const char **input, char ** current);
+//static void handle_env_variable_expansion(const char **input, char **current, char **envp);
+//static char *extract_variable_name(const char **input);
 //===================================================================
 
 // expand_util.c ====================================================

@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 11:48:17 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/22 16:26:38 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int     main(int ac, char **av, char **envp)
     token = NULL;
     line = NULL;
     shell = init_shell(ac, av, envp);
+    init_shlvl(shell);
     setup_signals();
     while (shell->running)
     {

@@ -6,7 +6,7 @@
 #    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/20 14:38:02 by andrade          ###   ########.fr        #
+#    Updated: 2025/05/22 16:33:41 by andrade          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/ft_unset.c \
 				srcs/builtins/env_utils.c \
 				srcs/builtins/env_utils2.c \
+				srcs/builtins/env_utils3.c \
 				srcs/builtins/ft_env.c \
 				srcs/builtins/ft_exit.c \
 				srcs/exec/exec.c \

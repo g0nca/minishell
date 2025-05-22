@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:11:17 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/22 15:31:18 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:30:06 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,3 @@ char	**copy_and_sort_env(t_shell *shell, int *count)
 	sort_env(sorted_env, *count);
 	return (sorted_env);
 }
-
-

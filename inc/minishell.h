@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 11:46:12 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/22 16:26:23 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ bool is_valid_identifier(const char *str);
 int	env_count(char **env);
 void	sort_env(char **env, int count);
 char	**copy_and_sort_env(t_shell *shell, int *count);
+void	init_shlvl(t_shell *shell);
 //exit:
 void	ft_exit(t_shell *shell, t_token *args);
 //=================================================================

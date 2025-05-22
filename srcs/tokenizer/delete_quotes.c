@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:25:28 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 15:53:01 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:13:36 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static size_t  size_counter_without_quotes(t_token *current)
     n_bytes = 0;
     while (current->value[i])
     {
-        if (current->value[i] == '\"')
+        if (current->value[i] == '\"') 
             current->in_double_quotes = !current->in_double_quotes;
         else if (current->value[i] == '\'' && current->in_double_quotes == 0)
             current->in_single_quotes = !current->in_single_quotes;

@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/20 11:10:32 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/22 11:48:17 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int     main(int ac, char **av, char **envp)
     setup_signals();
     while (shell->running)
     {
+        g_exit_status = shell->last_exit_status;
         line = readline("minishell$ ");
         if (line == NULL)  // Ctrl-D
 		{

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/20 10:48:16 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:11:34 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,13 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         //print_tokens(token, shell);
         //printf("==========================================================\n");
         expander(&token, shell);
+        //printf("In_singles_quotes:%d\n", token->in_single_quotes);
+        //printf("In_double_quotes:%d\n", token->in_double_quotes);
+        delete_quotes(&token, shell);
+        print_tokens(token, shell);
         handle_heredoc(token, shell);
-        /* verify_token(token, shell); */
         execute_command(token, shell);
+        printf("==========================================================\n");
         print_tokens(token, shell);
     }
     free_tokens(&token);

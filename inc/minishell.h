@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 12:54:52 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:33:49 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ void tokenizer_word(t_token *list, int *i, char *line);
 void check_command(t_token *list, t_shell *shell);
 void	commands(t_token *head, t_shell *shell);
 int check_executable_cmd(t_token *head, t_shell *shell);
+//==================================================================
+
+// delete_quotes.c =================================================
+int     delete_quotes(t_token **list, t_shell *shell);
 //==================================================================
 
 // expand.c ========================================================

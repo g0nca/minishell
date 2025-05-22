@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:50:03 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/21 16:14:58 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:23:32 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,6 @@ int skip_spaces(const char *str, int *i)
         (*i)++;
     return (*i);
 }
-
-/* int check_unclosed_quotes(const char *str, t_shell *shell, int *i)
-{
-    int closed;
-    while (str[*i])
-    {
-        if (is_quote(str[*i]))
-        {
-            closed = skip_quote(str, i);
-            if (closed == -1)
-            {
-                shell_error(shell, "minishell: unclosed quote", 12, EXIT_SUCCESS);
-                return (1);
-            }
-            *i = closed;
-        }
-        (*i)++;
-    }
-    return (0);
-} */
 int	check_pipe(const char *str, t_shell *shell, int *i)
 {
 	(*i)++;
@@ -128,52 +108,3 @@ int check_syntax_errors_main(const char *str, t_shell *shell)
 	}
     return (0);
 }
-
-/* int check_syntax_errors_auxiliar(const char *str, t_shell *shell, int *i)
-{
-    while (str[*i])
-    {
-        if (is_quote(str[*i]))
-            *i = skip_quote(str, i);
-        else if (str[*i] == '|')
-        {
-            if (check_pipes(str, shell, i) == 1)
-                return (1);
-        }
-        else if (str[*i] == '>' || str[*i] == '<')
-        {
-            if (check_redir(str, shell, i) == 1)
-                return (1);
-        }
-        (*i)++;
-    }
-    return (0);
-}
-
-int check_redir(const char *str, t_shell *shell, int *i)
-{
-    char redir;
-    redir = str[*i];
-    (*i)++;
-    if (str[*i] == redir) // >> ou <<
-        (*i)++;
-    *i = skip_spaces(str, i);
-    if (str[*i] == '\0' || str[*i] == '|' || str[*i] == '>' || str[*i] == '<')
-    {
-        shell_error(shell, "syntax error near unexpected token\n", 12, EXIT_SUCCESS);
-        return (1);
-    }
-    return (0);
-}
-
-int check_pipes(const char *str, t_shell *shell, int *i)
-{
-    (*i)++;
-    *i = skip_spaces(str, i);
-    if (str[*i] == '|' || str[*i] == '\0')
-    {
-        shell_error(shell, "syntax error near unexpected token `|`\n", 12, EXIT_SUCCESS);
-        return (1);
-    }
-    return (0);
-} */

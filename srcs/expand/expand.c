@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 11:18:40 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:02:50 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char *expand_variables(const char *input, char **envp, t_token *list)
     current = result;
     while (*input)
     {		
-        if (*input == '\"')
+        if (*input == '\"' && list->in_single_quotes == 0)
             input_with_quotes(&input, &current, 2, list);
         else if (*input == '\'' && list->in_double_quotes == 0)
             input_with_quotes(&input, &current, 1, list);
@@ -147,6 +147,6 @@ void    input_with_quotes(const char **input, char **current, int wich_quote, t_
         list->in_single_quotes = !list->in_single_quotes;  // alterna flag
         *(*current)++ = *(*input)++;
     }
-    else
-        return ;
+  /*   else
+        *(*current)++ = *(*input)++; */
 }

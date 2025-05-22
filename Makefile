@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
+#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/19 10:33:32 by andrade          ###   ########.fr        #
+#    Updated: 2025/05/22 13:34:15 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/tokenizer/process_token2.c \
 				srcs/tokenizer/process_token3.c \
 				srcs/tokenizer/init_tokens.c \
+				srcs/tokenizer/delete_quotes.c \
 				srcs/error_functions/errors.c \
 				srcs/syntax_error/syntax_error.c \
 				srcs/expand/expand.c \

@@ -19,7 +19,7 @@ size_t calculate_final_size(const char *input, char **envp, t_token *list)
     size = 0;
     while (*input)
     {
-		if (*input == '\"')
+		if (*input == '\"' && list->in_single_quotes == 0)
 			size += double_quotes(list, &input);
         else if (*input == '\'' && list->in_double_quotes == 0)
 			size += simple_quotes(list, &input);

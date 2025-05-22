@@ -21,7 +21,7 @@ static size_t  size_counter_without_quotes(t_token *current)
     n_bytes = 0;
     while (current->value[i])
     {
-        if (current->value[i] == '\"') 
+        if (current->value[i] == '\"' && current->in_single_quotes == 0) 
             current->in_double_quotes = !current->in_double_quotes;
         else if (current->value[i] == '\'' && current->in_double_quotes == 0)
             current->in_single_quotes = !current->in_single_quotes;
@@ -38,6 +38,7 @@ int     delete_quotes(t_token **list, t_shell *shell)
     t_token     *current;
     t_token     *next;
     size_t      n_bytes;
+    char        *result;
     (void)shell;
     
     if (!list || !*list)
@@ -45,8 +46,9 @@ int     delete_quotes(t_token **list, t_shell *shell)
     current = *list;
     while (current)
     {
-        next = current->next;
+        next = current->next;    
         n_bytes = size_counter_without_quotes(current);
+
         printf("Current:%s | N_bytes:%zu\n", current->value, n_bytes);
         current = next;
     }

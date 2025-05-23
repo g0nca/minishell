@@ -29,16 +29,47 @@ static size_t  size_counter_without_quotes(t_token *current)
             n_bytes++;
         else if (current->in_single_quotes == 1)
             n_bytes++;
+        else
+            n_bytes++;
         i++;
     }
     return (n_bytes);
 }
+
+static char    *remove_quotes_from_token(t_token *token)
+{
+    size_t  i;
+    size_t  j;
+    char    *new_value;
+
+    j = 0;
+    i = 0;
+    new_value = malloc(sizeof(char) * (size_counter_without_quotes(token) + 1));
+    if (!new_value)
+        return (NULL);
+
+    while (token->value[i])
+    {
+        if (token->value[i] == '"' && token->in_single_quotes == 0)
+            token->in_double_quotes = !token->in_double_quotes;
+        else if (token->value[i] == '\'' && token->in_double_quotes == 0)
+            token->in_single_quotes = !token->in_single_quotes;
+        else
+        {
+            new_value[j] = token->value[i];
+            j++;
+        }
+        i++;
+    }
+    new_value[j] = '\0';
+    return (new_value);
+}
+
 int     delete_quotes(t_token **list, t_shell *shell)
 {
     t_token     *current;
     t_token     *next;
-    size_t      n_bytes;
-    char        *result;
+    char        *new_value;
     (void)shell;
     
     if (!list || !*list)
@@ -47,11 +78,15 @@ int     delete_quotes(t_token **list, t_shell *shell)
     while (current)
     {
         next = current->next;    
-        n_bytes = size_counter_without_quotes(current);
-
-        printf("Current:%s | N_bytes:%zu\n", current->value, n_bytes);
+        new_value = remove_quotes_from_token(current);
+        if (!new_value)
+            return (-1);
+        free(current->value);
+        current->value = new_value;
+        current->in_single_quotes = 0;
+        current->in_double_quotes = 0;
+        printf("Current:%s", current->value);
         current = next;
     }
     return (0);
 }
-

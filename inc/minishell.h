@@ -101,6 +101,8 @@ int check_executable_cmd(t_token *head, t_shell *shell);
 
 // delete_quotes.c =================================================
 int     delete_quotes(t_token **list, t_shell *shell);
+//static size_t  size_counter_without_quotes(t_token *current);
+//static char    *remove_quotes_from_token(t_token *token);
 //==================================================================
 
 // expand.c ========================================================

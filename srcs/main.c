@@ -46,22 +46,18 @@ int     main(int ac, char **av, char **envp)
     return (0);
 }
 
+
 int     main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
+
     if (check_syntax_errors_main(line, shell) == 0)
         token = tokenizer(line, shell);
     if (token)
     {
-        //print_tokens(token, shell);
-        //printf("==========================================================\n");
         expander(&token, shell);
-        //printf("In_singles_quotes:%d\n", token->in_single_quotes);
-        //printf("In_double_quotes:%d\n", token->in_double_quotes);
         delete_quotes(&token, shell);
-        print_tokens(token, shell);
         handle_heredoc(token, shell);
-        execute_command(token, shell);
-        printf("==========================================================\n");
+        //execute_command(token, shell);
         print_tokens(token, shell);
     }
     free_tokens(&token);

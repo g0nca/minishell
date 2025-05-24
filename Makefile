@@ -43,6 +43,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/expand/calculate_final_size.c \
 				srcs/expand/expand_utils.c \
 				srcs/expand/expand_utils2.c \
+				srcs/execution_tree/execution_tree.c \
 				srcs/run/run_builtin.c \
 				srcs/builtins/ft_echo.c \
 				srcs/builtins/ft_pwd.c \

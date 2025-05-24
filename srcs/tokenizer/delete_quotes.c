@@ -85,7 +85,6 @@ int     delete_quotes(t_token **list, t_shell *shell)
         current->value = new_value;
         current->in_single_quotes = 0;
         current->in_double_quotes = 0;
-        printf("Current:%s", current->value);
         current = next;
     }
     return (0);

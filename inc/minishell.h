@@ -67,6 +67,21 @@ typedef struct  s_token {
 	struct s_token	*prev;
 }	t_token;
 
+/*typedef enum e_node_type
+{
+	NODE_COMMAND,
+	NODE_PIPE,
+	NODE_SEQUENCE   // Para ;
+}	t_node_type;
+
+typedef struct s_node
+{
+	t_node_type     type;
+	t_token         *token;         // Lista de tokens associada ao comando (ex: "ls -l" ou redirs)
+	struct s_node   *left;
+	struct s_node   *right;
+}	t_node;*/
+
 int     main(int ac, char **av, char **envp);
 int     main_auxiliar(char *line, t_shell *shell, t_token *token);
 
@@ -153,6 +168,13 @@ int	check_redir(const char *str, t_shell *shell, int *i);
 int	skip_spaces(const char *str, int *i);
 //==================================================================
 
+// execution_tree.c ================================================
+void execute_tree(t_node *node, t_shell *shell);
+t_node *new_command_node(t_token *token);
+t_node *new_operator_node(t_node_type type, t_node *left, t_node *right);
+t_node	*build_execution_tree(t_token *tokens);
+
+//==================================================================
 // utils1.c ========================================================
 int		ternary_operator(t_token *list, char quote);
 //=================================================================

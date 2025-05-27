@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:36:51 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/27 15:43:18 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:26:42 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_export(t_shell *shell)
 
 	sorted_env = copy_and_sort_env(shell, &count);
 	if (!sorted_env)
-		return;
+		return ;
 	i = 0;
 	while (sorted_env[i])
 	{
@@ -52,20 +52,18 @@ void	print_export(t_shell *shell)
 
 void	process_export_assignment(t_shell *shell, char *arg)
 {
-	char *equal_sign;
-	char *key;
-	char *raw_value;
-	char *clean_value;
-	char *new_env_entry;
+	char	*equal_sign;
+	char	*key;
+	char	*raw_value;
+	char	*clean_value;
+	char	*new_env_entry;
 
 	equal_sign = ft_strchr(arg, '=');
 	key = ft_substr(arg, 0, equal_sign - arg);
 	raw_value = equal_sign + 1;
 	clean_value = remove_all_quotes(raw_value);
 	new_env_entry = ft_strjoin3(key, "=", clean_value);
-
 	add_or_update_env(shell, new_env_entry);
-
 	free(key);
 	free(clean_value);
 	free(new_env_entry);
@@ -78,7 +76,7 @@ void	handle_export_argument(t_shell *shell, char *arg)
 	{
 		shell_error(shell, arg, 10, false);
 		shell->last_exit_status = 1;
-		return;
+		return ;
 	}
 	if (ft_strchr(arg, '='))
 		process_export_assignment(shell, arg);
@@ -89,7 +87,6 @@ void	handle_export_argument(t_shell *shell, char *arg)
 		shell->last_exit_status = 0;
 	}
 }
-
 
 void	ft_export(t_token *cmdargs, t_shell *shell)
 {

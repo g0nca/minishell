@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 09:48:30 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/21 15:58:19 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:28:22 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 void	cd_val(char *target, t_shell *shell)
 {
 	struct stat	path_stat;
+
 	if (access(target, F_OK) != 0)
-		return (shell_error(shell, target, 2, false)); // No such file
+		return (shell_error(shell, target, 2, false));
 	if (stat(target, &path_stat) == 0 && !S_ISDIR(path_stat.st_mode))
-		return (shell_error(shell, target, 6, false)); // Not a directory
+		return (shell_error(shell, target, 6, false));
 	if (access(target, X_OK) != 0)
-		return (shell_error(shell, target, 3, false)); // Permission denied
+		return (shell_error(shell, target, 3, false));
 	if (chdir(target) != 0)
-		return (shell_error(shell, target, 2, false)); // Outro erro genérico
+		return (shell_error(shell, target, 2, false));
 	shell->last_exit_status = EXIT_SUCCESS;
 }
 
@@ -35,8 +36,8 @@ char	*cd_getenv(t_shell *shell, const char *name)
 	i = 0;
 	while (shell->env[i])
 	{
-		if (!ft_strncmp(shell->env[i], name, name_len) &&
-			shell->env[i][name_len] == '=')
+		if (!ft_strncmp(shell->env[i], name, name_len)
+			&& shell->env[i][name_len] == '=')
 		{
 			return (shell->env[i] + name_len + 1);
 		}
@@ -45,7 +46,7 @@ char	*cd_getenv(t_shell *shell, const char *name)
 	return (NULL);
 }
 
-static char *create_env_entry(const char *name, const char *value)
+static char	*create_env_entry(const char *name, const char *value)
 {
 	size_t	name_len;
 	size_t	total_len;
@@ -75,8 +76,8 @@ int	update_env_var(t_shell *shell, const char *name, const char *value)
 		return (0);
 	while (shell->env[i])
 	{
-		if (!ft_strncmp(shell->env[i], name, name_len) &&
-			shell->env[i][name_len] == '=')
+		if (!ft_strncmp(shell->env[i], name, name_len)
+			&& shell->env[i][name_len] == '=')
 		{
 			free(shell->env[i]);
 			shell->env[i] = new_entry;
@@ -90,7 +91,7 @@ int	update_env_var(t_shell *shell, const char *name, const char *value)
 int	add_env_var(t_shell *shell, char *new_entry, int env_size)
 {
 	char	**new_env;
-	int	i;
+	int		i;
 
 	i = 0;
 	new_env = malloc(sizeof(char *) * (env_size + 2));

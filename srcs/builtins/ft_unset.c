@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:46:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/22 15:35:18 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:41:36 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ static int	is_env_key_match(const char *env_var, const char *key)
 
 static int	count_env_entries(char **env)
 {
-	int	count = 0;
+	int	count;
+
+	count = 0;
 	while (env[count])
 		count++;
 	return (count);
@@ -59,13 +61,13 @@ static char	**create_env_without_key(char **env, const char *key)
 
 void	remove_env_var(t_shell *shell, const char *key)
 {
-	char **new_env;
+	char	**new_env;
 
 	if (find_env_index(shell->env, key) == -1)
-		return;
+		return ;
 	new_env = create_env_without_key(shell->env, key);
 	if (!new_env)
-		return;
+		return ;
 	free(shell->env);
 	shell->env = new_env;
 }
@@ -90,4 +92,3 @@ void	ft_unset(t_token *cmdargs, t_shell *shell)
 		current = current->next;
 	}
 }
-

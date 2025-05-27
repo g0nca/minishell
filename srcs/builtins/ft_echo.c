@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:37:53 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/22 11:46:06 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/27 21:33:59 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	ft_skip_redirections(t_token **current)
 {
-	while (*current && ((*current)->type == TOKEN_REDIR_IN || (*current)->type == TOKEN_REDIR_OUT || 
-				   (*current)->type == TOKEN_APPEND || (*current)->type == TOKEN_HERE_DOC))
+	while (*current && ((*current)->type == TOKEN_REDIR_IN
+			|| (*current)->type == TOKEN_REDIR_OUT
+			|| (*current)->type == TOKEN_APPEND
+			|| (*current)->type == TOKEN_HERE_DOC))
 	{
 		*current = (*current)->next;
 		if (*current)
@@ -25,23 +27,26 @@ void	ft_skip_redirections(t_token **current)
 
 int	ft_check_n_flag(t_token **current)
 {
-	int n_flag = 0;
+	int		n_flag;
+	int		valid_flag;
+	size_t	i;
 
+	n_flag = 0;
 	while (*current && ft_strncmp((*current)->value, "-n", 2) == 0)
 	{
-		int valid_flag = 1;
-		size_t i = 2;
+		valid_flag = 1;
+		i = 2;
 		while ((*current)->value[i])
 		{
 			if ((*current)->value[i] != 'n')
 			{
 				valid_flag = 0;
-				break;
+				break ;
 			}
 			i++;
 		}
 		if (!valid_flag)
-			break;
+			break ;
 		n_flag = 1;
 		*current = (*current)->next;
 		ft_skip_redirections(current);
@@ -53,30 +58,33 @@ void	ft_print_tokens(t_token *current)
 {
 	while (current)
 	{
-		if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT || 
-			current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
+		if (current->type == TOKEN_REDIR_IN
+			|| current->type == TOKEN_REDIR_OUT
+			|| current->type == TOKEN_APPEND
+			|| current->type == TOKEN_HERE_DOC)
 		{
 			current = current->next;
 			if (current)
 				current = current->next;
-			continue;
+			continue ;
 		}
 		else
 		{
 			ft_printf_fd(STDOUT_FILENO, "%s", current->value);
 		}
 		current = current->next;
-		if (current && !(current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT || 
-					  current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC))
+		if (current && !(current->type == TOKEN_REDIR_IN
+				|| current->type == TOKEN_REDIR_OUT
+				|| current->type == TOKEN_APPEND
+				|| current->type == TOKEN_HERE_DOC))
 			ft_printf_fd(STDOUT_FILENO, " ");
 	}
 }
 
-
 void	ft_echo(t_token *list, t_shell *shell)
 {
-	t_token *current;
-	int n_flag;
+	t_token	*current;
+	int		n_flag;
 
 	current = list->next;
 	ft_skip_redirections(&current);
@@ -86,4 +94,3 @@ void	ft_echo(t_token *list, t_shell *shell)
 		ft_printf_fd(STDOUT_FILENO, "\n");
 	shell->last_exit_status = EXIT_SUCCESS;
 }
-

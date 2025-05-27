@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:47:08 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/19 10:33:01 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/27 21:52:43 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	ft_restore_stdio(int stdin_backup, int stdout_backup)
 	close(stdout_backup);
 }
 
-void	ft_execute_builtin(t_token *token, t_shell *shell, int stdin_backup, int stdout_backup)
+void	ft_execute_builtin(t_token *token, t_shell *shell,
+			int stdin_backup, int stdout_backup)
 {
 	if (setup_redirections(token) == 0)
 	{
@@ -39,13 +40,13 @@ void	ft_execute_builtin(t_token *token, t_shell *shell, int stdin_backup, int st
 void	ft_execute_external(t_token *token, t_shell *shell)
 {
 	pid_t	pid;
-	int	status;
+	int		status;
 
 	pid = fork();
 	if (pid < 0)
 	{
 		perror("minishell: fork");
-		return;
+		return ;
 	}
 	else if (pid == 0)
 	{

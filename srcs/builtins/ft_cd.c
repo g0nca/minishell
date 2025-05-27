@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:05:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/21 11:23:14 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:34:49 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,15 @@ bool	cd_oldpwd(t_shell *shell)
 
 static bool	cd_process_path(t_token *current, t_shell *shell)
 {
-	if (!current || !ft_strcmp(current->value, "~") || !ft_strcmp(current->value, "--"))
+	if (!current || !ft_strcmp(current->value, "~")
+		|| !ft_strcmp(current->value, "--"))
 	{
 		cd_home(shell);
 		return (shell->last_exit_status == EXIT_SUCCESS);
 	}
 	else if (!ft_strcmp(current->value, "-"))
 	{
-		return cd_oldpwd(shell);
+		return (cd_oldpwd(shell));
 		return (shell->last_exit_status == EXIT_SUCCESS);
 	}
 	else
@@ -89,7 +90,7 @@ void	ft_cd(t_token *cmdargs, t_shell *shell)
 	if (!old_pwd)
 	{
 		shell_error(shell, "getcwd error", 0, false);
-		return;
+		return ;
 	}
 	cd_success = cd_process_path(current, shell);
 	if (cd_success)

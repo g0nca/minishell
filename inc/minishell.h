@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 15:43:28 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:52:14 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,180 +26,178 @@
 # include <fcntl.h>
 # include <stdbool.h>
 
-extern int g_exit_status;
+extern int	g_exit_status;
 
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
 
 typedef struct s_shell
 {
-    char **env;
-    int last_exit_status;
-    int running;
-    t_list *heredoc_files;
-}   t_shell;
+	char	**env;
+	int		last_exit_status;
+	int		running;
+	t_list	*heredoc_files;
+}			t_shell;
 
 typedef enum e_token_type
 {
-    TOKEN_WORD,         // words                  // 0
-    TOKEN_CMD,          // commands               // 1
-    TOKEN_PIPE,         // |                      // 2
-    TOKEN_REDIR_IN,     // <                      // 3
-    TOKEN_REDIR_OUT,    // >                      // 4
-    TOKEN_APPEND,       // >>                     // 5
-    TOKEN_HERE_DOC,     // <<                     // 6
-    TOKEN_DOUBLE_QUOTE, // "                      // 7
-    TOKEN_SIMPLE_QUOTE, // '                      // 8
-}   t_token_type;
+	TOKEN_WORD, //         words                  // 0
+	TOKEN_CMD, //          commands               // 1
+	TOKEN_PIPE, //         |                      // 2
+	TOKEN_REDIR_IN, //     <                      // 3
+	TOKEN_REDIR_OUT, //    >                      // 4
+	TOKEN_APPEND, //       >>                     // 5
+	TOKEN_HERE_DOC, //     <<                     // 6
+	TOKEN_DOUBLE_QUOTE, // "                      // 7
+	TOKEN_SIMPLE_QUOTE, // '                      // 8
+}	t_token_type;
 
-typedef struct  s_token {
-    //t_shell         shell_ref;
+typedef struct s_token
+{
+	//t_shell		shell_ref;
 	char			*value;
 	int				type;
 	int				size;
-    int             expansion;
-    int             dollar_sign;
+	int				expansion;
+	int				dollar_sign;
 	int				in_single_quotes; // 1 in '' / 0 out ''
-    int				in_double_quotes; // 1 in "" / 0 out ''
+	int				in_double_quotes; // 1 in "" / 0 out ''
 	int				type_quotes;
-    char            *heredoc_path;
+	char			*heredoc_path;
 	struct s_token	*next;
 	struct s_token	*prev;
-}	t_token;
+}					t_token;
 
 typedef enum e_exec_type
 {
-    NODE_COMMAND,
-    NODE_PIPE,
-}   t_exec_type;
+	NODE_COMMAND,
+	NODE_PIPE,
+}	t_exec_type;
 
 typedef struct s_exec
 {
-    t_exec_type     type;
-    t_token         *token;
-    struct s_exec   *next;
-    struct s_exec   *left;
-    struct s_exec   *right;
-}   t_exec;
+	t_exec_type		type;
+	t_token			*token;
+	struct s_exec	*next;
+	struct s_exec	*left;
+	struct s_exec	*right;
+}					t_exec;
 
+int		main(int ac, char **av, char **envp);
+int		main_auxiliar(char *line, t_shell *shell, t_token *token);
 
-int     main(int ac, char **av, char **envp);
-int     main_auxiliar(char *line, t_shell *shell, t_token *token);
-
-//  tokenizer.c ====================================================
-t_token *tokenizer(char *line, t_shell *shell);
-void add_token(t_token *list, char *val, t_token_type type);
-void add_token_to_list(t_token *list, t_token *new_token);
-t_token *create_token(char *val, t_token_type type);
-void add_final_token(t_token *list, char *joined, int type_quotes);
+// tokenizer.c ====================================================
+t_token	*tokenizer(char *line, t_shell *shell);
+void	add_token(t_token *list, char *val, t_token_type type);
+void	add_token_to_list(t_token *list, t_token *new_token);
+t_token	*create_token(char *val, t_token_type type);
+void	add_final_token(t_token *list, char *joined, int type_quotes);
 //========================================================================
 
 // process_token.c ================================================
-void process_token(t_token *list, char *line, int *i);
-void process_append_token(t_token *list, int *i);
-void process_heredoc_token(t_token *list, int *i);
-void process_redir_out_token(t_token *list, int *i);
-void process_redir_in_token(t_token *list, int *i);
+void	process_token(t_token *list, char *line, int *i);
+void	process_append_token(t_token *list, int *i);
+void	process_heredoc_token(t_token *list, int *i);
+void	process_redir_out_token(t_token *list, int *i);
+void	process_redir_in_token(t_token *list, int *i);
 //==================================================================
 
 // process_token2.c ===============================================
-char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list);
-char *handle_regular_text(char *line, int *i);
-char *join_word(char *joined, char *word);
-void tokenizer_word(t_token *list, int *i, char *line);
+char	*handle_quoted_text(char *line, int *i,
+			int *type_quotes, t_token *list);
+char	*handle_regular_text(char *line, int *i);
+char	*join_word(char *joined, char *word);
+void	tokenizer_word(t_token *list, int *i, char *line);
 // ================================================================
 
 // process_token3.c ================================================
-void check_command(t_token *list, t_shell *shell);
+void	check_command(t_token *list, t_shell *shell);
 void	commands(t_token *head, t_shell *shell);
-int check_executable_cmd(t_token *head, t_shell *shell);
+int		check_executable_cmd(t_token *head, t_shell *shell);
 //==================================================================
 
 // delete_quotes.c =================================================
-int     delete_quotes(t_token **list, t_shell *shell);
+int		delete_quotes(t_token **list, t_shell *shell);
 //==================================================================
 
 // expand.c ========================================================
-int expander(t_token **tokens, t_shell *shell);
-int	expander2(t_token *list, t_shell *shell);
-int expander3(t_token *list, t_shell *shell);
-char *expand_variables(const char *input, char **envp, t_token *list);
-void    input_with_quotes(const char **input, char **current, int wich_quote, t_token *list);
+int		expander(t_token **tokens, t_shell *shell);
+int		expander2(t_token *list, t_shell *shell);
+int		expander3(t_token *list, t_shell *shell);
+char	*expand_variables(const char *input, char **envp, t_token *list);
+void	input_with_quotes(const char **input, char **current,
+			int wich_quote, t_token *list);
 //==================================================================
 
 // expand2.c =======================================================
 void	copy_env_value(const char **input, char **current, char **envp);
 //static void    handle_double_dollar(const char **input, char **current);
 //static void    handle_question_mark(const char **input, char ** current);
-//static void handle_env_variable_expansion(const char **input, char **current, char **envp);
+//static void handle_env_variable_expansion(const char **input,
+//			char **current, char **envp);
 //static char *extract_variable_name(const char **input);
 //===================================================================
 
 // expand_util.c ====================================================
-char *get_env_value(const char *name, char **envp);
-int should_skip_expansion(t_token *list, t_shell *shell);
+char	*get_env_value(const char *name, char **envp);
+int		should_skip_expansion(t_token *list, t_shell *shell);
 //void copy_special_var(char *dest, char *value, int *pos);
 //int calculate_expanded_length(char *str, t_token *list);
-
 //===================================================================
+
 // calculate_final_size.c ===========================================
-size_t handle_dollar(const char **input, char **envp, t_token *list);
-size_t handle_env_variable(const char **input, char **envp);
-size_t calculate_final_size(const char *input, char **envp, t_token *list);
+size_t	handle_dollar(const char **input, char **envp, t_token *list);
+size_t	handle_env_variable(const char **input, char **envp);
+size_t	calculate_final_size(const char *input, char **envp, t_token *list);
 size_t	double_quotes(t_token *list, const char **input);
 size_t	simple_quotes(t_token *list, const char **input);
-
 //===================================================================
 
 // env_var_compare.c ================================================
-int compare_env_name(char *env_var, char *token, int start, int end);
-int ft_strcmp_enviroment_variables(char *env_var, char *token);
-int	verifiy_enviroment_var(t_shell *shell, char *token);
-int    invalid_env_var(t_token *list, t_shell *shell);
-int	remove_old_env_variable(t_token **tokens, t_token *current);
+int		compare_env_name(char *env_var, char *token, int start, int end);
+int		ft_strcmp_enviroment_variables(char *env_var, char *token);
+int		verifiy_enviroment_var(t_shell *shell, char *token);
+int		invalid_env_var(t_token *list, t_shell *shell);
+int		remove_old_env_variable(t_token **tokens, t_token *current);
 //===================================================================
 
 // execution_tree.c==================================================
 void	execute_tree(t_exec *node, t_shell *shell, int input_fd, int output_fd);
-t_exec *build_execution_tree_safe(t_token *token_list);
+t_exec	*build_execution_tree_safe(t_token *token_list);
 t_exec	*create_node(t_exec_type type, t_token *token);
 t_token	*copy_token_segment(t_token *start, t_token *end);
-t_token *get_last_token(t_token *head);
-void free_token_list(t_token *tokens);
-
+t_token	*get_last_token(t_token *head);
+void	free_token_list(t_token *tokens);
 //===================================================================
 
 // syntax_error.c ==================================================
-int	check_syntax_errors_main(const char *str, t_shell *shell);
-int	check_pipe(const char *str, t_shell *shell, int *i);
-int	check_redir(const char *str, t_shell *shell, int *i);
-int	skip_spaces(const char *str, int *i);
+int		check_syntax_errors_main(const char *str, t_shell *shell);
+int		check_pipe(const char *str, t_shell *shell, int *i);
+int		check_redir(const char *str, t_shell *shell, int *i);
+int		skip_spaces(const char *str, int *i);
 //==================================================================
 
-// utils1.c ========================================================
+// utils.c ========================================================
 int		ternary_operator(t_token *list, char quote);
 //=================================================================
 
 // init_tokens.c ================================================
-t_token    *init_token_struct_new_node(t_token *list, t_token_type type);
-t_token     *init_token_struct_inicial(t_token *list);
-
+t_token	*init_token_struct_new_node(t_token *list, t_token_type type);
+t_token	*init_token_struct_inicial(t_token *list);
 //===============================================================
 
-//  free_functions ================================================
-void free_env(char **env);
-void    free_struct(t_shell *shell);
-void free_tokens(t_token **list);
+// free_functions ================================================
+void	free_env(char **env);
+void	free_struct(t_shell *shell);
+void	free_tokens(t_token **list);
 void	free_sorted_env(int i, char **sorted_env);
 void	free_args(char **args);
 //=================================================================
-//===============================================================
 
-//  init_shell.c ==================================================
-char **copy_env(char **envp);
-t_shell     *init_shell(int ac, char **av, char **envp);
+// init_shell.c ==================================================
+char	**copy_env(char **envp);
+t_shell	*init_shell(int ac, char **av, char **envp);
 //=================================================================
-//===============================================================
 
 // run_builtin.c ==================================================
 void	verify_token(t_token *type, t_shell *shell);
@@ -210,7 +208,7 @@ void	run_builtin(t_token *cmd, t_shell *shell);
 //echo:
 void	ft_echo(t_token *list, t_shell *shell);
 void	ft_print_tokens(t_token *current);
-int	ft_check_n_flag(t_token **current);
+int		ft_check_n_flag(t_token **current);
 void	ft_skip_redirections(t_token **current);
 //pwd:
 void	ft_pwd(t_shell *shell);
@@ -239,13 +237,14 @@ void	remove_env_var(t_shell *shell, const char *key);
 //env_utils:
 void	env_add(t_shell *shell, char *new_var);
 char	*get_env_key(const char *str);
-int	find_env_index(char **env, const char *key);
+int		find_env_index(char **env, const char *key);
 void	add_or_update_env(t_shell *shell, char *arg);
-bool is_valid_identifier(const char *str);
-int	env_count(char **env);
+bool	is_valid_identifier(const char *str);
+int		env_count(char **env);
 void	sort_env(char **env, int count);
 char	**copy_and_sort_env(t_shell *shell, int *count);
 void	init_shlvl(t_shell *shell);
+void	set_env_var(t_shell *shell, const char *name, const char *value);
 //exit:
 void	ft_exit(t_shell *shell, t_token *args);
 //=================================================================
@@ -254,37 +253,40 @@ void	ft_exit(t_shell *shell, t_token *args);
 void	execute_command(t_token *token, t_shell *shell);
 void	execute_external_command(t_token *token, t_shell *shell);
 char	**token_to_args(t_token *token);
-int	count_args(t_token *token);
+int		count_args(t_token *token);
 char	**allocate_args(int count);
 void	fill_args(t_token *token, char **args);
-int	is_builtin(char *cmd);
+int		is_builtin(char *cmd);
 void	handle_env_path_execution(char **args, t_shell *shell);
 bool	handle_absolute_path(char **args, t_shell *shell);
 char	*get_path_env(char **env);
-int	try_paths(char **args, t_shell *shell, char *path_env);
+int		try_paths(char **args, t_shell *shell, char *path_env);
 void	exec_with_full_path(char **args, t_shell *shell);
-int	ft_backup_stdio(int *stdin_backup, int *stdout_backup);
+int		ft_backup_stdio(int *stdin_backup, int *stdout_backup);
 void	ft_restore_stdio(int stdin_backup, int stdout_backup);
-void	ft_execute_builtin(t_token *token, t_shell *shell, int stdin_backup, int stdout_backup);
+void	ft_execute_builtin(t_token *token, t_shell *shell,
+			int stdin_backup, int stdout_backup);
 void	ft_execute_external(t_token *token, t_shell *shell);
 //=================================================================
 
 //heredoc.c========================================================
 void	handle_heredoc(t_token *token, t_shell *shell);
-int	process_heredoc(t_token *token, t_shell *shell);
-void cleanup_heredoc_files(t_shell *shell);
+int		process_heredoc(t_token *token, t_shell *shell);
+void	cleanup_heredoc_files(t_shell *shell);
 void	remove_token(t_token **head, t_token *to_remove);
 char	*generate_temp_filename(int i);
-int	create_temp_file(char **out_filename);
+int		create_temp_file(char **out_filename);
 void	error_heredoc(const char *delimiter);
 //=================================================================
 
 //redirects.c======================================================
-int	setup_redirections(t_token *token);
-int	ft_token_redir_in(t_token *current, int stdin_backup, int stdout_backup);
-int	ft_token_redir_out(t_token *current, int stdin_backup, int stdout_backup);
-int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup);
-int	ft_std_close(int stdin_backup, int stdout_backup);
+int		setup_redirections(t_token *token);
+int		ft_token_redir_in(t_token *current, int stdin_backup,
+			int stdout_backup);
+int		ft_token_redir_out(t_token *current, int stdin_backup,
+			int stdout_backup);
+int		ft_token_append(t_token *current, int stdin_backup, int stdout_backup);
+int		ft_std_close(int stdin_backup, int stdout_backup);
 //=================================================================
 
 //signals.c========================================================
@@ -298,14 +300,15 @@ void	ft_error(int error, char *str);
 //=================================================================
 /* void	have_n(t_token *list);
 int	n_value(char *current); */
-//===============================================================
+//=================================================================
 
-// parser.c
-int     parse_line(t_token *shell, char *line);
+// parser.c =======================================================
+int		parse_line(t_token *shell, char *line);
+//=================================================================
 
 //EXTRAS ==========================================================
-void print_tokens(t_token *list, t_shell *shell, int i, t_exec *exec_list);
+void	print_tokens(t_token *list, t_shell *shell, int i, t_exec *exec_list);
 //void print_tokens_without_shell(t_token *list);
-//========================================================================
+//=================================================================
 
 #endif

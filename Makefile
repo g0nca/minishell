@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
+#    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/27 16:03:58 by joaomart         ###   ########.fr        #
+#    Updated: 2025/05/27 21:37:02 by andrade          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/env_utils.c \
 				srcs/builtins/env_utils2.c \
 				srcs/builtins/env_utils3.c \
+				srcs/builtins/env_utils4.c \
 				srcs/builtins/ft_env.c \
 				srcs/builtins/ft_exit.c \
 				srcs/exec/exec.c \
@@ -114,12 +115,12 @@ va: $(NAME)
 	@mkdir -p Valgrind
 	@valgrind --leak-check=full \
 	--track-fds=yes --track-origins=yes \
-    --log-file=Valgrind/... \
+	--log-file=Valgrind/... \
 	./$(NAME)
 # --leak-check=full --> Mostra todos os blocos de memoria que
-#       nao foram libertados no fim da execucao do programa.
-#       Mostra o relatorio detalhado sobre cada leak
-#       Indica a linha exata do codigo onde o bloco de memoria foi alocado
+#		nao foram libertados no fim da execucao do programa.
+#		Mostra o relatorio detalhado sobre cada leak
+#		Indica a linha exata do codigo onde o bloco de memoria foi alocado
 
 # --show-leak-kinds=all --> Mostra os todos os diferentes tipos de leaks
 # --track-origins=yes --> Mostra onde o conteudo invalido de memoria comecou

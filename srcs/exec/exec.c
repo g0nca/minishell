@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:30:17 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/22 10:54:03 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/27 21:51:21 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
-	if (ft_strcmp(cmd, "echo") == 0 ||
-		ft_strcmp(cmd, "cd") == 0 ||
-		ft_strcmp(cmd, "pwd") == 0 ||
-		ft_strcmp(cmd, "export") == 0 ||
-		ft_strcmp(cmd, "unset") == 0 ||
-		ft_strcmp(cmd, "env") == 0 ||
-		ft_strcmp(cmd, "exit") == 0)
+	if (ft_strcmp(cmd, "echo") == 0
+		|| ft_strcmp(cmd, "cd") == 0
+		|| ft_strcmp(cmd, "pwd") == 0
+		|| ft_strcmp(cmd, "export") == 0
+		|| ft_strcmp(cmd, "unset") == 0
+		|| ft_strcmp(cmd, "env") == 0
+		|| ft_strcmp(cmd, "exit") == 0)
 		return (1);
 	return (0);
 }
@@ -31,7 +31,7 @@ char	**token_to_args(t_token *token)
 {
 	int		count;
 	char	**args;
-	
+
 	count = count_args(token);
 	args = allocate_args(count);
 	if (!args)
@@ -46,7 +46,7 @@ void	execute_command(t_token *token, t_shell *shell)
 	int	stdout_backup;
 
 	if (!token || !ft_backup_stdio(&stdin_backup, &stdout_backup))
-		return;
+		return ;
 	if (token->type == TOKEN_CMD && is_builtin(token->value))
 		ft_execute_builtin(token, shell, stdin_backup, stdout_backup);
 	else

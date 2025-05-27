@@ -6,38 +6,50 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/20 14:30:08 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/27 21:46:02 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+static void	ft_error_extra(int error, char *str)
+{
+	if (error == 8)
+	{
+		ft_printf_fd(2, "minishell: exit: %s: ", str);
+		ft_printf_fd(2, "numeric argument required\n", str);
+	}
+	else if (error == 9)
+		ft_printf_fd(2, "minishell: exit: too many arguments\n");
+	else if (error == 10)
+		ft_printf_fd(2, "minishell: `%s': not a valid identifier\n", str);
+	else if (error == 11)
+		ft_printf_fd(2, "minishell: %s: filename argument required\n", str);
+	else
+		ft_printf_fd(2, "%s\n", str);
+}
+
 void	ft_error(int error, char *str)
 {
 	if (error == 1)
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", str);
+		ft_printf_fd(2, "minishell: %s: command not found\n", str);
 	else if (error == 2)
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", str);
+		ft_printf_fd(2, "minishell: %s: No such file or directory\n", str);
 	else if (error == 3)
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", str);
+		ft_printf_fd(2, "minishell: %s: Permission denied\n", str);
 	else if (error == 4)
-		ft_printf_fd(STDERR_FILENO, "minishell: ambiguous redirect\n");
+		ft_printf_fd(2, "minishell: ambiguous redirect\n");
 	else if (error == 5)
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: Is a directory\n", str);
+		ft_printf_fd(2, "minishell: %s: Is a directory\n", str);
 	else if (error == 6)
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: Not a directory\n", str);
+		ft_printf_fd(2, "minishell: %s: Not a directory\n", str);
 	else if (error == 7)
-		ft_printf_fd(STDERR_FILENO, "minishell: syntax error near unexpected token `%s'\n", str);
-	else if (error == 8)
-		ft_printf_fd(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", str);
-	else if (error == 9)
-		ft_printf_fd(STDERR_FILENO, "minishell: exit: too many arguments\n");
-	else if (error == 10)
-		ft_printf_fd(STDERR_FILENO, "minishell: `%s': not a valid identifier\n", str);
-	else if (error == 11)
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: filename argument required\n", str);
+	{
+		ft_printf_fd(2, "minishell: ");
+		ft_printf_fd(2, "syntax error near unexpected token `%s'\n", str);
+	}
 	else
-		ft_printf_fd(STDERR_FILENO, "%s\n", str);
+		ft_error_extra(error, str);
 }
 
 void	shell_error(t_shell *shell, char *str, int error, bool exit_flag)

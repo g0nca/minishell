@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:36:43 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/27 15:40:43 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:24:38 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 char	*remove_all_quotes(char *value)
 {
 	char	*cleaned;
-	int		i, j;
+	int		i;
+	int		j;
 
 	if (!value)
 		return (NULL);
@@ -36,7 +37,6 @@ char	*remove_all_quotes(char *value)
 	cleaned[j] = '\0';
 	return (cleaned);
 }
-
 
 char	*ft_strjoin3(char *s1, char *s2, char *s3)
 {

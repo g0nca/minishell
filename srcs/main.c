@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 13:52:19 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:47:55 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void print_tokens(t_token *list, t_shell *shell, int i, t_exec *exec_list)
         {
             printf("EXEC_LIST:%s\n", current->token->value);
             //printf("\nType_Quotes : [%d]\nQuotes_Check : [%d]\n", current->type_quotes, current->quotes_check);
-            current = current->right;
+            current = current->left;
             i++;
         }
     }

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 13:49:23 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:38:26 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_exec
 {
     t_exec_type     type;
     t_token         *token;
+    struct s_exec   *next;
     struct s_exec   *left;
     struct s_exec   *right;
 }   t_exec;

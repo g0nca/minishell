@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:39:28 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 13:44:13 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:39:47 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ t_exec	*create_node(t_exec_type type, t_token *token)
 		return (NULL);
 	node->type = type;
 	node->token = token;
+    node->next = NULL;
 	node->left = NULL;
 	node->right = NULL;
 	return (node);

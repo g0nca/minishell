@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:25:28 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 12:47:45 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:11:09 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static size_t  size_counter_without_quotes(t_token *current)
     n_bytes = 0;
     while (current->value[i])
     {
-        if (current->value[i] == '\"') 
+        if (current->value[i] == '\"' && current->in_single_quotes == 0) 
             current->in_double_quotes = !current->in_double_quotes;
         else if (current->value[i] == '\'' && current->in_double_quotes == 0)
             current->in_single_quotes = !current->in_single_quotes;
@@ -29,15 +29,47 @@ static size_t  size_counter_without_quotes(t_token *current)
             n_bytes++;
         else if (current->in_single_quotes == 1)
             n_bytes++;
+        else
+            n_bytes++;
         i++;
     }
     return (n_bytes);
 }
+
+static char    *remove_quotes_from_token(t_token *token)
+{
+    size_t  i;
+    size_t  j;
+    char    *new_value;
+
+    j = 0;
+    i = 0;
+    new_value = malloc(sizeof(char) * (size_counter_without_quotes(token) + 1));
+    if (!new_value)
+        return (NULL);
+
+    while (token->value[i])
+    {
+        if (token->value[i] == '"' && token->in_single_quotes == 0)
+            token->in_double_quotes = !token->in_double_quotes;
+        else if (token->value[i] == '\'' && token->in_double_quotes == 0)
+            token->in_single_quotes = !token->in_single_quotes;
+        else
+        {
+            new_value[j] = token->value[i];
+            j++;
+        }
+        i++;
+    }
+    new_value[j] = '\0';
+    return (new_value);
+}
+
 int     delete_quotes(t_token **list, t_shell *shell)
 {
     t_token     *current;
     t_token     *next;
-    size_t      n_bytes;
+    char        *new_value;
     (void)shell;
     
     if (!list || !*list)
@@ -45,8 +77,14 @@ int     delete_quotes(t_token **list, t_shell *shell)
     current = *list;
     while (current)
     {
-        next = current->next;
-        n_bytes = size_counter_without_quotes(current);
+        next = current->next;    
+        new_value = remove_quotes_from_token(current);
+        if (!new_value)
+            return (-1);
+        free(current->value);
+        current->value = new_value;
+        current->in_single_quotes = 0;
+        current->in_double_quotes = 0;
         current = next;
     }
     return (0);

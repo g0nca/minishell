@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:30:17 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/22 16:32:57 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:10:24 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,15 @@ static void	set_env_var(t_shell *shell, const char *name, const char *value)
 	int		i;
 	size_t	len;
 	char	*new_entry;
+	char *env_name;
 
 	if (!name || !value)
 		return;
-	new_entry = ft_strjoin(ft_strjoin(name, "="), value); // cuidado com leaks, já resolvemos abaixo
+	env_name = ft_strjoin(name, "=");
+	new_entry = ft_strjoin(env_name, value); // cuidado com leaks, já resolvemos abaixo
 	if (!new_entry)
 		return;
+	free(env_name);
 	len = ft_strlen(name);
 	i = 0;
 	while (shell->env && shell->env[i])
@@ -67,6 +70,7 @@ static void	set_env_var(t_shell *shell, const char *name, const char *value)
 	}
 	new_env[i] = new_entry;
 	new_env[i + 1] = NULL;
+	free(new_entry);
 	free(shell->env); // liberta o antigo array
 	shell->env = new_env;
 }
@@ -83,8 +87,11 @@ void	init_shlvl(t_shell *shell)
 	else
 		shlvl = ft_atoi(shlvl_str) + 1;
 
-	if (shlvl > 1000)
+	if (shlvl > 999)
+	{
+		ft_printf_fd(2, "./minishell: warning: shell level (1000) too high, resetting to 1\n");
 		shlvl = 1;
+	}
 
 	new_shlvl = ft_itoa(shlvl);
 	if (!new_shlvl)

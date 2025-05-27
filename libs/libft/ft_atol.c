@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:27:29 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/22 11:51:35 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:47:37 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static int	ft_parse_sign_and_index(const char *str, int *sign)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	*sign = 1;
 	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
@@ -50,4 +51,3 @@ long	ft_atol(const char *str)
 	}
 	return (result * sign);
 }
-

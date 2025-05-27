@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:11:17 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/22 16:30:06 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:53:01 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	env_count(char **env)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (env[i])
 		i++;
 	return (i);
@@ -59,7 +61,7 @@ static char	**allocate_and_copy_env(t_shell *shell, int *count)
 		if (shell->env[i] == NULL)
 		{
 			printf("Warning: NULL environment entry at index %d\n", i);
-			break;
+			break ;
 		}
 		copy[i] = ft_strdup(shell->env[i]);
 		if (!copy[i])

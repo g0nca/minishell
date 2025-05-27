@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/22 13:34:15 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/05/27 10:40:34 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/tokenizer/process_token3.c \
 				srcs/tokenizer/init_tokens.c \
 				srcs/tokenizer/delete_quotes.c \
+				srcs/binary_tree/execution_tree.c \
 				srcs/error_functions/errors.c \
 				srcs/syntax_error/syntax_error.c \
 				srcs/expand/expand.c \

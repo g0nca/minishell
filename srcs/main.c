@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 15:11:34 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:52:19 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,41 +48,54 @@ int     main(int ac, char **av, char **envp)
 
 int     main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
+    t_exec *root;
+
     if (check_syntax_errors_main(line, shell) == 0)
         token = tokenizer(line, shell);
     if (token)
     {
-        //print_tokens(token, shell);
-        //printf("==========================================================\n");
         expander(&token, shell);
-        //printf("In_singles_quotes:%d\n", token->in_single_quotes);
-        //printf("In_double_quotes:%d\n", token->in_double_quotes);
         delete_quotes(&token, shell);
-        print_tokens(token, shell);
         handle_heredoc(token, shell);
+        root = build_execution_tree_safe(token);
+        print_tokens(token, shell, 0, root);
+        //while (wait(NULL) > 0);
         execute_command(token, shell);
         printf("==========================================================\n");
-        print_tokens(token, shell);
+        print_tokens(token, shell, 1, root);
     }
     free_tokens(&token);
     token = NULL;
     return (0);
 }
 
-void print_tokens(t_token *list, t_shell *shell)
+void print_tokens(t_token *list, t_shell *shell, int i, t_exec *exec_list)
 {
     if (!list)
         return;
 
-    int i = 0;
-    t_token *current = list;
-
-    while (current)
+    if (i == 1)
     {
-        printf("token[%d] (%d): %s\n", i, current->type, current->value);
-        //printf("\nType_Quotes : [%d]\nQuotes_Check : [%d]\n", current->type_quotes, current->quotes_check);
-        current = current->next;
-        i++;
+        t_token *current = list;
+        while (current)
+        {
+            printf("token[%d] (%d): %s\n", i, current->type, current->value);
+            //printf("\nType_Quotes : [%d]\nQuotes_Check : [%d]\n", current->type_quotes, current->quotes_check);
+            current = current->next;
+            i++;
+        }
+    }
+    else if (i == 0)
+    {
+        t_exec *current = exec_list;
+
+        while (current)
+        {
+            printf("EXEC_LIST:%s\n", current->token->value);
+            //printf("\nType_Quotes : [%d]\nQuotes_Check : [%d]\n", current->type_quotes, current->quotes_check);
+            current = current->right;
+            i++;
+        }
     }
     printf("last_exit_status:%d\n", shell->last_exit_status);
 }

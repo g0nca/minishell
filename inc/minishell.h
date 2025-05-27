@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 13:33:49 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:49:23 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ typedef struct  s_token {
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
+
+typedef enum e_exec_type
+{
+    NODE_COMMAND,
+    NODE_PIPE,
+}   t_exec_type;
+
+typedef struct s_exec
+{
+    t_exec_type     type;
+    t_token         *token;
+    struct s_exec   *left;
+    struct s_exec   *right;
+}   t_exec;
+
 
 int     main(int ac, char **av, char **envp);
 int     main_auxiliar(char *line, t_shell *shell, t_token *token);
@@ -143,6 +158,15 @@ int    invalid_env_var(t_token *list, t_shell *shell);
 int	remove_old_env_variable(t_token **tokens, t_token *current);
 //===================================================================
 
+// execution_tree.c==================================================
+void	execute_tree(t_exec *node, t_shell *shell, int input_fd, int output_fd);
+t_exec *build_execution_tree_safe(t_token *token_list);
+t_exec	*create_node(t_exec_type type, t_token *token);
+t_token	*copy_token_segment(t_token *start, t_token *end);
+t_token *get_last_token(t_token *head);
+void free_token_list(t_token *tokens);
+
+//===================================================================
 
 // syntax_error.c ==================================================
 int	check_syntax_errors_main(const char *str, t_shell *shell);
@@ -271,7 +295,7 @@ int	n_value(char *current); */
 int     parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
-void print_tokens(t_token *list, t_shell *shell);
+void print_tokens(t_token *list, t_shell *shell, int i, t_exec *exec_list);
 //void print_tokens_without_shell(t_token *list);
 //========================================================================
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 14:56:02 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:43:28 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,8 +227,12 @@ int		add_env_var(t_shell *shell, char *new_entry, int env_size);
 void	ft_env(t_shell *shell);
 //export:
 void	ft_export(t_token *cmdargs, t_shell *shell);
+void	handle_export_argument(t_shell *shell, char *arg);
+void	process_export_assignment(t_shell *shell, char *arg);
 void	print_export(t_shell *shell);
 void	print_export_line(char *env_var);
+char	*remove_all_quotes(char *value);
+char	*ft_strjoin3(char *s1, char *s2, char *s3);
 //unset:
 void	ft_unset(t_token *cmdargs, t_shell *shell);
 void	remove_env_var(t_shell *shell, const char *key);

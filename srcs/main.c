@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 14:47:55 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:53:57 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ int     main(int ac, char **av, char **envp)
     token = NULL;
     line = NULL;
     shell = init_shell(ac, av, envp);
+    init_shlvl(shell);
     setup_signals();
     while (shell->running)
     {
+        g_exit_status = shell->last_exit_status;
         line = readline("minishell$ ");
         if (line == NULL)  // Ctrl-D
 		{

@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/27 10:40:34 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/05/27 14:53:07 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/ft_unset.c \
 				srcs/builtins/env_utils.c \
 				srcs/builtins/env_utils2.c \
+				srcs/builtins/env_utils3.c \
 				srcs/builtins/ft_env.c \
 				srcs/builtins/ft_exit.c \
 				srcs/exec/exec.c \
@@ -60,9 +61,9 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/exec/exec3.c \
 				srcs/exec/exec4.c \
 				srcs/exec/exec5.c \
-				srcs/exec/exec6.c \
 				srcs/signals/signals.c \
 				srcs/redirects/heredoc.c \
+				srcs/redirects/heredoc2.c \
 				srcs/redirects/redirects.c
 
 MINISHELL_OBJS_DIR = srcs/objs

@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:37:53 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/14 16:43:34 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/22 11:46:06 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,17 @@ void	ft_print_tokens(t_token *current)
 				current = current->next;
 			continue;
 		}
-		ft_printf_fd(STDOUT_FILENO, "%s", current->value);
+		else
+		{
+			ft_printf_fd(STDOUT_FILENO, "%s", current->value);
+		}
 		current = current->next;
 		if (current && !(current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT || 
 					  current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC))
 			ft_printf_fd(STDOUT_FILENO, " ");
 	}
 }
+
 
 void	ft_echo(t_token *list, t_shell *shell)
 {

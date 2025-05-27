@@ -5,73 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:55:23 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/14 17:06:16 by andrade          ###   ########.fr       */
+/*   Created: 2025/05/14 17:11:32 by andrade           #+#    #+#             */
+/*   Updated: 2025/05/20 12:18:08 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	ft_token_redir_in(t_token *current, int stdin_backup, int stdout_backup)
+int	count_args(t_token *token)
 {
-	int	fd;
+	int	count;
 
-	fd = open(current->value, O_RDONLY);
-	if (fd < 0)
+	count = 0;
+	while (token)
 	{
-		perror("minishell");
-		dup2(stdin_backup, STDIN_FILENO);
-		dup2(stdout_backup, STDOUT_FILENO);
-		close(stdin_backup);
-		close(stdout_backup);
-		return (1);
+		if (token->type == TOKEN_CMD || token->type == TOKEN_WORD ||
+			token->type == TOKEN_DOUBLE_QUOTE || token->type == TOKEN_SIMPLE_QUOTE)
+			count++;
+		else if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT ||
+				 token->type == TOKEN_APPEND || token->type == TOKEN_HERE_DOC)
+		{
+			token = token->next;
+			if (!token)
+				break;
+			continue;
+		}
+		token = token->next;
 	}
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	return (0);
+	return (count);
 }
 
-int	ft_token_redir_out(t_token *current, int stdin_backup, int stdout_backup)
+char	**allocate_args(int count)
 {
-	int	fd;
+	char **args;
 
-	fd = open(current->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		perror("minishell");
-		dup2(stdin_backup, STDIN_FILENO);
-		dup2(stdout_backup, STDOUT_FILENO);
-		close(stdin_backup);
-		close(stdout_backup);
-		return (1);
-	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
-	return (0);
+	args = malloc(sizeof(char *) * (count + 1));
+	if (!args)
+		return (NULL);
+	return (args);
 }
 
-int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup)
+void	fill_args(t_token *token, char **args)
 {
-	int	fd;
-	
-	fd = open(current->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
-	{
-		perror("minishell");
-		dup2(stdin_backup, STDIN_FILENO);
-		dup2(stdout_backup, STDOUT_FILENO);
-		close(stdin_backup);
-		close(stdout_backup);
-		return (1);
-	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
-	return (0);
-}
+	int	i;
 
-int	ft_std_close(int stdin_backup, int stdout_backup)
-{
-	close(stdin_backup);
-	close(stdout_backup);
-	return (1);
+	i = 0;
+	while (token)
+	{
+		if (token->type == TOKEN_CMD || token->type == TOKEN_WORD ||
+			token->type == TOKEN_DOUBLE_QUOTE || token->type == TOKEN_SIMPLE_QUOTE)
+			args[i++] = ft_strdup(token->value);
+		else if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT ||
+				 token->type == TOKEN_APPEND || token->type == TOKEN_HERE_DOC)
+		{
+			token = token->next;
+			if (!token)
+				break;
+			continue;
+		}
+		token = token->next;
+	}
+	args[i] = NULL;
 }

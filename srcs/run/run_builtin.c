@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 17:08:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/24 14:21:39 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:22:18 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	run_builtin(t_token *cmd, t_shell *shell)
 	else if (ft_strcmp(cmd->value, "unset") == 0)
 		ft_unset(cmd, shell);
 	else if (ft_strcmp(cmd->value, "exit") == 0)
-		ft_exit(shell);
+		ft_exit(shell, cmd);
 }
 
 void	verify_token(t_token *type, t_shell *shell)

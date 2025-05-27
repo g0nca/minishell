@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:22:07 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/19 10:32:47 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:29:16 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ bool	handle_absolute_path(char **args, t_shell *shell)
 	{
 		if (access(args[0], F_OK) == -1)
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: %s: No such file or directory\n", args[0]);
+			shell_error(shell, args[0], 1, false);
 			exit(127);
 		}
 		else if (access(args[0], X_OK) == -1)
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: %s: Permission denied\n", args[0]);
+			shell_error(shell, args[0], 3, false);
 			exit(126);
 		}
 		exec_with_full_path(args, shell);
@@ -54,13 +54,13 @@ void	handle_env_path_execution(char **args, t_shell *shell)
 	path_env = get_path_env(shell->env);
 	if (!path_env)
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", args[0]);
+		shell_error(shell, args[0], 1, false);
 		exit(127);
 	}
 	found = try_paths(args, shell, path_env);
 	if (found <= 0)
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", args[0]);
+		shell_error(shell, args[0], 1, false);
 		exit(127);
 	}
 	exit(127);

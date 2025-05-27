@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 14:38:26 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:56:02 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,8 +241,9 @@ bool is_valid_identifier(const char *str);
 int	env_count(char **env);
 void	sort_env(char **env, int count);
 char	**copy_and_sort_env(t_shell *shell, int *count);
+void	init_shlvl(t_shell *shell);
 //exit:
-void	ft_exit(t_shell *shell);
+void	ft_exit(t_shell *shell, t_token *args);
 //=================================================================
 
 //exec.c===========================================================
@@ -258,11 +259,6 @@ bool	handle_absolute_path(char **args, t_shell *shell);
 char	*get_path_env(char **env);
 int	try_paths(char **args, t_shell *shell, char *path_env);
 void	exec_with_full_path(char **args, t_shell *shell);
-int	setup_redirections(t_token *token);
-int	ft_token_redir_in(t_token *current, int stdin_backup, int stdout_backup);
-int	ft_token_redir_out(t_token *current, int stdin_backup, int stdout_backup);
-int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup);
-int	ft_std_close(int stdin_backup, int stdout_backup);
 int	ft_backup_stdio(int *stdin_backup, int *stdout_backup);
 void	ft_restore_stdio(int stdin_backup, int stdout_backup);
 void	ft_execute_builtin(t_token *token, t_shell *shell, int stdin_backup, int stdout_backup);
@@ -273,10 +269,18 @@ void	ft_execute_external(t_token *token, t_shell *shell);
 void	handle_heredoc(t_token *token, t_shell *shell);
 int	process_heredoc(t_token *token, t_shell *shell);
 void cleanup_heredoc_files(t_shell *shell);
+void	remove_token(t_token **head, t_token *to_remove);
+char	*generate_temp_filename(int i);
+int	create_temp_file(char **out_filename);
+void	error_heredoc(const char *delimiter);
 //=================================================================
 
 //redirects.c======================================================
-
+int	setup_redirections(t_token *token);
+int	ft_token_redir_in(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_token_redir_out(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup);
+int	ft_std_close(int stdin_backup, int stdout_backup);
 //=================================================================
 
 //signals.c========================================================

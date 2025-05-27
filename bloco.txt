@@ -1,5 +1,0 @@
-> $"USER2" // expansao que nao existe -> USER
-
-> $USER2 // erro: ambigous redirect
-
-> L$USER2 // nao mostra nada

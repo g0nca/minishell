@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/27 15:35:03 by joaomart         ###   ########.fr        #
+#    Updated: 2025/05/27 16:03:58 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/free_functions/free.c \
 				srcs/free_functions/free2.c \
 				srcs/init_shell.c \
-				srcs/utils/utils1.c \
+				srcs/utils/utils.c \
 				srcs/tokenizer/tokenizer.c \
 				srcs/tokenizer/process_token.c \
 				srcs/tokenizer/process_token2.c \

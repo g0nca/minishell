@@ -94,7 +94,7 @@ t_token *tokenizer(char *line, t_shell *shell);
 void add_token(t_token *list, char *val, t_token_type type);
 void add_token_to_list(t_token *list, t_token *new_token);
 t_token *create_token(char *val, t_token_type type);
-void add_final_token(t_token *list, char *joined, int type_quotes);
+void add_final_token(t_token *list, char *joined);
 //========================================================================
 
 // process_token.c ================================================

@@ -35,7 +35,7 @@ void tokenizer_word(t_token *list, int *i, char *line)
             return ;
     }
     // Add the final token to the list
-    add_final_token(list, joined, type_quotes);
+    add_final_token(list, joined);
 }
 // Function to handle quoted text in tokenizer
 char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list)

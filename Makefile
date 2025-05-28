@@ -36,7 +36,6 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/tokenizer/process_token3.c \
 				srcs/tokenizer/init_tokens.c \
 				srcs/tokenizer/delete_quotes.c \
-				srcs/binary_tree/execution_tree.c \
 				srcs/error_functions/errors.c \
 				srcs/syntax_error/syntax_error.c \
 				srcs/expand/expand.c \
@@ -65,7 +64,18 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/signals/signals.c \
 				srcs/redirects/heredoc.c \
 				srcs/redirects/heredoc2.c \
-				srcs/redirects/redirects.c
+				srcs/redirects/redirects.c \
+				srcs/binary_tree/execution_tree_argv.c \
+				srcs/binary_tree/execution_tree_build_main.c \
+				srcs/binary_tree/execution_tree_build_utils.c \
+				srcs/binary_tree/execution_tree_command.c \
+				srcs/binary_tree/execution_tree_main.c \
+				srcs/binary_tree/execution_tree_pipe_helpers.c \
+				srcs/binary_tree/execution_tree_pipe.c \
+				srcs/binary_tree/execution_tree_redirect_utils.c \
+				srcs/binary_tree/execution_tree_redirect.c \
+				srcs/binary_tree/execution_tree_token_utils.c 
+
 
 MINISHELL_OBJS_DIR = srcs/objs
 MINISHELL_OBJS = $(patsubst srcs/%.c, $(MINISHELL_OBJS_DIR)/%.o, $(MINISHELL_SRCS))

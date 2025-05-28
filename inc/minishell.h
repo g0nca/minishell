@@ -162,14 +162,66 @@ int    invalid_env_var(t_token *list, t_shell *shell);
 int	remove_old_env_variable(t_token **tokens, t_token *current);
 //===================================================================
 
-// execution_tree.c==================================================
-void execute_tree(t_exec_node *node, t_shell *shell);
-t_exec_node *build_execution_tree(t_token *start, t_token *end);
-char **tokens_to_argv(t_token *start, t_token *end);
-void free_execution_tree(t_exec_node *node);
-//int is_redirection_exec(t_token_type type);
-//static int is_redirection(t_token_type type);
+// execution_tree_main.c=============================================
+void execute_command_tree(t_exec_node *node, t_shell *shell);
+void handle_child_process(t_exec_node *node, t_shell *shell);
+void handle_parent_process(pid_t pid, t_shell *shell);
+//===================================================================
 
+// execution_tree_command.c =========================================
+void execute_tree(t_exec_node *node, t_shell *shell);
+void setup_file_descriptors(t_exec_node *node);
+t_token *create_token_chain(char **cmd);
+void execute_command_node(t_exec_node *node, t_shell *shell);
+void free_cmd(char **cmd);
+//===================================================================
+
+// execution_tree_redirect.c ========================================
+void execute_input_redirect(t_exec_node *node, t_shell *shell);
+void execute_output_redirect(t_exec_node *node, t_shell *shell);
+//===================================================================
+
+// execution_tree_argv.c ============================================
+char **tokens_to_argv(t_token *start, t_token *end);
+//===================================================================
+
+// execute_tree_build_main.c ========================================
+t_exec_node *build_execution_tree(t_token *start, t_token *end);
+void free_execution_tree(t_exec_node *node);
+//===================================================================
+
+// execution_tree_build_utils.c =====================================
+t_token *find_last_pipe(t_token *start, t_token *end);
+t_exec_node *create_pipe_node(t_token *start, t_token *last_pipe, t_token *end);
+t_node_type get_redirect_node_type(t_token_type type);
+t_exec_node *create_command_node(t_token *start, t_token *end);
+//===================================================================
+
+// execute_tree_pipe_helpers.c ======================================
+pid_t fork_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell, pid_t left_pid);
+pid_t fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
+void execute_pipe_node(t_exec_node *node, t_shell *shell);
+int create_pipe_and_check(int *pipe_fd);
+//===================================================================
+
+// execute_tree_pipe.c ==============================================
+int manual_wifexited(int status);
+int manual_wexitstatus(int status);
+void setup_pipe_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
+void setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
+void handle_pipe_parent(int *pipe_fd, pid_t left_pid, pid_t right_pid, t_shell *shell);
+//===================================================================
+
+// execute_tree_redirect_utils.c ====================================
+t_exec_node *create_redirect_node(t_token *start, t_token *curr, t_token *end);
+t_exec_node *find_and_create_redirect_node(t_token *start, t_token *end);
+int is_redirection(t_token_type type);
+//===================================================================
+
+// execute_tree_token_utils.c =======================================
+int count_valid_tokens(t_token *start, t_token *end);
+void cleanup_argv_on_error(char **argv, int count);
+void fill_argv_array(t_token *start, t_token *end, char **argv, int count);
 //===================================================================
 
 // syntax_error.c ==================================================

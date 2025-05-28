@@ -50,8 +50,9 @@ int     main(int ac, char **av, char **envp)
 
 int     main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
-    t_exec *root;
+    t_exec_node *tree;
 
+    tree = NULL;
     if (check_syntax_errors_main(line, shell) == 0)
         token = tokenizer(line, shell);
     if (token)
@@ -59,23 +60,23 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         expander(&token, shell);
         delete_quotes(&token, shell);
         handle_heredoc(token, shell);
-        root = build_execution_tree_safe(token);
-        print_tokens(token, shell, 0, root);
-        //while (wait(NULL) > 0);
-        execute_command(token, shell);
+        tree = build_execution_tree(token, NULL);
+        execute_tree(tree, shell);
+        //execute_command(token, shell);
         printf("==========================================================\n");
-        print_tokens(token, shell, 1, root);
+        print_tokens(token, shell, 1, tree);
     }
     free_tokens(&token);
+    free_execution_tree(tree);
     token = NULL;
     return (0);
 }
 
-void print_tokens(t_token *list, t_shell *shell, int i, t_exec *exec_list)
+void print_tokens(t_token *list, t_shell *shell, int i, t_exec_node *exec_list)
 {
     if (!list)
         return;
-
+    (void)exec_list;
     if (i == 1)
     {
         t_token *current = list;
@@ -86,19 +87,19 @@ void print_tokens(t_token *list, t_shell *shell, int i, t_exec *exec_list)
             current = current->next;
             i++;
         }
-    }
+    }/*
     else if (i == 0)
     {
-        t_exec *current = exec_list;
+        t_exec_node *current = exec_list;
 
         while (current)
         {
-            printf("EXEC_LIST:%s\n", current->token->value);
+            printf("EXEC_LIST:%s\n", current->left);
             //printf("\nType_Quotes : [%d]\nQuotes_Check : [%d]\n", current->type_quotes, current->quotes_check);
             current = current->left;
             i++;
         }
-    }
+    }*/
     printf("last_exit_status:%d\n", shell->last_exit_status);
 }
 /* void print_tokens_without_shell(t_token *list)

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:25:28 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 16:11:09 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:13:36 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,3 @@ int     delete_quotes(t_token **list, t_shell *shell)
     }
     return (0);
 }
-

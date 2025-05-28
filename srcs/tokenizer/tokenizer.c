@@ -97,9 +97,9 @@ void add_final_token(t_token *list, char *joined, int type_quotes)
     if (!joined)
         return;
     if (type_quotes == 2)
-        add_token(list, joined, TOKEN_DOUBLE_QUOTE);
+        add_token(list, joined, TOKEN_WORD);
     else if (type_quotes == 1)
-        add_token(list, joined, TOKEN_SIMPLE_QUOTE);
+        add_token(list, joined, TOKEN_WORD);
     else
         add_token(list, joined, TOKEN_WORD);
     free(joined);

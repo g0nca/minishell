@@ -67,20 +67,23 @@ typedef struct  s_token {
 	struct s_token	*prev;
 }	t_token;
 
-typedef enum e_exec_type
-{
+typedef enum e_node_type {
     NODE_COMMAND,
     NODE_PIPE,
-}   t_exec_type;
+    NODE_REDIRECT_IN,
+    NODE_REDIRECT_OUT,
+    NODE_REDIRECT_APPEND
+} t_node_type;
 
-typedef struct s_exec
-{
-    t_exec_type     type;
-    t_token         *token;
-    struct s_exec   *next;
-    struct s_exec   *left;
-    struct s_exec   *right;
-}   t_exec;
+typedef struct s_exec_node {
+    t_node_type         type;
+    char                **cmd;
+    struct s_exec_node  *left;
+    struct s_exec_node  *right;
+    int                 fd_in;
+    int                 fd_out;
+} t_exec_node;
+
 
 
 int     main(int ac, char **av, char **envp);
@@ -160,12 +163,12 @@ int	remove_old_env_variable(t_token **tokens, t_token *current);
 //===================================================================
 
 // execution_tree.c==================================================
-void	execute_tree(t_exec *node, t_shell *shell, int input_fd, int output_fd);
-t_exec *build_execution_tree_safe(t_token *token_list);
-t_exec	*create_node(t_exec_type type, t_token *token);
-t_token	*copy_token_segment(t_token *start, t_token *end);
-t_token *get_last_token(t_token *head);
-void free_token_list(t_token *tokens);
+void execute_tree(t_exec_node *node, t_shell *shell);
+t_exec_node *build_execution_tree(t_token *start, t_token *end);
+char **tokens_to_argv(t_token *start, t_token *end);
+void free_execution_tree(t_exec_node *node);
+//int is_redirection_exec(t_token_type type);
+//static int is_redirection(t_token_type type);
 
 //===================================================================
 
@@ -304,7 +307,7 @@ int	n_value(char *current); */
 int     parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
-void print_tokens(t_token *list, t_shell *shell, int i, t_exec *exec_list);
+void print_tokens(t_token *list, t_shell *shell, int i, t_exec_node *exec_list);
 //void print_tokens_without_shell(t_token *list);
 //========================================================================
 

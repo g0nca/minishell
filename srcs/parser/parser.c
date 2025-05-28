@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:29:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 12:35:24 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:28:32 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int     parse_line(t_shell *shell, char *line)
+int	parse_line(t_shell *shell, char *line)
 {
-    size_t bytes;
+	size_t	bytes;
 
-    bytes = ft_strlen(line);
-    if (bytes > 2097152)
-        shell_error(shell, "Argument list too long", 12, EXIT_FAILURE);
-    return (1);
+	bytes = ft_strlen(line);
+	if (bytes > 2097152)
+		shell_error(shell, "Argument list too long", 12, EXIT_FAILURE);
+	return (1);
 }
 
 //Esta funcao serve para checar o numero maximo de caracteres que sao enviados

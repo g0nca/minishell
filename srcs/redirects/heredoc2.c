@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:36:30 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/20 14:39:20 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/28 10:31:10 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	error_heredoc(const char *delimiter)
 {
-	ft_printf_fd(STDERR_FILENO,
-		"minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
-		delimiter);
+	ft_printf_fd(STDERR_FILENO, "minishell: warning: ");
+	ft_printf_fd(STDERR_FILENO, "here-document delimited ");
+	ft_printf_fd(STDERR_FILENO, "by end-of-file (wanted `%s')\n", delimiter);
 }
 
 char	*generate_temp_filename(int i)
@@ -59,7 +59,7 @@ void	remove_token(t_token **head, t_token *to_remove)
 {
 	t_token	*prev;
 	t_token	*curr;
-	
+
 	prev = NULL;
 	curr = *head;
 	while (curr)
@@ -72,7 +72,7 @@ void	remove_token(t_token **head, t_token *to_remove)
 				*head = curr->next;
 			free(curr->value);
 			free(curr);
-			return;
+			return ;
 		}
 		prev = curr;
 		curr = curr->next;
@@ -81,7 +81,8 @@ void	remove_token(t_token **head, t_token *to_remove)
 
 void	cleanup_heredoc_files(t_shell *shell)
 {
-	t_list *temp;
+	t_list	*temp;
+
 	while (shell->heredoc_files)
 	{
 		temp = shell->heredoc_files;

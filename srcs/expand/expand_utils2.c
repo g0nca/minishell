@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_var_compare.c                                  :+:      :+:    :+:   */
+/*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:06:55 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/06 12:49:24 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:19:37 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,21 @@
  * @param end Ending index of variable name in token
  * @return 0 if matches, 1 otherwise
  */
-int compare_env_name(char *env_var, char *token, int start, int end)
+int	compare_env_name(char *env_var, char *token, int start, int end)
 {
-    int j;
+	int	j;
 
-    j = 0;
-    while (env_var[j] && env_var[j] != '=' && start < end)
-    {
-        if (env_var[j] != token[start])
-            return (1);
-        j++;
-        start++;
-    }
-    
-    if (env_var[j] == '=' && start == end)
-        return (0);
-    
-    return (1);
+	j = 0;
+	while (env_var[j] && env_var[j] != '=' && start < end)
+	{
+		if (env_var[j] != token[start])
+			return (1);
+		j++;
+		start++;
+	}
+	if (env_var[j] == '=' && start == end)
+		return (0);
+	return (1);
 }
 
 /**
@@ -47,31 +45,31 @@ int compare_env_name(char *env_var, char *token, int start, int end)
  * @param token The token string to check for variable references
  * @return 0 if match found, 1 otherwise
  */
-int ft_strcmp_enviroment_variables(char *env_var, char *token)
+int	ft_strcmp_enviroment_variables(char *env_var, char *token)
 {
-    int i;
-    int start;
-    
-    if (!env_var || !token)
-        return (1);
-    i = 0;
-    while (token[i])
-    {
-        if (token[i] == '$')
-        {
-            i++;
-            start = i;
-            while ((ft_isalnum(token[i]) || token[i] == '_'))
-                i++;
-            if (compare_env_name(env_var, token, start, i) == 0)
-                return (0);
-        }
-        else
-            i++;
-    }
-    
-    return (1);
+	int	i;
+	int	start;
+
+	if (!env_var || !token)
+		return (1);
+	i = 0;
+	while (token[i])
+	{
+		if (token[i] == '$')
+		{
+			i++;
+			start = i;
+			while ((ft_isalnum(token[i]) || token[i] == '_'))
+				i++;
+			if (compare_env_name(env_var, token, start, i) == 0)
+				return (0);
+		}
+		else
+			i++;
+	}
+	return (1);
 }
+
 /**
  * Handles invalid environment variable expansion by nullifying the node data
  * instead of immediately deleting it to prevent access to freed memory.
@@ -80,19 +78,20 @@ int ft_strcmp_enviroment_variables(char *env_var, char *token)
  * @param shell The shell structure
  * @return 1 to signal to expander2 that the token needs to be skipped
  */
-int    invalid_env_var(t_token *list, t_shell *shell)
+int	invalid_env_var(t_token *list, t_shell *shell)
 {
-    if (!list)
-        return (0);
-    if (list->value)
-    {
-        free(list->value);
-        list->value = NULL;
-    }
-    list->type = -1;
-    shell->last_exit_status = 1;
-    return (1);
+	if (!list)
+		return (0);
+	if (list->value)
+	{
+		free(list->value);
+		list->value = NULL;
+	}
+	list->type = -1;
+	shell->last_exit_status = 1;
+	return (1);
 }
+
 /**
  * @brief Checks if a given token (environment variable name)
  * exists in the shell environment.
@@ -106,8 +105,8 @@ int    invalid_env_var(t_token *list, t_shell *shell)
  */
 int	verifiy_enviroment_var(t_shell *shell, char *token)
 {
-	int j;
-	
+	int	j;
+
 	j = 0;
 	while (shell->env[j])
 	{
@@ -117,13 +116,17 @@ int	verifiy_enviroment_var(t_shell *shell, char *token)
 	}
 	return (0);
 }
+
 /**
- * remove_invalid_env_variable - Removes an invalid environment variable token from the token list.
+ * remove_invalid_env_variable - Removes an invalid environment
+ *   variable token from the token list.
  *
- * This function removes a node from a doubly linked list of tokens that represents 
- * an invalid or undefined environment variable. It properly updates the pointers 
- * of neighboring nodes to maintain the list integrity, and frees all memory 
- * associated with the removed token.
+ * This function removes a node from a doubly linked
+ *   list of tokens that represents an invalid or
+ *   undefined environment variable.
+ * It properly updates the pointers of neighboring nodes to
+ *   maintain the list integrity, and frees all memory associated
+ *   with the removed token.
  *
  * @tokens: Pointer to the head pointer of the token list.
  * @current: Pointer to the token node to be removed.

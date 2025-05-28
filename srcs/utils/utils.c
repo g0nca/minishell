@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils1.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:06:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/16 15:33:53 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:10:04 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int		ternary_operator(t_token *list, char quote)
+int	ternary_operator(t_token *list, char quote)
 {
 	if (quote == '\"')
 	{

@@ -6,7 +6,7 @@
 #    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/27 21:37:02 by andrade          ###   ########.fr        #
+#    Updated: 2025/05/28 10:50:32 by andrade          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/binary_tree/execution_tree.c \
 				srcs/error_functions/errors.c \
 				srcs/syntax_error/syntax_error.c \
+				srcs/syntax_error/syntax_error2.c \
 				srcs/expand/expand.c \
 				srcs/expand/expand2.c \
 				srcs/expand/calculate_final_size.c \
@@ -66,6 +67,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/signals/signals.c \
 				srcs/redirects/heredoc.c \
 				srcs/redirects/heredoc2.c \
+				srcs/redirects/heredoc3.c \
 				srcs/redirects/redirects.c
 
 MINISHELL_OBJS_DIR = srcs/objs

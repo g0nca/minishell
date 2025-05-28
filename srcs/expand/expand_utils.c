@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../inc/minishell.h"
 
 /**
@@ -24,25 +23,25 @@
  *
  * @param name The name of the environment variable to search for (e.g., "HOME").
  * @param envp Array of environment variables in the format "VAR=value".
- * @return A pointer to the value part of the environment variable, or NULL if not found.
+ * @return A pointer to the value part of the environment 
+ *   variable, or NULL if not found.
  */
-
-char *get_env_value(const char *name, char **envp)
+char	*get_env_value(const char *name, char **envp)
 {
-    int len;
-	int i;
+	int	len;
+	int	i;
 
 	if (!name || !envp)
 		return (NULL);
 	len = ft_strlen(name);
 	i = 0;
-    while (envp[i]) 
+	while (envp[i])
 	{
-        if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
-            return (envp[i] + len + 1);
+		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
+			return (envp[i] + len + 1);
 		i++;
-    }
-    return (NULL);
+	}
+	return (NULL);
 }
 
 /**
@@ -52,11 +51,11 @@ char *get_env_value(const char *name, char **envp)
  * @param shell The shell structure
  * @return 1 if token should be skipped, 0 otherwise
  */
-int should_skip_expansion(t_token *list, t_shell *shell)
+int	should_skip_expansion(t_token *list, t_shell *shell)
 {
-    if (!list || !list->value)
-        return (1);
-    else if (verifiy_enviroment_var(shell, list->value) == 1)
-		return (0); 
-    return (0);
+	if (!list || !list->value)
+		return (1);
+	else if (verifiy_enviroment_var(shell, list->value) == 1)
+		return (0);
+	return (0);
 }

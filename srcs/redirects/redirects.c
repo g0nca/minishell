@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:55:23 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/20 14:24:23 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/28 10:29:25 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_token_redir_in(t_token *current, int stdin_backup, int stdout_backup)
 {
-	int	fd;
+	int		fd;
 	char	*filename;
 
 	if (ft_strcmp(current->value, "<") == 0 && current->next)
@@ -62,7 +62,7 @@ int	ft_token_redir_out(t_token *current, int stdin_backup, int stdout_backup)
 
 int	ft_token_append(t_token *current, int stdin_backup, int stdout_backup)
 {
-	int	fd;
+	int		fd;
 	char	*filename;
 
 	if (ft_strcmp(current->value, ">>") == 0 && current->next)

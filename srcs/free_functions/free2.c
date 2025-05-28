@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:19:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/24 13:53:10 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:27:58 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void	free_sorted_env(int i, char **sorted_env)
 
 void	free_args(char **args)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	if (!args)
-		return;
+		return ;
 	while (args[i])
 	{
 		free(args[i]);
@@ -32,4 +33,3 @@ void	free_args(char **args)
 	}
 	free(args);
 }
-

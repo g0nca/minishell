@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 16:02:50 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:18:03 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
 /**
  * @brief Iterates through the token list and expands any environment variables.
  *
@@ -18,16 +19,16 @@
  * function to handle environment variable expansion for each individual token.
  *
  * @param list Pointer to the first token in the list.
- * @param shell Pointer to the shell structure containing the environment variables.
+ * @param shell Pointer to the shell structure containing the 
+ *   environment variables.
  * @return Always returns 0.
  */
-
-int expander(t_token **tokens, t_shell *shell)
+int	expander(t_token **tokens, t_shell *shell)
 {
-	t_token *current;
-	t_token *next;
-	int skip_current;
-	
+	t_token	*current;
+	t_token	*next;
+	int		skip_current;
+
 	if (!tokens || !*tokens)
 		return (0);
 	current = *tokens;
@@ -47,18 +48,19 @@ int expander(t_token **tokens, t_shell *shell)
  *
  * This function checks if the token type allows expansion (WORD, DOUBLE_QUOTE),
  * then scans for environment variable patterns (e.g., $VAR). If a valid variable
- * is found in the shell's environment, the token's value is replaced with its expanded form.
+ * is found in the shell's environment, the token's value is replaced
+ *   with its expanded form.
  *
  * Note: Expansion is skipped for tokens enclosed in single quotes.
  *
  * @param list Pointer to the token to be expanded.
- * @param shell Pointer to the shell structure containing the environment variables.
+ * @param shell Pointer to the shell structure containing
+ *   the environment variables.
  * @return Always returns 0.
  */
-
 int	expander2(t_token *list, t_shell *shell)
 {
-	int skip_token;
+	int	skip_token;
 
 	skip_token = 0;
 	if (list->type == TOKEN_WORD
@@ -77,20 +79,21 @@ int	expander2(t_token *list, t_shell *shell)
  * @param shell The shell structure
  * @return 0 for normal execution, 1 if token should be skipped
  */
-int expander3(t_token *list, t_shell *shell)
+int	expander3(t_token *list, t_shell *shell)
 {
-    char *expanded;
+	char	*expanded;
 
-    if (should_skip_expansion(list, shell) == 1)
-        return (0);
-    else
-    {
-        expanded = expand_variables(list->value, shell->env, list);
-        free(list->value);
-        list->value = expanded;
-    }
-    return (0);
+	if (should_skip_expansion(list, shell) == 1)
+		return (0);
+	else
+	{
+		expanded = expand_variables(list->value, shell->env, list);
+		free(list->value);
+		list->value = expanded;
+	}
+	return (0);
 }
+
 /**
  * @brief Expands environment variables found in a given input string.
  *
@@ -99,54 +102,76 @@ int expander3(t_token *list, t_shell *shell)
  * retrieves its value from the environment (envp) and appends it to the result.
  *
  * Non-variable characters are copied directly to the result string.
-				** Percorre a string de input e copia caractere por caractere para a string de saída.
-				** Quando encontra um '$' seguido de uma variável (ex: $USER), substitui pelo valor correspondente.
-				** Utiliza um ponteiro auxiliar 'current' para escrever na memória alocada,
-				** enquanto 'result' permanece apontando para o início da string resultante.
-				** No final, retorna 'result', que contém o input expandido com as variáveis de ambiente.
+ * 
+ * Percorre a string de input e copia caractere por caractere
+ *   para a string de saída.
+ * Quando encontra um '$' seguido de uma variável (ex: $USER),
+ *   substitui pelo valor correspondente.
+ * Utiliza um ponteiro auxiliar 'current' para escrever na memória alocada,
+ *   enquanto 'result' permanece apontando para o início da string resultante.
+ * No final, retorna 'result', que contém o input expandido
+ *   com as variáveis de ambiente.
  * @param input The input string that may contain environment variables.
  * @param envp The array of environment variables in the form "VAR=value".
  * @param list Unused in this function (reserved for future use or context).
- * @return A newly allocated string with the expanded variables. Must be freed by the caller.
+ * @return A newly allocated string with the expanded variables.
+ *   Must be freed by the caller.
  */
-
-char *expand_variables(const char *input, char **envp, t_token *list)
+char	*expand_variables(const char *input, char **envp, t_token *list)
 {
-    char    *result;
-    char    *current;
-    size_t  size;
+	char	*result;
+	char	*current;
+	size_t	size;
 
-    size = calculate_final_size(input, envp, list);
-    result = (char *)malloc((size + 1) * sizeof(char));
-    if (!result)
-        return (NULL);
-    current = result;
-    while (*input)
-    {		
-        if (*input == '\"' && list->in_single_quotes == 0)
-            input_with_quotes(&input, &current, 2, list);
-        else if (*input == '\'' && list->in_double_quotes == 0)
-            input_with_quotes(&input, &current, 1, list);
-        else if (*input == '$' && list->in_single_quotes == 0)
-            copy_env_value(&input, &current, envp);
-        else
-            *current++ = *input++;
-    }
-    *current = '\0';
-    return (result);
+	size = calculate_final_size(input, envp, list);
+	result = (char *)malloc((size + 1) * sizeof(char));
+	if (!result)
+		return (NULL);
+	current = result;
+	while (*input)
+	{
+		if (*input == '\"' && list->in_single_quotes == 0)
+			input_with_quotes(&input, &current, 2, list);
+		else if (*input == '\'' && list->in_double_quotes == 0)
+			input_with_quotes(&input, &current, 1, list);
+		else if (*input == '$' && list->in_single_quotes == 0)
+			copy_env_value(&input, &current, envp);
+		else
+			*current++ = *input++;
+	}
+	*current = '\0';
+	return (result);
 }
-void    input_with_quotes(const char **input, char **current, int wich_quote, t_token *list)
+
+/**
+ * @brief Processa a entrada quando encontra aspas,
+ *   atualizando flags de contexto.
+ *
+ * Esta função lida com aspas simples e duplas na string de entrada, alternando
+ * os estados `in_single_quotes` ou `in_double_quotes` do token atual. Também
+ * avança os ponteiros de entrada e de escrita.
+ *
+ * @param input Ponteiro para a string de entrada (é avançado dentro da função).
+ * @param current Ponteiro para o buffer onde a entrada está a ser copiada.
+ * @param wich_quote Indica o tipo de aspas encontrado:
+ *   1 para aspas simples ('), 2 para aspas duplas (").
+ * @param list Ponteiro para o token atual, cujas
+ *   flags de aspas serão atualizadas.
+ */
+void	input_with_quotes(const char **input, char **current,
+			int wich_quote, t_token *list)
 {
-    if (wich_quote == 2)// double_quote ""
-    {
-        list->in_double_quotes = !list->in_double_quotes;
-        *(*current)++ = *(*input)++;
-    }
-    else if (wich_quote == 1)// simple_quote ''
-    {
-        list->in_single_quotes = !list->in_single_quotes;  // alterna flag
-        *(*current)++ = *(*input)++;
-    }
-  /*   else
-        *(*current)++ = *(*input)++; */
+	if (wich_quote == 2)
+	{
+		list->in_double_quotes = !list->in_double_quotes;
+		*(*current)++ = *(*input)++;
+	}
+	else if (wich_quote == 1)
+	{
+		list->in_single_quotes = !list->in_single_quotes;
+		*(*current)++ = *(*input)++;
+	}
 }
+
+/* else
+	*(*current)++ = *(*input)++; */

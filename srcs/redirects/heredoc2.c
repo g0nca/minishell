@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:36:30 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/28 10:31:10 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 10:14:03 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	error_heredoc(const char *delimiter)
 {
-	ft_printf_fd(STDERR_FILENO, "minishell: warning: ");
-	ft_printf_fd(STDERR_FILENO, "here-document delimited ");
-	ft_printf_fd(STDERR_FILENO, "by end-of-file (wanted `%s')\n", delimiter);
+	ft_printf_fd(2, "minishell: warning: ");
+	ft_printf_fd(2, "here-document delimited ");
+	ft_printf_fd(2, "by end-of-file (wanted `%s')\n", delimiter);
 }
 
 char	*generate_temp_filename(int i)

@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:37:53 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/27 21:33:59 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 10:13:10 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ void	ft_print_tokens(t_token *current)
 		}
 		else
 		{
-			ft_printf_fd(STDOUT_FILENO, "%s", current->value);
+			ft_printf_fd(1, "%s", current->value);
 		}
 		current = current->next;
 		if (current && !(current->type == TOKEN_REDIR_IN
 				|| current->type == TOKEN_REDIR_OUT
 				|| current->type == TOKEN_APPEND
 				|| current->type == TOKEN_HERE_DOC))
-			ft_printf_fd(STDOUT_FILENO, " ");
+			ft_printf_fd(1, " ");
 	}
 }
 
@@ -91,6 +91,6 @@ void	ft_echo(t_token *list, t_shell *shell)
 	n_flag = ft_check_n_flag(&current);
 	ft_print_tokens(current);
 	if (!n_flag)
-		ft_printf_fd(STDOUT_FILENO, "\n");
+		ft_printf_fd(1, "\n");
 	shell->last_exit_status = EXIT_SUCCESS;
 }

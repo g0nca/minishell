@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:47:08 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/27 21:52:43 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:48:34 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,14 @@ void	ft_restore_stdio(int stdin_backup, int stdout_backup)
 void	ft_execute_builtin(t_token *token, t_shell *shell,
 			int stdin_backup, int stdout_backup)
 {
+	// Setup redirections BEFORE executing builtin
 	if (setup_redirections(token) == 0)
 	{
+		// Execute the builtin command
 		run_builtin(token, shell);
-		ft_restore_stdio(stdin_backup, stdout_backup);
 	}
+	// ALWAYS restore stdio, even if redirection failed
+	ft_restore_stdio(stdin_backup, stdout_backup);
 }
 
 void	ft_execute_external(t_token *token, t_shell *shell)
@@ -50,7 +53,8 @@ void	ft_execute_external(t_token *token, t_shell *shell)
 	}
 	else if (pid == 0)
 	{
-		setup_redirections(token);
+		if (setup_redirections(token) != 0)
+			exit(EXIT_FAILURE);
 		execute_external_command(token, shell);
 		exit(EXIT_FAILURE);
 	}

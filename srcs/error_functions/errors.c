@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/27 21:46:02 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 10:10:54 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_error_extra(int error, char *str)
 	if (error == 8)
 	{
 		ft_printf_fd(2, "minishell: exit: %s: ", str);
-		ft_printf_fd(2, "numeric argument required\n", str);
+		ft_printf_fd(2, "numeric argument required\n");
 	}
 	else if (error == 9)
 		ft_printf_fd(2, "minishell: exit: too many arguments\n");

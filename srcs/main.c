@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 14:53:57 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/29 09:33:22 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 int g_exit_status = 0;
 
+static void    add_history_function(char *line)
+{
+    if (*line)
+        add_history(line);
+}
+
 int     main(int ac, char **av, char **envp)
 {
-    (void) ac;
-    (void)av;
     t_shell *shell;
     char    *line;
     t_token *token;
@@ -37,12 +41,9 @@ int     main(int ac, char **av, char **envp)
 			free_struct(shell);  // se tiveres cleanup
 			exit(0);
 		}
-        if (*line)
-            add_history(line);
+        add_history_function(line);
         if (line != NULL && *line)
-        {
             main_auxiliar(line, shell, token);
-        }
         free(line);
     }
     return (0);
@@ -63,43 +64,27 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         tree = build_execution_tree(token, NULL);
         execute_tree(tree, shell);
         //execute_command(token, shell);
-        printf("==========================================================\n");
-        print_tokens(token, shell, 1, tree);
+        //printf("==========================================================\n");
+        //print_tokens(token, shell, 1, tree);
     }
     free_tokens(&token);
     free_execution_tree(tree);
     token = NULL;
     return (0);
 }
-
-void print_tokens(t_token *list, t_shell *shell, int i, t_exec_node *exec_list)
+void print_tokens(t_token *list, t_shell *shell)
 {
     if (!list)
         return;
-    (void)exec_list;
-    if (i == 1)
+    int i;
+    i = 0;
+    t_token *current = list;
+    while (current)
     {
-        t_token *current = list;
-        while (current)
-        {
-            printf("token[%d] (%d): %s\n", i, current->type, current->value);
-            //printf("\nType_Quotes : [%d]\nQuotes_Check : [%d]\n", current->type_quotes, current->quotes_check);
-            current = current->next;
-            i++;
-        }
-    }/*
-    else if (i == 0)
-    {
-        t_exec_node *current = exec_list;
-
-        while (current)
-        {
-            printf("EXEC_LIST:%s\n", current->left);
-            //printf("\nType_Quotes : [%d]\nQuotes_Check : [%d]\n", current->type_quotes, current->quotes_check);
-            current = current->left;
-            i++;
-        }
-    }*/
+        printf("token[%d] (%d): %s\n", i, current->type, current->value);
+        current = current->next;
+        i++;
+    }
     printf("last_exit_status:%d\n", shell->last_exit_status);
 }
 /* void print_tokens_without_shell(t_token *list)

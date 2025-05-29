@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:29:58 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 12:52:58 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/29 10:00:12 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void    handle_double_dollar(const char **input, char **current)
     }
     (*input)++; // consome o segundo '$'
 }
+
 static void    handle_question_mark(const char **input, char ** current)
 {
     char    *status_str;
@@ -50,29 +51,30 @@ static void    handle_question_mark(const char **input, char ** current)
     }
     (*input)++;
 }
-// Função auxiliar que extrai o nome da variável e atualiza o ponteiro input
+
 static char *extract_variable_name(const char **input)
 {
-	char	*var;
-	int		var_len;
-	int		i;
-	const char *tmp;
+	const char	*tmp;
+	char		*var;
+	int			var_len;
+	int			i;
 
-    tmp = *input;
-    var_len = 0;
-    i = 0;
+	tmp = *input;
+	var_len = 0;
+	i = 0;
 	while (ft_isalnum(tmp[var_len]) || tmp[var_len] == '_')
-		var_len++; //count the variable length
+		var_len++;
 	var = (char *)malloc(sizeof(char) * (var_len + 1));
 	if (!var)
 		return (NULL);
-	while (i < var_len) // copy the variable name
+	while (i < var_len)
 		var[i++] = *(*input)++;
 	var[i] = '\0';
 	return (var);
 }
 
-static void handle_env_variable_expansion(const char **input, char **current, char **envp)
+static void	handle_env_variable_expansion(const char **input,
+		char **current, char **envp)
 {
 	char	*var;
 	char	*value;
@@ -80,7 +82,7 @@ static void handle_env_variable_expansion(const char **input, char **current, ch
 
 	var = extract_variable_name(input);
 	if (!var)
-		return;
+		return ;
 	value = get_env_value(var, envp);
 	free(var);
 	if (value)
@@ -91,35 +93,38 @@ static void handle_env_variable_expansion(const char **input, char **current, ch
 	}
 }
 
- /**
+/**
   * @brief Copies the value of an environment variable to the result buffer.
   *
   * This function parses the variable name starting from the given input pointer,
-  * retrieves its value from the environment, and writes it to the `current` result pointer.
+  * retrieves its value from the environment, 
+  * and writes it to the `current` result pointer.
   *
-  * @param input Pointer to the input string containing the variable name (e.g., "$USER").
+  * @param input Pointer to the input string containing 
+  * the variable name (e.g., "$USER").
   *              The pointer is advanced past the variable after processing.
-  * @param current Pointer to the result buffer where the variable's value will be written.
+  * @param current Pointer to the result buffer where the 
+  * variable's value will be written.
   *                The pointer is advanced after writing the value.
   * @param envp Array of environment variables in the format "VAR=value".
-  */
- void	copy_env_value(const char **input, char **current, char **envp)
- {
-     (*input)++; // avança para o próximo caractere
-     if (**input == '$') // caso $$ → PID
-     {
-         handle_double_dollar(input, current);
-         return ;
-     }
-     if (**input == '?') // caso $? → exit status
-     {
-         handle_question_mark(input, current);
-         return ;
-     }
-     if (ft_isalpha(**input) || **input == '_')  // Case $VARIABLE
-     {
-         handle_env_variable_expansion(input, current, envp);
-         return ;
-     }
-     *(*current)++ = '$'; // If not recognized ($$ $?) → write only '$'
+*/
+void	copy_env_value(const char **input, char **current, char **envp)
+{
+	(*input)++;
+	if (**input == '$')
+	{
+		handle_double_dollar(input, current);
+		return ;
+	}
+	if (**input == '?')
+	{
+		handle_question_mark(input, current);
+		return ;
+	}
+	if (ft_isalpha(**input) || **input == '_')
+	{
+		handle_env_variable_expansion(input, current, envp);
+		return ;
+	}
+	*(*current)++ = '$';
 }

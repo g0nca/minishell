@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:19:51 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/04/24 15:32:27 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:26:08 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int check_executable_cmd(t_token *head, t_shell *shell)
     int i;
 
     i = 0;
-    (void)head;
     path_env = get_path_env(shell->env);
     splitted_path_env = ft_split(path_env, ':');
     while (splitted_path_env[i])

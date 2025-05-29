@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/20 14:40:47 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:30:40 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static char	*create_heredoc(const char *delimiter, t_shell *shell)
 	close(fd);
 	new_node = ft_lstnew(filename);
 	ft_lstadd_back(&shell->heredoc_files, new_node);
+	free(new_node);
 	return (filename);
 }
 
@@ -87,6 +88,7 @@ int	process_heredoc(t_token *token, t_shell *shell)
 			}
 			free(heredoc_token->value);
 			heredoc_token->value = ft_strdup(filename);
+			free(filename);
 			heredoc_token->type = TOKEN_REDIR_IN;
 			remove_token(&token, delimiter_token);
 			current = heredoc_token->next;

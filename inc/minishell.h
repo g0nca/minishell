@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/27 15:43:28 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:26:17 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,7 +359,7 @@ int	n_value(char *current); */
 int     parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
-void print_tokens(t_token *list, t_shell *shell, int i, t_exec_node *exec_list);
+void print_tokens(t_token *list, t_shell *shell);
 //void print_tokens_without_shell(t_token *list);
 //========================================================================
 

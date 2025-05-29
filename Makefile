@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
+#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/29 15:11:09 by joaomart         ###   ########.fr        #
+#    Updated: 2025/05/29 16:17:30 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/ft_pwd.c \
 				srcs/builtins/ft_cd.c \
 				srcs/builtins/ft_cd2.c \
+				srcs/builtins/ft_cd3.c \
 				srcs/builtins/ft_export.c \
 				srcs/builtins/ft_export2.c \
 				srcs/builtins/ft_unset.c \

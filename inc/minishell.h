@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 11:18:03 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 10:16:41 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ typedef struct s_shell
 
 typedef enum e_token_type
 {
-	TOKEN_WORD, //         words                  // 0
-	TOKEN_CMD, //          commands               // 1
-	TOKEN_PIPE, //         |                      // 2
-	TOKEN_REDIR_IN, //     <                      // 3
-	TOKEN_REDIR_OUT, //    >                      // 4
-	TOKEN_APPEND, //       >>                     // 5
-	TOKEN_HERE_DOC, //     <<                     // 6
-	TOKEN_DOUBLE_QUOTE, // "                      // 7
-	TOKEN_SIMPLE_QUOTE, // '                      // 8
+	TOKEN_WORD, //           words                  // 0
+	TOKEN_CMD, //            commands               // 1
+	TOKEN_PIPE, //           |                      // 2
+	TOKEN_REDIR_IN, //       <                      // 3
+	TOKEN_REDIR_OUT, //      >                      // 4
+	TOKEN_APPEND, //         >>                     // 5
+	TOKEN_HERE_DOC, //       <<                     // 6
+	TOKEN_DOUBLE_QUOTE, //   "                      // 7
+	TOKEN_SIMPLE_QUOTE, //   '                      // 8
 }	t_token_type;
 
 typedef struct s_token

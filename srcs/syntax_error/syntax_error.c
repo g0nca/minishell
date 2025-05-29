@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:50:03 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/22 13:23:32 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:01:03 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int skip_spaces(const char *str, int *i)
 int	check_pipe(const char *str, t_shell *shell, int *i)
 {
 	(*i)++;
-	*i = skip_spaces(str, i);
-	if (!str[(*i)])
+	if (str[(*i)] == '|')
 		return (shell_error(shell, "Syntax Error", 12, EXIT_SUCCESS), 1);
+	*i = skip_spaces(str, i);
 	return (0);
 }
 int	check_redir(const char *str, t_shell *shell, int *i)
@@ -56,12 +56,12 @@ int	check_redir(const char *str, t_shell *shell, int *i)
 			return (shell_error(shell, "Syntax Error", 12, EXIT_SUCCESS), 1);
 	}
 	if (!str[(*i)])
-		return (shell_error(shell, "Syntax Error", 12, EXIT_SUCCESS), 1);
+		return (shell_error(shell, "Syntax Error: redirect", 12, EXIT_SUCCESS), 1);
 	return (0);
 }
 int	check_quote(const char *str, t_shell *shell, int *i)
 {
-	int in_single = 0;
+	int in_single;
 	int in_double;
 	
 	in_single = 0;
@@ -70,11 +70,11 @@ int	check_quote(const char *str, t_shell *shell, int *i)
 	{
 		if (str[(*i)] == '\'' && !in_double)
 			in_single = !in_single;
-		else if (str[(*i)] == '"' && !in_single)
+		else if (str[(*i)] == '\"' && !in_single)
 			in_double = !in_double;
 		(*i)++;
 	}
-	if (in_single || in_double)
+	if (in_single == 1 || in_double == 1)
 	{
 		shell_error(shell, "Syntax Error: unclosed quote", 12, EXIT_SUCCESS);
 		return (1);
@@ -99,11 +99,11 @@ int check_syntax_errors_main(const char *str, t_shell *shell)
 				return (1);
 		}
 		else if (str[i] == '\'' || str[i] == '\"')
-		{	
+		{
 			if (check_quote(str, shell, &i))
 				return (1);
 		}
-		if (str[i])
+		else if (str[i])
 			i++;
 	}
     return (0);

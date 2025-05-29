@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:54:02 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/16 17:39:31 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:15:25 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_pwd(t_shell *shell)
 {
 	char	*pwd;
-
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{

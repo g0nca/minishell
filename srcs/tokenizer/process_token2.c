@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_token2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:18:23 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 11:07:51 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 15:10:29 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	tokenizer_word(t_token *list, int *i, char *line)
 		if (!joined)
 			return ;
 	}
-	add_final_token(list, joined, type_quotes);
+	add_final_token(list, joined);
 }
 
 /**

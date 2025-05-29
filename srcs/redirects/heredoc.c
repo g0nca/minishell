@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/28 10:37:37 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 15:06:10 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
 	close(fd);
 	new_node = ft_lstnew(filename);
 	ft_lstadd_back(&shell->heredoc_files, new_node);
+	free(new_node);
 	return (filename);
 }
 

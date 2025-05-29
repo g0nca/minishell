@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_token3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:19:51 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 11:05:32 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 15:04:54 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	check_executable_cmd(t_token *head, t_shell *shell)
 
 	i = 0;
 	bin_path = NULL;
-	(void)head;
 	path_env = get_path_env(shell->env);
 	splitted_path_env = ft_split(path_env, ':');
 	while (splitted_path_env[i])

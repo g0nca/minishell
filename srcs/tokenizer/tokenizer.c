@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 10:57:47 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 15:10:05 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,33 +92,10 @@ void	add_token_to_list(t_token *list, t_token *new_token)
 	list->size++;
 }
 
-/**
- * @brief Adiciona um token final à lista, com base no tipo de aspas usado.
- *
- * Esta função verifica o tipo de aspas associadas à string `joined` e
- * adiciona o token correspondente à lista. Se não houver aspas, o token é
- * adicionado como uma palavra (`TOKEN_WORD`). A string `joined` é libertada
- * após ser adicionada.
- *
- * @param list Lista de tokens à qual o novo token será adicionado.
- * @param joined String contendo o conteúdo do token a ser adicionado.
- * @param type_quotes Indicador do tipo de aspas:
- *        - 2: aspas duplas (`"`)
- *        - 1: aspas simples (`'`)
- *        - 0: sem aspas
- *
- * @note Esta função assume que `joined` é uma string alocada dinamicamente
- *       e liberta-a após o uso.
- */
-void	add_final_token(t_token *list, char *joined, int type_quotes)
+void	add_final_token(t_token *list, char *joined)
 {
 	if (!joined)
 		return ;
-	if (type_quotes == 2)
-		add_token(list, joined, TOKEN_DOUBLE_QUOTE);
-	else if (type_quotes == 1)
-		add_token(list, joined, TOKEN_SIMPLE_QUOTE);
-	else
-		add_token(list, joined, TOKEN_WORD);
+	add_token(list, joined, TOKEN_WORD);
 	free(joined);
 }

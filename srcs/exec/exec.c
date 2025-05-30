@@ -6,11 +6,12 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:30:17 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/27 21:51:21 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/30 10:53:38 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
 
 int	is_builtin(char *cmd)
 {

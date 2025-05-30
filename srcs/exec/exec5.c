@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:11:32 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/27 21:50:04 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/30 10:52:43 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,28 @@
 int	count_args(t_token *token)
 {
 	int	count;
+	t_token *current;
 
 	count = 0;
-	while (token)
+	current = token;
+	while (current)
 	{
-		if (token->type == TOKEN_CMD || token->type == TOKEN_WORD
-			|| token->type == TOKEN_DOUBLE_QUOTE
-			|| token->type == TOKEN_SIMPLE_QUOTE)
-			count++;
-		else if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
-			|| token->type == TOKEN_APPEND || token->type == TOKEN_HERE_DOC)
+		if (current->type == TOKEN_CMD || current->type == TOKEN_WORD
+			|| current->type == TOKEN_DOUBLE_QUOTE
+			|| current->type == TOKEN_SIMPLE_QUOTE)
 		{
-			token = token->next;
-			if (!token)
-				break ;
-			continue ;
+			count++;
 		}
-		token = token->next;
+		else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
+			|| current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
+		{
+			// Skip the redirection operator and its target file
+			current = current->next;
+			if (current)
+				current = current->next;
+			continue;
+		}
+		current = current->next;
 	}
 	return (count);
 }
@@ -48,24 +53,37 @@ char	**allocate_args(int count)
 
 void	fill_args(t_token *token, char **args)
 {
-	int	i;
+	int		i;
+	t_token	*current;
 
 	i = 0;
-	while (token)
+	current = token;
+	while (current)
 	{
-		if (token->type == TOKEN_CMD || token->type == TOKEN_WORD
-			|| token->type == TOKEN_DOUBLE_QUOTE
-			|| token->type == TOKEN_SIMPLE_QUOTE)
-			args[i++] = ft_strdup(token->value);
-		else if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
-			|| token->type == TOKEN_APPEND || token->type == TOKEN_HERE_DOC)
+		if (current->type == TOKEN_CMD || current->type == TOKEN_WORD
+			|| current->type == TOKEN_DOUBLE_QUOTE
+			|| current->type == TOKEN_SIMPLE_QUOTE)
 		{
-			token = token->next;
-			if (!token)
-				break ;
-			continue ;
+			args[i] = ft_strdup(current->value);
+			if (!args[i])
+			{
+				// Clean up on malloc failure
+				while (--i >= 0)
+					free(args[i]);
+				return;
+			}
+			i++;
 		}
-		token = token->next;
+		else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
+			|| current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
+		{
+			// Skip the redirection operator and its target file
+			current = current->next;
+			if (current)
+				current = current->next;
+			continue;
+		}
+		current = current->next;
 	}
 	args[i] = NULL;
 }

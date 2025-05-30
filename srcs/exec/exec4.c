@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:47:08 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/29 16:48:34 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/30 10:52:58 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,21 @@ void	ft_restore_stdio(int stdin_backup, int stdout_backup)
 void	ft_execute_builtin(t_token *token, t_shell *shell,
 			int stdin_backup, int stdout_backup)
 {
+	int	redir_result;
+
 	// Setup redirections BEFORE executing builtin
-	if (setup_redirections(token) == 0)
+	redir_result = setup_redirections(token);
+	if (redir_result == 0)
 	{
 		// Execute the builtin command
 		run_builtin(token, shell);
 	}
+	else
+	{
+		// Set error status if redirection failed
+		shell->last_exit_status = 1;
+	}
+	
 	// ALWAYS restore stdio, even if redirection failed
 	ft_restore_stdio(stdin_backup, stdout_backup);
 }
@@ -53,13 +62,16 @@ void	ft_execute_external(t_token *token, t_shell *shell)
 	}
 	else if (pid == 0)
 	{
+		// Child process
 		if (setup_redirections(token) != 0)
 			exit(EXIT_FAILURE);
+		
 		execute_external_command(token, shell);
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
+		// Parent process
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			shell->last_exit_status = WEXITSTATUS(status);

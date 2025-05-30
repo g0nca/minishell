@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/29 16:51:38 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/05/30 10:53:57 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,16 +337,10 @@ void	error_heredoc(const char *delimiter);
 
 //redirects.c======================================================
 int		setup_redirections(t_token *token);
-/* int		ft_token_redir_in(t_token *token);
-int		ft_token_redir_out(t_token *token);
-int		ft_token_append(t_token *token);
-int		ft_std_close(int stdin_backup, int stdout_backup); */
-
-int handle_output_redirection(t_token *token);
-int handle_input_redirection(t_token *token);
-char **create_clean_args(t_token *token);
-void ft_execute_builtin_corrected(t_token *token, t_shell *shell,
-	int stdin_backup, int stdout_backup);
+int		ft_token_redir_in(t_token *current);
+int		ft_token_redir_out(t_token *current);
+int		ft_token_append(t_token *current);
+int		ft_std_close(int stdin_backup, int stdout_backup);
 //=================================================================
 
 //signals.c========================================================

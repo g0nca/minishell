@@ -60,9 +60,9 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         expander(&token, shell);
         delete_quotes(&token, shell);
         handle_heredoc(token, shell);
-        tree = build_execution_tree(token, NULL);
-        execute_tree(tree, shell);
-        //execute_command(token, shell);
+        //tree = build_execution_tree(token, NULL);
+        //execute_tree(tree, shell);
+        execute_command(token, shell);
         //printf("==========================================================\n");
         //print_tokens(token, shell, 1, tree);
     }

@@ -86,9 +86,7 @@ void	ft_cd(t_token *cmdargs, t_shell *shell)
 	t_token	*current;
 	char	*old_pwd;
 	bool	cd_success;
-	int		arg_count;
 
-	arg_count = 0;
 	current = cmdargs->next;
 	if (ft_arg_count(cmdargs) > 1)
 	{

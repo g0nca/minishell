@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:05:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/27 21:34:49 by andrade          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:17:53 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	cd_home(t_shell *shell)
-{
-	char	*target;
-
-	target = cd_getenv(shell, "HOME");
-	if (!target)
-		return (shell_error(shell, "HOME not set", 0, false));
-	if (chdir(target) != 0)
-		return (shell_error(shell, (char *)target, 2, false));
-	shell->last_exit_status = EXIT_SUCCESS;
-}
 
 bool	cd_oldpwd(t_shell *shell)
 {
@@ -78,14 +66,37 @@ void	sucess_cd(char *old_pwd, t_shell *shell)
 	else
 		shell_error(shell, "getcwd error after changing directory", 0, false);
 }
+static int		ft_arg_count(t_token *cmdargs)
+{
+	t_token	*current;
+	int arg_count;
+
+	arg_count = 0;
+	current = cmdargs->next;
+	while (current)
+	{
+		arg_count++;
+		current = current->next;
+	}
+	return (arg_count);
+}
 
 void	ft_cd(t_token *cmdargs, t_shell *shell)
 {
 	t_token	*current;
 	char	*old_pwd;
 	bool	cd_success;
+	int		arg_count;
 
+	arg_count = 0;
 	current = cmdargs->next;
+	if (ft_arg_count(cmdargs) > 1)
+	{
+		g_exit_status = 1;
+		shell->last_exit_status = 1;
+		shell_error(shell, "", 9, EXIT_SUCCESS);
+		return ;
+	}
 	old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
 	{

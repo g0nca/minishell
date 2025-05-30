@@ -3,10 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
+<<<<<<< HEAD
 #    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
 #    Updated: 2025/05/30 10:53:49 by andrade          ###   ########.fr        #
+=======
+#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
+#    Updated: 2025/05/29 16:17:30 by ggomes-v         ###   ########.fr        #
+>>>>>>> normGonca
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +56,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/ft_pwd.c \
 				srcs/builtins/ft_cd.c \
 				srcs/builtins/ft_cd2.c \
+				srcs/builtins/ft_cd3.c \
 				srcs/builtins/ft_export.c \
 				srcs/builtins/ft_export2.c \
 				srcs/builtins/ft_unset.c \

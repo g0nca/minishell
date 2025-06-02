@@ -64,7 +64,11 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 		cmd_token = create_token_chain(node->cmd);
 		if (!cmd_token)
 			exit(EXIT_FAILURE);
-		execute_command(cmd_token, shell);
+		//execute_command(cmd_token, shell);
+		if (is_builtin(node->cmd[0]))
+			run_builtin(cmd_token, shell);
+		else
+			execute_external_command(cmd_token, shell);
 		free_tokens(&cmd_token);
 	}
 }

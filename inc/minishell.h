@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/30 10:53:57 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:23:10 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ int	remove_old_env_variable(t_token **tokens, t_token *current);
 void execute_command_tree(t_exec_node *node, t_shell *shell);
 void handle_child_process(t_exec_node *node, t_shell *shell);
 void handle_parent_process(pid_t pid, t_shell *shell);
+int		is_simple_builtin_command(t_exec_node *node);
 //===================================================================
 
 // execution_tree_command.c =========================================

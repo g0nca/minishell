@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_tree_main.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/29 11:03:14 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/06/02 11:24:04 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,25 @@ void	handle_parent_process(pid_t pid, t_shell *shell)
 	else
 		shell->last_exit_status = 1;
 }
-
+int		is_simple_builtin_command(t_exec_node *node)
+{
+	return (node->type == NODE_COMMAND && node->cmd && node->cmd[0] && is_builtin(node->cmd[0]) && node->fd_in == -1 && node->fd_out == -1);
+}
 void	execute_command_tree(t_exec_node *node, t_shell *shell)
 {
 	pid_t	pid;
+	t_token	*cmd_token;
 
 	if (!node)
 		return ;
-	if (node->type == NODE_COMMAND
-		&& node->fd_in == -1 && node->fd_out == -1)
+	if (is_simple_builtin_command(node))
 	{
-		execute_tree(node, shell);
+		cmd_token = create_token_chain(node->cmd);
+		if (cmd_token)
+		{
+			run_builtin(cmd_token, shell);
+			free_tokens(&cmd_token);
+		}
 		return ;
 	}
 	pid = fork();

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/02 11:23:10 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:33:36 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ void execute_input_redirect(t_exec_node *node, t_shell *shell);
 void execute_output_redirect(t_exec_node *node, t_shell *shell);
 //===================================================================
 
+
 // execution_tree_argv.c ============================================
 char **tokens_to_argv(t_token *start, t_token *end);
 //===================================================================
@@ -227,10 +228,22 @@ void fill_argv_array(t_token *start, t_token *end, char **argv, int count);
 //===================================================================
 
 // syntax_error.c ==================================================
-int		check_syntax_errors_main(const char *str, t_shell *shell);
+/* int		check_syntax_errors_main(const char *str, t_shell *shell);
 int		check_pipe(const char *str, t_shell *shell, int *i);
 int		check_redir(const char *str, t_shell *shell, int *i);
 int		skip_spaces(const char *str, int *i);
+int		check_quote(const char *str, t_shell *shell); */
+int	check_double_pipes(const char *line, t_shell *shell);
+int	check_redirects(const char *line, t_shell *shell);
+int	check_heredoc_and_redirect_conflict(const char *line, t_shell *shell);
+int	check_syntax_errors_main(const char *line, t_shell *shell);
+
+// sysntax_error2.c ================================================
+int	is_quote(char c);
+int	is_space(char c);
+int	is_redirect(char c);
+int skip_quotes(const char *str, int i);
+int	skip_spaces(const char *str, int *i);
 //==================================================================
 
 // utils.c ========================================================
@@ -363,6 +376,9 @@ int		parse_line(t_token *shell, char *line);
 
 //EXTRAS ==========================================================
 void	print_tokens(t_token *list, t_shell *shell);
+void	print_execution_tree(t_exec_node *node, int depth);
+void	print_command(char **cmd);
+void	print_node_type(t_node_type type);
 //void print_tokens_without_shell(t_token *list);
 //=================================================================
 

@@ -33,7 +33,7 @@ t_exec_node	*create_redirect_node(t_token *start, t_token *curr, t_token *end)
 		free(node);
 		return (NULL);
 	}
-	node->cmd[0] = strdup(curr->next->value);
+	node->cmd[0] = ft_strdup(curr->next->value);
 	node->cmd[1] = NULL;
 	node->fd_in = -1;
 	node->fd_out = -1;

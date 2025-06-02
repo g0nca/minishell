@@ -42,7 +42,9 @@ void	execute_input_redirect(t_exec_node *node, t_shell *shell)
 {
 	int	fd;
 
+	//ft_printf_fd(1, "CMD:%s\n", node->cmd[0]);
 	fd = open(node->cmd[0], O_RDONLY);
+	//ft_printf_fd(1, "FD: %d\n", fd);
 	if (fd < 0)
 	{
 		perror("open");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 10:41:11 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/28 10:42:23 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:11:37 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,13 @@ int	is_quote(char c)
 {
 	return (c == '\'' || c == '\"');
 }
-
-int	skip_quote(const char *str, int *i)
+int	is_space(char c)
 {
-	char	quote;
-
-	quote = str[(*i)++];
-	while (str[*i] && str[*i] != quote)
-		(*i)++;
-	if (str[*i] == quote)
-		return (*i);
-	return (-1);
+	return (c == ' ');
+}
+int	is_redirect(char c)
+{
+	return (c == '<' || c == '>');
 }
 
 int	skip_spaces(const char *str, int *i)
@@ -35,12 +31,15 @@ int	skip_spaces(const char *str, int *i)
 		(*i)++;
 	return (*i);
 }
-
-int	check_pipe(const char *str, t_shell *shell, int *i)
+int skip_quotes(const char *str, int i)
 {
-	(*i)++;
-	*i = skip_spaces(str, i);
-	if (!str[(*i)])
-		return (shell_error(shell, "Syntax Error", 12, EXIT_SUCCESS), 1);
-	return (0);
+	char quote;
+
+	quote = str[i];
+	i++;
+	while (str[i] && str[i] != quote)
+		i++;
+	if (str[i] == quote)
+		i++;
+	return (i);
 }

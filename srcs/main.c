@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/30 11:09:18 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:36:07 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         expander(&token, shell);
         delete_quotes(&token, shell);
         handle_heredoc(token, shell);
-        //tree = build_execution_tree(token, NULL);
-        //execute_tree(tree, shell);
-        execute_command(token, shell);
+        tree = build_execution_tree(token, NULL);
+		print_execution_tree(tree, 0);
+        execute_tree(tree, shell);
+        //execute_command(token, shell);
         //printf("==========================================================\n");
-        //print_tokens(token, shell, 1, tree);
+        //print_tokens(token, shell);
     }
     free_tokens(&token);
     free_execution_tree(tree);
@@ -88,19 +89,63 @@ void print_tokens(t_token *list, t_shell *shell)
     printf("last_exit_status:%d\n", shell->last_exit_status);
 }
 
-/* void print_tokens_without_shell(t_token *list)
+void	print_node_type(t_node_type type)
 {
-	if (!list)
-		return;
+	if (type == NODE_COMMAND)
+		printf("Type: COMMAND\n");
+	else if (type == NODE_PIPE)
+		printf("Type: PIPE\n");
+	else if (type == NODE_REDIRECT_IN)
+		printf("Type: REDIRECT_IN\n");
+	else if (type == NODE_REDIRECT_OUT)
+		printf("Type: REDIRECT_OUT\n");
+	else if (type == NODE_REDIRECT_APPEND)
+		printf("Type: REDIRECT_APPEND\n");
+	else
+		printf("Type: UNKNOWN\n");
+}
 
+void	print_command(char **cmd)
+{
 	int i = 0;
-	t_token *current = list;
-	printf("---------------------------------------------------------\n");
-	while (current)
+
+	if (!cmd)
 	{
-		printf("token[%d] (%d): %s\n", i, current->type, current->value);
-		current = current->next;
+		printf("Cmd: (null)\n");
+		return;
+	}
+	printf("Cmd:");
+	while (cmd[i])
+	{
+		printf(" %s", cmd[i]);
 		i++;
 	}
-	printf("---------------------------------------------------------\n");
-} */
+	printf("\n");
+}
+
+void	print_execution_tree(t_exec_node *node, int depth)
+{
+	if (!node)
+		return;
+
+	// Indentação para visualizar a profundidade na árvore
+	for (int i = 0; i < depth; i++)
+		printf("  ");
+
+	print_node_type(node->type);
+
+	for (int i = 0; i < depth; i++)
+		printf("  ");
+	print_command(node->cmd);
+
+	for (int i = 0; i < depth; i++)
+		printf("  ");
+	printf("FD_IN: %d | FD_OUT: %d\n", node->fd_in, node->fd_out);
+
+	printf("\n");
+
+	// Recursivamente imprime os nós à esquerda e à direita
+	print_execution_tree(node->left, depth + 1);
+	print_execution_tree(node->right, depth + 1);
+}
+

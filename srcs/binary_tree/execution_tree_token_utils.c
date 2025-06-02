@@ -12,29 +12,29 @@
 
 #include "../../inc/minishell.h"
 
-static int	should_skip_redirection(t_token *tmp)
-{
-	if (tmp->next && is_redirection(tmp->next->type))
-		return (1);
-	return (0);
-}
-
 int	count_valid_tokens(t_token *start, t_token *end)
 {
 	int		count;
 	t_token	*tmp;
+	int		skip_next;
 
 	tmp = start;
 	count = 0;
+	skip_next = 0;
 	while (tmp && tmp != end)
 	{
-		if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
+		if (skip_next)
 		{
-			if (tmp->next && is_redirection(tmp->next->type))
-			{
-				tmp = tmp->next->next;
-				continue ;
-			}
+			skip_next = 0;
+			tmp = tmp->next;
+			continue ;
+		}
+		if (is_redirection(tmp->type))
+		{
+			skip_next = 1;  // Skip the next token (filename)
+		}
+		else if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
+		{
 			count++;
 		}
 		tmp = tmp->next;
@@ -59,19 +59,26 @@ void	fill_argv_array(t_token *start, t_token *end, char **argv, int count)
 {
 	t_token	*tmp;
 	int		i;
+	int		skip_next;
 
 	i = 0;
 	tmp = start;
+	skip_next = 0;
 	while (tmp && tmp != end && i < count)
 	{
-		if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
+		if (skip_next)
 		{
-			if (should_skip_redirection(tmp))
-			{
-				tmp = tmp->next->next;
-				continue ;
-			}
-			argv[i] = strdup(tmp->value);
+			skip_next = 0;
+			tmp = tmp->next;
+			continue ;
+		}
+		if (is_redirection(tmp->type))
+		{
+			skip_next = 1;  // Skip the next token (filename)
+		}
+		else if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
+		{
+			argv[i] = ft_strdup(tmp->value);
 			if (!argv[i])
 			{
 				cleanup_argv_on_error(argv, i);

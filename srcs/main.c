@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/30 11:09:18 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/02 10:35:03 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         expander(&token, shell);
         delete_quotes(&token, shell);
         handle_heredoc(token, shell);
-        //tree = build_execution_tree(token, NULL);
-        //execute_tree(tree, shell);
+        tree = build_execution_tree(token, NULL);
+        execute_tree(tree, shell);
         execute_command(token, shell);
         //printf("==========================================================\n");
         //print_tokens(token, shell, 1, tree);

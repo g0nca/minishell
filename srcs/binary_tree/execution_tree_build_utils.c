@@ -54,24 +54,102 @@ t_node_type	get_redirect_node_type(t_token_type type)
 		return (NODE_REDIRECT_APPEND);
 }
 
-t_exec_node	*create_command_node(t_token *start, t_token *end)
+t_exec_node *create_command_node(t_token *start, t_token *end)
 {
-	t_exec_node	*node;
+    t_exec_node *node;
+    t_token *current;
+    int arg_count;
+    int i;
 
-	node = malloc(sizeof(t_exec_node));
-	if (!node)
-		return (NULL);
-	node->type = NODE_COMMAND;
-	node->cmd = tokens_to_argv(start, end);
-	node->left = NULL;
-	node->right = NULL;
-	node->fd_in = -1;
-	node->fd_out = -1;
-	if (!node->cmd || !node->cmd[0])
-	{
-		free_cmd(node->cmd);
-		free(node);
-		return (NULL);
-	}
-	return (node);
+    if (!start)
+        return (NULL);
+
+    node = malloc(sizeof(t_exec_node));
+    if (!node)
+        return (NULL);
+
+    node->type = NODE_COMMAND;
+    node->left = NULL;
+    node->right = NULL;
+    node->fd_in = -1;
+    node->fd_out = -1;
+
+    // Count arguments (excluding redirections)
+    arg_count = 0;
+    current = start;
+    while (current && current != end)
+    {
+        if (current->type == TOKEN_CMD || current->type == TOKEN_WORD)
+        {
+            arg_count++;
+            current = current->next;
+        }
+        else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
+            || current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
+        {
+            // Skip redirection operator
+            current = current->next;
+            // Skip filename
+            if (current && current != end && current->type == TOKEN_WORD)
+                current = current->next;
+        }
+        else if (current->type == TOKEN_PIPE)
+        {
+            break;
+        }
+        else
+        {
+            current = current->next;
+        }
+    }
+
+    // Allocate cmd array
+    node->cmd = malloc(sizeof(char *) * (arg_count + 1));
+    if (!node->cmd)
+    {
+        free(node);
+        return (NULL);
+    }
+
+    // Fill cmd array with arguments (excluding redirections)
+    i = 0;
+    current = start;
+    while (current && current != end && i < arg_count)
+    {
+        if (current->type == TOKEN_CMD || current->type == TOKEN_WORD)
+        {
+            node->cmd[i] = ft_strdup(current->value);
+            if (!node->cmd[i])
+            {
+                // Cleanup on error
+                while (--i >= 0)
+                    free(node->cmd[i]);
+                free(node->cmd);
+                free(node);
+                return (NULL);
+            }
+            i++;
+            current = current->next;
+        }
+        else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
+            || current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
+        {
+            // Skip redirection operator
+            current = current->next;
+            // Skip filename
+            if (current && current != end && current->type == TOKEN_WORD)
+                current = current->next;
+        }
+        else if (current->type == TOKEN_PIPE)
+        {
+            break;
+        }
+        else
+        {
+            current = current->next;
+        }
+    }
+    node->cmd[i] = NULL;
+
+    return (node);
 }

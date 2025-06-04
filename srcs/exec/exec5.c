@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:11:32 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/30 10:52:43 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:04:47 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,29 @@ int	count_args(t_token *token)
 	current = token;
 	while (current)
 	{
-		if (current->type == TOKEN_CMD || current->type == TOKEN_WORD
-			|| current->type == TOKEN_DOUBLE_QUOTE
-			|| current->type == TOKEN_SIMPLE_QUOTE)
+		if (current->type == TOKEN_CMD || current->type == TOKEN_WORD)
 		{
 			count++;
+			current = current->next;
 		}
 		else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
 			|| current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
 		{
-			// Skip the redirection operator and its target file
+			// Skip the redirection operator
 			current = current->next;
-			if (current)
+			// Skip the filename if it exists
+			if (current && current->type == TOKEN_WORD)
 				current = current->next;
-			continue;
 		}
-		current = current->next;
+		else if (current->type == TOKEN_PIPE)
+		{
+			// Stop at pipe - don't count arguments for next command
+			break;
+		}
+		else
+		{
+			current = current->next;
+		}
 	}
 	return (count);
 }
@@ -60,9 +67,7 @@ void	fill_args(t_token *token, char **args)
 	current = token;
 	while (current)
 	{
-		if (current->type == TOKEN_CMD || current->type == TOKEN_WORD
-			|| current->type == TOKEN_DOUBLE_QUOTE
-			|| current->type == TOKEN_SIMPLE_QUOTE)
+		if (current->type == TOKEN_CMD || current->type == TOKEN_WORD)
 		{
 			args[i] = ft_strdup(current->value);
 			if (!args[i])
@@ -73,17 +78,26 @@ void	fill_args(t_token *token, char **args)
 				return;
 			}
 			i++;
+			current = current->next;
 		}
 		else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
 			|| current->type == TOKEN_APPEND || current->type == TOKEN_HERE_DOC)
 		{
-			// Skip the redirection operator and its target file
+			// Skip the redirection operator
 			current = current->next;
-			if (current)
+			// Skip the filename if it exists
+			if (current && current->type == TOKEN_WORD)
 				current = current->next;
-			continue;
 		}
-		current = current->next;
+		else if (current->type == TOKEN_PIPE)
+		{
+			// Stop at pipe - don't process arguments for next command
+			break;
+		}
+		else
+		{
+			current = current->next;
+		}
 	}
 	args[i] = NULL;
 }

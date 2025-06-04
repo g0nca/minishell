@@ -26,6 +26,7 @@ void	setup_file_descriptors(t_exec_node *node)
 	}
 }
 
+// Create a token chain from cmd array, but preserve all arguments
 t_token	*create_token_chain(char **cmd)
 {
 	t_token	*cmd_token;
@@ -33,6 +34,9 @@ t_token	*create_token_chain(char **cmd)
 	t_token	*arg_token;
 	int		i;
 
+	if (!cmd || !cmd[0])
+		return (NULL);
+		
 	cmd_token = create_token(cmd[0], TOKEN_CMD);
 	if (!cmd_token)
 		return (NULL);
@@ -56,19 +60,26 @@ t_token	*create_token_chain(char **cmd)
 
 void	execute_command_node(t_exec_node *node, t_shell *shell)
 {
-	t_token	*cmd_token;
+	if (!node || !node->cmd || !node->cmd[0])
+		return;
 
 	setup_file_descriptors(node);
-	if (node->cmd && node->cmd[0])
+	
+	// Direct execution using the cmd array instead of recreating tokens
+	if (is_builtin(node->cmd[0]))
 	{
-		cmd_token = create_token_chain(node->cmd);
-		if (!cmd_token)
-			exit(EXIT_FAILURE);
-		if (is_builtin(node->cmd[0]))
+		// For builtins, we still need tokens for the current interface
+		t_token	*cmd_token = create_token_chain(node->cmd);
+		if (cmd_token)
+		{
 			run_builtin(cmd_token, shell);
-		else
-			execute_command(cmd_token, shell);
-		free_tokens(&cmd_token);
+			free_tokens(&cmd_token);
+		}
+	}
+	else
+	{
+		// For external commands, execute directly with the cmd array
+		handle_env_path_execution(node->cmd, shell);
 	}
 }
 

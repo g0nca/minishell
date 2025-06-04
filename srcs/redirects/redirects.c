@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:55:23 by andrade           #+#    #+#             */
-/*   Updated: 2025/06/02 15:58:16 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:38:25 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ int	ft_token_redir_in(t_token *current)
 	char	*filename;
 
 	// Skip to the filename token (should be the next token after <)
-	if (current->next && current->next->value)
+	if (current->next && current->next->value && current->next->type == TOKEN_WORD)
 		filename = current->next->value;
 	else
 	{
-		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+		ft_printf_fd(2, "minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("minishell");
+		ft_printf_fd(2, "minishell: %s: No such file or directory\n", filename);
 		return (1);
 	}
 
@@ -50,18 +50,19 @@ int	ft_token_redir_out(t_token *current)
 	char	*filename;
 
 	// Skip to the filename token (should be the next token after >)
-	if (current->next && current->next->value)
+	if (current->next && current->next->value && current->next->type == TOKEN_WORD)
 		filename = current->next->value;
 	else
 	{
-		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+		ft_printf_fd(2, "minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		perror("minishell");
+		ft_printf_fd(2, "minishell: %s: ", filename);
+		perror("");
 		return (1);
 	}
 
@@ -82,18 +83,19 @@ int	ft_token_append(t_token *current)
 	char	*filename;
 
 	// Skip to the filename token (should be the next token after >>)
-	if (current->next && current->next->value)
+	if (current->next && current->next->value && current->next->type == TOKEN_WORD)
 		filename = current->next->value;
 	else
 	{
-		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+		ft_printf_fd(2, "minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
-		perror("minishell");
+		ft_printf_fd(2, "minishell: %s: ", filename);
+		perror("");
 		return (1);
 	}
 
@@ -124,6 +126,8 @@ int	setup_redirections(t_token *token)
 			result = ft_token_redir_out(current);
 		else if (current->type == TOKEN_APPEND)
 			result = ft_token_append(current);
+		else if (current->type == TOKEN_PIPE)
+			break; // Don't process redirections beyond pipes
 
 		current = current->next;
 	}

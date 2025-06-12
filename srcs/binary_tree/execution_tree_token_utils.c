@@ -16,28 +16,32 @@ int	count_valid_tokens(t_token *start, t_token *end)
 {
 	int		count;
 	t_token	*tmp;
-	int		skip_next;
 
 	tmp = start;
 	count = 0;
-	skip_next = 0;
 	while (tmp && tmp != end)
 	{
-		if (skip_next)
-		{
-			skip_next = 0;
-			tmp = tmp->next;
-			continue ;
-		}
-		if (is_redirection(tmp->type))
-		{
-			skip_next = 1;  // Skip the next token (filename)
-		}
-		else if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
+		if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
 		{
 			count++;
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
+		else if (is_redirection(tmp->type))
+		{
+			// Skip redirection operator
+			tmp = tmp->next;
+			// Skip filename - but CONTINUE processing after redirection
+			if (tmp && tmp != end && tmp->type == TOKEN_WORD)
+				tmp = tmp->next;
+		}
+		else if (tmp->type == TOKEN_PIPE)
+		{
+			break;
+		}
+		else
+		{
+			tmp = tmp->next;
+		}
 	}
 	return (count);
 }
@@ -59,24 +63,12 @@ void	fill_argv_array(t_token *start, t_token *end, char **argv, int count)
 {
 	t_token	*tmp;
 	int		i;
-	int		skip_next;
 
 	i = 0;
 	tmp = start;
-	skip_next = 0;
 	while (tmp && tmp != end && i < count)
 	{
-		if (skip_next)
-		{
-			skip_next = 0;
-			tmp = tmp->next;
-			continue ;
-		}
-		if (is_redirection(tmp->type))
-		{
-			skip_next = 1;  // Skip the next token (filename)
-		}
-		else if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
+		if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
 		{
 			argv[i] = ft_strdup(tmp->value);
 			if (!argv[i])
@@ -85,8 +77,24 @@ void	fill_argv_array(t_token *start, t_token *end, char **argv, int count)
 				return ;
 			}
 			i++;
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
+		else if (is_redirection(tmp->type))
+		{
+			// Skip redirection operator
+			tmp = tmp->next;
+			// Skip filename - but CONTINUE processing after redirection
+			if (tmp && tmp != end && tmp->type == TOKEN_WORD)
+				tmp = tmp->next;
+		}
+		else if (tmp->type == TOKEN_PIPE)
+		{
+			break;
+		}
+		else
+		{
+			tmp = tmp->next;
+		}
 	}
 	argv[i] = NULL;
 }

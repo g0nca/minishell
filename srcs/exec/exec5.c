@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:11:32 by andrade           #+#    #+#             */
-/*   Updated: 2025/06/04 11:04:47 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/11 16:28:38 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ int	count_args(t_token *token)
 		{
 			// Skip the redirection operator
 			current = current->next;
-			// Skip the filename if it exists
+			// Skip the filename if it exists - but CONTINUE processing after redirection
 			if (current && current->type == TOKEN_WORD)
 				current = current->next;
+			// Continue processing - don't break here
 		}
 		else if (current->type == TOKEN_PIPE)
 		{
@@ -85,9 +86,10 @@ void	fill_args(t_token *token, char **args)
 		{
 			// Skip the redirection operator
 			current = current->next;
-			// Skip the filename if it exists
+			// Skip the filename if it exists - but CONTINUE processing after redirection
 			if (current && current->type == TOKEN_WORD)
 				current = current->next;
+			// Continue processing - don't break here
 		}
 		else if (current->type == TOKEN_PIPE)
 		{

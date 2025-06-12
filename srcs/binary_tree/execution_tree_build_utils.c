@@ -12,6 +12,52 @@
 
 #include "../../inc/minishell.h"
 
+// Helper function to process all redirections in token order
+int	process_token_redirections(t_token *start, t_token *end, t_shell *shell)
+{
+    (void)shell;
+	t_token *curr;
+	int fd;
+	int flags;
+
+	curr = start;
+	while (curr && curr != end && curr->next)
+	{
+		if (curr->type == TOKEN_REDIR_IN && curr->next->type == TOKEN_WORD)
+		{
+			fd = open(curr->next->value, O_RDONLY);
+			if (fd < 0)
+			{
+				ft_printf_fd(2, "minishell: %s: No such file or directory\n", curr->next->value);
+				return (1);
+			}
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		else if ((curr->type == TOKEN_REDIR_OUT || curr->type == TOKEN_APPEND) 
+				&& curr->next->type == TOKEN_WORD)
+		{
+			flags = O_WRONLY | O_CREAT;
+			if (curr->type == TOKEN_APPEND)
+				flags |= O_APPEND;
+			else
+				flags |= O_TRUNC;
+				
+			fd = open(curr->next->value, flags, 0644);
+			if (fd < 0)
+			{
+				ft_printf_fd(2, "minishell: %s: ", curr->next->value);
+				perror("");
+				return (1);
+			}
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		curr = curr->next;
+	}
+	return (0);
+}
+
 t_token	*find_last_pipe(t_token *start, t_token *end)
 {
 	t_token		*curr;
@@ -54,6 +100,7 @@ t_node_type	get_redirect_node_type(t_token_type type)
 		return (NODE_REDIRECT_APPEND);
 }
 
+// Modified create_command_node to handle redirections inline
 t_exec_node *create_command_node(t_token *start, t_token *end)
 {
     t_exec_node *node;
@@ -73,6 +120,11 @@ t_exec_node *create_command_node(t_token *start, t_token *end)
     node->right = NULL;
     node->fd_in = -1;
     node->fd_out = -1;
+    node->original_start = start;
+    node->original_end = end;
+
+    // Store original token range for redirection processing
+    node->cmd = NULL; // Will be set by token processing function
 
     // Count arguments (excluding redirections)
     arg_count = 0;
@@ -101,6 +153,12 @@ t_exec_node *create_command_node(t_token *start, t_token *end)
         {
             current = current->next;
         }
+    }
+
+    if (arg_count == 0)
+    {
+        free(node);
+        return (NULL);
     }
 
     // Allocate cmd array

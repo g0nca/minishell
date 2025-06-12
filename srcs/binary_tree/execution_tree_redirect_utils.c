@@ -18,6 +18,24 @@ int	is_redirection(t_token_type type)
 		|| type == TOKEN_REDIR_OUT || type == TOKEN_APPEND);
 }
 
+// Find the RIGHTMOST (last) redirection of each type to match bash behavior
+t_token *find_last_redirection(t_token *start, t_token *end, t_token_type redir_type)
+{
+	t_token *curr;
+	t_token *last_found;
+
+	curr = start;
+	last_found = NULL;
+	while (curr && curr != end && curr->next)
+	{
+		if ((t_token_type)curr->type == redir_type && curr->next->type == TOKEN_WORD)
+			last_found = curr;
+		curr = curr->next;
+	}
+	return (last_found);
+}
+
+// Process all redirections in order, but only keep the last one of each type
 t_exec_node	*create_redirect_node(t_token *start, t_token *curr, t_token *end)
 {
 	t_exec_node	*node;
@@ -42,16 +60,30 @@ t_exec_node	*create_redirect_node(t_token *start, t_token *curr, t_token *end)
 	return (node);
 }
 
+// Modified to handle multiple redirections properly
 t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end)
 {
-	t_token	*curr;
+	t_token *last_in_redir;
+	t_token *last_out_redir;
+	t_token *last_append_redir;
+	t_token *rightmost_redir;
 
-	curr = start;
-	while (curr && curr != end && curr->next)
-	{
-		if (is_redirection(curr->type) && curr->next->type == TOKEN_WORD)
-			return (create_redirect_node(start, curr, end));
-		curr = curr->next;
-	}
+	// Find the last redirection of each type
+	last_in_redir = find_last_redirection(start, end, TOKEN_REDIR_IN);
+	last_out_redir = find_last_redirection(start, end, TOKEN_REDIR_OUT);
+	last_append_redir = find_last_redirection(start, end, TOKEN_APPEND);
+
+	// Find the rightmost redirection overall
+	rightmost_redir = NULL;
+	if (last_in_redir)
+		rightmost_redir = last_in_redir;
+	if (last_out_redir && (!rightmost_redir || last_out_redir > rightmost_redir))
+		rightmost_redir = last_out_redir;
+	if (last_append_redir && (!rightmost_redir || last_append_redir > rightmost_redir))
+		rightmost_redir = last_append_redir;
+
+	if (rightmost_redir)
+		return (create_redirect_node(start, rightmost_redir, end));
+
 	return (NULL);
 }

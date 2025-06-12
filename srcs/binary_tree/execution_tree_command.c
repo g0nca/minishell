@@ -26,6 +26,41 @@ void	setup_file_descriptors(t_exec_node *node)
 	}
 }
 
+// Process ALL redirections from the original token list
+int	setup_command_redirections(t_token *start, t_token *end, t_shell *shell)
+{
+	int input_fd;
+	int output_fd;
+
+	// Process all input redirections
+	input_fd = process_token_redirections(start, end, shell);
+	if (input_fd == -1 && shell->last_exit_status != 0)
+		return (-1);
+
+	// Process all output redirections
+	output_fd = process_token_redirections(start, end, shell);
+	if (output_fd == -1 && shell->last_exit_status != 0)
+	{
+		if (input_fd != -1)
+			close(input_fd);
+		return (-1);
+	}
+
+	// Apply the final redirections
+	if (input_fd != -1)
+	{
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
+	}
+	if (output_fd != -1)
+	{
+		dup2(output_fd, STDOUT_FILENO);
+		close(output_fd);
+	}
+
+	return (0);
+}
+
 // Create a token chain from cmd array, but preserve all arguments
 t_token	*create_token_chain(char **cmd)
 {
@@ -63,12 +98,14 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 	if (!node || !node->cmd || !node->cmd[0])
 		return;
 
+	// Process ALL redirections from original token list
+	if (process_token_redirections(node->original_start, node->original_end, shell) != 0)
+		return;
+
 	setup_file_descriptors(node);
 	
-	// Direct execution using the cmd array instead of recreating tokens
 	if (is_builtin(node->cmd[0]))
 	{
-		// For builtins, we still need tokens for the current interface
 		t_token	*cmd_token = create_token_chain(node->cmd);
 		if (cmd_token)
 		{
@@ -78,7 +115,6 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 	}
 	else
 	{
-		// For external commands, execute directly with the cmd array
 		handle_env_path_execution(node->cmd, shell);
 	}
 }

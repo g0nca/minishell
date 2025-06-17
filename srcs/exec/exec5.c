@@ -6,13 +6,13 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:11:32 by andrade           #+#    #+#             */
-/*   Updated: 2025/06/04 11:04:47 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/17 09:34:26 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	count_args(t_token *token)
+/* int	count_args(t_token *token)
 {
 	int	count;
 	t_token *current;
@@ -100,4 +100,4 @@ void	fill_args(t_token *token, char **args)
 		}
 	}
 	args[i] = NULL;
-}
+} */

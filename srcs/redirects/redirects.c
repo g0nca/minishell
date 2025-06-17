@@ -6,13 +6,13 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:55:23 by andrade           #+#    #+#             */
-/*   Updated: 2025/06/03 11:38:25 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/17 09:34:34 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	ft_token_redir_in(t_token *current)
+/* int	ft_token_redir_in(t_token *current)
 {
 	int		fd;
 	char	*filename;
@@ -140,4 +140,4 @@ int	ft_std_close(int stdin_backup, int stdout_backup)
 	close(stdin_backup);
 	close(stdout_backup);
 	return (1);
-}
+} */

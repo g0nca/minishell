@@ -14,48 +14,56 @@
 
 void	execute_output_redirect(t_exec_node *node, t_shell *shell)
 {
-	int	flags;
-	int	fd;
+    int	flags;
+    int	fd;
 
-	flags = O_WRONLY | O_CREAT;
-	if (node->type == NODE_REDIRECT_APPEND)
-		flags |= O_APPEND;
-	else
-		flags |= O_TRUNC;
-	fd = open(node->cmd[0], flags, 0644);
-	if (fd < 0)
-	{
-		perror("open");
-		shell->last_exit_status = 1;
-		return ;
-	}
-	if (node->left)
-	{
-		node->left->fd_out = fd;
-		execute_tree(node->left, shell);
-	}
-	else
-		close(fd);
+    flags = O_WRONLY | O_CREAT;
+    if (node->type == NODE_REDIRECT_APPEND)
+        flags |= O_APPEND;
+    else
+        flags |= O_TRUNC;
+    fd = open(node->cmd[0], flags, 0644);
+    if (fd < 0)
+    {
+        perror("open");
+        shell->last_exit_status = 1;
+        return ;
+    }
+    if (node->left)
+    {
+        node->left->fd_out = fd;
+        execute_tree(node->left, shell);
+    }
+    else if (node->right)
+    {
+        node->right->fd_out = fd;
+        execute_tree(node->right, shell);
+    }
+    else
+        close(fd);
 }
 
 void	execute_input_redirect(t_exec_node *node, t_shell *shell)
 {
-	int	fd;
+    int	fd;
 
-	//ft_printf_fd(1, "CMD:%s\n", node->cmd[0]);
-	fd = open(node->cmd[0], O_RDONLY);
-	//ft_printf_fd(1, "FD: %d\n", fd);
-	if (fd < 0)
-	{
-		perror("open");
-		shell->last_exit_status = 1;
-		return ;
-	}
-	if (node->left)
-	{
-		node->left->fd_in = fd;
-		execute_tree(node->left, shell);
-	}
-	else
-		close(fd);
+    fd = open(node->cmd[0], O_RDONLY);
+    if (fd < 0)
+    {
+        perror("open");
+        shell->last_exit_status = 1;
+        return ;
+    }
+    if (node->left)
+    {
+        node->left->fd_in = fd;
+        execute_tree(node->left, shell);
+    }
+    else if (node->right)
+    {
+        node->right->fd_in = fd;
+        execute_tree(node->right, shell);
+    }
+    else
+        close(fd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_tree_main.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/02 12:20:35 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/06/17 10:21:21 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,23 @@ int		is_simple_builtin_command(t_exec_node *node)
 }
 void	execute_command_tree(t_exec_node *node, t_shell *shell)
 {
-	pid_t	pid;
-	t_token	*cmd_token;
-
-	if (!node)
-		return ;
-	if (is_simple_builtin_command(node))
-	{
-		cmd_token = create_token_chain(node->cmd);
-		if (cmd_token)
-		{
-			run_builtin(cmd_token, shell);
-			free_tokens(&cmd_token);
-		}
-		return ;
-	}
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		shell->last_exit_status = 1;
-		return ;
-	}
-	if (pid == 0)
-		handle_child_process(node, shell);
-	else
-		handle_parent_process(pid, shell);
+    if (is_builtin(node->cmd[0]))
+    {
+        execute_command_node(node, shell); // Builtin: executa no processo principal
+    }
+    else
+    {
+        pid_t pid = fork();
+        if (pid == 0)
+        {
+            execute_command_node(node, shell); // Externo: executa no filho
+            exit(shell->last_exit_status);
+        }
+        else if (pid > 0)
+        {
+            int status;
+            waitpid(pid, &status, 0);
+            shell->last_exit_status = WEXITSTATUS(status);
+        }
+    }
 }

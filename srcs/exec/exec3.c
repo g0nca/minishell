@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:22:07 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/27 21:48:04 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/17 09:37:59 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_path_env(char **env)
 	}
 	return (NULL);
 }
-
+/* 
 bool	handle_absolute_path(char **args, t_shell *shell)
 {
 	if (ft_strchr(args[0], '/'))
@@ -45,6 +45,7 @@ bool	handle_absolute_path(char **args, t_shell *shell)
 	}
 	return (false);
 }
+*/
 
 void	handle_env_path_execution(char **args, t_shell *shell)
 {

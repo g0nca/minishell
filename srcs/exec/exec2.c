@@ -6,12 +6,13 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/30 10:53:22 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/17 09:39:50 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+/*
 void	exec_with_full_path(char **args, t_shell *shell)
 {
 	execve(args[0], args, shell->env);
@@ -19,7 +20,7 @@ void	exec_with_full_path(char **args, t_shell *shell)
 	free_args(args);
 	exit(EXIT_FAILURE);
 }
-
+*/
 static int	execute_from_path(char *full_path, char **args, t_shell *shell)
 {
 	execve(full_path, args, shell->env);
@@ -28,6 +29,7 @@ static int	execute_from_path(char *full_path, char **args, t_shell *shell)
 	free_args(args);
 	exit(EXIT_FAILURE);
 }
+
 
 static int	try_path_execution(char *dir, char **args, t_shell *shell)
 {
@@ -75,6 +77,7 @@ int	try_paths(char **args, t_shell *shell, char *path_env)
 	return (0);
 }
 
+/*
 void	execute_external_command(t_token *token, t_shell *shell)
 {
 	char	**args;
@@ -90,3 +93,4 @@ void	execute_external_command(t_token *token, t_shell *shell)
 	free_args(args);
 	exit(EXIT_FAILURE);
 }
+ */

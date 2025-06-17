@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/17 10:09:50 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:14:28 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ t_token *find_last_pipe(t_token *start, t_token *end);
 t_exec_node *create_pipe_node(t_token *start, t_token *last_pipe, t_token *end);
 t_node_type get_redirect_node_type(t_token_type type);
 t_exec_node *create_command_node(t_token *start, t_token *end);
+t_exec_node *build_execution_tree_skip_redirect(t_token *start, t_token *redirect, t_token *end);
 //===================================================================
 
 // execute_tree_pipe_helpers.c ======================================

@@ -114,7 +114,7 @@ t_exec_node *create_command_node(t_token *start, t_token *end)
     // Fill cmd array with arguments (excluding redirections)
     i = 0;
     current = start;
-    while (current && current != end && i < arg_count)
+    while (current && current != end)
     {
         if (current->type == TOKEN_CMD || current->type == TOKEN_WORD)
         {
@@ -136,8 +136,8 @@ t_exec_node *create_command_node(t_token *start, t_token *end)
         {
             // Skip redirection operator
             current = current->next;
-            // Skip filename
-            if (current && current != end && current->type == TOKEN_WORD)
+            // Skip filename (apenas UM token)
+            if (current && current != end)
                 current = current->next;
         }
         else if (current->type == TOKEN_PIPE)

@@ -36,45 +36,38 @@ t_exec_node	*create_redirect_node(t_token *start, t_token *curr, t_token *end)
     node->cmd[1] = NULL;
     node->fd_in = -1;
     node->fd_out = -1;
-
-    // O comando deve ser criado com TODOS os argumentos, menos o operador e o ficheiro
-    // Por isso, passa start e end para build_execution_tree, mas...
-    // ...garante que a função que constrói o comando ignora o operador e o ficheiro!
     node->left = build_execution_tree_skip_redirect(start, curr, end);
-
     node->right = NULL;
     return (node);
 }
 
 t_exec_node *build_execution_tree_skip_redirect(t_token *start, t_token *redirect, t_token *end)
 {
-    t_token *current = start;
-    t_exec_node *node = NULL;
-    t_token *filtered_start = NULL;
-    t_token *filtered_end = NULL;
+    t_token *current;
+    t_exec_node *node;
+    t_token *filtered_start;
+    t_token *filtered_end;
 
-    // Cria uma lista ligada temporária só com os tokens que NÃO são o operador nem o ficheiro
+    current = start;
+    node = NULL;
+    filtered_start = NULL;
+    filtered_end = NULL;
     while (current && current != end)
     {
         if (current == redirect)
         {
-            // Salta o operador
             current = current->next;
-            // Salta o ficheiro
             if (current && current != end)
                 current = current->next;
             continue;
         }
-        // Marca o início da lista filtrada
         if (!filtered_start)
             filtered_start = current;
         current = current->next;
     }
     filtered_end = end;
-
-    // Agora cria o nó de comando normalmente
     node = create_command_node(filtered_start, filtered_end);
-    return node;
+    return (node);
 }
 
 t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end)

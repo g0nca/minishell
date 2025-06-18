@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/17 11:14:28 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:34:05 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_exec_node {
     struct s_exec_node  *right;
     int                 fd_in;
     int                 fd_out;
+	t_token 			*tokens;
 } t_exec_node;
 
 int		main(int ac, char **av, char **envp);

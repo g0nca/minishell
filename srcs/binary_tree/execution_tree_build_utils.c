@@ -28,20 +28,20 @@ t_token	*find_last_pipe(t_token *start, t_token *end)
 	return (last_pipe);
 }
 
-t_exec_node	*create_pipe_node(t_token *start, t_token *last_pipe, t_token *end)
+t_exec_node	*create_pipe_node(t_token *start, t_token *last_pipe, t_token *end, t_shell *shell)
 {
-	t_exec_node	*node;
+    t_exec_node	*node;
 
-	node = malloc(sizeof(t_exec_node));
-	if (!node)
-		return (NULL);
-	node->type = NODE_PIPE;
-	node->cmd = NULL;
-	node->fd_in = -1;
-	node->fd_out = -1;
-	node->left = build_execution_tree(start, last_pipe);
-	node->right = build_execution_tree(last_pipe->next, end);
-	return (node);
+    node = malloc(sizeof(t_exec_node));
+    if (!node)
+        return (NULL);
+    node->type = NODE_PIPE;
+    node->cmd = NULL;
+    node->fd_in = -1;
+    node->fd_out = -1;
+    node->left = build_execution_tree(start, last_pipe, shell);
+    node->right = build_execution_tree(last_pipe->next, end, shell);
+    return (node);
 }
 
 t_node_type	get_redirect_node_type(t_token_type type)

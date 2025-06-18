@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/17 10:31:55 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:02:25 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			printf("exit\n");
 			free_struct(shell); // se tiveres cleanup
-			exit(0);
+			exit(shell->last_exit_status);
 		}
 		if (*line)
 			add_history(line);
@@ -45,7 +45,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		free(line);
 	}
-	return (0);
+	return (shell->last_exit_status);
 }
 
 int     main_auxiliar(char *line, t_shell *shell, t_token *token)
@@ -60,7 +60,7 @@ int     main_auxiliar(char *line, t_shell *shell, t_token *token)
         expander(&token, shell);
         delete_quotes(&token, shell);
         handle_heredoc(token, shell);
-        tree = build_execution_tree(token, NULL);
+        tree = build_execution_tree(token, NULL, shell);
 		//print_execution_tree(tree, 0);
         execute_tree(tree, shell);
         //execute_command(token, shell);

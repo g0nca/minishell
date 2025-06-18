@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/29 10:10:54 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:06:56 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,14 @@ void	ft_error(int error, char *str)
 
 void	shell_error(t_shell *shell, char *str, int error, bool exit_flag)
 {
-	int	status;
-
-	status = shell->last_exit_status;
 	if (error == 0)
 		shell->last_exit_status = 0;
 	else
 	{
 		shell->last_exit_status = 1;
+		//printf("ok, %d\n", shell->last_exit_status);
 		ft_error(error, str);
 	}
 	if (exit_flag)
-		exit(status);
+		exit(shell->last_exit_status);
 }

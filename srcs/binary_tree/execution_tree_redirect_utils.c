@@ -75,16 +75,80 @@ t_exec_node *build_execution_tree_skip_redirect(t_token *start, t_token *redirec
     return (node);
 }
 
-t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end)
+t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end, t_shell *shell)
 {
-	t_token	*curr;
+    t_token	*curr;
+    t_token *last_redir = NULL;
+    t_token *tmp;
 
-	curr = start;
-	while (curr && curr != end && curr->next)
-	{
-		if (is_redirection(curr->type) && curr->next->type == TOKEN_WORD)
-			return (create_redirect_node(start, curr, end));
-		curr = curr->next;
-	}
-	return (NULL);
+    // Find last input redirection
+    curr = start;
+    while (curr && curr != end && curr->next)
+    {
+        if (is_redirection(curr->type) && curr->next->type == TOKEN_WORD)
+            last_redir = curr;
+        curr = curr->next;
+    }
+
+    // Check all previous input redirections for file existence
+    tmp = start;
+    while (tmp && tmp != end && tmp->next)
+    {
+        if (is_redirection(tmp->type) && tmp->next->type == TOKEN_WORD && tmp != last_redir)
+        {
+            if (tmp->type == TOKEN_REDIR_IN)
+            {
+                if (access(tmp->next->value, F_OK) != 0)
+                {
+                    shell_error(shell, tmp->next->value, 2, true); // No such file or directory, exit code 1
+                    return (NULL);
+                }
+            }
+        }
+        tmp = tmp->next;
+    }
+
+    if (last_redir)
+        return (create_redirect_node(start, last_redir, end));
+    return (NULL);
 }
+
+/* t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end)
+{
+    t_token	*curr;
+    t_token *last_redir = NULL;
+    t_token *tmp;
+
+    // Find last input redirection
+    curr = start;
+    while (curr && curr != end && curr->next)
+    {
+        if (is_redirection(curr->type) && curr->next->type == TOKEN_WORD)
+            last_redir = curr;
+        curr = curr->next;
+    }
+
+    // Check all previous input redirections for file existence
+    tmp = start;
+    while (tmp && tmp != end && tmp->next)
+    {
+        if (is_redirection(tmp->type) && tmp->next->type == TOKEN_WORD && tmp != last_redir)
+        {
+            if (tmp->type == TOKEN_REDIR_IN)
+            {
+                if (access(tmp->next->value, F_OK) != 0)
+                {
+                    ft_error(2, tmp->next->value); // No such file or directory
+                    g_exit_status = 1;
+                    return (NULL);
+                }
+            }
+        }
+        tmp = tmp->next;
+    }
+
+    if (last_redir)
+        return (create_redirect_node(start, last_redir, end));
+    return (NULL);
+}
+ */

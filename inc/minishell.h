@@ -6,7 +6,7 @@
 /*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/17 11:34:05 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/18 15:56:20 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,13 +191,13 @@ char **tokens_to_argv(t_token *start, t_token *end);
 //===================================================================
 
 // execute_tree_build_main.c ========================================
-t_exec_node *build_execution_tree(t_token *start, t_token *end);
+t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell);
 void free_execution_tree(t_exec_node *node);
 //===================================================================
 
 // execution_tree_build_utils.c =====================================
 t_token *find_last_pipe(t_token *start, t_token *end);
-t_exec_node *create_pipe_node(t_token *start, t_token *last_pipe, t_token *end);
+t_exec_node	*create_pipe_node(t_token *start, t_token *last_pipe, t_token *end, t_shell *shell);
 t_node_type get_redirect_node_type(t_token_type type);
 t_exec_node *create_command_node(t_token *start, t_token *end);
 t_exec_node *build_execution_tree_skip_redirect(t_token *start, t_token *redirect, t_token *end);
@@ -220,7 +220,7 @@ void handle_pipe_parent(int *pipe_fd, pid_t left_pid, pid_t right_pid, t_shell *
 
 // execute_tree_redirect_utils.c ====================================
 t_exec_node *create_redirect_node(t_token *start, t_token *curr, t_token *end);
-t_exec_node *find_and_create_redirect_node(t_token *start, t_token *end);
+t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end, t_shell *shell);
 int is_redirection(t_token_type type);
 //===================================================================
 

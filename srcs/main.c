@@ -89,7 +89,7 @@ void print_tokens(t_token *list, t_shell *shell)
     printf("last_exit_status:%d\n", shell->last_exit_status);
 }
 
-void	print_node_type(t_node_type type)
+/*void	print_node_type(t_node_type type)
 {
 	if (type == NODE_COMMAND)
 		printf("Type: COMMAND\n");
@@ -147,5 +147,5 @@ void	print_execution_tree(t_exec_node *node, int depth)
 	// Recursivamente imprime os nós à esquerda e à direita
 	print_execution_tree(node->left, depth + 1);
 	print_execution_tree(node->right, depth + 1);
-}
+}*/
 

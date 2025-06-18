@@ -61,20 +61,20 @@ t_token	*create_token_chain(char **cmd)
 void	execute_command_node(t_exec_node *node, t_shell *shell)
 {
     if (!node || !node->cmd || !node->cmd[0])
-        return;
+       return;
 
-    int stdin_backup = -1;
-    int stdout_backup = -1;
+    int stdin_backup;
+    int stdout_backup;
+	t_token *cmd_token;
 
-    // Só faz backup/restauro se houver redirecionamento
+	cmd_token = create_token_chain(node->cmd);
+	stdin_backup = -1;
+	stdout_backup = -1;
     if (node->fd_in != -1 || node->fd_out != -1)
         ft_backup_stdio(&stdin_backup, &stdout_backup);
-
     setup_file_descriptors(node);
-
     if (is_builtin(node->cmd[0]))
     {
-        t_token	*cmd_token = create_token_chain(node->cmd);
         if (cmd_token)
         {
             run_builtin(cmd_token, shell);
@@ -82,12 +82,10 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
         }
     }
     else
-    {
+	{
         handle_env_path_execution(node->cmd, shell);
-    }
-
-    // Restaura stdio se foi feito backup
-    if (stdin_backup != -1 || stdout_backup != -1)
+	}
+	if (stdin_backup != -1 || stdout_backup != -1)
         ft_restore_stdio(stdin_backup, stdout_backup);
 }
 

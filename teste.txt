@@ -2,8 +2,10 @@ bloco.txt
 inc
 libs
 Makefile
+minishell
 minishell_tester
 readline.supp
 README.md
 srcs
+teste.txt
 valgrind-wrapper.sh

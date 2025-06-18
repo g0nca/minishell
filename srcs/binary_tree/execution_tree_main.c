@@ -34,14 +34,13 @@ int		is_simple_builtin_command(t_exec_node *node)
 }
 void	execute_command_tree(t_exec_node *node, t_shell *shell)
 {
-    pid_t pid;
-
-    pid = 0;
     if (is_builtin(node->cmd[0]))
+    {
         execute_command_node(node, shell); // Builtin: executa no processo principal
+    }
     else
     {
-        pid = fork();
+        pid_t pid = fork();
         if (pid == 0)
         {
             execute_command_node(node, shell); // Externo: executa no filho

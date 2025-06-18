@@ -36,7 +36,12 @@ t_exec_node	*create_redirect_node(t_token *start, t_token *curr, t_token *end)
     node->cmd[1] = NULL;
     node->fd_in = -1;
     node->fd_out = -1;
+
+    // O comando deve ser criado com TODOS os argumentos, menos o operador e o ficheiro
+    // Por isso, passa start e end para build_execution_tree, mas...
+    // ...garante que a função que constrói o comando ignora o operador e o ficheiro!
     node->left = build_execution_tree_skip_redirect(start, curr, end);
+
     node->right = NULL;
     return (node);
 }
@@ -72,16 +77,14 @@ t_exec_node *build_execution_tree_skip_redirect(t_token *start, t_token *redirec
 
 t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end)
 {
-	t_token	*curr = start;
-	t_token	*last_redirect = NULL;
+	t_token	*curr;
 
+	curr = start;
 	while (curr && curr != end && curr->next)
 	{
 		if (is_redirection(curr->type) && curr->next->type == TOKEN_WORD)
-			last_redirect = curr;
+			return (create_redirect_node(start, curr, end));
 		curr = curr->next;
 	}
-	if (last_redirect)
-		return (create_redirect_node(start, last_redirect, end));
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_tree_main.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/17 10:21:21 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:12:58 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ int		is_simple_builtin_command(t_exec_node *node)
 }
 void	execute_command_tree(t_exec_node *node, t_shell *shell)
 {
+    pid_t pid;
+    int status;
+
     if (is_builtin(node->cmd[0]))
     {
         execute_command_node(node, shell); // Builtin: executa no processo principal
     }
     else
     {
-        pid_t pid = fork();
+        pid = fork();
         if (pid == 0)
         {
             execute_command_node(node, shell); // Externo: executa no filho
@@ -48,7 +51,6 @@ void	execute_command_tree(t_exec_node *node, t_shell *shell)
         }
         else if (pid > 0)
         {
-            int status;
             waitpid(pid, &status, 0);
             shell->last_exit_status = WEXITSTATUS(status);
         }

@@ -60,13 +60,12 @@ t_token	*create_token_chain(char **cmd)
 
 void	execute_command_node(t_exec_node *node, t_shell *shell)
 {
-    if (!node || !node->cmd || !node->cmd[0])
-       return;
-
-    int stdin_backup;
+	int stdin_backup;
     int stdout_backup;
 	t_token *cmd_token;
 
+    if (!node || !node->cmd || !node->cmd[0])
+       return;
 	cmd_token = create_token_chain(node->cmd);
 	stdin_backup = -1;
 	stdout_backup = -1;

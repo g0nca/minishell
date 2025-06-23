@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/18 15:56:20 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/23 13:51:33 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,7 +367,7 @@ void	handle_sigint(int sig);
 
 //error.c =========================================================
 void	shell_error(t_shell *shell, char *str, int error, bool exit_flag);
-void	ft_error(int error, char *str);
+void	ft_error(int error, char *str, t_shell *shell);
 //=================================================================
 /* void	have_n(t_token *list);
 int	n_value(char *current); */

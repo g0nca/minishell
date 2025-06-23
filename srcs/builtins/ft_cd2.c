@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 09:48:30 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/27 21:28:22 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:37:40 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	cd_val(char *target, t_shell *shell)
 	struct stat	path_stat;
 
 	if (access(target, F_OK) != 0)
-		return (shell_error(shell, target, 2, false));
+		return (shell_error(shell, target, 15, false));
 	if (stat(target, &path_stat) == 0 && !S_ISDIR(path_stat.st_mode))
 		return (shell_error(shell, target, 6, false));
 	if (access(target, X_OK) != 0)

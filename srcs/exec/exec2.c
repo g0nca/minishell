@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/06/17 09:39:50 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:45:28 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	exec_with_full_path(char **args, t_shell *shell)
 */
 static int	execute_from_path(char *full_path, char **args, t_shell *shell)
 {
-	execve(full_path, args, shell->env);
-	perror("minishell: execve");
+	if (access(full_path, X_OK) == 0)
+		execve(full_path, args, shell->env);
 	free(full_path);
 	free_args(args);
-	exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
 }
 
 
@@ -44,10 +44,14 @@ static int	try_path_execution(char *dir, char **args, t_shell *shell)
 	free(temp);
 	if (!full_path)
 		return (perror("ft_strjoin"), -1);
-	if (access(full_path, X_OK) == 0)
-	{
-		result = execute_from_path(full_path, args, shell);
-		return (result);
+
+	if (access(full_path, F_OK) == 0)
+    {	
+		if (access(full_path, X_OK) == 0)
+		{
+			result = execute_from_path(full_path, args, shell);
+			return (result);
+		}
 	}
 	free(full_path);
 	return (0);

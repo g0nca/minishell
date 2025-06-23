@@ -49,7 +49,8 @@ void	execute_input_redirect(t_exec_node *node, t_shell *shell)
     fd = open(node->cmd[0], O_RDONLY);
     if (fd < 0)
     {
-        shell->last_exit_status = 1;
+        shell_error(shell, node->cmd[0], 2, false); // Exibe "No such file or directory"
+        shell->last_exit_status = 1; // Define o código de saída como 1
         return ;
     }
     if (node->left)

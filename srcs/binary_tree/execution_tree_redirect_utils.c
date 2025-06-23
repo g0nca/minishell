@@ -77,47 +77,27 @@ t_exec_node *build_execution_tree_skip_redirect(t_token *start, t_token *redirec
 
 t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end, t_shell *shell)
 {
+    (void)shell;
     t_token	*curr;
     t_token *last_redir = NULL;
-    t_token *tmp;
-    int     error_found = 0;
 
-    // Find last input redirection
+    // Encontra a última redireção de saída
     curr = start;
     while (curr && curr != end && curr->next)
     {
         if (is_redirection(curr->type) && curr->next->type == TOKEN_WORD)
-            last_redir = curr;
+        {
+            last_redir = curr; // Atualiza para a última redireção encontrada
+        }
         curr = curr->next;
     }
 
-    // Check all previous input redirections for file existence
-    tmp = start;
-    while (tmp && tmp != end && tmp->next)
-    {
-        if (is_redirection(tmp->type) && tmp->next->type == TOKEN_WORD)
-        {
-            if (access(tmp->next->value, F_OK) != 0)
-            {
-                if (!error_found)
-                {
-                    shell_error(shell, tmp->next->value, 2, false); // Report error
-                }
-                error_found = 1; // Mark that an error occurred
-            }
-        }
-        tmp = tmp->next;
-    }
+    // Se não houver redireções, retorna NULL
+    if (!last_redir)
+        return (NULL);
 
-    // Set exit code based on errors found
-    if (error_found)
-        shell->last_exit_status = 1; // Bash sets exit code to 1 for missing files
-    else
-        shell->last_exit_status = 0;
-
-    if (last_redir)
-        return (create_redirect_node(start, last_redir, end));
-    return (NULL);
+    // Cria o nó de redireção apenas para a última redireção encontrada
+    return (create_redirect_node(start, last_redir, end));
 }
 
 /* t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end)

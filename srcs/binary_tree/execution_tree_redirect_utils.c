@@ -80,6 +80,7 @@ t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end, t_shell
     t_token	*curr;
     t_token *last_redir = NULL;
     t_token *tmp;
+    int     error_found = 0;
 
     // Find last input redirection
     curr = start;
@@ -94,19 +95,25 @@ t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end, t_shell
     tmp = start;
     while (tmp && tmp != end && tmp->next)
     {
-        if (is_redirection(tmp->type) && tmp->next->type == TOKEN_WORD && tmp != last_redir)
+        if (is_redirection(tmp->type) && tmp->next->type == TOKEN_WORD)
         {
-            if (tmp->type == TOKEN_REDIR_IN)
+            if (access(tmp->next->value, F_OK) != 0)
             {
-                if (access(tmp->next->value, F_OK) != 0)
+                if (!error_found)
                 {
-                    shell_error(shell, tmp->next->value, 2, true); // No such file or directory, exit code 1
-                    return (NULL);
+                    shell_error(shell, tmp->next->value, 2, false); // Report error
                 }
+                error_found = 1; // Mark that an error occurred
             }
         }
         tmp = tmp->next;
     }
+
+    // Set exit code based on errors found
+    if (error_found)
+        shell->last_exit_status = 1; // Bash sets exit code to 1 for missing files
+    else
+        shell->last_exit_status = 0;
 
     if (last_redir)
         return (create_redirect_node(start, last_redir, end));

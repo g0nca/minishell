@@ -25,7 +25,6 @@ void	execute_output_redirect(t_exec_node *node, t_shell *shell)
     fd = open(node->cmd[0], flags, 0644);
     if (fd < 0)
     {
-        perror("open");
         shell->last_exit_status = 1;
         return ;
     }
@@ -50,7 +49,6 @@ void	execute_input_redirect(t_exec_node *node, t_shell *shell)
     fd = open(node->cmd[0], O_RDONLY);
     if (fd < 0)
     {
-        perror("open");
         shell->last_exit_status = 1;
         return ;
     }

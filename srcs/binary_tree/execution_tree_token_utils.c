@@ -67,21 +67,15 @@ void	fill_argv_array(t_token *start, t_token *end, char **argv, int *count)
 	t_token	*tmp;
 	int		i;
 	int		skip_next;
-	int		result;
 
 	i = 0;
 	tmp = start;
 	skip_next = 0;
 	while (tmp && tmp != end && i < *count)
 	{
-		result = fill_argv_process(tmp, argv, &i, &skip_next);
-		if (result == -1)
+		if (skip_next)
 		{
-			cleanup_argv_on_error(argv, i);
-			return ;
-		}
-		if (result == 1)
-		{
+			skip_next = 0;
 			tmp = tmp->next;
 		}
 		if (is_redirection(tmp->type))

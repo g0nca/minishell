@@ -6,7 +6,7 @@
 /*   By: ggomes-v <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:12:40 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/29 11:16:33 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:34:17 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,18 @@ void	cleanup_argv_on_error(char **argv, int count)
 	free(argv);
 }
 
-static int	fill_argv_process(t_token *tmp, char **argv, int *i, int *skip_next)
+int	add_token_to_argv(char **argv, int i, char *value)
 {
-	if (*skip_next)
+	argv[i] = ft_strdup(value);
+	if (!argv[i])
 	{
-		*skip_next = 0;
-		return (1);
+		cleanup_argv_on_error(argv, i);
+		return (0);
 	}
-	if (is_redirection(tmp->type))
-	{
-		*skip_next = 1;
-		return (1);
-	}
-	else if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
-	{
-		argv[*i] = ft_strdup(tmp->value);
-		if (!argv[*i])
-			return (-1);
-		(*i)++;
-	}
-	return (0);
+	return (1);
 }
 
-void	fill_argv_array(t_token *start, t_token *end, char **argv, int count)
+void	fill_argv_array(t_token *start, t_token *end, char **argv, int *count)
 {
 	t_token	*tmp;
 	int		i;
@@ -83,7 +72,7 @@ void	fill_argv_array(t_token *start, t_token *end, char **argv, int count)
 	i = 0;
 	tmp = start;
 	skip_next = 0;
-	while (tmp && tmp != end && i < count)
+	while (tmp && tmp != end && i < *count)
 	{
 		result = fill_argv_process(tmp, argv, &i, &skip_next);
 		if (result == -1)
@@ -94,7 +83,14 @@ void	fill_argv_array(t_token *start, t_token *end, char **argv, int count)
 		if (result == 1)
 		{
 			tmp = tmp->next;
-			continue ;
+		}
+		if (is_redirection(tmp->type))
+			skip_next = 1;
+		else if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
+		{
+			if (!add_token_to_argv(argv, i, tmp->value))
+				return ;
+			i++;
 		}
 		tmp = tmp->next;
 	}

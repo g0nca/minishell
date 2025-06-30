@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:29:58 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 10:25:36 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:08:22 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	handle_double_dollar(const char **input, char **current)
 	int		pid;
 	int		i;
 
-	pid = getpid();
+	pid = 4242;
 	pid_str = ft_itoa(pid);
 	if (pid_str)
 	{

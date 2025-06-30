@@ -3,98 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/06/23 12:45:28 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:09:53 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/*
-void	exec_with_full_path(char **args, t_shell *shell)
+char	*get_path_env(char **env)
 {
-	execve(args[0], args, shell->env);
-	perror("minishell: execve");
-	free_args(args);
-	exit(EXIT_FAILURE);
-}
-*/
-static int	execute_from_path(char *full_path, char **args, t_shell *shell)
-{
-	if (access(full_path, X_OK) == 0)
-		execve(full_path, args, shell->env);
-	free(full_path);
-	free_args(args);
-	exit(EXIT_SUCCESS);
+	int	i;
+
+	i = 0;
+	while (env && env[i])
+	{
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+			return (env[i] + 5);
+		i++;
+	}
+	return (NULL);
 }
 
-
-static int	try_path_execution(char *dir, char **args, t_shell *shell)
+static void	handle_direct_path(char **args, t_shell *shell)
 {
-	char	*temp;
-	char	*full_path;
+	char		*path;
+	struct stat	path_stat;
+
+	path = args[0];
+	if (ft_strchr(path, '/') == NULL)
+		shell_error(shell, path, 1, true);
+	if (stat(path, &path_stat) == -1)
+		shell_error(shell, path, 2, true);
+	if (S_ISDIR(path_stat.st_mode))
+		shell_error(shell, path, 5, true);
+	if (access(path, X_OK) == -1)
+		shell_error(shell, path, 3, true);
+	execve(path, args, shell->env);
+	shell_error(shell, path, 3, true);
+}
+
+void	handle_env_path_execution(char **args, t_shell *shell)
+{
+	char	*path_env;
 	int		result;
 
-	temp = ft_strjoin(dir, "/");
-	if (!temp)
-		return (perror("ft_strjoin"), -1);
-	full_path = ft_strjoin(temp, args[0]);
-	free(temp);
-	if (!full_path)
-		return (perror("ft_strjoin"), -1);
-
-	if (access(full_path, F_OK) == 0)
-    {	
-		if (access(full_path, X_OK) == 0)
-		{
-			result = execute_from_path(full_path, args, shell);
-			return (result);
-		}
-	}
-	free(full_path);
-	return (0);
+	path_env = get_path_env(shell->env);
+	if (!path_env)
+		shell_error(shell, args[0], 1, false);
+	result = try_paths(args, shell, path_env);
+	if (result == 0)
+		handle_direct_path(args, shell);
+	else
+		exit(EXIT_SUCCESS);
 }
 
-int	try_paths(char **args, t_shell *shell, char *path_env)
+int	ft_backup_stdio(int *stdin_backup, int *stdout_backup)
 {
-	char	*path_copy;
-	char	*dir;
-	int		result;
-
-	path_copy = ft_strdup(path_env);
-	if (!path_copy)
-		return (perror("ft_strdup"), -1);
-	dir = ft_strtok(path_copy, ":");
-	while (dir)
-	{
-		result = try_path_execution(dir, args, shell);
-		if (result != 0)
-		{
-			free(path_copy);
-			return (result);
-		}
-		dir = ft_strtok(NULL, ":");
-	}
-	free(path_copy);
-	return (0);
+	*stdin_backup = dup(STDIN_FILENO);
+	*stdout_backup = dup(STDOUT_FILENO);
+	if (*stdin_backup == -1 || *stdout_backup == -1)
+		return (-1);
+	else
+		return (0);
 }
 
-/*
-void	execute_external_command(t_token *token, t_shell *shell)
+void	ft_restore_stdio(int stdin_backup, int stdout_backup)
 {
-	char	**args;
-
-	args = token_to_args(token);
-	if (!args || !args[0])
-	{
-		free_args(args);
-		exit(EXIT_FAILURE);
-	}
-	if (!handle_absolute_path(args, shell))
-		handle_env_path_execution(args, shell);
-	free_args(args);
-	exit(EXIT_FAILURE);
+	dup2(stdin_backup, STDIN_FILENO);
+	dup2(stdout_backup, STDOUT_FILENO);
+	close(stdin_backup);
+	close(stdout_backup);
 }
- */

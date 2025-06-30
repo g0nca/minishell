@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:30:17 by andrade           #+#    #+#             */
-/*   Updated: 2025/06/17 09:37:11 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/30 11:08:14 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 int	is_builtin(char *cmd)
 {
@@ -28,31 +27,60 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-/* 
-char	**token_to_args(t_token *token)
+static int	execute_from_path(char *full_path, char **args, t_shell *shell)
 {
-	int		count;
-	char	**args;
-
-	count = count_args(token);
-	args = allocate_args(count);
-	if (!args)
-		return (NULL);
-	fill_args(token, args);
-	return (args);
+	if (access(full_path, X_OK) == 0)
+		execve(full_path, args, shell->env);
+	free(full_path);
+	free_args(args);
+	exit(EXIT_SUCCESS);
 }
 
-void	execute_command(t_token *token, t_shell *shell)
+static int	try_path_execution(char *dir, char **args, t_shell *shell)
 {
-	int	stdin_backup;
-	int	stdout_backup;
+	char	*temp;
+	char	*full_path;
+	int		result;
 
-	if (!token || !ft_backup_stdio(&stdin_backup, &stdout_backup))
-		return ;
-	if (token->type == TOKEN_CMD && is_builtin(token->value))
-		ft_execute_builtin(token, shell, stdin_backup, stdout_backup);
-	else
-		ft_execute_external(token, shell);
-	cleanup_heredoc_files(shell);
+	temp = ft_strjoin(dir, "/");
+	if (!temp)
+		return (perror("ft_strjoin"), -1);
+	full_path = ft_strjoin(temp, args[0]);
+	free(temp);
+	if (!full_path)
+		return (perror("ft_strjoin"), -1);
+	if (access(full_path, F_OK) == 0)
+	{
+		if (access(full_path, X_OK) == 0)
+		{
+			result = execute_from_path(full_path, args, shell);
+			return (result);
+		}
+	}
+	free(full_path);
+	return (0);
 }
- */
+
+int	try_paths(char **args, t_shell *shell, char *path_env)
+{
+	char	*path_copy;
+	char	*dir;
+	int		result;
+
+	path_copy = ft_strdup(path_env);
+	if (!path_copy)
+		return (perror("ft_strdup"), -1);
+	dir = ft_strtok(path_copy, ":");
+	while (dir)
+	{
+		result = try_path_execution(dir, args, shell);
+		if (result != 0)
+		{
+			free(path_copy);
+			return (result);
+		}
+		dir = ft_strtok(NULL, ":");
+	}
+	free(path_copy);
+	return (0);
+}

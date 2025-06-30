@@ -30,13 +30,9 @@ int	count_valid_tokens(t_token *start, t_token *end)
 			continue ;
 		}
 		if (is_redirection(tmp->type))
-		{
-			skip_next = 1;  // Skip the next token (filename)
-		}
+			skip_next = 1;
 		else if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
-		{
 			count++;
-		}
 		tmp = tmp->next;
 	}
 	return (count);
@@ -55,36 +51,50 @@ void	cleanup_argv_on_error(char **argv, int count)
 	free(argv);
 }
 
+static int	fill_argv_process(t_token *tmp, char **argv, int *i, int *skip_next)
+{
+	if (*skip_next)
+	{
+		*skip_next = 0;
+		return (1);
+	}
+	if (is_redirection(tmp->type))
+	{
+		*skip_next = 1;
+		return (1);
+	}
+	else if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
+	{
+		argv[*i] = ft_strdup(tmp->value);
+		if (!argv[*i])
+			return (-1);
+		(*i)++;
+	}
+	return (0);
+}
+
 void	fill_argv_array(t_token *start, t_token *end, char **argv, int count)
 {
 	t_token	*tmp;
 	int		i;
 	int		skip_next;
+	int		result;
 
 	i = 0;
 	tmp = start;
 	skip_next = 0;
 	while (tmp && tmp != end && i < count)
 	{
-		if (skip_next)
+		result = fill_argv_process(tmp, argv, &i, &skip_next);
+		if (result == -1)
 		{
-			skip_next = 0;
+			cleanup_argv_on_error(argv, i);
+			return ;
+		}
+		if (result == 1)
+		{
 			tmp = tmp->next;
 			continue ;
-		}
-		if (is_redirection(tmp->type))
-		{
-			skip_next = 1;  // Skip the next token (filename)
-		}
-		else if (tmp->type == TOKEN_WORD || tmp->type == TOKEN_CMD)
-		{
-			argv[i] = ft_strdup(tmp->value);
-			if (!argv[i])
-			{
-				cleanup_argv_on_error(argv, i);
-				return ;
-			}
-			i++;
 		}
 		tmp = tmp->next;
 	}

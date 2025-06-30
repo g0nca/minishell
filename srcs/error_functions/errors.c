@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/06/23 14:38:37 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:04:17 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_error_extra(int error, char *str, t_shell *shell)
 		ft_printf_fd(2, "%s\n", str);
 }
 
-void	ft_error(int error, char *str, t_shell *shell)
+static void	handle_command_errors(int error, char *str, t_shell *shell)
 {
 	if (error == 1)
 	{
@@ -52,24 +52,32 @@ void	ft_error(int error, char *str, t_shell *shell)
 		ft_printf_fd(2, "minishell: %s: Permission denied\n", str);
 		shell->last_exit_status = 126;
 	}
-	else if (error == 4)
-	{
+}
+
+static void	handle_misc_errors(int error, char *str, t_shell *shell)
+{
+	if (error == 4)
 		ft_printf_fd(2, "minishell: ambiguous redirect\n");
-	}
 	else if (error == 5)
-	{	
+	{
 		ft_printf_fd(2, "minishell: %s: Is a directory\n", str);
 		shell->last_exit_status = 126;
 	}
 	else if (error == 6)
-	{
 		ft_printf_fd(2, "minishell: %s: Not a directory\n", str);
-	}
 	else if (error == 7)
 	{
 		ft_printf_fd(2, "minishell: ");
 		ft_printf_fd(2, "syntax error near unexpected token `%s'\n", str);
 	}
+}
+
+void	ft_error(int error, char *str, t_shell *shell)
+{
+	if (error >= 1 && error <= 3)
+		handle_command_errors(error, str, shell);
+	else if (error >= 4 && error <= 7)
+		handle_misc_errors(error, str, shell);
 	else
 		ft_error_extra(error, str, shell);
 }
@@ -79,10 +87,7 @@ void	shell_error(t_shell *shell, char *str, int error, bool exit_flag)
 	if (error == 0 || error == 12)
 		shell->last_exit_status = 0;
 	else
-	{
-		//printf("ok, %d\n", shell->last_exit_status);
 		ft_error(error, str, shell);
-	}
 	if (exit_flag)
 		exit(shell->last_exit_status);
 }

@@ -26,66 +26,32 @@ void	setup_file_descriptors(t_exec_node *node)
 	}
 }
 
-// Create a token chain from cmd array, but preserve all arguments
-t_token	*create_token_chain(char **cmd)
-{
-	t_token	*cmd_token;
-	t_token	*current;
-	t_token	*arg_token;
-	int		i;
-
-	if (!cmd || !cmd[0])
-		return (NULL);
-		
-	cmd_token = create_token(cmd[0], TOKEN_CMD);
-	if (!cmd_token)
-		return (NULL);
-	current = cmd_token;
-	i = 1;
-	while (cmd[i])
-	{
-		arg_token = create_token(cmd[i], TOKEN_WORD);
-		if (!arg_token)
-		{
-			free_tokens(&cmd_token);
-			return (NULL);
-		}
-		current->next = arg_token;
-		arg_token->prev = current;
-		current = arg_token;
-		i++;
-	}
-	return (cmd_token);
-}
-
 void	execute_command_node(t_exec_node *node, t_shell *shell)
 {
-	int stdin_backup;
-    int stdout_backup;
-	t_token *cmd_token;
+	int		stdin_backup;
+	int		stdout_backup;
+	t_token	*cmd_token;
 
-    if (!node || !node->cmd || !node->cmd[0])
-       return;
+	if (!node || !node->cmd || !node->cmd[0])
+		return ;
 	cmd_token = create_token_chain(node->cmd);
 	stdin_backup = -1;
 	stdout_backup = -1;
-    if (node->fd_in != -1 || node->fd_out != -1)
-        ft_backup_stdio(&stdin_backup, &stdout_backup);
-    setup_file_descriptors(node);
-    if (is_builtin(node->cmd[0]))
-    {
-        if (cmd_token)
-        {
-            run_builtin(cmd_token, shell);
-            free_tokens(&cmd_token);
-        }
-    }
-    else
+	if (node->fd_in != -1 || node->fd_out != -1)
+		ft_backup_stdio(&stdin_backup, &stdout_backup);
+	setup_file_descriptors(node);
+	if (is_builtin(node->cmd[0]))
 	{
-        handle_env_path_execution(node->cmd, shell);
+		if (cmd_token)
+		{
+			run_builtin(cmd_token, shell);
+			free_tokens(&cmd_token);
+		}
 	}
+	else
+		handle_env_path_execution(node->cmd, shell);
 	if (stdin_backup != -1 || stdout_backup != -1)
-        ft_restore_stdio(stdin_backup, stdout_backup);
+		ft_restore_stdio(stdin_backup, stdout_backup);
 }
 
 void	execute_tree(t_exec_node *node, t_shell *shell)

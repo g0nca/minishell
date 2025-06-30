@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/23 13:51:33 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:31:04 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,25 @@ typedef struct s_token
 	struct s_token	*prev;
 }					t_token;
 
-typedef enum e_node_type {
-    NODE_COMMAND,
-    NODE_PIPE,
-    NODE_REDIRECT_IN,
-    NODE_REDIRECT_OUT,
-    NODE_REDIRECT_APPEND
-} t_node_type;
+typedef enum e_node_type
+{
+	NODE_COMMAND,
+	NODE_PIPE,
+	NODE_REDIRECT_IN,
+	NODE_REDIRECT_OUT,
+	NODE_REDIRECT_APPEND
+}	t_node_type;
 
-typedef struct s_exec_node {
-    t_node_type         type;
-    char                **cmd;
-    struct s_exec_node  *left;
-    struct s_exec_node  *right;
-    int                 fd_in;
-    int                 fd_out;
-	t_token 			*tokens;
-} t_exec_node;
+typedef struct s_exec_node
+{
+	t_node_type			type;
+	char				**cmd;
+	struct s_exec_node	*left;
+	struct s_exec_node	*right;
+	int					fd_in;
+	int					fd_out;
+	t_token				*tokens;
+}						t_exec_node;
 
 int		main(int ac, char **av, char **envp);
 int		main_auxiliar(char *line, t_shell *shell, t_token *token);
@@ -131,22 +133,9 @@ int		expander3(t_token *list, t_shell *shell);
 char	*expand_variables(const char *input, char **envp, t_token *list);
 void	input_with_quotes(const char **input, char **current,
 			int wich_quote, t_token *list);
-//==================================================================
-
-// expand2.c =======================================================
 void	copy_env_value(const char **input, char **current, char **envp);
-//static void    handle_double_dollar(const char **input, char **current);
-//static void    handle_question_mark(const char **input, char ** current);
-//static void handle_env_variable_expansion(const char **input,
-//			char **current, char **envp);
-//static char *extract_variable_name(const char **input);
-//===================================================================
-
-// expand_util.c ====================================================
 char	*get_env_value(const char *name, char **envp);
 int		should_skip_expansion(t_token *list, t_shell *shell);
-//void copy_special_var(char *dest, char *value, int *pos);
-//int calculate_expanded_length(char *str, t_token *list);
 //===================================================================
 
 // calculate_final_size.c ===========================================
@@ -158,76 +147,85 @@ size_t	simple_quotes(t_token *list, const char **input);
 //===================================================================
 
 // env_var_compare.c ================================================
-int compare_env_name(char *env_var, char *token, int start, int end);
-int ft_strcmp_enviroment_variables(char *env_var, char *token);
-int	verifiy_enviroment_var(t_shell *shell, char *token);
-int    invalid_env_var(t_token *list, t_shell *shell);
-int	remove_old_env_variable(t_token **tokens, t_token *current);
+int		compare_env_name(char *env_var, char *token, int start, int end);
+int		ft_strcmp_enviroment_variables(char *env_var, char *token);
+int		verifiy_enviroment_var(t_shell *shell, char *token);
+int		invalid_env_var(t_token *list, t_shell *shell);
+int		remove_old_env_variable(t_token **tokens, t_token *current);
 //===================================================================
 
 // execution_tree_main.c=============================================
-void execute_command_tree(t_exec_node *node, t_shell *shell);
-void handle_child_process(t_exec_node *node, t_shell *shell);
-void handle_parent_process(pid_t pid, t_shell *shell);
+void	execute_command_tree(t_exec_node *node, t_shell *shell);
+void	handle_child_process(t_exec_node *node, t_shell *shell);
+void	handle_parent_process(pid_t pid, t_shell *shell);
 int		is_simple_builtin_command(t_exec_node *node);
 //===================================================================
 
 // execution_tree_command.c =========================================
-void execute_tree(t_exec_node *node, t_shell *shell);
-void setup_file_descriptors(t_exec_node *node);
-t_token *create_token_chain(char **cmd);
-void execute_command_node(t_exec_node *node, t_shell *shell);
-void free_cmd(char **cmd);
+void	execute_tree(t_exec_node *node, t_shell *shell);
+void	setup_file_descriptors(t_exec_node *node);
+t_token	*create_token_chain(char **cmd);
+void	execute_command_node(t_exec_node *node, t_shell *shell);
+void	free_cmd(char **cmd);
 //===================================================================
 
 // execution_tree_redirect.c ========================================
-void execute_input_redirect(t_exec_node *node, t_shell *shell);
-void execute_output_redirect(t_exec_node *node, t_shell *shell);
+void	execute_input_redirect(t_exec_node *node, t_shell *shell);
+void	execute_output_redirect(t_exec_node *node, t_shell *shell);
 //===================================================================
 
-
 // execution_tree_argv.c ============================================
-char **tokens_to_argv(t_token *start, t_token *end);
+char	**tokens_to_argv(t_token *start, t_token *end);
 //===================================================================
 
 // execute_tree_build_main.c ========================================
 t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell);
-void free_execution_tree(t_exec_node *node);
+void	free_execution_tree(t_exec_node *node);
 //===================================================================
 
 // execution_tree_build_utils.c =====================================
-t_token *find_last_pipe(t_token *start, t_token *end);
-t_exec_node	*create_pipe_node(t_token *start, t_token *last_pipe, t_token *end, t_shell *shell);
-t_node_type get_redirect_node_type(t_token_type type);
-t_exec_node *create_command_node(t_token *start, t_token *end);
-t_exec_node *build_execution_tree_skip_redirect(t_token *start, t_token *redirect, t_token *end);
+t_token		*find_last_pipe(t_token *start, t_token *end);
+t_exec_node	*create_pipe_node(t_token *start, t_token *last_pipe,
+			t_token *end, t_shell *shell);
+t_node_type	get_redirect_node_type(t_token_type type);
+t_exec_node	*create_command_node(t_token *start, t_token *end);
+t_exec_node	*build_execution_tree_skip_redirect(t_token *start,
+			t_token *redirect, t_token *end);
+int	is_redirection_token(t_token_type type);
+int	count_arguments(t_token *start, t_token *end);
+char	**allocate_command_array(int arg_count);
+int	handle_command_token(char **cmd, t_token *current, int *i);
+void	skip_redirection_token(t_token **current, t_token *end);
 //===================================================================
 
 // execute_tree_pipe_helpers.c ======================================
-pid_t fork_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell, pid_t left_pid);
-pid_t fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
-void execute_pipe_node(t_exec_node *node, t_shell *shell);
-int create_pipe_and_check(int *pipe_fd);
+pid_t	fork_right_child(int *pipe_fd, t_exec_node *node,
+			t_shell *shell, pid_t left_pid);
+pid_t	fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
+void	execute_pipe_node(t_exec_node *node, t_shell *shell);
+int		create_pipe_and_check(int *pipe_fd);
 //===================================================================
 
 // execute_tree_pipe.c ==============================================
-int manual_wifexited(int status);
-int manual_wexitstatus(int status);
-void setup_pipe_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
-void setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
-void handle_pipe_parent(int *pipe_fd, pid_t left_pid, pid_t right_pid, t_shell *shell);
+int		manual_wifexited(int status);
+int		manual_wexitstatus(int status);
+void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
+void	setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
+void	handle_pipe_parent(int *pipe_fd, pid_t left_pid,
+			pid_t right_pid, t_shell *shell);
 //===================================================================
 
 // execute_tree_redirect_utils.c ====================================
-t_exec_node *create_redirect_node(t_token *start, t_token *curr, t_token *end);
-t_exec_node	*find_and_create_redirect_node(t_token *start, t_token *end, t_shell *shell);
-int is_redirection(t_token_type type);
+t_exec_node	*create_redirect_node(t_token *start, t_token *curr, t_token *end);
+t_exec_node	*find_and_create_redirect_node(t_token *start,
+			t_token *end, t_shell *shell);
+int		is_redirection(t_token_type type);
 //===================================================================
 
 // execute_tree_token_utils.c =======================================
-int count_valid_tokens(t_token *start, t_token *end);
-void cleanup_argv_on_error(char **argv, int count);
-void fill_argv_array(t_token *start, t_token *end, char **argv, int count);
+int		count_valid_tokens(t_token *start, t_token *end);
+void	cleanup_argv_on_error(char **argv, int count);
+void	fill_argv_array(t_token *start, t_token *end, char **argv, int count);
 //===================================================================
 
 // syntax_error.c ==================================================
@@ -236,17 +234,17 @@ int		check_pipe(const char *str, t_shell *shell, int *i);
 int		check_redir(const char *str, t_shell *shell, int *i);
 int		skip_spaces(const char *str, int *i);
 int		check_quote(const char *str, t_shell *shell); */
-int	check_double_pipes(const char *line, t_shell *shell);
-int	check_redirects(const char *line, t_shell *shell);
-int	check_heredoc_and_redirect_conflict(const char *line, t_shell *shell);
-int	check_syntax_errors_main(const char *line, t_shell *shell);
+int		check_double_pipes(const char *line, t_shell *shell);
+int		check_redirects(const char *line, t_shell *shell);
+int		check_heredoc_and_redirect_conflict(const char *line, t_shell *shell);
+int		check_syntax_errors_main(const char *line, t_shell *shell);
 
 // sysntax_error2.c ================================================
-int	is_quote(char c);
-int	is_space(char c);
-int	is_redirect(char c);
-int skip_quotes(const char *str, int i);
-int	skip_spaces(const char *str, int *i);
+int		is_quote(char c);
+int		is_space(char c);
+int		is_redirect(char c);
+int		skip_quotes(const char *str, int i);
+int		skip_spaces(const char *str, int *i);
 //==================================================================
 
 // utils.c ========================================================
@@ -322,23 +320,12 @@ void	ft_exit(t_shell *shell, t_token *args);
 //=================================================================
 
 //exec.c===========================================================
-void	execute_command(t_token *token, t_shell *shell);
-void	execute_external_command(t_token *token, t_shell *shell);
-char	**token_to_args(t_token *token);
-int		count_args(t_token *token);
-char	**allocate_args(int count);
-void	fill_args(t_token *token, char **args);
 int		is_builtin(char *cmd);
 void	handle_env_path_execution(char **args, t_shell *shell);
-bool	handle_absolute_path(char **args, t_shell *shell);
 char	*get_path_env(char **env);
 int		try_paths(char **args, t_shell *shell, char *path_env);
-void	exec_with_full_path(char **args, t_shell *shell);
 int		ft_backup_stdio(int *stdin_backup, int *stdout_backup);
 void	ft_restore_stdio(int stdin_backup, int stdout_backup);
-void	ft_execute_builtin(t_token *token, t_shell *shell,
-			int stdin_backup, int stdout_backup);
-void	ft_execute_external(t_token *token, t_shell *shell);
 //=================================================================
 
 //heredoc.c========================================================
@@ -350,14 +337,6 @@ void	remove_token(t_token **head, t_token *to_remove);
 char	*generate_temp_filename(int i);
 int		create_temp_file(char **out_filename);
 void	error_heredoc(const char *delimiter);
-//=================================================================
-
-//redirects.c======================================================
-int		setup_redirections(t_token *token);
-int		ft_token_redir_in(t_token *current);
-int		ft_token_redir_out(t_token *current);
-int		ft_token_append(t_token *current);
-int		ft_std_close(int stdin_backup, int stdout_backup);
 //=================================================================
 
 //signals.c========================================================
@@ -373,15 +352,11 @@ void	ft_error(int error, char *str, t_shell *shell);
 int	n_value(char *current); */
 //=================================================================
 
-// parser.c =======================================================
-int		parse_line(t_token *shell, char *line);
-//=================================================================
-
 //EXTRAS ==========================================================
 void	print_tokens(t_token *list, t_shell *shell);
-void	print_execution_tree(t_exec_node *node, int depth);
+/* void	print_execution_tree(t_exec_node *node, int depth);
 void	print_command(char **cmd);
-void	print_node_type(t_node_type type);
+void	print_node_type(t_node_type type); */
 //void print_tokens_without_shell(t_token *list);
 //=================================================================
 

@@ -14,18 +14,18 @@
 
 t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell)
 {
-    t_exec_node	*redirect_node;
-    t_token		*last_pipe;
+	t_exec_node	*redirect_node;
+	t_token		*last_pipe;
 
-    if (!start || start == end)
-        return (NULL);
-    last_pipe = find_last_pipe(start, end);
-    if (last_pipe)
-        return (create_pipe_node(start, last_pipe, end, shell));
-    redirect_node = find_and_create_redirect_node(start, end, shell);
-    if (redirect_node)
-        return (redirect_node);
-    return (create_command_node(start, end));
+	if (!start || start == end)
+		return (NULL);
+	last_pipe = find_last_pipe(start, end);
+	if (last_pipe)
+		return (create_pipe_node(start, last_pipe, end, shell));
+	redirect_node = find_and_create_redirect_node(start, end, shell);
+	if (redirect_node)
+		return (redirect_node);
+	return (create_command_node(start, end));
 }
 
 void	free_execution_tree(t_exec_node *node)

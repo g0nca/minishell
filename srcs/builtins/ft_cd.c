@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:05:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/29 16:17:53 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:02:19 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ void	sucess_cd(char *old_pwd, t_shell *shell)
 	else
 		shell_error(shell, "getcwd error after changing directory", 0, false);
 }
-static int		ft_arg_count(t_token *cmdargs)
+
+static int	ft_arg_count(t_token *cmdargs)
 {
 	t_token	*current;
-	int arg_count;
+	int		arg_count;
 
 	arg_count = 0;
 	current = cmdargs->next;

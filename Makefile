@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
+#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/05/29 16:17:30 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/06/30 11:22:57 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/error_functions/errors.c \
 				srcs/syntax_error/syntax_error.c \
 				srcs/syntax_error/syntax_error2.c \
+				srcs/syntax_error/syntax_error3.c \
 				srcs/expand/expand.c \
 				srcs/expand/expand2.c \
 				srcs/expand/calculate_final_size.c \
@@ -61,18 +62,17 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/ft_exit.c \
 				srcs/exec/exec.c \
 				srcs/exec/exec2.c \
-				srcs/exec/exec3.c \
-				srcs/exec/exec4.c \
-				srcs/exec/exec5.c \
 				srcs/signals/signals.c \
-				srcs/redirects/heredoc.c \
-				srcs/redirects/heredoc2.c \
-				srcs/redirects/heredoc3.c \
-				srcs/redirects/redirects.c \
+				srcs/heredoc/heredoc.c \
+				srcs/heredoc/heredoc2.c \
+				srcs/heredoc/heredoc3.c \
 				srcs/binary_tree/execution_tree_argv.c \
 				srcs/binary_tree/execution_tree_build_main.c \
 				srcs/binary_tree/execution_tree_build_utils.c \
+				srcs/binary_tree/execution_tree_build_utils2.c \
+				srcs/binary_tree/execution_tree_build_utils3.c \
 				srcs/binary_tree/execution_tree_command.c \
+				srcs/binary_tree/execution_tree_command2.c \
 				srcs/binary_tree/execution_tree_main.c \
 				srcs/binary_tree/execution_tree_pipe_helpers.c \
 				srcs/binary_tree/execution_tree_pipe.c \

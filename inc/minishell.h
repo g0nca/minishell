@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/30 11:40:21 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:41:32 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ int		is_redirection(t_token_type type);
 // execute_tree_token_utils.c =======================================
 int		count_valid_tokens(t_token *start, t_token *end);
 void	cleanup_argv_on_error(char **argv, int count);
-void	fill_argv_array(t_token *start, t_token *end, char **argv, int count);
+void	fill_argv_array(t_token *start, t_token *end, char **argv, int *count);
 int		add_token_to_argv(char **argv, int i, char *value);
 //===================================================================
 

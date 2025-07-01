@@ -16,8 +16,11 @@ static t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *s
 {
     t_token		*curr;
     t_exec_node	*cmd_node;
-    t_exec_node	*redir_node;
-	(void)shell; // shell is not used in this function, but kept for consistency
+    char        *last_in = NULL;
+    char        *last_out = NULL;
+    char        *last_append = NULL;
+
+    (void)shell;
 
     cmd_node = create_command_node(start, end);
     if (!cmd_node)
@@ -26,32 +29,43 @@ static t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *s
     curr = start;
     while (curr && curr != end)
     {
-        if (is_redirection(curr->type) && curr->next && curr->next->type == TOKEN_WORD)
-        {
-            redir_node = malloc(sizeof(t_exec_node));
-            if (!redir_node)
-            {
-                free_execution_tree(cmd_node);
-                return (NULL);
-            }
-            redir_node->type = get_redirect_node_type(curr->type);
-            redir_node->cmd = malloc(sizeof(char *) * 2);
-            if (!redir_node->cmd)
-            {
-                free(redir_node);
-                free_execution_tree(cmd_node);
-                return (NULL);
-            }
-            redir_node->cmd[0] = ft_strdup(curr->next->value);
-            redir_node->cmd[1] = NULL;
-            redir_node->fd_in = -1;
-            redir_node->fd_out = -1;
-            redir_node->left = cmd_node;
-            redir_node->right = NULL;
-            cmd_node = redir_node;
-            curr = curr->next; // skip filename
-        }
+        if (curr->type == TOKEN_REDIR_IN && curr->next && curr->next->type == TOKEN_WORD)
+            last_in = curr->next->value;
+        else if (curr->type == TOKEN_REDIR_OUT && curr->next && curr->next->type == TOKEN_WORD)
+            last_out = curr->next->value;
+        else if (curr->type == TOKEN_APPEND && curr->next && curr->next->type == TOKEN_WORD)
+            last_append = curr->next->value;
         curr = curr->next;
+    }
+
+    // Open the last input file if any
+    if (last_in)
+    {
+        cmd_node->fd_in = open(last_in, O_RDONLY);
+        if (cmd_node->fd_in < 0)
+        {
+            free_execution_tree(cmd_node);
+            return (NULL);
+        }
+    }
+    // Open the last output file (append has priority if both exist)
+    if (last_append)
+    {
+        cmd_node->fd_out = open(last_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        if (cmd_node->fd_out < 0)
+        {
+            free_execution_tree(cmd_node);
+            return (NULL);
+        }
+    }
+    else if (last_out)
+    {
+        cmd_node->fd_out = open(last_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if (cmd_node->fd_out < 0)
+        {
+            free_execution_tree(cmd_node);
+            return (NULL);
+        }
     }
     return cmd_node;
 }

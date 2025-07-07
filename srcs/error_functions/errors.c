@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/06/30 11:04:17 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:35:57 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static void	ft_error_extra(int error, char *str, t_shell *shell)
 	else if (error == 9)
 		ft_printf_fd(2, "minishell: exit: too many arguments\n");
 	else if (error == 10)
+	{
 		ft_printf_fd(2, "minishell: `%s': not a valid identifier\n", str);
+		shell->last_exit_status = 1;
+	}
 	else if (error == 11)
 		ft_printf_fd(2, "minishell: %s: filename argument required\n", str);
 	else if (error == 15)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:59:51 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/27 15:52:17 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:48:29 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ bool	is_valid_identifier(const char *str)
 	i = 1;
 	while (str[i] && str[i] != '=')
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
+		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '+')
 			return (false);
 		i++;
 	}

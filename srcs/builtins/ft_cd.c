@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:05:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/06/30 11:02:19 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:16:26 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static int	ft_arg_count(t_token *cmdargs)
+{
+	t_token	*current;
+	int		arg_count;
+
+	arg_count = 0;
+	current = cmdargs->next;
+	while (current)
+	{
+		arg_count++;
+		current = current->next;
+	}
+	return (arg_count);
+}
 
 bool	cd_oldpwd(t_shell *shell)
 {
@@ -52,41 +67,21 @@ static bool	cd_process_path(t_token *current, t_shell *shell)
 	}
 }
 
-void	sucess_cd(char *old_pwd, t_shell *shell)
+static void	execute_cd(t_token *current, t_shell *shell, char *old_pwd)
 {
-	char	*new_pwd;
+	bool	cd_success;
 
-	new_pwd = getcwd(NULL, 0);
-	if (new_pwd)
-	{
-		update_env_var(shell, "OLDPWD", old_pwd);
-		update_env_var(shell, "PWD", new_pwd);
-		free(new_pwd);
-	}
-	else
-		shell_error(shell, "getcwd error after changing directory", 0, false);
-}
-
-static int	ft_arg_count(t_token *cmdargs)
-{
-	t_token	*current;
-	int		arg_count;
-
-	arg_count = 0;
-	current = cmdargs->next;
-	while (current)
-	{
-		arg_count++;
-		current = current->next;
-	}
-	return (arg_count);
+	cd_success = cd_process_path(current, shell);
+	if (cd_success)
+		sucess_cd(old_pwd, shell);
+	free(old_pwd);
 }
 
 void	ft_cd(t_token *cmdargs, t_shell *shell)
 {
 	t_token	*current;
 	char	*old_pwd;
-	bool	cd_success;
+	char	*pwd_from_env;
 
 	current = cmdargs->next;
 	if (ft_arg_count(cmdargs) > 1)
@@ -96,14 +91,15 @@ void	ft_cd(t_token *cmdargs, t_shell *shell)
 		shell_error(shell, "", 9, EXIT_SUCCESS);
 		return ;
 	}
-	old_pwd = getcwd(NULL, 0);
+	pwd_from_env = cd_getenv(shell, "PWD");
+	if (pwd_from_env)
+		old_pwd = ft_strdup(pwd_from_env);
+	else
+		old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
 	{
 		shell_error(shell, "getcwd error", 0, false);
 		return ;
 	}
-	cd_success = cd_process_path(current, shell);
-	if (cd_success)
-		sucess_cd(old_pwd, shell);
-	free(old_pwd);
+	execute_cd(current, shell, old_pwd);
 }

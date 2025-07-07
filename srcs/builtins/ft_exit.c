@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:59:40 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/27 21:30:43 by andrade          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:09:12 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ static int	is_valid_number(const char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	if (str[i] == '+' || str[i] == '-')
+	while (str[i] == '-')
+		i++;
+	if (!str[i])
+		return (1);
+	while (str[i] == '+')
 		i++;
 	if (!str[i])
 		return (0);
@@ -59,7 +63,6 @@ static int	normalize_exit_code(long long code)
 static void	is_not_number(t_shell *shell, char *arg1)
 {
 	ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n", arg1);
-	shell->last_exit_status = 2;
 	free_struct(shell);
 	exit(2);
 }

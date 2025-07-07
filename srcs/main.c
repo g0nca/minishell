@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/07/07 09:38:14 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:01:20 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	{
 		expander(&token, shell);
 		delete_quotes(&token, shell);
-		//handle_heredoc(token, shell);
 		tree = build_execution_tree(token, NULL, shell);
 		execute_tree(tree, shell);
 	}

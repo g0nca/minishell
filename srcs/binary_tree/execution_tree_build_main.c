@@ -19,8 +19,7 @@ static t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *s
     char        *last_in = NULL;
     char        *last_out = NULL;
     char        *last_append = NULL;
-
-    (void)shell;
+    char        *heredoc_path = NULL;
 
     cmd_node = create_command_node(start, end);
     if (!cmd_node)
@@ -29,31 +28,52 @@ static t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *s
     curr = start;
     while (curr && curr != end)
     {
-        if (curr->type == TOKEN_REDIR_IN && curr->next && curr->next->type == TOKEN_WORD)
+        if (curr->type == TOKEN_HERE_DOC && curr->next && curr->next->type == TOKEN_WORD)
+        {
+            // Process heredoc: read until delimiter and save to temp file
+            heredoc_path = create_heredoc(curr->next->value, shell);
+            if (!heredoc_path)
+            {
+                free_execution_tree(cmd_node);
+                return (NULL);
+            }
+            last_in = heredoc_path; // Use the temp file as input
+        }
+        else if (curr->type == TOKEN_REDIR_IN && curr->next && curr->next->type == TOKEN_WORD)
+        {
             last_in = curr->next->value;
+        }
         else if (curr->type == TOKEN_REDIR_OUT && curr->next && curr->next->type == TOKEN_WORD)
+        {
             last_out = curr->next->value;
+        }
         else if (curr->type == TOKEN_APPEND && curr->next && curr->next->type == TOKEN_WORD)
+        {
             last_append = curr->next->value;
+        }
+
         curr = curr->next;
     }
 
-    // Open the last input file if any
+    // Open input file or heredoc temp file
     if (last_in)
     {
         cmd_node->fd_in = open(last_in, O_RDONLY);
         if (cmd_node->fd_in < 0)
         {
+            perror("open");
             free_execution_tree(cmd_node);
             return (NULL);
         }
     }
-    // Open the last output file (append has priority if both exist)
+
+    // Open output file (append has priority over truncate)
     if (last_append)
     {
         cmd_node->fd_out = open(last_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
         if (cmd_node->fd_out < 0)
         {
+            perror("open");
             free_execution_tree(cmd_node);
             return (NULL);
         }
@@ -63,10 +83,12 @@ static t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *s
         cmd_node->fd_out = open(last_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if (cmd_node->fd_out < 0)
         {
+            perror("open");
             free_execution_tree(cmd_node);
             return (NULL);
         }
     }
+
     return cmd_node;
 }
 

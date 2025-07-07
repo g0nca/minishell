@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/29 15:06:10 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/07/07 09:46:37 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 	signal(SIGINT, handle_heredoc_sigint);
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("heredoc> ");
 		if (!line)
 		{
 			error_heredoc(delimiter);
@@ -65,7 +65,6 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
 	close(fd);
 	new_node = ft_lstnew(filename);
 	ft_lstadd_back(&shell->heredoc_files, new_node);
-	free(new_node);
 	return (filename);
 }
 

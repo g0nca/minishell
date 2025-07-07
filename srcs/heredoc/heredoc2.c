@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:36:30 by andrade           #+#    #+#             */
-/*   Updated: 2025/05/29 10:14:03 by andrade          ###   ########.fr       */
+/*   Updated: 2025/07/07 09:41:15 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,26 +57,25 @@ int	create_temp_file(char **out_filename)
 
 void	remove_token(t_token **head, t_token *to_remove)
 {
-	t_token	*prev;
-	t_token	*curr;
+    t_token	*prev = NULL;
+    t_token	*curr = *head;
 
-	prev = NULL;
-	curr = *head;
-	while (curr)
-	{
-		if (curr == to_remove)
-		{
-			if (prev)
-				prev->next = curr->next;
-			else
-				*head = curr->next;
-			free(curr->value);
-			free(curr);
-			return ;
-		}
-		prev = curr;
-		curr = curr->next;
-	}
+    while (curr)
+    {
+        if (curr == to_remove)
+        {
+            if (prev)
+                prev->next = curr->next;
+            else
+                *head = curr->next;
+
+            free(curr->value);
+            free(curr);
+            return ;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
 }
 
 void	cleanup_heredoc_files(t_shell *shell)

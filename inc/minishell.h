@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/30 12:07:06 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:24:45 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,13 @@ typedef struct s_exec_node
 	t_token				*tokens;
 }						t_exec_node;
 
+typedef struct s_redirs
+{
+	char	*in;
+	char	*out;
+	char	*append;
+}			t_redirs;
+
 int			main(int ac, char **av, char **envp);
 int			main_auxiliar(char *line, t_shell *shell, t_token *token);
 
@@ -156,9 +163,6 @@ int			remove_old_env_variable(t_token **tokens, t_token *current);
 
 // execution_tree_main.c=============================================
 void		execute_command_tree(t_exec_node *node, t_shell *shell);
-void		handle_child_process(t_exec_node *node, t_shell *shell);
-void		handle_parent_process(pid_t pid, t_shell *shell);
-int			is_simple_builtin_command(t_exec_node *node);
 //===================================================================
 
 // execution_tree_command.c =========================================
@@ -179,6 +183,7 @@ char		**tokens_to_argv(t_token *start, t_token *end);
 //===================================================================
 
 // execute_tree_build_main.c ========================================
+t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell);
 t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell);
 void		free_execution_tree(t_exec_node *node);
 //===================================================================

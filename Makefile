@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/06/30 11:22:57 by joaomart         ###   ########.fr        #
+#    Updated: 2025/07/07 11:38:58 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/heredoc/heredoc3.c \
 				srcs/binary_tree/execution_tree_argv.c \
 				srcs/binary_tree/execution_tree_build_main.c \
+				srcs/binary_tree/execution_tree_build_main2.c \
 				srcs/binary_tree/execution_tree_build_utils.c \
 				srcs/binary_tree/execution_tree_build_utils2.c \
 				srcs/binary_tree/execution_tree_build_utils3.c \

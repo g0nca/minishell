@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:59:40 by joaomart          #+#    #+#             */
-/*   Updated: 2025/06/30 16:09:12 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/16 12:07:20 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,31 +67,47 @@ static void	is_not_number(t_shell *shell, char *arg1)
 	exit(2);
 }
 
+static size_t	ft_strlen_exit(const char *s)
+{
+	int	i;
+	int	signals;
+
+	signals = 0;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '-' || s[i] == '+')
+			signals++;
+		i++;
+	}
+	return (i - signals);
+}
+
 void	ft_exit(t_shell *shell, t_token *args)
 {
 	long long	exit_code;
 	char		*arg1;
 	char		*arg2;
 
+	exit_code = 0;
 	arg1 = get_token_value(args, 1);
 	arg2 = get_token_value(args, 2);
 	ft_printf_fd(1, "exit\n");
-	if (arg1 && !is_valid_number(arg1))
-		is_not_number(shell, arg1);
 	if (arg1 && arg2)
 	{
 		ft_printf_fd(2, "minishell: exit: too many arguments\n");
-		shell->last_exit_status = 1;
-		return ;
+		exit(1);
 	}
 	if (arg1)
 	{
-		exit_code = ft_atol(arg1);
-		exit_code = normalize_exit_code(exit_code);
+		if (ft_strlen_exit(arg1) <= 19)
+		{
+			if (ft_strcmp(arg1, "9223372036854775808") == 0 || !is_valid_number(arg1))
+				is_not_number(shell, arg1);
+			else
+				exit_code = normalize_exit_code(ft_atol(arg1));
+		}
 	}
-	else
-		exit_code = shell->last_exit_status;
-	g_exit_status = (int)exit_code;
 	free_struct(shell);
 	exit((int)exit_code);
 }

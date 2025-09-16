@@ -17,7 +17,7 @@ static int	open_input_file(t_exec_node *cmd, char *filename)
 	cmd->fd_in = open(filename, O_RDONLY);
 	if (cmd->fd_in < 0)
 	{
-		perror("open");
+		perror("minishell");
 		return (-1);
 	}
 	return (0);
@@ -34,7 +34,7 @@ static int	open_output_file(t_exec_node *cmd, char *filename, int append)
 	cmd->fd_out = open(filename, flags, 0644);
 	if (cmd->fd_out < 0)
 	{
-		perror("open");
+		perror("minishell");
 		return (-1);
 	}
 	return (0);
@@ -90,8 +90,14 @@ t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell)
 	if (!cmd)
 		return (NULL);
 	if (process_redirects(start, end, shell, &redirs) < 0)
+	{
+		shell->last_exit_status = 1;
 		return (free_execution_tree(cmd), NULL);
+	}
 	if (apply_redirects(cmd, redirs.in, redirs.out, redirs.append) < 0)
+	{
+		shell->last_exit_status = 1;
 		return (free_execution_tree(cmd), NULL);
+	}
 	return (cmd);
 }

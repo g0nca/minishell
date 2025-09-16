@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/06/30 15:35:57 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:33:33 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static void	ft_error_extra(int error, char *str, t_shell *shell)
 		ft_printf_fd(2, "numeric argument required\n");
 	}
 	else if (error == 9)
-		ft_printf_fd(2, "minishell: exit: too many arguments\n");
+		ft_printf_fd(2, "minishell: cd: too many arguments\n");
 	else if (error == 10)
 	{
-		ft_printf_fd(2, "minishell: `%s': not a valid identifier\n", str);
+		ft_printf_fd(2, "minishell: '%s': not a valid identifier\n", str);
 		shell->last_exit_status = 1;
 	}
 	else if (error == 11)

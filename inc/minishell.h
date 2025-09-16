@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/07/07 11:24:45 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/16 12:14:23 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,6 +322,7 @@ void		init_shlvl(t_shell *shell);
 void		set_env_var(t_shell *shell, const char *name, const char *value);
 //exit:
 void		ft_exit(t_shell *shell, t_token *args);
+
 //=================================================================
 
 //exec.c===========================================================

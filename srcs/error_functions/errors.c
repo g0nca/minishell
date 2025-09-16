@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/09/16 13:33:33 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:25:48 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static void	ft_error_extra(int error, char *str, t_shell *shell)
 		ft_printf_fd(2, "minishell: %s: No such file or directory\n", str);
 		shell->last_exit_status = 1;
 	}
-	else
-		ft_printf_fd(2, "%s\n", str);
 }
 
 static void	handle_command_errors(int error, char *str, t_shell *shell)
@@ -54,6 +52,12 @@ static void	handle_command_errors(int error, char *str, t_shell *shell)
 	{
 		ft_printf_fd(2, "minishell: %s: Permission denied\n", str);
 		shell->last_exit_status = 126;
+	}
+	else if (error == 16)
+	{
+		ft_printf_fd(2, "minishell: %s: filename argument required\n", str);
+		ft_printf_fd(2, ".: usage: . filename [arguments]\n");
+		shell->last_exit_status = 2;
 	}
 }
 
@@ -77,7 +81,7 @@ static void	handle_misc_errors(int error, char *str, t_shell *shell)
 
 void	ft_error(int error, char *str, t_shell *shell)
 {
-	if (error >= 1 && error <= 3)
+	if ((error >= 1 && error <= 3) || error == 16)
 		handle_command_errors(error, str, shell);
 	else if (error >= 4 && error <= 7)
 		handle_misc_errors(error, str, shell);

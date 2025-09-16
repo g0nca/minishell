@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
+#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/07/07 11:38:58 by joaomart         ###   ########.fr        #
+#    Updated: 2025/09/16 15:53:31 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/env_utils4.c \
 				srcs/builtins/ft_env.c \
 				srcs/builtins/ft_exit.c \
+				srcs/builtins/ft_exit2.c \
 				srcs/exec/exec.c \
 				srcs/exec/exec2.c \
 				srcs/signals/signals.c \

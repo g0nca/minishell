@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:30:17 by andrade           #+#    #+#             */
-/*   Updated: 2025/09/13 17:42:16 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/16 15:23:08 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,14 @@ static int	execute_from_path(char *full_path, char **args, t_shell *shell)
 	if (access(full_path, X_OK) == 0)
 		execve(full_path, args, shell->env);
 	free(full_path);
+	if (args[0][0] == '.' && args[0][1] == '.')
+		shell_error(shell, "..", 1, EXIT_FAILURE);
+	else if (args[0][0] == '.')
+	{
+		shell_error(shell, ".", 16, EXIT_FAILURE);
+	}
 	free_args(args);
-	exit(EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }
 
 static int	try_path_execution(char *dir, char **args, t_shell *shell)

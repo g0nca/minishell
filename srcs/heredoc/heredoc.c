@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/15 20:28:22 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/16 15:58:03 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,15 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
     fd = create_temp_file(&filename);
     if (fd < 0)
         return (NULL);
-
     pid = fork();
     if (pid == 0)
     {
-        // Processo filho: só faz o heredoc
         read_heredoc_input(delimiter, fd);
         close(fd);
         exit(0);
     }
     else if (pid > 0)
     {
-        // Processo pai: espera o filho terminar
         close(fd);
         waitpid(pid, &status, 0);
         if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)

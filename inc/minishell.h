@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/16 15:52:55 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:54:37 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,6 +306,8 @@ void		print_export(t_shell *shell);
 void		print_export_line(char *env_var);
 char		*remove_all_quotes(char *value);
 char		*ft_strjoin3(char *s1, char *s2, char *s3);
+void		handle_export_argument(t_shell *shell, char *arg);
+void		process_export_assignment(t_shell *shell, char *arg);
 //unset:
 void		ft_unset(t_token *cmdargs, t_shell *shell);
 void		remove_env_var(t_shell *shell, const char *key);
@@ -320,12 +322,10 @@ void		sort_env(char **env, int count);
 char		**copy_and_sort_env(t_shell *shell, int *count);
 void		init_shlvl(t_shell *shell);
 void		set_env_var(t_shell *shell, const char *name, const char *value);
-
 //exit:
 void		ft_exit(t_shell *shell, t_token *args);
 size_t	ft_strlen_exit(const char *s);
 int     too_many_arguments(t_shell *shell);
-
 //=================================================================
 
 //exec.c===========================================================

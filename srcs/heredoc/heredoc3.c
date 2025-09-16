@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 10:33:19 by andrade           #+#    #+#             */
-/*   Updated: 2025/06/30 11:25:04 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:47:40 by andrade          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,10 @@ int	process_heredoc(t_token *token, t_shell *shell)
 		current = current->next;
 	}
 	return (0);
+}
+
+void	handle_heredoc(t_token *token, t_shell *shell)
+{
+	if (process_heredoc(token, shell) != 0)
+		shell->last_exit_status = 1;
 }

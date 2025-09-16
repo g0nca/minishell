@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/13 17:43:49 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/16 13:53:45 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	handle_direct_path(char **args, t_shell *shell)
 	execve(path, args, shell->env);
 	shell_error(shell, path, 3, true);
 }
+
 
 void	handle_env_path_execution(char **args, t_shell *shell)
 {

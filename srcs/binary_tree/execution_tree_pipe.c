@@ -12,16 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-int	manual_wifexited(int status)
-{
-	return ((status & 0x7f) == 0);
-}
-
-int	manual_wexitstatus(int status)
-{
-	return ((status & 0xff00) >> 8);
-}
-
 void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 {
 	close(pipe_fd[0]);
@@ -49,7 +39,7 @@ void	handle_pipe_parent(int *pipe_fd, pid_t left_pid,
 	close(pipe_fd[1]);
 	waitpid(left_pid, &status, 0);
 	waitpid(right_pid, &status, 0);
-	if (manual_wifexited(status))
+	if (my_wifexited(status))
 		shell->last_exit_status = manual_wexitstatus(status);
 	else
 		shell->last_exit_status = 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_tree_main.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/07/07 11:10:16 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/17 09:51:14 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ static void	parent_process(pid_t pid, t_shell *shell)
 	prev_sigint = signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	signal(SIGINT, prev_sigint);
-	if (WIFSIGNALED(status))
+	if (my_wifsignaled(status))
 	{
-		if (WTERMSIG(status) == SIGINT)
+		if (my_wtermsig(status) == SIGINT)
 			write(STDOUT_FILENO, "\n", 1);
-		else if (WTERMSIG(status) == SIGQUIT)
+		else if (my_wtermsig(status) == SIGQUIT)
 			write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 	}
 	shell->last_exit_status = WEXITSTATUS(status);

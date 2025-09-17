@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/17 09:04:23 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:20:31 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,8 +212,6 @@ int			create_pipe_and_check(int *pipe_fd);
 //===================================================================
 
 // execute_tree_pipe.c ==============================================
-int			manual_wifexited(int status);
-int			manual_wexitstatus(int status);
 void		setup_pipe_left_child(int *pipe_fd,
 				t_exec_node *node, t_shell *shell);
 void		setup_pipe_right_child(int *pipe_fd,
@@ -254,6 +252,11 @@ int			skip_spaces(const char *str, int *i);
 
 // utils.c ========================================================
 int			ternary_operator(t_token *list, char quote);
+int			my_wifexited(int status);
+int			my_wifsignaled(int status);
+int			my_wtermsig(int status);
+int			manual_wexitstatus(int status);
+
 //=================================================================
 
 // init_tokens.c ================================================

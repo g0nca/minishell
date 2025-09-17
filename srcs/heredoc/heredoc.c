@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/16 18:47:30 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/17 09:46:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)
 	t_list	*new_node;
 
 	close(fd);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	if (my_wifsignaled(status) && my_wtermsig(status) == SIGINT)
 	{
 		unlink(filename);
 		free(filename);

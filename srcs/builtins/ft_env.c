@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:39 by joaomart          #+#    #+#             */
-/*   Updated: 2025/04/16 17:39:50 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:19:54 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,3 @@ void	ft_env(t_shell *shell)
 	}
 	shell->last_exit_status = EXIT_SUCCESS;
 }
-
-/* void	ft_env(char *line, t_shell *shell)
-{
-	int i = 0;
-	if (ft_strcmp(line, "env") == 0)
-	{
-		while (shell->env[i])
-		{
-			printf("%s\n", shell->env[i]);
-			i++;
-		}
-	}
-} */

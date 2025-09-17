@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/17 09:51:14 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:57:08 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	parent_process(pid_t pid, t_shell *shell)
 		else if (my_wtermsig(status) == SIGQUIT)
 			write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 	}
-	shell->last_exit_status = WEXITSTATUS(status);
+	shell->last_exit_status = manual_wexitstatus(status);
 }
 
 void	execute_command_tree(t_exec_node *node, t_shell *shell)

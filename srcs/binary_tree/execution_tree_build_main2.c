@@ -14,7 +14,6 @@
 
 static int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 {
-
 	cmd->fd_in = open(filename, O_RDONLY);
 	if (cmd->fd_in == -1)
 	{
@@ -24,30 +23,27 @@ static int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 	return (0);
 }
 
-static int	open_output_file(t_exec_node *cmd, char *filename, int append, t_shell *shell)
+static int  open_output_file(t_exec_node *cmd, char *filename,
+        int append, t_shell *shell)
 {
-	if (append != 1)
-		cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else
-		cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (cmd->fd_out == -1)
-	{
-		shell_error(shell, filename, 2, EXIT_SUCCESS);
-		return (-1);
-	}
-	return (0);
-}
+    static int  error_reported;
 
-/*static int	apply_redirects(t_exec_node *cmd, t_redirs *redirs)
-{
-	if (redirs->in && open_input_file(cmd, redirs->in) < 0)
-		return (-1);
-	if (redirs->out && open_output_file(cmd, redirs->out, 0) < 0)
-		return (-1);
-	if (redirs->append && open_output_file(cmd, redirs->append, 1) < 0)
-		return (-1);
-	return (0);
-}*/
+	error_reported = 0;
+	if (append != 1)
+        cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    else
+        cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (cmd->fd_out == -1)
+    {
+        if (!error_reported)
+        {
+            shell_error(shell, filename, 3, EXIT_SUCCESS);
+            error_reported = 1;
+        }
+        return (-1);
+    }
+    return (0);
+}
 
 static int	process_redirects(t_token *start, 
 		t_exec_node	*cmd, t_shell *shell, t_redirs *redirs)
@@ -57,7 +53,6 @@ static int	process_redirects(t_token *start,
 	curr = start;
 	while (curr && curr != NULL)
 	{
-		//ft_printf_fd(1, "VALUE:%s\n", curr->value);
 		if (curr->type == TOKEN_HERE_DOC
 			&& curr->next && curr->next->type == TOKEN_WORD)
 		{
@@ -90,7 +85,6 @@ static int	process_redirects(t_token *start,
 				return (-1);
 		}
 		curr = curr->next;
-		//ft_printf_fd(1, "REDIRS_IN:%s\n", redirs->in);
 	}
 	return (0);
 }

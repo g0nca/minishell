@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:51:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/09/16 18:51:41 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/17 09:06:18 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static char	*get_clean_value(char *equal_sign)
 	return (clean_value);
 }
 
-static char	*build_new_env_entry(t_shell *shell, char *key, char *clean_value, int append_mode)
+static char	*build_new_env_entry(t_shell *shell, char *key,
+		char *clean_value, int append_mode)
 {
 	char	*new_env_entry;
 	char	*old_val;

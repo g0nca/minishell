@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:36:51 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/16 18:51:19 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/17 09:05:32 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	handle_export_argument(t_shell *shell, char *arg)
 		shell->last_exit_status = 1;
 		return ;
 	}
-
 	if (ft_strchr(arg, '='))
 		process_export_assignment(shell, arg);
 	else

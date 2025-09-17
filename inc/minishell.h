@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/16 18:54:37 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/17 09:04:23 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,8 +324,8 @@ void		init_shlvl(t_shell *shell);
 void		set_env_var(t_shell *shell, const char *name, const char *value);
 //exit:
 void		ft_exit(t_shell *shell, t_token *args);
-size_t	ft_strlen_exit(const char *s);
-int     too_many_arguments(t_shell *shell);
+size_t		ft_strlen_exit(const char *s);
+int			too_many_arguments(t_shell *shell);
 //=================================================================
 
 //exec.c===========================================================

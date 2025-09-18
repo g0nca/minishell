@@ -56,14 +56,27 @@ char	**allocate_command_array(int arg_count)
 	return (cmd);
 }
 
-int	handle_command_token(char **cmd, t_token *current, int *i)
+int	handle_command_token(t_exec_node *node, t_token *current, int *i)
 {
-	cmd[*i] = ft_strdup(current->value);
-	if (!cmd[*i])
+	node->cmd[*i] = ft_strdup(current->value);
+	if (!node->cmd[*i])
 	{
 		while (--(*i) >= 0)
-			free(cmd[*i]);
+			free(node->cmd[*i]);
 		return (-1);
+	}
+	if (current->type == TOKEN_CMD)
+		node->type = NODE_COMMAND;
+	else if (current->type == TOKEN_REDIR_IN)
+		node->type = NODE_REDIRECT_IN;
+	else if (current->type == TOKEN_REDIR_OUT)
+		node->type = NODE_REDIRECT_OUT;
+	else if (current->type == TOKEN_APPEND)
+		node->type = NODE_REDIRECT_APPEND;
+	else if (current->prev != NULL)
+	{
+		if (current->prev->type == TOKEN_APPEND || current->prev->type == TOKEN_REDIR_IN || current->prev->type == TOKEN_REDIR_OUT)
+			node->type = NODE_REDIR_PATH;
 	}
 	(*i)++;
 	return (0);

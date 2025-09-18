@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/17 10:20:31 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/18 15:54:28 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ typedef enum e_node_type
 	NODE_PIPE,
 	NODE_REDIRECT_IN,
 	NODE_REDIRECT_OUT,
-	NODE_REDIRECT_APPEND
+	NODE_REDIRECT_APPEND,
+	NODE_WORD,
+	NODE_REDIR_PATH
 }	t_node_type;
 
 typedef struct s_exec_node
@@ -199,7 +201,7 @@ t_exec_node	*build_execution_tree_skip_redirect(t_token *start,
 int			is_redirection_token(t_token_type type);
 int			count_arguments(t_token *start, t_token *end);
 char		**allocate_command_array(int arg_count);
-int			handle_command_token(char **cmd, t_token *current, int *i);
+int			handle_command_token(t_exec_node *node, t_token *current, int *i);
 void		skip_redirection_token(t_token **current, t_token *end);
 //===================================================================
 
@@ -363,6 +365,8 @@ void		ft_error(int error, char *str, t_shell *shell);
 
 //EXTRAS ==========================================================
 //void	print_tokens(t_token *list, t_shell *shell);
+void	print_exec_tree(t_exec_node *node, int depth);
+const char	*node_type_to_str(t_node_type type);
 //=================================================================
 
 #endif

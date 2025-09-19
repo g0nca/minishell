@@ -76,7 +76,7 @@ int	handle_command_token(t_exec_node *node, t_token *current, int *i)
 	else if (current->prev != NULL)
 	{
 		if (current->prev->type == TOKEN_APPEND || current->prev->type == TOKEN_REDIR_IN || current->prev->type == TOKEN_REDIR_OUT)
-			node->type = NODE_REDIR_PATH;
+			node->type = NODE_REDIRECT_IN;
 	}
 	(*i)++;
 	return (0);

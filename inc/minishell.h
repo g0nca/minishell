@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/22 12:21:23 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/22 12:31:29 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ t_exec_node	*build_execution_tree_skip_redirect(t_token *start,
 int			is_redirection_token(t_token_type type);
 int			count_arguments(t_token *start, t_token *end);
 char		**allocate_command_array(int arg_count);
-int			handle_command_token(char **cmd, t_token *current, int *i);
+int			handle_command_token(t_exec_node *node, t_token *current, int *i);
 void		skip_redirection_token(t_token **current, t_token *end);
 //===================================================================
 

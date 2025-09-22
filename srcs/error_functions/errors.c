@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/09/16 15:25:48 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:04:43 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	handle_command_errors(int error, char *str, t_shell *shell)
 	else if (error == 3)
 	{
 		ft_printf_fd(2, "minishell: %s: Permission denied\n", str);
-		shell->last_exit_status = 126;
+		shell->last_exit_status = 1;
 	}
 	else if (error == 16)
 	{

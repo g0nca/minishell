@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static int	fill_command_array(char **cmd, t_token *start, t_token *end)
+static int	fill_command_array(t_exec_node *node, t_token *start, t_token *end)
 {
 	t_token	*current;
 	int		i;
@@ -23,7 +23,7 @@ static int	fill_command_array(char **cmd, t_token *start, t_token *end)
 	{
 		if (current->type == TOKEN_CMD || current->type == TOKEN_WORD)
 		{
-			if (handle_command_token(cmd, current, &i) == -1)
+			if (handle_command_token(node, current, &i) == -1)
 				return (-1);
 			current = current->next;
 		}
@@ -36,7 +36,7 @@ static int	fill_command_array(char **cmd, t_token *start, t_token *end)
 		else
 			current = current->next;
 	}
-	cmd[i] = NULL;
+	node->cmd[i] = NULL;
 	return (0);
 }
 
@@ -72,7 +72,7 @@ t_exec_node	*create_command_node(t_token *start, t_token *end)
 		free(node);
 		return (NULL);
 	}
-	if (fill_command_array(node->cmd, start, end) == -1)
+	if (fill_command_array(node, start, end) == -1)
 	{
 		free(node->cmd);
 		free(node);

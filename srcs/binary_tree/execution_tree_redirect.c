@@ -46,7 +46,6 @@ void	execute_input_redirect(t_exec_node *node, t_shell *shell)
 	fd = open(node->cmd[0], O_RDONLY);
 	if (fd < 0)
 	{
-		shell_error(shell, node->cmd[0], 2, false);
 		shell->last_exit_status = 1;
 		return ;
 	}

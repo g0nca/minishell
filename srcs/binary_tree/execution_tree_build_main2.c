@@ -14,10 +14,11 @@
 
 static int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 {
+	(void)shell;
 	cmd->fd_in = open(filename, O_RDONLY);
 	if (cmd->fd_in == -1)
 	{
-		shell_error(shell, filename, 2, EXIT_SUCCESS);
+		shell_error(shell, filename, 15, EXIT_SUCCESS);
 		return (-1);
 	}
 	return (0);
@@ -100,7 +101,7 @@ t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell)
 		return (NULL);
 	if (process_redirects(start, cmd, shell, &redirs) < 0)
 	{
-		shell->last_exit_status = 1;
+		//shell_error(shell, "", 15, EXIT_SUCCESS);
 		return (free_execution_tree(cmd), NULL);
 	}
 	/*if (apply_redirects(cmd, &redirs) < 0)

@@ -29,7 +29,7 @@ static int  open_output_file(t_exec_node *cmd, char *filename,
     static int  error_reported;
 
 	error_reported = 0;
-	if (append != 1)
+	if (append == 1)
         cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
     else
         cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);

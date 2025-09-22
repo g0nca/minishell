@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/16 15:31:45 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/22 12:23:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,75 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 		expander(&token, shell);
 		delete_quotes(&token, shell);
 		tree = build_execution_tree(token, NULL, shell);
+		//print_exec_tree(tree, 0);
 		execute_tree(tree, shell);
 	}
 	free_tokens(&token);
 	free_execution_tree(tree);
 	token = NULL;
 	return (0);
+}
+const char	*node_type_to_str(t_node_type type)
+{
+	if (type == NODE_COMMAND)
+		return "NODE_COMMAND";
+	else if (type == NODE_PIPE)
+		return "PIPE";
+	else if (type == NODE_REDIRECT_IN)
+		return "REDIRECT_IN";
+	else if (type == NODE_REDIRECT_OUT)
+		return "REDIRECT_OUT";
+	else if (type == NODE_REDIRECT_APPEND)
+		return "REDIRECT_APPEND";
+	return "UNKNOWN";
+}
+
+// Função para imprimir a árvore de execução
+void	print_exec_tree(t_exec_node *node, int depth)
+{
+	int	i;
+
+	if (!node)
+		return;
+
+	// Indentação para ver hierarquia
+	for (i = 0; i < depth; i++)
+		printf("  ");
+
+	printf("Node Type: %s\n", node_type_to_str(node->type));
+
+	// Imprimir comando se existir
+	if (node->cmd)
+	{
+		for (i = 0; node->cmd[i]; i++)
+		{
+			int j;
+			for (j = 0; j < depth; j++)
+				printf("  ");
+			printf("  cmd[%d][%s]: %s\n", i, node_type_to_str(node->type), node->cmd[i]);
+		}
+	}
+
+	// Mostrar fds
+	for (i = 0; i < depth; i++)
+		printf("  ");
+	printf("  fd_in: %d, fd_out: %d\n", node->fd_in, node->fd_out);
+
+	// Recursão para os filhos
+	if (node->left)
+	{
+		for (i = 0; i < depth; i++)
+			printf("  ");
+		printf("Left:\n");
+		print_exec_tree(node->left, depth + 1);
+	}
+	if (node->right)
+	{
+		for (i = 0; i < depth; i++)
+			printf("  ");
+		printf("Right:\n");
+		print_exec_tree(node->right, depth + 1);
+	}
 }
 
 void	print_tokens(t_token *list, t_shell *shell)

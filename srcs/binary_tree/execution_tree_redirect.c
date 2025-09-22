@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-void	execute_output_redirect(t_exec_node *node, t_shell *shell)
+/*void	execute_output_redirect(t_exec_node *node, t_shell *shell)
 {
 	int	fd;
 	int	prev_fd_out;
@@ -57,4 +57,4 @@ void	execute_input_redirect(t_exec_node *node, t_shell *shell)
 	}
 	close(fd);
 	node->fd_in = prev_fd_in;
-}
+}*/

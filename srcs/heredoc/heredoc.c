@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/17 09:46:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/22 12:33:38 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,18 @@ static void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
-	exit(1);
+	exit(130);
+}
+
+static void	setup_heredoc_signals(void)
+{
+	signal(SIGINT, handle_heredoc_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+static void	restore_main_signals(void)
+{
+	setup_signals();
 }
 
 static int	read_heredoc_input(const char *delimiter, int fd)
@@ -25,7 +36,7 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 	int		delimiter_len;
 
 	delimiter_len = ft_strlen(delimiter);
-	signal(SIGINT, handle_heredoc_sigint);
+	setup_heredoc_signals();
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -58,10 +69,21 @@ static char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)
 	t_list	*new_node;
 
 	close(fd);
-	if (my_wifsignaled(status) && my_wtermsig(status) == SIGINT)
+	restore_main_signals();
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		unlink(filename);
 		free(filename);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		return (NULL);
+	}
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	{
+		unlink(filename);
+		free(filename);
+		rl_replace_line("", 0);
+		rl_on_new_line();
 		return (NULL);
 	}
 	new_node = ft_lstnew(filename);
@@ -79,6 +101,7 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
 	fd = create_temp_file(&filename);
 	if (fd < 0)
 		return (NULL);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 		heredoc_child(delimiter, fd);
@@ -89,5 +112,6 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
 	}
 	close(fd);
 	free(filename);
+	restore_main_signals();
 	return (NULL);
 }

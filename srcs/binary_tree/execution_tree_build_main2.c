@@ -23,29 +23,28 @@ static int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 	return (0);
 }
 
-static int  open_output_file(t_exec_node *cmd, char *filename,
-        int append, t_shell *shell)
+static int	open_output_file(t_exec_node *cmd, char *filename,
+		int append, t_shell *shell)
 {
-    static int  error_reported;
+	static int	error_reported = 0;
 
-	error_reported = 0;
-	if (append != 1)
-        cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-    else
-        cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (cmd->fd_out == -1)
-    {
-        if (!error_reported)
-        {
-            shell_error(shell, filename, 3, EXIT_SUCCESS);
-            error_reported = 1;
-        }
-        return (-1);
-    }
-    return (0);
+	if (append)
+		cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (cmd->fd_out == -1)
+	{
+		if (!error_reported)
+		{
+			shell_error(shell, filename, 3, EXIT_SUCCESS);
+			error_reported = 1;
+		}
+		return (-1);
+	}
+	return (0);
 }
 
-static int	process_redirects(t_token *start, 
+static int	process_redirects(t_token *start,
 		t_exec_node	*cmd, t_shell *shell, t_redirs *redirs)
 {
 	t_token	*curr;

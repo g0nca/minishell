@@ -14,7 +14,6 @@
 
 static int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 {
-	(void)shell;
 	cmd->fd_in = open(filename, O_RDONLY);
 	if (cmd->fd_in == -1)
 	{
@@ -27,22 +26,20 @@ static int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 static int  open_output_file(t_exec_node *cmd, char *filename,
         int append, t_shell *shell)
 {
-    static int  error_reported;
+	int	fd_out;
 
-	error_reported = 0;
 	if (append == 1)
-        cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
     else
-        cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (cmd->fd_out == -1)
+		fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd_out == -1)
     {
-        if (!error_reported)
-        {
-            shell_error(shell, filename, 3, EXIT_SUCCESS);
-            error_reported = 1;
-        }
+        shell_error(shell, filename, 3, EXIT_SUCCESS);
         return (-1);
     }
+	else 
+		cmd->fd_out = fd_out;
+	//close(fd_out);
     return (0);
 }
 
@@ -54,6 +51,7 @@ static int	process_redirects(t_token *start,
 	curr = start;
 	while (curr && curr != NULL)
 	{
+		//ft_printf_fd(1, "Value:%s\n", curr->value);
 		if (curr->type == TOKEN_HERE_DOC
 			&& curr->next && curr->next->type == TOKEN_WORD)
 		{

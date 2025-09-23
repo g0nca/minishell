@@ -35,6 +35,11 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 	if (!node || !node->cmd || !node->cmd[0])
 		return ;
 	cmd_token = create_token_chain(node->cmd);
+	/*while (cmd_token)
+	{
+		ft_printf_fd(1, "Content:%s Type:%d\n", cmd_token->value);
+		cmd_token = cmd_token->next;
+	}*/
 	stdin_backup = -1;
 	stdout_backup = -1;
 	if (node->fd_in != -1 || node->fd_out != -1)

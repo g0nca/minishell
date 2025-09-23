@@ -18,10 +18,13 @@ t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell)
 
 	if (!start || start == end)
 		return (NULL);
+	
 	last_pipe = find_last_pipe(start, end);
 	if (last_pipe)
 		return (create_pipe_node(start, last_pipe, end, shell));
 	return (wrap_with_redirects(start, end, shell));
+
+	//end == NULL
 }
 
 void	free_execution_tree(t_exec_node *node)

@@ -60,6 +60,9 @@ t_exec_node	*create_command_node(t_token *start, t_token *end)
 	t_exec_node	*node;
 	int			arg_count;
 
+	//print_tokens(start, NULL);
+	//ft_printf_fd(1, "-----------------------\n");
+	//print_tokens(end, NULL);
 	if (!start)
 		return (NULL);
 	node = initialize_command_node();

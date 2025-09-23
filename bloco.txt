@@ -1,9 +1,4 @@
-bloco.txt
-inc
-libs
-Makefile
-minishell_tester
-readline.supp
-README.md
-srcs
-valgrind-wrapper.sh
+
+das
+hbiy
+e

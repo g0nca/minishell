@@ -40,6 +40,7 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 		ft_printf_fd(1, "Content:%s Type:%d\n", cmd_token->value);
 		cmd_token = cmd_token->next;
 	}*/
+	//ft_printf_fd(1, "fd_in:%d\nfd_out:%d\n", node->fd_in, node->fd_out);
 	stdin_backup = -1;
 	stdout_backup = -1;
 	if (node->fd_in != -1 || node->fd_out != -1)

@@ -49,9 +49,11 @@ static int	process_redirects(t_token *start,
 	t_token	*curr;
 
 	curr = start;
-	while (curr && curr != NULL)
+	while (curr && curr->next)
 	{
 		//ft_printf_fd(1, "Value:%s\n", curr->value);
+		if (curr->type == TOKEN_PIPE)
+			break ;
 		if (curr->type == TOKEN_HERE_DOC
 			&& curr->next && curr->next->type == TOKEN_WORD)
 		{
@@ -97,11 +99,13 @@ t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell)
 	cmd = create_command_node(start, end);
 	if (!cmd)
 		return (NULL);
+	//ft_printf_fd(1, "TEST\n");
 	if (process_redirects(start, cmd, shell, &redirs) < 0)
 	{
 		//shell_error(shell, "", 15, EXIT_SUCCESS);
 		return (free_execution_tree(cmd), NULL);
 	}
+	//print_exec_tree(cmd, 0);
 	/*if (apply_redirects(cmd, &redirs) < 0)
 	{
 		shell->last_exit_status = 1;

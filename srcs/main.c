@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/23 14:01:53 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/24 09:42:36 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 		expander(&token, shell);
 		delete_quotes(&token, shell);
 		tree = build_execution_tree(token, NULL, shell);
-		//print_exec_tree(tree, 0);
 		execute_tree(tree, shell);
 	}
 	free_tokens(&token);
@@ -76,7 +75,8 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	token = NULL;
 	return (0);
 }
-const char	*node_type_to_str(t_node_type type)
+
+/* const char	*node_type_to_str(t_node_type type)
 {
 	if (type == NODE_COMMAND)
 		return "NODE_COMMAND";
@@ -89,10 +89,10 @@ const char	*node_type_to_str(t_node_type type)
 	else if (type == NODE_REDIRECT_APPEND)
 		return "REDIRECT_APPEND";
 	return "UNKNOWN";
-}
+} */
 
 // Função para imprimir a árvore de execução
-void	print_exec_tree(t_exec_node *node, int depth)
+/* void	print_exec_tree(t_exec_node *node, int depth)
 {
 	int	i;
 
@@ -113,7 +113,8 @@ void	print_exec_tree(t_exec_node *node, int depth)
 			int j;
 			for (j = 0; j < depth; j++)
 				printf("  ");
-			printf("  cmd[%d][%s]: %s\n", i, node_type_to_str(node->type), node->cmd[i]);
+			printf("  cmd[%d][%s]: %s\n", i,
+				node_type_to_str(node->type), node->cmd[i]);
 		}
 	}
 
@@ -156,4 +157,4 @@ void	print_tokens(t_token *list, t_shell *shell)
 	}
 	if (shell)
 		printf("last_exit_status:%d\n", shell->last_exit_status);
-}
+}*/

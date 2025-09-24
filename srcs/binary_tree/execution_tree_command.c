@@ -35,12 +35,6 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 	if (!node || !node->cmd || !node->cmd[0])
 		return ;
 	cmd_token = create_token_chain(node->cmd);
-	/*while (cmd_token)
-	{
-		ft_printf_fd(1, "Content:%s Type:%d\n", cmd_token->value);
-		cmd_token = cmd_token->next;
-	}*/
-	//ft_printf_fd(1, "fd_in:%d\nfd_out:%d\n", node->fd_in, node->fd_out);
 	stdin_backup = -1;
 	stdout_backup = -1;
 	if (node->fd_in != -1 || node->fd_out != -1)
@@ -68,11 +62,6 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 		execute_command_tree(node, shell);
 	else if (node->type == NODE_PIPE)
 		execute_pipe_node(node, shell);
-	/*else if (node->type == NODE_REDIRECT_OUT
-		|| node->type == NODE_REDIRECT_APPEND)
-		execute_output_redirect(node, shell);
-	else if (node->type == NODE_REDIRECT_IN)
-		execute_input_redirect(node, shell);*/
 }
 
 void	free_cmd(char **cmd)

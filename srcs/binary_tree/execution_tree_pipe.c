@@ -12,9 +12,9 @@
 
 #include "../../inc/minishell.h"
 
-void		setup_pipe_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
+void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node,
+			t_shell *shell)
 {
-	//ft_printf_fd(1, "test1\n");
 	close(pipe_fd[0]);
 	if (node->left->fd_out == -1)
 		dup2(pipe_fd[1], STDOUT_FILENO);
@@ -27,7 +27,6 @@ void		setup_pipe_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 
 void	setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 {
-	//ft_printf_fd(1, "TEST2\n");
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: andrade <andrade@student.42.fr>            +#+  +:+       +#+         #
+#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/09/16 18:55:20 by andrade          ###   ########.fr        #
+#    Updated: 2025/09/24 10:16:10 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,8 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/binary_tree/execution_tree_build_utils.c \
 				srcs/binary_tree/execution_tree_build_utils2.c \
 				srcs/binary_tree/execution_tree_build_utils3.c \
+				srcs/binary_tree/execution_tree_build_main_utils.c \
+				srcs/binary_tree/execution_tree_build_main_utils2.c \
 				srcs/binary_tree/execution_tree_command.c \
 				srcs/binary_tree/execution_tree_command2.c \
 				srcs/binary_tree/execution_tree_main.c \

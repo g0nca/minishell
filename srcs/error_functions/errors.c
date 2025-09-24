@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/09/22 14:04:43 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:09:13 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	handle_misc_errors(int error, char *str, t_shell *shell)
 	else if (error == 7)
 	{
 		ft_printf_fd(2, "minishell: ");
-		ft_printf_fd(2, "syntax error near unexpected token `%s'\n", str);
+		ft_printf_fd(2, "syntax error near unexpected token %s\n", str);
 	}
 }
 

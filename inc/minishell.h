@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/23 11:49:05 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:29:24 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,9 @@ char		**tokens_to_argv(t_token *start, t_token *end);
 t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell);
 t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell);
 void		free_execution_tree(t_exec_node *node);
+int			open_input_file(t_exec_node *cmd, char *filename, t_shell *shell);
+int			open_output_file(t_exec_node *cmd, char *filename,
+				int append, t_shell *shell);
 //===================================================================
 
 // execution_tree_build_utils.c =====================================
@@ -201,6 +204,19 @@ int			count_arguments(t_token *start, t_token *end);
 char		**allocate_command_array(int arg_count);
 int			handle_command_token(t_exec_node *node, t_token *current, int *i);
 void		skip_redirection_token(t_token **current, t_token *end);
+//===================================================================
+
+// execution_tree_build_main_utils.c =====================================
+int			process_single_redirect(t_token **curr_ptr, t_exec_node *cmd,
+				t_shell *shell, t_redirs *redirs);
+int			handle_heredoc_tree(t_token *curr, t_shell *shell,
+				t_redirs *redirs);
+int			handle_input_redirect(t_token *curr, t_exec_node *cmd,
+				t_shell *shell, t_redirs *redirs);
+int			handle_output_redirect(t_token *curr, t_exec_node *cmd,
+				t_shell *shell, t_redirs *redirs);
+int			handle_append_redirect(t_token *curr, t_exec_node *cmd,
+				t_shell *shell, t_redirs *redirs);
 //===================================================================
 
 // execute_tree_pipe_helpers.c ======================================
@@ -241,13 +257,12 @@ int			check_redirects(const char *line, t_shell *shell);
 int			check_heredoc_and_redirect_conflict(const char *line,
 				t_shell *shell);
 int			check_syntax_errors_main(const char *line, t_shell *shell);
-
-// sysntax_error2.c ================================================
 int			is_quote(char c);
 int			is_space(char c);
 int			is_redirect(char c);
 int			skip_quotes(const char *str, int i);
 int			skip_spaces(const char *str, int *i);
+int			check_starting_pipe(const char *line, t_shell *shell);
 //==================================================================
 
 // utils.c ========================================================
@@ -354,6 +369,9 @@ void		error_heredoc(const char *delimiter);
 //signals.c========================================================
 void		setup_signals(void);
 void		handle_sigint(int sig);
+void		handle_heredoc_sigint(int sig);
+void		setup_heredoc_signals(void);
+void		restore_main_signals(void);
 //=================================================================
 
 //error.c =========================================================
@@ -362,8 +380,8 @@ void		ft_error(int error, char *str, t_shell *shell);
 //=================================================================
 
 //EXTRAS ==========================================================
-void	print_tokens(t_token *list, t_shell *shell);
-void	print_exec_tree(t_exec_node *node, int depth);
+/* void		print_tokens(t_token *list, t_shell *shell);
+void		print_exec_tree(t_exec_node *node, int depth); */
 //=================================================================
 
 #endif

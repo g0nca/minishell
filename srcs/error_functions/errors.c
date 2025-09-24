@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/09/24 10:09:13 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:59:27 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	handle_misc_errors(int error, char *str, t_shell *shell)
 	{
 		ft_printf_fd(2, "minishell: ");
 		ft_printf_fd(2, "syntax error near unexpected token %s\n", str);
+		shell->last_exit_status = 2;
 	}
 }
 

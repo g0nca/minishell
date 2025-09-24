@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:50:03 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 10:12:03 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:10:22 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,22 @@
 
 static int	handle_pipe_error(const char *line, int *i, t_shell *shell)
 {
-	int original_i = *i;
+	int	original_i;
 
+	original_i = *i;
 	(*i)++;
 	while (line[*i] && is_space(line[*i]))
 		(*i)++;
-
-	// Se encontrar outro pipe ou fim da linha
 	if (line[*i] == '|')
 	{
-		shell_error(shell, "`|'", 7, 2);
+		shell_error(shell, "`|'", 7, EXIT_SUCCESS);
 		return (1);
 	}
 	else if (line[*i] == '\0')
 	{
-		shell_error(shell, "`|'", 7, 2);
+		shell_error(shell, "`|'", 7, EXIT_SUCCESS);
 		return (1);
 	}
-
-	// Reset do índice para continuar o processamento normal
 	*i = original_i;
 	return (0);
 }
@@ -43,7 +40,7 @@ static int	check_pipe(const char *line, int *i,
 	(*pipe_count)++;
 	if (*pipe_count == 2)
 	{
-		shell_error(shell, "`||'", 7, 2);  // Correção aqui também
+		shell_error(shell, "`||'", 7, EXIT_SUCCESS);
 		return (1);
 	}
 	if (handle_pipe_error(line, i, shell))
@@ -51,47 +48,52 @@ static int	check_pipe(const char *line, int *i,
 	return (0);
 }
 
+static int	handle_pipe(const char *line, t_parser *p, t_shell *shell)
+{
+	if (!p->found_content && p->pipe_count == 0)
+	{
+		shell_error(shell, "`|'", 7, EXIT_SUCCESS);
+		return (1);
+	}
+	if (check_pipe(line, &p->i, &p->pipe_count, shell))
+		return (1);
+	p->i++;
+	return (0);
+}
+
+static void	handle_content(const char *line, t_parser *p)
+{
+	if (!is_space(line[p->i]))
+	{
+		p->found_content = 1;
+		p->pipe_count = 0;
+	}
+	p->i++;
+}
+
 int	check_double_pipes(const char *line, t_shell *shell)
 {
-	int	i;
-	int	pipe_count;
-	int	found_content = 0;  // Flag para verificar se há conteúdo antes do pipe
+	t_parser	p;
 
-	i = 0;
-	pipe_count = 0;
-
-	// Pular espaços iniciais
-	while (line[i] && is_space(line[i]))
-		i++;
-
-	while (line[i])
+	p.i = 0;
+	p.pipe_count = 0;
+	p.found_content = 0;
+	while (line[p.i] && is_space(line[p.i]))
+		p.i++;
+	while (line[p.i])
 	{
-		if (is_quote(line[i]))
+		if (is_quote(line[p.i]))
 		{
-			found_content = 1;
-			i = skip_quotes(line, i);
+			p.found_content = 1;
+			p.i = skip_quotes(line, p.i);
 		}
-		else if (line[i] == '|')
+		else if (line[p.i] == '|')
 		{
-			// Se não há conteúdo antes do primeiro pipe
-			if (!found_content && pipe_count == 0)
-			{
-				shell_error(shell, "`|'", 7, 2);
+			if (handle_pipe(line, &p, shell))
 				return (1);
-			}
-
-			if (check_pipe(line, &i, &pipe_count, shell))
-				return (1);
-			i++;
-		}
-		else if (!is_space(line[i]))
-		{
-			found_content = 1;
-			pipe_count = 0;
-			i++;
 		}
 		else
-			i++;
+			handle_content(line, &p);
 	}
 	return (0);
 }

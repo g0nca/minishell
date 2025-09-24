@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 10:29:24 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:09:33 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,13 @@ typedef struct s_redirs
 	char	*out;
 	char	*append;
 }			t_redirs;
+
+typedef struct s_parser
+{
+	int		i;
+	int		pipe_count;
+	int		found_content;
+}	t_parser;
 
 int			main(int ac, char **av, char **envp);
 int			main_auxiliar(char *line, t_shell *shell, t_token *token);

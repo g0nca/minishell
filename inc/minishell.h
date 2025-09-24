@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/23 11:49:05 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:10:12 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,22 @@ void		cleanup_argv_on_error(char **argv, int count);
 void		fill_argv_array(t_token *start, t_token *end,
 				char **argv, int *count);
 int			add_token_to_argv(char **argv, int i, char *value);
+//===================================================================
+// execute_tree_build_main_utils.c ==================================
+int process_single_redirect(t_token **curr_ptr, t_exec_node *cmd, 
+                                  t_shell *shell, t_redirs *redirs);
+int  open_output_file(t_exec_node *cmd, char *filename,
+        int append, t_shell *shell);
+int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell);
+//===================================================================
+// execute_tree_build_main_utils2.c =================================
+int handle_heredoc_tree(t_token *curr, t_shell *shell, t_redirs *redirs);
+int handle_input_redirect(t_token *curr, t_exec_node *cmd, 
+                                t_shell *shell, t_redirs *redirs);
+int handle_output_redirect(t_token *curr, t_exec_node *cmd, 
+                                 t_shell *shell, t_redirs *redirs);
+int handle_append_redirect(t_token *curr, t_exec_node *cmd, 
+                                 t_shell *shell, t_redirs *redirs);
 //===================================================================
 
 // syntax_error.c ==================================================

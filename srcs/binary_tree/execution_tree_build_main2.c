@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
+int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 {
 	cmd->fd_in = open(filename, O_RDONLY);
 	if (cmd->fd_in == -1)
@@ -23,7 +23,7 @@ static int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 	return (0);
 }
 
-static int  open_output_file(t_exec_node *cmd, char *filename,
+int  open_output_file(t_exec_node *cmd, char *filename,
         int append, t_shell *shell)
 {
 	int	fd_out;
@@ -39,55 +39,26 @@ static int  open_output_file(t_exec_node *cmd, char *filename,
     }
 	else 
 		cmd->fd_out = fd_out;
-	//close(fd_out);
     return (0);
 }
 
-static int	process_redirects(t_token *start, 
-		t_exec_node	*cmd, t_shell *shell, t_redirs *redirs)
+static int process_redirects(t_token **start, t_exec_node *cmd, 
+                           t_shell *shell, t_redirs *redirs)
 {
-	t_token	*curr;
-
-	curr = start;
-	while (curr && curr->next)
-	{
-		//ft_printf_fd(1, "Value:%s\n", curr->value);
-		if (curr->type == TOKEN_PIPE)
-			break ;
-		if (curr->type == TOKEN_HERE_DOC
-			&& curr->next && curr->next->type == TOKEN_WORD)
-		{
-			redirs->in = create_heredoc(curr->next->value, shell);
-			if (!redirs->in)
-				return (-1);
-		}
-		else if (curr->type == TOKEN_REDIR_IN
-			&& curr->next && curr->next->type == TOKEN_WORD)
-		{
-			redirs->in = curr->next->value;
-			curr = curr->next;
-			if (open_input_file(cmd, curr->value, shell) < 0)
-				return (-1);
-		}
-		else if (curr->type == TOKEN_REDIR_OUT
-			&& curr->next && curr->next->type == TOKEN_WORD)
-		{
-			redirs->out = curr->next->value;
-			curr = curr->next;
-			if (open_output_file(cmd, curr->value, false, shell) < 0)
-				return (-1);
-		}
-		else if (curr->type == TOKEN_APPEND
-			&& curr->next && curr->next->type == TOKEN_WORD)
-		{
-			redirs->append = curr->next->value;
-			curr = curr->next;
-			if (open_output_file(cmd, curr->value, true, shell) < 0)
-				return (-1);
-		}
-		curr = curr->next;
-	}
-	return (0);
+    t_token *curr;
+    
+    curr = *start;
+    while (curr && curr->next)
+    {
+        if (curr->type == TOKEN_PIPE)
+            break;
+            
+        if (process_single_redirect(&curr, cmd, shell, redirs) < 0)
+            return (-1);
+            
+        curr = curr->next;
+    }
+    return (0);
 }
 
 t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell)
@@ -100,7 +71,7 @@ t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell)
 	if (!cmd)
 		return (NULL);
 	//ft_printf_fd(1, "TEST\n");
-	if (process_redirects(start, cmd, shell, &redirs) < 0)
+	if (process_redirects(&start, cmd, shell, &redirs) < 0)
 	{
 		//shell_error(shell, "", 15, EXIT_SUCCESS);
 		return (free_execution_tree(cmd), NULL);

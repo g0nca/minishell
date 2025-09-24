@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 09:42:36 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:37:28 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	if (token)
 	{
 		expander(&token, shell);
+		//check_env_var_null(token, shell);
 		delete_quotes(&token, shell);
 		tree = build_execution_tree(token, NULL, shell);
 		execute_tree(tree, shell);
@@ -74,6 +75,36 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	free_execution_tree(tree);
 	token = NULL;
 	return (0);
+}
+int	check_env_var_null(t_token *token, t_shell *shell)
+{
+	(void)shell;
+	while (token)
+	{
+		//printf("Value:%c\n", token->value[0]);
+		if (token->value == (void *)'\0')
+			ft_printf_fd(1, "h\n");
+		token = token->next;
+	}
+	return (0);
+}
+void	print_tokens(t_token *list, t_shell *shell)
+{
+	int		i;
+	t_token	*current;
+
+	if (!list)
+		return ;
+	i = 0;
+	current = list;
+	while (current)
+	{
+		printf("token[%d] (%d): %s\n", i, current->type, current->value);
+		current = current->next;
+		i++;
+	}
+	if (shell)
+		printf("last_exit_status:%d\n", shell->last_exit_status);
 }
 
 /* const char	*node_type_to_str(t_node_type type)
@@ -92,7 +123,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 } */
 
 // Função para imprimir a árvore de execução
-/* void	print_exec_tree(t_exec_node *node, int depth)
+/*void	print_exec_tree(t_exec_node *node, int depth)
 {
 	int	i;
 
@@ -139,22 +170,4 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 		print_exec_tree(node->right, depth + 1);
 	}
 }
-
-void	print_tokens(t_token *list, t_shell *shell)
-{
-	int		i;
-	t_token	*current;
-
-	if (!list)
-		return ;
-	i = 0;
-	current = list;
-	while (current)
-	{
-		printf("token[%d] (%d): %s\n", i, current->type, current->value);
-		current = current->next;
-		i++;
-	}
-	if (shell)
-		printf("last_exit_status:%d\n", shell->last_exit_status);
-}*/
+*/

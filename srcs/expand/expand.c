@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 10:18:03 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/24 14:34:14 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ int	expander3(t_token *list, t_shell *shell)
 	{
 		expanded = expand_variables(list->value, shell->env, list);
 		free(list->value);
+		if (expanded == (char *)-1)
+		{
+			list->value = NULL;
+			return (1);
+		}
 		list->value = expanded;
 	}
 	return (0);
@@ -124,6 +129,8 @@ char	*expand_variables(const char *input, char **envp, t_token *list)
 	size_t	size;
 
 	size = calculate_final_size(input, envp, list);
+	if (size == 0)
+		return ((char *)-1);
 	result = (char *)malloc((size + 1) * sizeof(char));
 	if (!result)
 		return (NULL);

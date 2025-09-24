@@ -14,6 +14,8 @@
 
 int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 {
+	if (cmd->fd_in != -1)
+		close(cmd->fd_in);
 	cmd->fd_in = open(filename, O_RDONLY);
 	if (cmd->fd_in == -1)
 	{
@@ -26,19 +28,17 @@ int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 int	open_output_file(t_exec_node *cmd, char *filename,
 		int append, t_shell *shell)
 {
-	int	fd_out;
-
+	if (cmd->fd_out != -1)
+		close(cmd->fd_out);
 	if (append == 1)
-		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
-		fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd_out == -1)
+		cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (cmd->fd_out == -1)
 	{
 		shell_error(shell, filename, 3, EXIT_SUCCESS);
 		return (-1);
 	}
-	else
-		cmd->fd_out = fd_out;
 	return (0);
 }
 
@@ -52,7 +52,7 @@ static int	process_redirects(t_token **start, t_exec_node *cmd,
 	{
 		if (curr->type == TOKEN_PIPE)
 			break ;
-		if (process_single_redirect(&curr, cmd, shell, redirs) < 0)
+		if (process_single_redirect(&curr, cmd, shell, redirs) < 0 && curr->type != TOKEN_PIPE)
 			return (-1);
 		curr = curr->next;
 	}

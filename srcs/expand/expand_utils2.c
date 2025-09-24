@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:06:55 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 10:19:37 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/24 11:34:10 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_strcmp_enviroment_variables(char *env_var, char *token)
  * @param list The token node containing the invalid environment variable
  * @param shell The shell structure
  * @return 1 to signal to expander2 that the token needs to be skipped
- */
+ 
 int	invalid_env_var(t_token *list, t_shell *shell)
 {
 	if (!list)
@@ -90,7 +90,7 @@ int	invalid_env_var(t_token *list, t_shell *shell)
 	list->type = -1;
 	shell->last_exit_status = 1;
 	return (1);
-}
+}*/
 
 /**
  * @brief Checks if a given token (environment variable name)

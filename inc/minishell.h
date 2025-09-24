@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 10:29:24 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:55:47 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ size_t		simple_quotes(t_token *list, const char **input);
 int			compare_env_name(char *env_var, char *token, int start, int end);
 int			ft_strcmp_enviroment_variables(char *env_var, char *token);
 int			verifiy_enviroment_var(t_shell *shell, char *token);
-int			invalid_env_var(t_token *list, t_shell *shell);
+//int			invalid_env_var(t_token *list, t_shell *shell);
 int			remove_old_env_variable(t_token **tokens, t_token *current);
 //===================================================================
 
@@ -186,6 +186,7 @@ char		**tokens_to_argv(t_token *start, t_token *end);
 t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell);
 t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell);
 void		free_execution_tree(t_exec_node *node);
+void	cleanup_exec_node(t_exec_node *node);
 int			open_input_file(t_exec_node *cmd, char *filename, t_shell *shell);
 int			open_output_file(t_exec_node *cmd, char *filename,
 				int append, t_shell *shell);
@@ -380,8 +381,9 @@ void		ft_error(int error, char *str, t_shell *shell);
 //=================================================================
 
 //EXTRAS ==========================================================
-/* void		print_tokens(t_token *list, t_shell *shell);
-void		print_exec_tree(t_exec_node *node, int depth); */
+void		print_tokens(t_token *list, t_shell *shell);
+/*void		print_exec_tree(t_exec_node *node, int depth); */
 //=================================================================
+int	check_env_var_null(t_token *token, t_shell *shell);
 
 #endif

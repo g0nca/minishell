@@ -28,7 +28,10 @@ void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node,
 void	setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 {
 	close(pipe_fd[1]);
-	dup2(pipe_fd[0], STDIN_FILENO);
+	if (node->right->fd_in == -1)
+		dup2(pipe_fd[0], STDIN_FILENO);
+	else
+		dup2(node->right->fd_in, STDIN_FILENO);
 	close(pipe_fd[0]);
 	execute_tree(node->right, shell);
 	exit(shell->last_exit_status);

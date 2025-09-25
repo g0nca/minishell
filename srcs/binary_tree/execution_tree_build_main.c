@@ -24,37 +24,12 @@ t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell)
 	return (wrap_with_redirects(start, end, shell));
 }
 
-void cleanup_exec_node(t_exec_node *node)
-{
-    if (!node)
-        return;
-        
-    // Fecha FDs se ainda estão abertos
-    if (node->fd_in != -1)
-    {
-        close(node->fd_in);
-        node->fd_in = -1;
-    }
-    if (node->fd_out != -1)
-    {
-        close(node->fd_out);
-        node->fd_out = -1;
-    }
-    
-    // Recursivamente limpa nós filhos
-    if (node->left)
-        cleanup_exec_node(node->left);
-    if (node->right)
-        cleanup_exec_node(node->right);
-}
-
 void	free_execution_tree(t_exec_node *node)
 {
 	if (!node)
 		return ;
-	cleanup_exec_node(node);
-	free_execution_tree(node->left);
-	free_execution_tree(node->right);
+	//free_execution_tree(node->left);
+	//free_execution_tree(node->right);
 	free_cmd(node->cmd);
 	if (node->fd_in != -1)
 		close(node->fd_in);

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 14:55:47 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:00:42 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_shell
 	char	**env;
 	int		last_exit_status;
 	int		running;
+	//t_node_type		left_right;
 	t_list	*heredoc_files;
 	pid_t	main_pid;
 }			t_shell;
@@ -75,7 +76,9 @@ typedef enum e_node_type
 	NODE_PIPE,
 	NODE_REDIRECT_IN,
 	NODE_REDIRECT_OUT,
-	NODE_REDIRECT_APPEND
+	NODE_REDIRECT_APPEND,
+	NODE_LEFT,
+	NODE_RIGHT
 }	t_node_type;
 
 typedef struct s_exec_node
@@ -382,8 +385,7 @@ void		ft_error(int error, char *str, t_shell *shell);
 
 //EXTRAS ==========================================================
 void		print_tokens(t_token *list, t_shell *shell);
-/*void		print_exec_tree(t_exec_node *node, int depth); */
+void		print_exec_tree(t_exec_node *node, int depth); 
 //=================================================================
-int	check_env_var_null(t_token *token, t_shell *shell);
 
 #endif

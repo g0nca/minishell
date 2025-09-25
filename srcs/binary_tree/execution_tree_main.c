@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 15:42:49 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/25 10:13:13 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	execute_command_tree(t_exec_node *node, t_shell *shell)
 
 	if (is_builtin(node->cmd[0]))
 		execute_command_node(node, shell);
-	else
+	else if (node->cmd != NULL)
 	{
 		pid = fork();
 		if (pid == 0)

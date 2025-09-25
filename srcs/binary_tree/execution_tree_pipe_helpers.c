@@ -26,6 +26,8 @@ pid_t	fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 {
 	pid_t	left_pid;
 
+	if (!node->left)
+		return (0);
 	left_pid = fork();
 	if (left_pid == -1)
 	{
@@ -44,6 +46,8 @@ pid_t	fork_right_child(int *pipe_fd, t_exec_node *node,
 {
 	pid_t	right_pid;
 
+	if (!node->right)
+		return (0);
 	right_pid = fork();
 	if (right_pid == -1)
 	{

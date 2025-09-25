@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
+#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/09/24 10:16:10 by joaomart         ###   ########.fr        #
+#    Updated: 2025/09/25 09:59:36 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,6 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/binary_tree/execution_tree_pipe_helpers.c \
 				srcs/binary_tree/execution_tree_pipe.c \
 				srcs/binary_tree/execution_tree_redirect_utils.c \
-				srcs/binary_tree/execution_tree_redirect.c \
 				srcs/binary_tree/execution_tree_token_utils.c
 
 MINISHELL_OBJS_DIR = srcs/objs

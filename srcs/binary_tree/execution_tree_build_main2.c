@@ -52,7 +52,7 @@ static int	process_redirects(t_token **start, t_exec_node *cmd,
 	{
 		if (curr->type == TOKEN_PIPE)
 			break ;
-		if (process_single_redirect(&curr, cmd, shell, redirs) < 0 && curr->type != TOKEN_PIPE)
+		if (process_single_redirect(&curr, cmd, shell, redirs) < 0)
 			return (-1);
 		curr = curr->next;
 	}

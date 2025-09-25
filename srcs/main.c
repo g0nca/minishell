@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 11:37:28 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:38:13 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,28 @@ int	main(int ac, char **av, char **envp)
 	}
 	return (shell->last_exit_status);
 }
-
+/*static void		check_close_fds(t_exec_node *node, t_shell *shell)
+{
+	(void)shell;
+	if (node)
+	{	
+		while (node)
+		{
+			if (node->fd_in != -1 || node->fd_out != -1)
+			{
+				close(node->fd_in);
+				close(node->fd_out);
+				node->fd_in = -1;
+				node->fd_out = -1;
+			}
+			if (node->left)
+				check_close_fds(node->left, shell);
+			if (node->right)
+				check_close_fds(node->right, shell);
+			
+		}
+	}
+}*/
 int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
 	t_exec_node	*tree;
@@ -66,7 +87,6 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	if (token)
 	{
 		expander(&token, shell);
-		//check_env_var_null(token, shell);
 		delete_quotes(&token, shell);
 		tree = build_execution_tree(token, NULL, shell);
 		execute_tree(tree, shell);
@@ -74,18 +94,6 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	free_tokens(&token);
 	free_execution_tree(tree);
 	token = NULL;
-	return (0);
-}
-int	check_env_var_null(t_token *token, t_shell *shell)
-{
-	(void)shell;
-	while (token)
-	{
-		//printf("Value:%c\n", token->value[0]);
-		if (token->value == (void *)'\0')
-			ft_printf_fd(1, "h\n");
-		token = token->next;
-	}
 	return (0);
 }
 void	print_tokens(t_token *list, t_shell *shell)
@@ -107,7 +115,7 @@ void	print_tokens(t_token *list, t_shell *shell)
 		printf("last_exit_status:%d\n", shell->last_exit_status);
 }
 
-/* const char	*node_type_to_str(t_node_type type)
+const char	*node_type_to_str(t_node_type type)
 {
 	if (type == NODE_COMMAND)
 		return "NODE_COMMAND";
@@ -120,10 +128,10 @@ void	print_tokens(t_token *list, t_shell *shell)
 	else if (type == NODE_REDIRECT_APPEND)
 		return "REDIRECT_APPEND";
 	return "UNKNOWN";
-} */
+}
 
 // Função para imprimir a árvore de execução
-/*void	print_exec_tree(t_exec_node *node, int depth)
+void	print_exec_tree(t_exec_node *node, int depth)
 {
 	int	i;
 
@@ -170,4 +178,4 @@ void	print_tokens(t_token *list, t_shell *shell)
 		print_exec_tree(node->right, depth + 1);
 	}
 }
-*/
+

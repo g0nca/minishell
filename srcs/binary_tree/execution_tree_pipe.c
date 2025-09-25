@@ -15,6 +15,8 @@
 void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node,
 			t_shell *shell)
 {
+	if (!node || !node->left)
+		return ;
 	close(pipe_fd[0]);
 	if (node->left->fd_out == -1)
 		dup2(pipe_fd[1], STDOUT_FILENO);
@@ -27,6 +29,8 @@ void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node,
 
 void	setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 {
+	if (!node || !node->right)
+		return ;
 	close(pipe_fd[1]);
 	if (node->right->fd_in == -1)
 		dup2(pipe_fd[0], STDIN_FILENO);

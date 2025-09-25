@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/25 14:23:56 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:45:09 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	g_exit_status = 0;
 
 static void	handle_exit(t_shell *shell, char *line)
 {
-	int exit_status;
+	int	exit_status;
 
 	if (line == NULL)
 	{
@@ -58,15 +58,18 @@ int	main(int ac, char **av, char **envp)
 	}
 	return (shell->last_exit_status);
 }
+
 static int	check_inside_quotes(t_token *token)
 {
 	if (token && token->value)
 	{
-		if (ft_strcmp(token->value, "\"\"") == 0 || ft_strcmp(token->value, "\'\'") == 0)
+		if (ft_strcmp(token->value, "\"\"") == 0
+			|| ft_strcmp(token->value, "\'\'") == 0)
 			return (-1);
 	}
 	return (0);
-}	
+}
+
 int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
 	t_exec_node	*tree;
@@ -91,7 +94,8 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	token = NULL;
 	return (0);
 }
-void	print_tokens(t_token *list, t_shell *shell)
+
+/*void	print_tokens(t_token *list, t_shell *shell)
 {
 	int		i;
 	t_token	*current;
@@ -172,5 +176,4 @@ void	print_exec_tree(t_exec_node *node, int depth)
 		printf("Right:\n");
 		print_exec_tree(node->right, depth + 1);
 	}
-}
-
+}*/

@@ -42,18 +42,19 @@ t_exec_node	*create_pipe_node(t_token *start, t_token *last_pipe,
 	node->fd_out = -1;
 	node->left = build_execution_tree(start, last_pipe, shell);
 	node->right = build_execution_tree(last_pipe->next, end, shell);
-    if (!node->left)
-        free_execution_tree(node->left);
-    if (!node->right)
+	if (!node->left)
 	{
-    	free_execution_tree(node->right);
+		free_execution_tree(node->left);
+	}
+	if (!node->right)
+	{
+		free_execution_tree(node->right);
 	}
 	if (!node->left && !node->right)
 	{
 		free(node);
 		return (NULL);
 	}
-
 	return (node);
 }
 

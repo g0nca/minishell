@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:50:03 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 10:11:44 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:57:32 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@ int	check_syntax_errors_main(const char *line, t_shell *shell)
 {
 	if (!line || !*line)
 		return (0);
-
-	// Primeiro verificar se linha começa com pipe
 	if (check_starting_pipe(line, shell))
 		return (1);
-
 	if (check_double_pipes(line, shell))
 		return (1);
 	if (check_redirects(line, shell))
@@ -30,16 +27,13 @@ int	check_syntax_errors_main(const char *line, t_shell *shell)
 	return (0);
 }
 
-// Nova função para verificar pipe no início
 int	check_starting_pipe(const char *line, t_shell *shell)
 {
-	int i = 0;
+	int	i;
 
-	// Pular espaços no início
+	i = 0;
 	while (line[i] && is_space(line[i]))
 		i++;
-
-	// Se encontrar pipe logo no início
 	if (line[i] == '|')
 	{
 		shell_error(shell, "`|'", 7, EXIT_SUCCESS);
@@ -71,6 +65,27 @@ int	check_heredoc_and_redirect_conflict(const char *line, t_shell *shell)
 	return (0);
 }
 
+static int	validate_redirect_target(const char *line, int *i, t_shell *shell)
+{
+	while (line[*i] && is_space(line[*i]))
+		(*i)++;
+	if (!line[*i])
+		return (shell_error(shell, "`newline'", 7, EXIT_SUCCESS), 1);
+	if (is_redirect(line[*i]))
+	{
+		if (line[*i] == '>' && line[*i + 1] == '>')
+			shell_error(shell, "`>>'", 7, EXIT_SUCCESS);
+		else if (line[*i] == '>')
+			shell_error(shell, "`>'", 7, EXIT_SUCCESS);
+		else if (line[*i] == '<')
+			shell_error(shell, "`<'", 7, EXIT_SUCCESS);
+		return (1);
+	}
+	if (line[*i] == '|')
+		return (shell_error(shell, "`|'", 7, EXIT_SUCCESS), 1);
+	return (0);
+}
+
 int	check_redirects(const char *line, t_shell *shell)
 {
 	int		i;
@@ -86,32 +101,8 @@ int	check_redirects(const char *line, t_shell *shell)
 			c = line[i++];
 			if (line[i] == c)
 				i++;
-			while (line[i] && is_space(line[i]))
-				i++;
-
-			// Verificar o que vem após o redirect
-			if (!line[i])
-			{
-				// Fim da linha - token newline
-				shell_error(shell, "`newline'", 7, EXIT_SUCCESS);
+			if (validate_redirect_target(line, &i, shell))
 				return (1);
-			}
-			else if (is_redirect(line[i]))
-			{
-				// Outro redirect - mostrar o token específico
-				if (line[i] == '>' && line[i + 1] == '>')
-					shell_error(shell, "`>>'", 7, EXIT_SUCCESS);
-				else if (line[i] == '>')
-					shell_error(shell, "`>'", 7, EXIT_SUCCESS);
-				else if (line[i] == '<')
-					shell_error(shell, "`<'", 7, EXIT_SUCCESS);
-				return (1);
-			}
-			else if (line[i] == '|')
-			{
-				shell_error(shell, "`|'", 7, EXIT_SUCCESS);
-				return (1);
-			}
 		}
 		else
 			i++;

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/25 13:30:56 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:23:56 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,15 @@ int	main(int ac, char **av, char **envp)
 	}
 	return (shell->last_exit_status);
 }
+static int	check_inside_quotes(t_token *token)
+{
+	if (token && token->value)
+	{
+		if (ft_strcmp(token->value, "\"\"") == 0 || ft_strcmp(token->value, "\'\'") == 0)
+			return (-1);
+	}
+	return (0);
+}	
 int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
 	t_exec_node	*tree;
@@ -68,9 +77,14 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	if (token)
 	{
 		expander(&token, shell);
-		delete_quotes(&token, shell);
-		tree = build_execution_tree(token, NULL, shell);
-		execute_tree(tree, shell);
+		if (check_inside_quotes(token) == 0)
+		{
+			delete_quotes(&token, shell);
+			tree = build_execution_tree(token, NULL, shell);
+			execute_tree(tree, shell);
+		}
+		else
+			shell_error(shell, token->value, 1, EXIT_SUCCESS);
 	}
 	free_tokens(&token);
 	free_execution_tree(tree);

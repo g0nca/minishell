@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:14:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/09/25 10:07:00 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:18:27 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ static void	ft_error_extra(int error, char *str, t_shell *shell)
 	}
 	else if (error == 11)
 		ft_printf_fd(2, "minishell: %s: filename argument required\n", str);
+	else if (error == 12)
+	{
+		ft_printf_fd(2, "Command %s not found, but can be installed with:\napt install mailutils-mh  # version 1:3.14-1, or\napt install mmh           # version 0.4-4\napt install nmh           # version 1.7.1-11\napt install termtris      # version 1.3-1ubuntu1\n", str);
+		shell->last_exit_status = 127;
+	}
 	else if (error == 15)
 	{
 		ft_printf_fd(2, "minishell: %s: No such file or directory\n", str);
@@ -91,7 +96,7 @@ void	ft_error(int error, char *str, t_shell *shell)
 
 void	shell_error(t_shell *shell, char *str, int error, bool exit_flag)
 {
-	if (error == 0 || error == 12)
+	if (error == 0 || error == 11)
 		shell->last_exit_status = 0;
 	else
 		ft_error(error, str, shell);

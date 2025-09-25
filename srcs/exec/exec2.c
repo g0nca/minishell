@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/24 14:06:23 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:31:45 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	handle_direct_path(char **args, t_shell *shell)
 	if (S_ISDIR(path_stat.st_mode))
 		shell_error(shell, path, 5, true);
 	if (access(path, X_OK) == -1)
-		shell_error(shell, path, 3, true);
+		shell_error(shell, path, 20, true);
 	execve(path, args, shell->env);
 	shell_error(shell, path, 3, true);
 }

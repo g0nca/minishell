@@ -16,7 +16,7 @@ t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell)
 {
 	t_token		*last_pipe;
 
-	if (!start || start == end)
+    if (!start || start == end)
 		return (NULL);
 	last_pipe = find_last_pipe(start, end);
 	if (last_pipe)
@@ -28,8 +28,10 @@ void	free_execution_tree(t_exec_node *node)
 {
 	if (!node)
 		return ;
-	//free_execution_tree(node->left);
-	//free_execution_tree(node->right);
+    if (node->left)
+	    free_execution_tree(node->left);
+	if (node->right)
+        free_execution_tree(node->right);
 	free_cmd(node->cmd);
 	if (node->fd_in != -1)
 		close(node->fd_in);

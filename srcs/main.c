@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/25 11:38:13 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:30:56 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@ int	g_exit_status = 0;
 
 static void	handle_exit(t_shell *shell, char *line)
 {
+	int exit_status;
+
 	if (line == NULL)
 	{
+		exit_status = shell->last_exit_status;
 		printf("exit\n");
 		free_struct(shell);
-		exit(shell->last_exit_status);
+		exit(exit_status);
 	}
 }
 
@@ -55,28 +58,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	return (shell->last_exit_status);
 }
-/*static void		check_close_fds(t_exec_node *node, t_shell *shell)
-{
-	(void)shell;
-	if (node)
-	{	
-		while (node)
-		{
-			if (node->fd_in != -1 || node->fd_out != -1)
-			{
-				close(node->fd_in);
-				close(node->fd_out);
-				node->fd_in = -1;
-				node->fd_out = -1;
-			}
-			if (node->left)
-				check_close_fds(node->left, shell);
-			if (node->right)
-				check_close_fds(node->right, shell);
-			
-		}
-	}
-}*/
 int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
 	t_exec_node	*tree;

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/26 09:13:37 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/26 09:16:38 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ char		**tokens_to_argv(t_token *start, t_token *end);
 t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell);
 t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell);
 void		free_execution_tree(t_exec_node *node);
-void	cleanup_exec_node(t_exec_node *node);
+void		cleanup_exec_node(t_exec_node *node);
 int			open_input_file(t_exec_node *cmd, char *filename, t_shell *shell);
 int			open_output_file(t_exec_node *cmd, char *filename,
 				int append, t_shell *shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/25 11:00:42 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/26 09:13:37 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,13 @@ typedef struct s_redirs
 	char	*out;
 	char	*append;
 }			t_redirs;
+
+typedef struct s_parser
+{
+	int		i;
+	int		pipe_count;
+	int		found_content;
+}	t_parser;
 
 int			main(int ac, char **av, char **envp);
 int			main_auxiliar(char *line, t_shell *shell, t_token *token);
@@ -385,7 +392,7 @@ void		ft_error(int error, char *str, t_shell *shell);
 
 //EXTRAS ==========================================================
 void		print_tokens(t_token *list, t_shell *shell);
-void		print_exec_tree(t_exec_node *node, int depth); 
+void		print_exec_tree(t_exec_node *node, int depth);
 //=================================================================
 
 #endif

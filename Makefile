@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
+#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/09/25 09:59:36 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/09/26 09:12:52 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/syntax_error/syntax_error.c \
 				srcs/syntax_error/syntax_error2.c \
 				srcs/syntax_error/syntax_error3.c \
+				srcs/syntax_error/syntax_error4.c \
 				srcs/expand/expand.c \
 				srcs/expand/expand2.c \
 				srcs/expand/calculate_final_size.c \

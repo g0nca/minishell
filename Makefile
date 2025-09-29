@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
+#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/09/26 09:12:52 by joaomart         ###   ########.fr        #
+#    Updated: 2025/09/29 14:55:41 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -132,7 +132,6 @@ va: $(NAME)
 	@mkdir -p Valgrind
 	@valgrind --leak-check=full \
 	--track-fds=yes --track-origins=yes \
-	--log-file=Valgrind/... \
 	./$(NAME)
 # --leak-check=full --> Mostra todos os blocos de memoria que
 #		nao foram libertados no fim da execucao do programa.

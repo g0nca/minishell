@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/24 09:28:39 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:41:24 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
 		return (heredoc_parent(fd, status, filename, shell));
 	}
 	close(fd);
+	shell->temp_heredoc_path = filename;
+	unlink(filename);
 	free(filename);
 	restore_main_signals();
 	return (NULL);

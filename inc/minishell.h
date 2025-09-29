@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/26 09:16:38 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:55:16 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ extern int	g_exit_status;
 typedef struct s_shell
 {
 	char	**env;
+	char	*temp_heredoc_path;
 	int		last_exit_status;
 	int		running;
-	//t_node_type		left_right;
+	char	*in;
+	char	*out;
+	char	*append;
 	t_list	*heredoc_files;
 	pid_t	main_pid;
 }			t_shell;
@@ -56,7 +59,6 @@ typedef enum e_token_type
 
 typedef struct s_token
 {
-	//t_shell		shell_ref;
 	char			*value;
 	int				type;
 	int				size;
@@ -91,13 +93,6 @@ typedef struct s_exec_node
 	int					fd_out;
 	t_token				*tokens;
 }						t_exec_node;
-
-typedef struct s_redirs
-{
-	char	*in;
-	char	*out;
-	char	*append;
-}			t_redirs;
 
 typedef struct s_parser
 {
@@ -219,15 +214,11 @@ void		skip_redirection_token(t_token **current, t_token *end);
 
 // execution_tree_build_main_utils.c =====================================
 int			process_single_redirect(t_token **curr_ptr, t_exec_node *cmd,
-				t_shell *shell, t_redirs *redirs);
-int			handle_heredoc_tree(t_token *curr, t_shell *shell,
-				t_redirs *redirs);
-int			handle_input_redirect(t_token *curr, t_exec_node *cmd,
-				t_shell *shell, t_redirs *redirs);
-int			handle_output_redirect(t_token *curr, t_exec_node *cmd,
-				t_shell *shell, t_redirs *redirs);
-int			handle_append_redirect(t_token *curr, t_exec_node *cmd,
-				t_shell *shell, t_redirs *redirs);
+				t_shell *shell);
+int			handle_heredoc_tree(t_token *curr, t_shell *shell);
+int			handle_input_redirect(t_token *curr, t_exec_node *cmd, t_shell *shell);
+int			handle_output_redirect(t_token *curr, t_exec_node *cmd, t_shell *shell);
+int			handle_append_redirect(t_token *curr, t_exec_node *cmd, t_shell *shell);
 //===================================================================
 
 // execute_tree_pipe_helpers.c ======================================
@@ -394,5 +385,6 @@ void		ft_error(int error, char *str, t_shell *shell);
 void		print_tokens(t_token *list, t_shell *shell);
 void		print_exec_tree(t_exec_node *node, int depth);
 //=================================================================
+void setup_redirections(t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/25 15:45:09 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:02:06 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,10 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 			delete_quotes(&token, shell);
 			tree = build_execution_tree(token, NULL, shell);
 			execute_tree(tree, shell);
+			cleanup_heredoc_files(shell);
+			shell->in = NULL;
+			shell->out = NULL;
+			shell->append = NULL;
 		}
 		else
 			shell_error(shell, token->value, 1, EXIT_SUCCESS);

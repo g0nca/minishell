@@ -65,6 +65,38 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 	else if (node->type == NODE_PIPE)
 		execute_pipe_node(node, shell);
 }
+void setup_redirections(t_shell *shell)
+{
+    int fd;
+    
+    if (shell->in)
+    {
+        fd = open(shell->in, O_RDONLY);
+        if (fd == -1)
+        {
+            perror("open");
+            exit(EXIT_FAILURE);
+        }
+        dup2(fd, STDIN_FILENO);
+        close(fd);
+    }
+    else if (shell->out)
+    {
+        int flags = O_WRONLY | O_CREAT;
+        if (shell->append)
+            flags |= O_APPEND;
+        else
+            flags |= O_TRUNC;
+        fd = open(shell->out, flags, 0644);
+        if (fd == -1)
+        {
+            perror("open");
+            exit(EXIT_FAILURE);
+        }
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
+    }
+}
 
 void	free_cmd(char **cmd)
 {

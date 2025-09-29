@@ -43,7 +43,7 @@ int	open_output_file(t_exec_node *cmd, char *filename,
 }
 
 static int	process_redirects(t_token **start, t_exec_node *cmd,
-		t_shell *shell, t_redirs *redirs)
+		t_shell *shell)
 {
 	t_token	*curr;
 
@@ -52,7 +52,7 @@ static int	process_redirects(t_token **start, t_exec_node *cmd,
 	{
 		if (curr->type == TOKEN_PIPE)
 			break ;
-		if (process_single_redirect(&curr, cmd, shell, redirs) < 0)
+		if (process_single_redirect(&curr, cmd, shell) < 0)
 			return (-1);
 		curr = curr->next;
 	}
@@ -62,13 +62,11 @@ static int	process_redirects(t_token **start, t_exec_node *cmd,
 t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell)
 {
 	t_exec_node	*cmd;
-	t_redirs	redirs;
 
-	ft_bzero(&redirs, sizeof(redirs));
 	cmd = create_command_node(start, end);
 	if (!cmd)
 		return (NULL);
-	if (process_redirects(&start, cmd, shell, &redirs) < 0)
+	if (process_redirects(&start, cmd, shell) < 0)
 		return (free_execution_tree(cmd), NULL);
 	return (cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:22:45 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 11:11:34 by andrade          ###   ########.fr       */
+/*   Updated: 2025/09/29 13:59:50 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,9 @@ t_shell	*init_shell(int ac, char **av, char **envp)
 	shell->last_exit_status = 0;
 	shell->running = 1;
 	shell->heredoc_files = 0;
+	shell->temp_heredoc_path = NULL;
+	shell->in = NULL;
+	shell->out = NULL;
+	shell->append = NULL;
 	return (shell);
 }

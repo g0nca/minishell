@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:59:40 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/16 15:51:44 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:52:17 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	ft_exit(t_shell *shell, t_token *args)
 	char		*arg2;
 
 	exit_code = 0;
+	shell->running = 0;
 	arg1 = get_token_value(args, 1);
 	arg2 = get_token_value(args, 2);
-	ft_printf_fd(1, "exit\n");
 	if (arg1 && arg2)
 		too_many_arguments(shell);
 	if (arg1)
@@ -91,5 +91,5 @@ void	ft_exit(t_shell *shell, t_token *args)
 		}
 	}
 	free_struct(shell);
-	exit((int)exit_code);
+	shell->last_exit_status = (int)exit_code;
 }

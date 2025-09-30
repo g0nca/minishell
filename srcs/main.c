@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/30 10:14:00 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:50:37 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	main(int ac, char **av, char **envp)
 		process_line(line, shell, token);
 		free(line);
 	}
+	ft_printf_fd(1, "exit\n");
 	return (shell->last_exit_status);
 }
 

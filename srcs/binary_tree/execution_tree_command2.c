@@ -55,3 +55,34 @@ t_token	*create_token_chain(char **cmd)
 	}
 	return (cmd_token);
 }
+
+void	setup_file_descriptors(t_exec_node *node)
+{
+	if (node->fd_in != -1)
+	{
+		dup2(node->fd_in, STDIN_FILENO);
+		close(node->fd_in);
+		node->fd_in = -1;
+	}
+	if (node->fd_out != -1)
+	{
+		dup2(node->fd_out, STDOUT_FILENO);
+		close(node->fd_out);
+		node->fd_out = -1;
+	}
+}
+
+void	free_cmd(char **cmd)
+{
+	int	i;
+
+	i = 0;
+	if (!cmd)
+		return ;
+	while (cmd[i])
+	{
+		free(cmd[i]);
+		i++;
+	}
+	free(cmd);
+}

@@ -17,5 +17,3 @@ int	is_redirection(t_token_type type)
 	return (type == TOKEN_REDIR_IN
 		|| type == TOKEN_REDIR_OUT || type == TOKEN_APPEND);
 }
-
-

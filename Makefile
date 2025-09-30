@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
+#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/09/30 09:52:47 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/09/30 13:59:57 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,7 +129,6 @@ $(FT_PRINTF):
 	@echo "$(BOLD_GREEN)✅ libftprintf.a built successfully!$(RESET)"
 
 va: $(NAME)
-	@mkdir -p Valgrind
 	@valgrind --leak-check=full \
 	--track-fds=yes --track-origins=yes \
 	./$(NAME)

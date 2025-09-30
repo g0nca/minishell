@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/29 15:55:16 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:05:44 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,9 +216,12 @@ void		skip_redirection_token(t_token **current, t_token *end);
 int			process_single_redirect(t_token **curr_ptr, t_exec_node *cmd,
 				t_shell *shell);
 int			handle_heredoc_tree(t_token *curr, t_shell *shell);
-int			handle_input_redirect(t_token *curr, t_exec_node *cmd, t_shell *shell);
-int			handle_output_redirect(t_token *curr, t_exec_node *cmd, t_shell *shell);
-int			handle_append_redirect(t_token *curr, t_exec_node *cmd, t_shell *shell);
+int			handle_input_redirect(t_token *curr, t_exec_node *cmd,
+				t_shell *shell);
+int			handle_output_redirect(t_token *curr, t_exec_node *cmd,
+				t_shell *shell);
+int			handle_append_redirect(t_token *curr, t_exec_node *cmd,
+				t_shell *shell);
 //===================================================================
 
 // execute_tree_pipe_helpers.c ======================================
@@ -239,10 +242,8 @@ void		handle_pipe_parent(int *pipe_fd, pid_t left_pid,
 //===================================================================
 
 // execute_tree_redirect_utils.c ====================================
-t_exec_node	*create_redirect_node(t_token *start, t_token *curr, t_token *end);
-t_exec_node	*find_and_create_redirect_node(t_token *start,
-				t_token *end, t_shell *shell);
 int			is_redirection(t_token_type type);
+void		setup_redirections(t_shell *shell);
 //===================================================================
 
 // execute_tree_token_utils.c =======================================
@@ -273,7 +274,6 @@ int			my_wifexited(int status);
 int			my_wifsignaled(int status);
 int			my_wtermsig(int status);
 int			manual_wexitstatus(int status);
-
 //=================================================================
 
 // init_tokens.c ================================================
@@ -385,6 +385,5 @@ void		ft_error(int error, char *str, t_shell *shell);
 void		print_tokens(t_token *list, t_shell *shell);
 void		print_exec_tree(t_exec_node *node, int depth);
 //=================================================================
-void setup_redirections(t_shell *shell);
 
 #endif

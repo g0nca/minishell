@@ -12,22 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-void	setup_file_descriptors(t_exec_node *node)
-{
-	if (node->fd_in != -1)
-	{
-		dup2(node->fd_in, STDIN_FILENO);
-		close(node->fd_in);
-		node->fd_in = -1;
-	}
-	if (node->fd_out != -1)
-	{
-		dup2(node->fd_out, STDOUT_FILENO);
-		close(node->fd_out);
-		node->fd_out = -1;
-	}
-}
-
 void	execute_command_node(t_exec_node *node, t_shell *shell)
 {
 	int		stdin_backup;
@@ -65,50 +49,29 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 	else if (node->type == NODE_PIPE)
 		execute_pipe_node(node, shell);
 }
-void setup_redirections(t_shell *shell)
-{
-    int fd;
-    
-    if (shell->in)
-    {
-        fd = open(shell->in, O_RDONLY);
-        if (fd == -1)
-        {
-            perror("open");
-            exit(EXIT_FAILURE);
-        }
-        dup2(fd, STDIN_FILENO);
-        close(fd);
-    }
-    else if (shell->out)
-    {
-        int flags = O_WRONLY | O_CREAT;
-        if (shell->append)
-            flags |= O_APPEND;
-        else
-            flags |= O_TRUNC;
-        fd = open(shell->out, flags, 0644);
-        if (fd == -1)
-        {
-            perror("open");
-            exit(EXIT_FAILURE);
-        }
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
-    }
-}
 
-void	free_cmd(char **cmd)
+void	setup_redirections(t_shell *shell)
 {
-	int	i;
+	int	fd;
 
-	i = 0;
-	if (!cmd)
-		return ;
-	while (cmd[i])
+	if (shell->in)
 	{
-		free(cmd[i]);
-		i++;
+		fd = open(shell->in, O_RDONLY);
+		if (fd == -1)
+			shell_error(shell, "Opening File", 50, EXIT_FAILURE);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
 	}
-	free(cmd);
+	else if (shell->out)
+	{
+		if (shell->append)
+			fd = open(shell->out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+			fd = open(shell->out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(shell->out, O_WRONLY | O_CREAT, 0644);
+		if (fd == -1)
+			shell_error(shell, "Opening File", 50, EXIT_FAILURE);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
 }

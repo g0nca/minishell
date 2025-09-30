@@ -73,26 +73,19 @@ void setup_redirections(t_shell *shell)
     {
         fd = open(shell->in, O_RDONLY);
         if (fd == -1)
-        {
-            perror("open");
-            exit(EXIT_FAILURE);
-        }
+			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
         dup2(fd, STDIN_FILENO);
         close(fd);
     }
     else if (shell->out)
     {
-        int flags = O_WRONLY | O_CREAT;
         if (shell->append)
-            flags |= O_APPEND;
+            fd = open(shell->out, O_WRONLY | O_CREAT | O_APPEND, 0644);
         else
-            flags |= O_TRUNC;
-        fd = open(shell->out, flags, 0644);
+            fd = open(shell->out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        fd = open(shell->out, O_WRONLY | O_CREAT, 0644);
         if (fd == -1)
-        {
-            perror("open");
-            exit(EXIT_FAILURE);
-        }
+			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
         dup2(fd, STDOUT_FILENO);
         close(fd);
     }

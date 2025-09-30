@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/29 15:41:24 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/30 12:08:07 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,12 @@ static char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)
 		return (NULL);
 	}
 	new_node = ft_lstnew(filename);
+	if (!new_node)
+	{
+		unlink(filename);
+		free(filename);
+		return (NULL);
+	}
 	ft_lstadd_back(&shell->heredoc_files, new_node);
 	return (filename);
 }
@@ -89,6 +95,7 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
 		heredoc_child(delimiter, fd);
 	else if (pid > 0)
 	{
+		close(fd);
 		waitpid(pid, &status, 0);
 		return (heredoc_parent(fd, status, filename, shell));
 	}

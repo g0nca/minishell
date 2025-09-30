@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/29 16:02:06 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/09/30 10:14:00 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	return (0);
 }
 
-/*void	print_tokens(t_token *list, t_shell *shell)
+void	print_tokens(t_token *list, t_shell *shell)
 {
 	int		i;
 	t_token	*current;
@@ -117,7 +117,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	if (shell)
 		printf("last_exit_status:%d\n", shell->last_exit_status);
 }
-
+/*
 const char	*node_type_to_str(t_node_type type)
 {
 	if (type == NODE_COMMAND)

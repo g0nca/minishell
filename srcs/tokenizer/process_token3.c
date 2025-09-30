@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_token3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:19:51 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/06/30 11:27:02 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/09/30 10:16:25 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	commands(t_token *head, t_shell *shell)
 		head->type = 1;
 	else if (!ft_strcmp(head->value, "unset"))
 		head->type = 1;
+	else if (!ft_strcmp(head->value, "test"))
+		head->type = 0;
 	else if (check_executable_cmd(head, shell) == 1)
 		head->type = 1;
 }

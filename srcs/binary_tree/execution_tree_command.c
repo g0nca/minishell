@@ -52,8 +52,8 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 	}
 	else
 		handle_env_path_execution(node->cmd, shell);
-	if (stdin_backup != -1 || stdout_backup != -1)
-		ft_restore_stdio(stdin_backup, stdout_backup);
+	if (node->fd_in != -1 || node->fd_out != -1)
+		ft_restore_stdio(node->fd_in, node->fd_out);
 }
 
 void	execute_tree(t_exec_node *node, t_shell *shell)
@@ -68,7 +68,7 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 
 void	setup_redirections(t_shell *shell, t_exec_node *node)
 {
-	if (shell->out == NULL)
+	if (shell->out == NULL || shell->in == NULL || shell->heredoc == NULL || shell->append == NULL)
 		return ;
 	if (shell->in || shell->heredoc)
 	{

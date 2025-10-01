@@ -14,10 +14,8 @@
 
 int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 {
-	if (cmd->fd_in != -1)
-		close(cmd->fd_in);
-	cmd->fd_in = open(filename, O_RDONLY);
-	if (cmd->fd_in == -1)
+	(void)cmd;
+	if (access(filename, F_OK | R_OK) == -1)
 	{
 		shell_error(shell, filename, 15, EXIT_SUCCESS);
 		return (-1);

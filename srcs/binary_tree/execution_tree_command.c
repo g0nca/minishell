@@ -65,30 +65,31 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 	else if (node->type == NODE_PIPE)
 		execute_pipe_node(node, shell);
 }
-void setup_redirections(t_shell *shell)
+
+void	setup_redirections(t_shell *shell)
 {
-    int fd;
-    
-    if (shell->in)
-    {
-        fd = open(shell->in, O_RDONLY);
-        if (fd == -1)
+	int	fd;
+
+	if (shell->in)
+	{
+		fd = open(shell->in, O_RDONLY);
+		if (fd == -1)
 			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
-        dup2(fd, STDIN_FILENO);
-        close(fd);
-    }
-    else if (shell->out)
-    {
-        if (shell->append)
-            fd = open(shell->out, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        else
-            fd = open(shell->out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        fd = open(shell->out, O_WRONLY | O_CREAT, 0644);
-        if (fd == -1)
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
+	else if (shell->out)
+	{
+		if (shell->append)
+			fd = open(shell->out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+			fd = open(shell->out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(shell->out, O_WRONLY | O_CREAT, 0644);
+		if (fd == -1)
 			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
-    }
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
 }
 
 void	free_cmd(char **cmd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/30 12:08:07 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/01 10:00:57 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,6 @@ static char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)
 		return (NULL);
 	}
 	new_node = ft_lstnew(filename);
-	if (!new_node)
-	{
-		unlink(filename);
-		free(filename);
-		return (NULL);
-	}
 	ft_lstadd_back(&shell->heredoc_files, new_node);
 	return (filename);
 }

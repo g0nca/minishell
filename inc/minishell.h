@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/01 11:09:21 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:35:23 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_shell
 	char	*in;
 	char	*out;
 	char	*append;
+	char	*heredoc;
 	t_list	*heredoc_files;
 	pid_t	main_pid;
 }			t_shell;
@@ -243,7 +244,7 @@ void		handle_pipe_parent(int *pipe_fd, pid_t left_pid,
 
 // execute_tree_redirect_utils.c ====================================
 int			is_redirection(t_token_type type);
-void		setup_redirections(t_shell *shell);
+void		setup_redirections(t_shell *shell, t_exec_node *node);
 //===================================================================
 
 // execute_tree_token_utils.c =======================================
@@ -385,5 +386,6 @@ void		ft_error(int error, char *str, t_shell *shell);
 void		print_tokens(t_token *list, t_shell *shell);
 void		print_exec_tree(t_exec_node *node, int depth);
 //=================================================================
+void		set_shellvar_redirs_null(t_shell *shell);
 
 #endif

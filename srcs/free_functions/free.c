@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 10:27:35 by andrade          ###   ########.fr       */
+/*   Updated: 2025/10/01 15:12:13 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	free_env(char **env)
 
 void	free_struct(t_shell *shell)
 {
+	cleanup_heredoc_files(shell);
 	free_env(shell->env);
 	free(shell);
 }

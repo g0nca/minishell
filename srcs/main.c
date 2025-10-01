@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/01 11:08:53 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:35:54 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ int	main(int ac, char **av, char **envp)
 		process_line(line, shell, token);
 		free(line);
 	}
+	free_struct(shell);
 	ft_printf_fd(1, "exit\n");
-	return (shell->last_exit_status);
+	return (g_exit_status);
 }
 
 static int	check_inside_quotes(t_token *token)
@@ -70,7 +71,13 @@ static int	check_inside_quotes(t_token *token)
 	}
 	return (0);
 }
-
+void		set_shellvar_redirs_null(t_shell *shell)
+{
+	shell->in = NULL;
+	shell->out = NULL;
+	shell->heredoc = NULL;
+	shell->append = NULL;
+}
 int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
 	t_exec_node	*tree;
@@ -86,13 +93,11 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 			delete_quotes(&token, shell);
 			tree = build_execution_tree(token, NULL, shell);
 			execute_tree(tree, shell);
-			cleanup_heredoc_files(shell);
-			shell->in = NULL;
-			shell->out = NULL;
-			shell->append = NULL;
+			//cleanup_heredoc_files(shell);
 		}
 		else
 			shell_error(shell, token->value, 1, EXIT_SUCCESS);
+		set_shellvar_redirs_null(shell);
 	}
 	free_tokens(&token);
 	free_execution_tree(tree);

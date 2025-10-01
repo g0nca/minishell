@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:59:40 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/30 15:52:17 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:59:27 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ void	ft_exit(t_shell *shell, t_token *args)
 				exit_code = normalize_exit_code(ft_atol(arg1));
 		}
 	}
-	free_struct(shell);
 	shell->last_exit_status = (int)exit_code;
+	g_exit_status = shell->last_exit_status;
 }

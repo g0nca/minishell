@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 10:23:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/30 11:49:35 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:30:27 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	handle_heredoc_tree(t_token *curr, t_shell *shell)
 {
 	if (curr->next && curr->next->type == TOKEN_WORD)
 	{
-		shell->in = create_heredoc(curr->next->value, shell);
-		if (!shell->in)
+		shell->heredoc = create_heredoc(curr->next->value, shell);
+		if (!shell->heredoc)
 			return (-1);
 	}
 	return (0);

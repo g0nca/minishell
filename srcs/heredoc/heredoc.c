@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/01 14:55:04 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:11:49 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,10 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 	return (0);
 }
 
-static void	heredoc_child(const char *delimiter, int fd)
+static char	*heredoc_child(const char *delimiter, int fd)
 {
-	if (dup2(fd, 42) == -1)
-	{
-		close(fd);
-		exit(1);
-	}
+	read_heredoc_input(delimiter, fd);
 	close(fd);
-	read_heredoc_input(delimiter, 42);
-	close(42);
 	exit(0);
 }
 

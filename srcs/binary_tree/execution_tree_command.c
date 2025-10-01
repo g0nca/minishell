@@ -39,9 +39,9 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 	cmd_token = create_token_chain(node->cmd);
 	stdin_backup = -1;
 	stdout_backup = -1;
-	if (node->fd_in != -1 || node->fd_out != -1)
-		ft_backup_stdio(&stdin_backup, &stdout_backup);
-	setup_file_descriptors(node);
+	//if (node->fd_in != -1 || node->fd_out != -1)
+		//ft_backup_stdio(&stdin_backup, &stdout_backup);
+	//setup_file_descriptors(node);
 	if (is_builtin(node->cmd[0]))
 	{
 		if (cmd_token)
@@ -66,29 +66,33 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 		execute_pipe_node(node, shell);
 }
 
-void	setup_redirections(t_shell *shell)
+void	setup_redirections(t_shell *shell, t_exec_node *node)
 {
-	int	fd;
-
-	if (shell->in)
+	if (shell->out == NULL)
+		return ;
+	if (shell->in || shell->heredoc)
 	{
-		fd = open(shell->in, O_RDONLY);
-		if (fd == -1)
+		if (node->fd_in != -1)
+			close(node->fd_in);
+		if (shell->heredoc)
+			node->fd_in = open(shell->heredoc, O_RDONLY);
+		else
+			node->fd_in = open(shell->in, O_RDONLY);
+		if (node->fd_in == -1)
 			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
-		dup2(fd, STDIN_FILENO);
-		close(fd);
+		dup2(node->fd_in, STDIN_FILENO);
+		close(node->fd_in);
 	}
 	else if (shell->out)
 	{
 		if (shell->append)
-			fd = open(shell->out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			node->fd_out = open(shell->out, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
-			fd = open(shell->out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		fd = open(shell->out, O_WRONLY | O_CREAT, 0644);
-		if (fd == -1)
+			node->fd_out = open(shell->out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (node->fd_out == -1)
 			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
+		dup2(node->fd_out, STDOUT_FILENO);
+		close(node->fd_out);
 	}
 }
 

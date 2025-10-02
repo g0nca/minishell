@@ -68,8 +68,6 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 
 void	setup_redirections(t_shell *shell, t_exec_node *node)
 {
-	if (shell->out == NULL || shell->in == NULL || shell->heredoc == NULL || shell->append == NULL)
-		return ;
 	if (shell->in || shell->heredoc)
 	{
 		if (node->fd_in != -1)
@@ -83,10 +81,10 @@ void	setup_redirections(t_shell *shell, t_exec_node *node)
 		dup2(node->fd_in, STDIN_FILENO);
 		close(node->fd_in);
 	}
-	else if (shell->out)
+	if (shell->out || shell->append)
 	{
 		if (shell->append)
-			node->fd_out = open(shell->out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			node->fd_out = open(shell->append, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
 			node->fd_out = open(shell->out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (node->fd_out == -1)

@@ -68,6 +68,7 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 
 void	setup_redirections(t_shell *shell, t_exec_node *node)
 {
+	
 	if (shell->in || shell->heredoc)
 	{
 		if (node->fd_in != -1)

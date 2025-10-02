@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-void	setup_file_descriptors(t_exec_node *node)
+/*void	setup_file_descriptors(t_exec_node *node)
 {
 	if (node->fd_in != -1)
 	{
@@ -26,19 +26,19 @@ void	setup_file_descriptors(t_exec_node *node)
 		close(node->fd_out);
 		node->fd_out = -1;
 	}
-}
+}*/
 
 void	execute_command_node(t_exec_node *node, t_shell *shell)
 {
-	int		stdin_backup;
-	int		stdout_backup;
+	//int		stdin_backup;
+	//int		stdout_backup;
 	t_token	*cmd_token;
 
 	if (!node || !node->cmd || !node->cmd[0])
 		return ;
 	cmd_token = create_token_chain(node->cmd);
-	stdin_backup = -1;
-	stdout_backup = -1;
+	//stdin_backup = -1;
+	//stdout_backup = -1;
 	//if (node->fd_in != -1 || node->fd_out != -1)
 		//ft_backup_stdio(&stdin_backup, &stdout_backup);
 	//setup_file_descriptors(node);
@@ -52,14 +52,20 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 	}
 	else
 		handle_env_path_execution(node->cmd, shell);
-	if (node->fd_in != -1 || node->fd_out != -1)
-		ft_restore_stdio(node->fd_in, node->fd_out);
+	//if (node->fd_in != -1 || node->fd_out != -1)
+		//ft_restore_stdio(node->fd_in, node->fd_out);
 }
 
 void	execute_tree(t_exec_node *node, t_shell *shell)
 {
 	if (!node)
 		return ;
+	/*if (shell->out_flag == 1)
+	{
+		free(shell->out);
+		shell->out = NULL;
+		shell->out_flag = 0;
+	}*/
 	if (node->type == NODE_COMMAND)
 		execute_command_tree(node, shell);
 	else if (node->type == NODE_PIPE)
@@ -68,7 +74,7 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 
 void	setup_redirections(t_shell *shell, t_exec_node *node)
 {
-	
+	//ft_printf_fd(STDOUT_FILENO, "In:%s\nOut:%s\nAppend:%s\n", shell->in, shell->out, shell->append);
 	if (shell->in || shell->heredoc)
 	{
 		if (node->fd_in != -1)
@@ -88,6 +94,7 @@ void	setup_redirections(t_shell *shell, t_exec_node *node)
 			node->fd_out = open(shell->append, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
 			node->fd_out = open(shell->out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			//shell->out_flag = 1;
 		if (node->fd_out == -1)
 			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
 		dup2(node->fd_out, STDOUT_FILENO);

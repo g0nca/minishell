@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/01 15:35:23 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:28:55 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_shell
 	char	*temp_heredoc_path;
 	int		last_exit_status;
 	int		running;
+	//int		out_flag;
 	char	*in;
 	char	*out;
 	char	*append;

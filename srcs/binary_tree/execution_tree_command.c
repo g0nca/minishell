@@ -60,12 +60,6 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 {
 	if (!node)
 		return ;
-	/*if (shell->out_flag == 1)
-	{
-		free(shell->out);
-		shell->out = NULL;
-		shell->out_flag = 0;
-	}*/
 	if (node->type == NODE_COMMAND)
 		execute_command_tree(node, shell);
 	else if (node->type == NODE_PIPE)
@@ -74,7 +68,6 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 
 void	setup_redirections(t_shell *shell, t_exec_node *node)
 {
-	//ft_printf_fd(STDOUT_FILENO, "In:%s\nOut:%s\nAppend:%s\n", shell->in, shell->out, shell->append);
 	if (node->input_file || shell->heredoc)
 	{
 		if (node->fd_in != -1)

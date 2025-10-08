@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:24:06 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/08 15:50:31 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:54:05 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,21 @@ void	setup_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	handle_heredoc_sigint(int sig)
+void    handle_heredoc_sigint(int sig)
 {
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	close(42);
-	exit(130);
+    (void)sig;
+    write(STDOUT_FILENO, "\n", 1);
+    close(42);
+    exit(130);
 }
 
-void	setup_heredoc_signals(int fd)
+void    setup_heredoc_signals(void)
 {
-	close(fd);
-	signal(SIGINT, handle_heredoc_sigint);
-	signal(SIGQUIT, SIG_IGN);
+    signal(SIGINT, handle_heredoc_sigint);
+    signal(SIGQUIT, SIG_IGN);
 }
 
-void	restore_main_signals(void)
+void    restore_main_signals(void)
 {
-	setup_signals();
+    setup_signals();
 }

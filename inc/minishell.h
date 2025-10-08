@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/08 14:47:39 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:54:22 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,7 +380,7 @@ void		error_heredoc(const char *delimiter);
 void		setup_signals(void);
 void		handle_sigint(int sig);
 void		handle_heredoc_sigint(int sig);
-void		setup_heredoc_signals(int fd);
+void		setup_heredoc_signals(void);
 void		restore_main_signals(void);
 //=================================================================
 

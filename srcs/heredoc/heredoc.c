@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/08 13:16:33 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:47:30 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 			free(line);
 			break ;
 		}
+		ft_printf_fd(fd, "%s\n", line);
 		free(line);
 	}
 	return (0);

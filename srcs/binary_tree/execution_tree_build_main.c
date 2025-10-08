@@ -33,15 +33,7 @@ void free_execution_tree(t_exec_node *node)
     if (node->right)
         free_execution_tree(node->right);
     free_cmd(node->cmd);
-    
-    // NOVO: Libertar strings de redirecionamento
-	if (node->input_file != NULL)
-    	free(node->input_file);
-	if (node->output_file != NULL)
-    	free(node->output_file);
-	if (node->append_file != NULL)
-    	free(node->append_file);
-    
+
     if (node->fd_in != -1)
         close(node->fd_in);
     if (node->fd_out != -1)

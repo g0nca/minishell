@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:50:03 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 14:08:16 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/10/08 12:57:35 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,31 @@ int	check_syntax_errors_main(const char *line, t_shell *shell)
 		return (1);
 	if (check_heredoc_and_redirect_conflict(line, shell))
 		return (1);
+	if (check_unclosed_quotes(line, shell))
+		return (1);
 	return (0);
 }
+int		check_unclosed_quotes(const char *line, t_shell *shell)
+{
+	int	i;
+	int	simple_quote;
+	int	double_quote;
 
+	simple_quote = 0;
+	double_quote = 0;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '\'' && !double_quote)
+			simple_quote = !simple_quote;
+		else if (line[i] == '\"' && !simple_quote)
+			double_quote = !double_quote;
+		i++;
+	}
+	if (simple_quote || double_quote)
+		return(shell_error(shell, (char *)line, 7, EXIT_SUCCESS), 1);
+	return (0);
+}
 int	check_starting_pipe(const char *line, t_shell *shell)
 {
 	int	i;

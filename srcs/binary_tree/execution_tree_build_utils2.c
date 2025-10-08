@@ -40,19 +40,25 @@ static int	fill_command_array(t_exec_node *node, t_token *start, t_token *end)
 	return (0);
 }
 
-static t_exec_node	*initialize_command_node(void)
+static t_exec_node *initialize_command_node(void)
 {
-	t_exec_node	*node;
+    t_exec_node *node;
 
-	node = malloc(sizeof(t_exec_node));
-	if (!node)
-		return (NULL);
-	node->type = NODE_COMMAND;
-	node->left = NULL;
-	node->right = NULL;
-	node->fd_in = -1;
-	node->fd_out = -1;
-	return (node);
+    node = malloc(sizeof(t_exec_node));
+    if (!node)
+        return (NULL);
+    node->type = NODE_COMMAND;
+    node->left = NULL;
+    node->right = NULL;
+    node->fd_in = -1;
+    node->fd_out = -1;
+    
+    // NOVO: Inicializar redirecionamentos
+    node->input_file = NULL;
+    node->output_file = NULL;
+    node->append_file = NULL;
+    
+    return (node);
 }
 
 t_exec_node	*create_command_node(t_token *start, t_token *end)

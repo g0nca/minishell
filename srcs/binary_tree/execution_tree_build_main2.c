@@ -37,6 +37,7 @@ int	open_output_file(t_exec_node *cmd, char *filename,
 		shell_error(shell, filename, 3, EXIT_SUCCESS);
 		return (-1);
 	}
+	close(cmd->fd_out);
 	return (0);
 }
 

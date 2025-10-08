@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/02 16:28:55 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/08 13:16:49 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,11 @@ typedef struct s_exec_node
 	struct s_exec_node	*right;
 	int					fd_in;
 	int					fd_out;
+	char				*input_file;
+	char				*output_file;
+	char				*append_file;
+	int					is_append;
+	
 	t_token				*tokens;
 }						t_exec_node;
 
@@ -268,6 +273,7 @@ int			is_redirect(char c);
 int			skip_quotes(const char *str, int i);
 int			skip_spaces(const char *str, int *i);
 int			check_starting_pipe(const char *line, t_shell *shell);
+int		check_unclosed_quotes(const char *line, t_shell *shell);
 //==================================================================
 
 // utils.c ========================================================
@@ -374,7 +380,7 @@ void		error_heredoc(const char *delimiter);
 void		setup_signals(void);
 void		handle_sigint(int sig);
 void		handle_heredoc_sigint(int sig);
-void		setup_heredoc_signals(void);
+void		setup_heredoc_signals(int fd);
 void		restore_main_signals(void);
 //=================================================================
 

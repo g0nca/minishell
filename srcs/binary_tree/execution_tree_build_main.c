@@ -24,18 +24,27 @@ t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell)
 	return (wrap_with_redirects(start, end, shell));
 }
 
-void	free_execution_tree(t_exec_node *node)
+void free_execution_tree(t_exec_node *node)
 {
-	if (!node)
-		return ;
-	if (node->left)
-		free_execution_tree(node->left);
-	if (node->right)
-		free_execution_tree(node->right);
-	free_cmd(node->cmd);
-	if (node->fd_in != -1)
-		close(node->fd_in);
-	if (node->fd_out != -1)
-		close(node->fd_out);
-	free(node);
+    if (!node)
+        return;
+    if (node->left)
+        free_execution_tree(node->left);
+    if (node->right)
+        free_execution_tree(node->right);
+    free_cmd(node->cmd);
+    
+    // NOVO: Libertar strings de redirecionamento
+	if (node->input_file != NULL)
+    	free(node->input_file);
+	if (node->output_file != NULL)
+    	free(node->output_file);
+	if (node->append_file != NULL)
+    	free(node->append_file);
+    
+    if (node->fd_in != -1)
+        close(node->fd_in);
+    if (node->fd_out != -1)
+        close(node->fd_out);
+    free(node);
 }

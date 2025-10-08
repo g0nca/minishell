@@ -75,26 +75,25 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 void	setup_redirections(t_shell *shell, t_exec_node *node)
 {
 	//ft_printf_fd(STDOUT_FILENO, "In:%s\nOut:%s\nAppend:%s\n", shell->in, shell->out, shell->append);
-	if (shell->in || shell->heredoc)
+	if (node->input_file || shell->heredoc)
 	{
 		if (node->fd_in != -1)
 			close(node->fd_in);
 		if (shell->heredoc)
 			node->fd_in = open(shell->heredoc, O_RDONLY);
 		else
-			node->fd_in = open(shell->in, O_RDONLY);
+			node->fd_in = open(node->input_file, O_RDONLY);
 		if (node->fd_in == -1)
 			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
 		dup2(node->fd_in, STDIN_FILENO);
 		close(node->fd_in);
 	}
-	if (shell->out || shell->append)
+	if (node->output_file || node->append_file)
 	{
-		if (shell->append)
-			node->fd_out = open(shell->append, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (node->append_file)
+			node->fd_out = open(node->append_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
-			node->fd_out = open(shell->out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			//shell->out_flag = 1;
+			node->fd_out = open(node->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (node->fd_out == -1)
 			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
 		dup2(node->fd_out, STDOUT_FILENO);

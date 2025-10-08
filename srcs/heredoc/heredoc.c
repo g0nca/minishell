@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/01 15:11:49 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/08 13:16:33 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 	int		delimiter_len;
 
 	delimiter_len = ft_strlen(delimiter);
-	setup_heredoc_signals();
+	setup_heredoc_signals(fd);
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -33,7 +33,6 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 			free(line);
 			break ;
 		}
-		ft_printf_fd(fd, "%s\n", line);
 		free(line);
 	}
 	return (0);

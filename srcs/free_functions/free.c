@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/01 15:12:13 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:53:05 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,19 @@ void	free_tokens(t_token **list)
 		free((*list));
 		(*list) = next;
 	}
+}
+
+void	free_cmd(char **cmd)
+{
+	int	i;
+
+	i = 0;
+	if (!cmd)
+		return ;
+	while (cmd[i])
+	{
+		free(cmd[i]);
+		i++;
+	}
+	free(cmd);
 }

@@ -6,42 +6,19 @@
 /*   By: ggomes-v <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 10:55:48 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/29 11:00:51 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:49:42 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/*void	setup_file_descriptors(t_exec_node *node)
-{
-	if (node->fd_in != -1)
-	{
-		dup2(node->fd_in, STDIN_FILENO);
-		close(node->fd_in);
-		node->fd_in = -1;
-	}
-	if (node->fd_out != -1)
-	{
-		dup2(node->fd_out, STDOUT_FILENO);
-		close(node->fd_out);
-		node->fd_out = -1;
-	}
-}*/
-
 void	execute_command_node(t_exec_node *node, t_shell *shell)
 {
-	//int		stdin_backup;
-	//int		stdout_backup;
 	t_token	*cmd_token;
 
 	if (!node || !node->cmd || !node->cmd[0])
 		return ;
 	cmd_token = create_token_chain(node->cmd);
-	//stdin_backup = -1;
-	//stdout_backup = -1;
-	//if (node->fd_in != -1 || node->fd_out != -1)
-		//ft_backup_stdio(&stdin_backup, &stdout_backup);
-	//setup_file_descriptors(node);
 	if (is_builtin(node->cmd[0]))
 	{
 		if (cmd_token)
@@ -52,8 +29,6 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 	}
 	else
 		handle_env_path_execution(node->cmd, shell);
-	//if (node->fd_in != -1 || node->fd_out != -1)
-		//ft_restore_stdio(node->fd_in, node->fd_out);
 }
 
 void	execute_tree(t_exec_node *node, t_shell *shell)
@@ -66,45 +41,42 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 		execute_pipe_node(node, shell);
 }
 
+static void	setup_redirections_input(t_shell *shell, t_exec_node *node)
+{
+	if (node->fd_in != -1)
+		close(node->fd_in);
+	if (shell->heredoc)
+		node->fd_in = open(shell->heredoc, O_RDONLY);
+	else
+		node->fd_in = open(node->input_file, O_RDONLY);
+	if (node->fd_in == -1)
+		shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
+	dup2(node->fd_in, STDIN_FILENO);
+	close(node->fd_in);
+}
+
+static void	setup_redirections_output(t_shell *shell, t_exec_node *node)
+{
+	if (node->append_file)
+	{
+		node->fd_out = open(node->append_file, O_WRONLY
+				| O_CREAT | O_APPEND, 0644);
+	}
+	else
+	{
+		node->fd_out = open(node->output_file, O_WRONLY
+				| O_CREAT | O_TRUNC, 0644);
+	}
+	if (node->fd_out == -1)
+		shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
+	dup2(node->fd_out, STDOUT_FILENO);
+	close(node->fd_out);
+}
+
 void	setup_redirections(t_shell *shell, t_exec_node *node)
 {
 	if (node->input_file || shell->heredoc)
-	{
-		if (node->fd_in != -1)
-			close(node->fd_in);
-		if (shell->heredoc)
-			node->fd_in = open(shell->heredoc, O_RDONLY);
-		else
-			node->fd_in = open(node->input_file, O_RDONLY);
-		if (node->fd_in == -1)
-			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
-		dup2(node->fd_in, STDIN_FILENO);
-		close(node->fd_in);
-	}
+		setup_redirections_input(shell, node);
 	if (node->output_file || node->append_file)
-	{
-		if (node->append_file)
-			node->fd_out = open(node->append_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			node->fd_out = open(node->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (node->fd_out == -1)
-			shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
-		dup2(node->fd_out, STDOUT_FILENO);
-		close(node->fd_out);
-	}
-}
-
-void	free_cmd(char **cmd)
-{
-	int	i;
-
-	i = 0;
-	if (!cmd)
-		return ;
-	while (cmd[i])
-	{
-		free(cmd[i]);
-		i++;
-	}
-	free(cmd);
+		setup_redirections_output(shell, node);
 }

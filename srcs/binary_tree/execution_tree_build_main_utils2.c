@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 10:23:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/08 15:21:19 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/09 09:56:59 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	handle_output_redirect(t_token *curr, t_exec_node *cmd,
 		t_shell *shell)
 {
 	if (curr->next && curr->next->type == TOKEN_WORD)
-	{		
+	{
 		if (open_output_file(cmd, curr->next->value, false, shell) < 0)
 			return (-1);
 		cmd->output_file = curr->next->value;
@@ -56,7 +56,7 @@ int	handle_append_redirect(t_token *curr, t_exec_node *cmd,
 		t_shell *shell)
 {
 	if (curr->next && curr->next->type == TOKEN_WORD)
-	{        
+	{
 		if (open_output_file(cmd, curr->next->value, true, shell) < 0)
 			return (-1);
 		cmd->append_file = curr->next->value;

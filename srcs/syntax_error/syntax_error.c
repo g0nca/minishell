@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:50:03 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/08 12:57:35 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:51:22 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	check_syntax_errors_main(const char *line, t_shell *shell)
 		return (1);
 	return (0);
 }
-int		check_unclosed_quotes(const char *line, t_shell *shell)
+
+int	check_unclosed_quotes(const char *line, t_shell *shell)
 {
 	int	i;
 	int	simple_quote;
@@ -46,9 +47,10 @@ int		check_unclosed_quotes(const char *line, t_shell *shell)
 		i++;
 	}
 	if (simple_quote || double_quote)
-		return(shell_error(shell, (char *)line, 7, EXIT_SUCCESS), 1);
+		return (shell_error(shell, (char *)line, 7, EXIT_SUCCESS), 1);
 	return (0);
 }
+
 int	check_starting_pipe(const char *line, t_shell *shell)
 {
 	int	i;

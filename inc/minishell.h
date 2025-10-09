@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/08 15:54:22 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:55:56 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,9 +390,9 @@ void		ft_error(int error, char *str, t_shell *shell);
 //=================================================================
 
 //EXTRAS ==========================================================
-void		print_tokens(t_token *list, t_shell *shell);
-void		print_exec_tree(t_exec_node *node, int depth);
+//void		print_tokens(t_token *list, t_shell *shell);
+//void		print_exec_tree(t_exec_node *node, int depth);
 //=================================================================
-void		set_shellvar_redirs_null(t_shell *shell);
+
 
 #endif

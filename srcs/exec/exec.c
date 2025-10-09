@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:30:17 by andrade           #+#    #+#             */
-/*   Updated: 2025/09/30 11:37:55 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/09 13:24:25 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	try_paths(char **args, t_shell *shell, char *path_env)
 
 	path_copy = ft_strdup(path_env);
 	if (!path_copy)
-		return (perror("ft_strdup"), -1);
+		return (-1);
 	dir = ft_strtok(path_copy, ":");
 	while (dir)
 	{

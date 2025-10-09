@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/09 10:55:34 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:46:15 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static int	check_inside_quotes(t_token *token)
 
 int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
+	//unset path, variaveis de ambiente vazias nao podem aparecer no env
 	t_exec_node	*tree;
 
 	tree = NULL;

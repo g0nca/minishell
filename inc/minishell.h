@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/09 10:55:56 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:32:57 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ typedef struct s_exec_node
 	char				*input_file;
 	char				*output_file;
 	char				*append_file;
-	int					is_append;
-	
 	t_token				*tokens;
 }						t_exec_node;
 
@@ -273,9 +271,8 @@ int			is_redirect(char c);
 int			skip_quotes(const char *str, int i);
 int			skip_spaces(const char *str, int *i);
 int			check_starting_pipe(const char *line, t_shell *shell);
-int		check_unclosed_quotes(const char *line, t_shell *shell);
+int			check_unclosed_quotes(const char *line, t_shell *shell);
 //==================================================================
-
 // utils.c ========================================================
 int			ternary_operator(t_token *list, char quote);
 int			my_wifexited(int status);
@@ -393,6 +390,4 @@ void		ft_error(int error, char *str, t_shell *shell);
 //void		print_tokens(t_token *list, t_shell *shell);
 //void		print_exec_tree(t_exec_node *node, int depth);
 //=================================================================
-
-
 #endif

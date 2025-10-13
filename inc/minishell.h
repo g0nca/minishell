@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/09 11:32:57 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/13 10:07:26 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_exec_node
 	char				*input_file;
 	char				*output_file;
 	char				*append_file;
+	char				*heredoc;
 	t_token				*tokens;
 }						t_exec_node;
 
@@ -220,7 +221,7 @@ void		skip_redirection_token(t_token **current, t_token *end);
 // execution_tree_build_main_utils.c =====================================
 int			process_single_redirect(t_token **curr_ptr, t_exec_node *cmd,
 				t_shell *shell);
-int			handle_heredoc_tree(t_token *curr, t_shell *shell);
+int			handle_heredoc_tree(t_token *curr, t_shell *shell, t_exec_node *cmd);
 int			handle_input_redirect(t_token *curr, t_exec_node *cmd,
 				t_shell *shell);
 int			handle_output_redirect(t_token *curr, t_exec_node *cmd,

@@ -43,6 +43,7 @@ t_exec_node	*create_pipe_node(t_token *start, t_token *last_pipe,
 	node->input_file = NULL;
 	node->output_file = NULL;
 	node->append_file = NULL;
+	node->heredoc = NULL;
 	node->left = build_execution_tree(start, last_pipe, shell);
 	node->right = build_execution_tree(last_pipe->next, end, shell);
 	if (!node->left)

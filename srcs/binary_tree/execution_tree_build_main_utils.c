@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 10:21:53 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/29 14:02:02 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/13 10:06:56 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	process_single_redirect(t_token **curr_ptr, t_exec_node *cmd,
 
 	curr = *curr_ptr;
 	if (curr->type == TOKEN_HERE_DOC)
-		return (handle_heredoc_tree(curr, shell));
+		return (handle_heredoc_tree(curr, shell, cmd));
 	else if (curr->type == TOKEN_REDIR_IN)
 	{
 		if (handle_input_redirect(curr, cmd, shell) < 0)

@@ -45,8 +45,8 @@ static void	setup_redirections_input(t_shell *shell, t_exec_node *node)
 {
 	if (node->fd_in != -1)
 		close(node->fd_in);
-	if (shell->heredoc)
-		node->fd_in = open(shell->heredoc, O_RDONLY);
+	if (node->heredoc)
+		node->fd_in = open(node->heredoc, O_RDONLY);
 	else
 		node->fd_in = open(node->input_file, O_RDONLY);
 	if (node->fd_in == -1)
@@ -75,7 +75,7 @@ static void	setup_redirections_output(t_shell *shell, t_exec_node *node)
 
 void	setup_redirections(t_shell *shell, t_exec_node *node)
 {
-	if (node->input_file || shell->heredoc)
+	if (node->input_file || node->heredoc)
 		setup_redirections_input(shell, node);
 	if (node->output_file || node->append_file)
 		setup_redirections_output(shell, node);

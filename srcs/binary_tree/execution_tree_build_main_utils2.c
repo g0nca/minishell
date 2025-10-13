@@ -6,18 +6,18 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 10:23:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/09 09:56:59 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/13 10:10:47 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	handle_heredoc_tree(t_token *curr, t_shell *shell)
+int	handle_heredoc_tree(t_token *curr, t_shell *shell, t_exec_node *cmd)
 {
 	if (curr->next && curr->next->type == TOKEN_WORD)
 	{
-		shell->heredoc = create_heredoc(curr->next->value, shell);
-		if (!shell->heredoc)
+		cmd->heredoc = create_heredoc(curr->next->value, shell);
+		if (!cmd->heredoc)
 			return (-1);
 	}
 	return (0);

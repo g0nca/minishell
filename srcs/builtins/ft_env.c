@@ -6,12 +6,11 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:39 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/09 14:21:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:00:58 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 void	ft_env(t_shell *shell)
 {

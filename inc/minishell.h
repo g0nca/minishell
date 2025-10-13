@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/13 10:07:26 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:01:49 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,8 @@ void		skip_redirection_token(t_token **current, t_token *end);
 // execution_tree_build_main_utils.c =====================================
 int			process_single_redirect(t_token **curr_ptr, t_exec_node *cmd,
 				t_shell *shell);
-int			handle_heredoc_tree(t_token *curr, t_shell *shell, t_exec_node *cmd);
+int			handle_heredoc_tree(t_token *curr, t_shell *shell,
+				t_exec_node *cmd);
 int			handle_input_redirect(t_token *curr, t_exec_node *cmd,
 				t_shell *shell);
 int			handle_output_redirect(t_token *curr, t_exec_node *cmd,

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/09 10:44:48 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:31:45 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,18 @@ static void	parent_process(pid_t pid, t_shell *shell)
 	if (my_wifsignaled(status))
 	{
 		if (my_wtermsig(status) == SIGINT)
+		{
 			write(STDOUT_FILENO, "\n", 1);
+			shell->last_exit_status = 130;
+		}
 		else if (my_wtermsig(status) == SIGQUIT)
+		{
 			write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+			shell->last_exit_status = 131;
+		}
 	}
-	shell->last_exit_status = manual_wexitstatus(status);
+	else
+		shell->last_exit_status = manual_wexitstatus(status);
 }
 
 void	execute_command_tree(t_exec_node *node, t_shell *shell)

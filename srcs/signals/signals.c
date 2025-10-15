@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:24:06 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/09 10:52:42 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:11:31 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
  */
 void	handle_sigint(int sig)
 {
+	g_exit_status = 130;
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);

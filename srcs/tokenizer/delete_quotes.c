@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:25:28 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 11:08:22 by andrade          ###   ########.fr       */
+/*   Updated: 2025/10/15 11:55:42 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,19 @@ static char	*remove_quotes_from_token(t_token *token)
 	new_value[j] = '\0';
 	return (new_value);
 }
+static bool	check_if_remove(char *token)
+{
+	int		i;
 
+	i = 0;
+	while (token[i] != '\0')
+	{
+		if (token[i] == '\'' || token[i] == '\"')
+			return (true);
+		i++;
+	}
+	return (false);
+}
 int	delete_quotes(t_token **list, t_shell *shell)
 {
 	t_token		*current;
@@ -77,13 +89,16 @@ int	delete_quotes(t_token **list, t_shell *shell)
 	while (current)
 	{
 		next = current->next;
-		new_value = remove_quotes_from_token(current);
-		if (!new_value)
-			return (-1);
-		free(current->value);
-		current->value = new_value;
-		current->in_single_quotes = 0;
-		current->in_double_quotes = 0;
+		if (check_if_remove(current->value) == true)
+		{
+			new_value = remove_quotes_from_token(current);
+			if (!new_value)
+				return (-1);
+			free(current->value);
+			current->value = new_value;
+			current->in_single_quotes = 0;
+			current->in_double_quotes = 0;
+		}
 		current = next;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/09/30 09:52:47 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/10/15 10:04:14 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,13 @@ LIBFT = $(LIBFT_DIR)/libft.a
 FT_PRINTF_DIR = libs/ft_printf_fd
 FT_PRINTF = $(FT_PRINTF_DIR)/ft_printf_fd.a
 
+LEAKS_LOG		= ./leaks.log
+READLINE_SUPP	= readline.supp
+VALGRINDFLAGS	= -s -q --suppressions=$(READLINE_SUPP) \
+				  --tool=memcheck --leak-check=full \
+				  --show-leak-kinds=all --track-origins=yes \
+				  --show-below-main=no
+				  
 # Adicione manualmente seus arquivos.c aqui:
 MINISHELL_SRCS = srcs/main.c \
 				srcs/free_functions/free.c \
@@ -130,9 +137,7 @@ $(FT_PRINTF):
 
 va: $(NAME)
 	@mkdir -p Valgrind
-	@valgrind --leak-check=full \
-	--track-fds=yes --track-origins=yes \
-	./$(NAME)
+	@valgrind $(VALGRINDFLAGS) ./$(NAME)
 # --leak-check=full --> Mostra todos os blocos de memoria que
 #		nao foram libertados no fim da execucao do programa.
 #		Mostra o relatorio detalhado sobre cada leak
@@ -164,7 +169,33 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all va clean fclean re
+define SUP_BODY
+{
+   name
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   obj:*/libreadline.so.*
+   ...
+}
+{
+    leak readline
+    Memcheck:Leak
+    ...
+    fun:readline
+}
+{
+    leak add_history
+    Memcheck:Leak
+    ...
+    fun:add_history
+}
+endef
+
+sup:
+	$(file > readline.supp,$(SUP_BODY))
+
+.PHONY: all va clean fclean re 
 
 # Cores #
 GREEN = \033[0;32m

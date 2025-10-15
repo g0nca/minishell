@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/10/15 10:04:14 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/10/15 10:21:26 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,7 @@ VALGRINDFLAGS	= -s -q --suppressions=$(READLINE_SUPP) \
 				  --tool=memcheck --leak-check=full \
 				  --show-leak-kinds=all --track-origins=yes \
 				  --show-below-main=no
-				  
-# Adicione manualmente seus arquivos.c aqui:
+
 MINISHELL_SRCS = srcs/main.c \
 				srcs/free_functions/free.c \
 				srcs/free_functions/free2.c \
@@ -135,8 +134,10 @@ $(FT_PRINTF):
 	@$(MAKE) -C $(FT_PRINTF_DIR) --no-print-directory
 	@echo "$(BOLD_GREEN)✅ libftprintf.a built successfully!$(RESET)"
 
-va: $(NAME)
-	@mkdir -p Valgrind
+va: $(NAME) sup
+	@echo "$(BOLD_BLUE)╔══════════════════════════════════════╗"
+	@echo "$(BOLD_BLUE)║    🔍 Running Valgrind...            ║"
+	@echo "$(BOLD_BLUE)╚══════════════════════════════════════╝$(RESET)"
 	@valgrind $(VALGRINDFLAGS) ./$(NAME)
 # --leak-check=full --> Mostra todos os blocos de memoria que
 #		nao foram libertados no fim da execucao do programa.
@@ -162,6 +163,7 @@ fclean: clean
 	@echo "$(BOLD_BLUE)╚══════════════════════════════════════╝$(RESET)"
 	@rm -rf $(NAME)
 	@rm -rf Valgrind
+	@rm -rf readline.supp
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 	@$(MAKE) -C $(FT_PRINTF_DIR) fclean --no-print-directory
 # ^ Apaga todos os ficheiros .o da pasta build e o executavel
@@ -195,7 +197,7 @@ endef
 sup:
 	$(file > readline.supp,$(SUP_BODY))
 
-.PHONY: all va clean fclean re 
+.PHONY: all clean fclean re va sup
 
 # Cores #
 GREEN = \033[0;32m

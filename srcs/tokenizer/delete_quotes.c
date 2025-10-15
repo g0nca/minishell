@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:25:28 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/15 11:55:42 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:02:18 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ static bool	check_if_remove(char *token)
 	int		i;
 
 	i = 0;
+	if (!token)
+		return (false);
 	while (token[i] != '\0')
 	{
 		if (token[i] == '\'' || token[i] == '\"')

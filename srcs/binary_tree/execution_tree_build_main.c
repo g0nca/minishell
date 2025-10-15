@@ -26,6 +26,7 @@ t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell)
 
 void	free_execution_tree(t_exec_node *node)
 {
+
 	if (!node)
 		return ;
 	if (node->left)

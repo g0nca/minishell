@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/09 10:53:05 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/15 15:12:34 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,16 @@ void	free_env(char **env)
 
 void	free_struct(t_shell *shell)
 {
+	if (!shell)
+		return ;
 	cleanup_heredoc_files(shell);
 	free_env(shell->env);
-	free(shell);
 }
 
 void	free_tokens(t_token **list)
 {
 	t_token	*next;
-
+	
 	if (!list)
 		return ;
 	while (*list)

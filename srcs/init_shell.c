@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:22:45 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/09 10:53:42 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:52:38 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**copy_env(char **envp)
 }
 
 t_shell	*init_shell(int ac, char **av, char **envp)
-{
+{	
 	t_shell	*shell;
 
 	(void)av;

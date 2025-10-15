@@ -6,11 +6,34 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 14:34:14 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:01:00 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+static bool	check_if_expand(t_token *current)
+{
+	int	i;
+
+	while (current)
+	{
+		if (current->value)
+		{
+			i = 0;
+			while (current->value[i])
+			{
+				if (current->value[i] == '$')
+					return (true);
+				i++;
+			}
+		} 
+		if (current->next)
+			current = current->next;
+		else
+			break ;
+	}
+	return (false);
+}
 
 /**
  * @brief Iterates through the token list and expands any environment variables.
@@ -32,13 +55,17 @@ int	expander(t_token **tokens, t_shell *shell)
 	if (!tokens || !*tokens)
 		return (0);
 	current = *tokens;
-	while (current)
+	if (check_if_expand(current) == true)
 	{
-		next = current->next;
-		skip_current = expander2(current, shell);
-		if (skip_current || current->type == -1)
-			remove_old_env_variable(tokens, current);
-		current = next;
+		current = *tokens;
+		while (current)
+		{
+			next = current->next;
+			skip_current = expander2(current, shell);
+			if (skip_current || current->type == -1)
+				remove_old_env_variable(tokens, current);
+			current = next;
+		}
 	}
 	return (0);
 }

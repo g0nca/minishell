@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/15 11:31:45 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:25:01 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	child_process(t_exec_node *node, t_shell *shell)
 	signal(SIGQUIT, SIG_DFL);
 	setup_redirections(shell, node);
 	execute_command_node(node, shell);
+	//free_execution_tree(node);
 	exit(shell->last_exit_status);
 }
 

@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/10/15 10:21:26 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/10/15 15:27:12 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ FT_PRINTF = $(FT_PRINTF_DIR)/ft_printf_fd.a
 LEAKS_LOG		= ./leaks.log
 READLINE_SUPP	= readline.supp
 VALGRINDFLAGS	= -s -q --suppressions=$(READLINE_SUPP) \
-				  --tool=memcheck --leak-check=full \
+				  --tool=memcheck --trace-children=yes --leak-check=full \
 				  --show-leak-kinds=all --track-origins=yes \
 				  --show-below-main=no
 

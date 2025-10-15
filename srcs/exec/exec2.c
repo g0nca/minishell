@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/15 11:26:06 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:01:38 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,27 @@ static void	handle_direct_path(char **args, t_shell *shell)
 
 	path = args[0];
 	if (ft_strchr(path, '/') == NULL)
-		shell_error(shell, path, 1, true);
+	{
+		shell_error(shell, path, 1, false);
+		return ;
+	}
 	if (stat(path, &path_stat) == -1)
-		shell_error(shell, path, 2, true);
+	{
+		shell_error(shell, path, 2, false);
+		return ;
+	}
 	if (S_ISDIR(path_stat.st_mode))
-		shell_error(shell, path, 5, true);
+	{
+		shell_error(shell, path, 5, false);
+		return ;
+	}
 	if (access(path, X_OK) == -1)
-		shell_error(shell, path, 20, true);
+	{
+		shell_error(shell, path, 20, false);
+		return ;
+	}
 	execve(path, args, shell->env);
-	shell_error(shell, path, 3, true);
+	shell_error(shell, path, 3, false);
 }
 
 void	handle_env_path_execution(char **args, t_shell *shell)

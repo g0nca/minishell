@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/15 15:19:50 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:40:31 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void	handle_exit(t_shell *shell, char *line)
 	{
 		exit_status = shell->last_exit_status;
 		printf("exit\n");
-		free_struct(shell);
+		free_struct(shell, 0);
+		free(shell);
 		exit(exit_status);
 	}
 }
@@ -56,7 +57,7 @@ int	main(int ac, char **av, char **envp)
 		process_line(line, shell, token);
 		free(line);
 	}
-	free_struct(shell);
+	free_struct(shell, 0);
 	free(shell);
 	ft_printf_fd(1, "exit\n");
 	return (g_exit_status);
@@ -86,6 +87,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 		if (check_inside_quotes(token) == 0)
 		{
 			delete_quotes(&token, shell);
+			shell->token = token;
 			tree = build_execution_tree(token, NULL, shell);
 			execute_tree(tree, shell);
 		}
@@ -97,7 +99,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	return (0);
 }
 
-void	print_tokens(t_token *list, t_shell *shell)
+/*void	print_tokens(t_token *list, t_shell *shell)
 {
 	int		i;
 	t_token	*current;
@@ -114,9 +116,9 @@ void	print_tokens(t_token *list, t_shell *shell)
 	}
 	if (shell)
 		printf("last_exit_status:%d\n", shell->last_exit_status);
-} 
+}*/ 
 
-const char	*node_type_to_str(t_node_type type)
+/* const char	*node_type_to_str(t_node_type type)
 {
 	if (type == NODE_COMMAND)
 		return "NODE_COMMAND";
@@ -178,4 +180,4 @@ void	print_exec_tree(t_exec_node *node, int depth)
 		printf("Right:\n");
 		print_exec_tree(node->right, depth + 1);
 	}
-}
+} */

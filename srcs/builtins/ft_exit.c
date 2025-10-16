@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:59:40 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/08 15:12:11 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:39:54 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	normalize_exit_code(long long code)
 static void	is_not_number(t_shell *shell, char *arg1)
 {
 	ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n", arg1);
-	free_struct(shell);
+	free_struct(shell, 0);
 	exit(2);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/15 16:01:38 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:47:38 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	handle_env_path_execution(char **args, t_shell *shell)
 	if (result == 0)
 		handle_direct_path(args, shell);
 	else
-		exit(EXIT_SUCCESS);
+		return ;
+		//exit(EXIT_SUCCESS);
 }
 
 int	ft_backup_stdio(int *stdin_backup, int *stdout_backup)

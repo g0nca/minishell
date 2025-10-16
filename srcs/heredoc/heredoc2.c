@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:36:30 by andrade           #+#    #+#             */
-/*   Updated: 2025/09/30 10:25:23 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:04:07 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,21 @@ void	remove_token(t_token **head, t_token *to_remove)
 void	cleanup_heredoc_files(t_shell *shell)
 {
 	t_list	*temp;
+	t_list	*next;
 
-	while (shell->heredoc_files)
+	if (!shell || !shell->heredoc_files)
+		return ;
+	temp = shell->heredoc_files;
+	while (temp)
 	{
-		temp = shell->heredoc_files;
-		unlink((char *)temp->content);
-		free(temp->content);
-		shell->heredoc_files = shell->heredoc_files->next;
+		next = temp->next;
+		if (temp->content)
+		{
+			unlink((char *)temp->content);
+			free(temp->content);
+		}
 		free(temp);
+		temp = next;
 	}
+	shell->heredoc_files = NULL;
 }

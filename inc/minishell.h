@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/15 14:58:37 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:46:05 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ typedef struct s_shell
 	char	*temp_heredoc_path;
 	int		last_exit_status;
 	int		running;
-	//int		out_flag;
 	char	*in;
 	char	*out;
 	char	*append;
 	char	*heredoc;
+	struct	s_token *token;
 	t_list	*heredoc_files;
 	pid_t	main_pid;
 }			t_shell;
@@ -290,7 +290,7 @@ t_token		*init_token_struct_inicial(t_token *list);
 
 // free_functions ================================================
 void		free_env(char **env);
-void		free_struct(t_shell *shell);
+void		free_struct(t_shell *shell, int flag);
 void		free_tokens(t_token **list);
 void		free_sorted_env(int i, char **sorted_env);
 void		free_args(char **args);

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:30:17 by andrade           #+#    #+#             */
-/*   Updated: 2025/10/15 11:27:39 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:53:12 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static int	execute_from_path(char *full_path, char **args, t_shell *shell)
 	{
 		shell_error(shell, ".", 16, EXIT_FAILURE);
 	}
-	free_args(args);
-	exit(EXIT_SUCCESS);
+	return (-1);
 }
 
 static int	try_path_execution(char *dir, char **args, t_shell *shell)

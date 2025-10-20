@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/16 14:39:23 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/20 12:00:21 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	execute_command_tree(t_exec_node *node, t_shell *shell)
 	}
 	else if (node->cmd != NULL)
 	{
+		ft_printf_fd(STDOUT_FILENO, "\033[1;31mMain_FORK\033[0m\n");
 		pid = fork();
 		if (pid == 0)
 			child_process(node, shell);

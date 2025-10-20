@@ -24,7 +24,7 @@ void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node,
 		dup2(node->left->fd_out, STDOUT_FILENO);
 	close(pipe_fd[1]);
 	execute_tree(node->left, shell);
-	exit(shell->last_exit_status);
+	//exit(shell->last_exit_status);
 }
 
 void	setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
@@ -38,7 +38,7 @@ void	setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 		dup2(node->right->fd_in, STDIN_FILENO);
 	close(pipe_fd[0]);
 	execute_tree(node->right, shell);
-	exit(shell->last_exit_status);
+	//exit(shell->last_exit_status);
 }
 
 void	handle_pipe_parent(int *pipe_fd, pid_t left_pid,

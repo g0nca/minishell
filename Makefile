@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/10/16 14:15:10 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/10/20 11:37:56 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ VALGRINDFLAGS	= -s --suppressions=$(READLINE_SUPP) \
 				  --show-leak-kinds=all --track-origins=yes \
 
 ## --trace-children=yes
+## --child-silent-after-fork=yes
 
 MINISHELL_SRCS = srcs/main.c \
 				srcs/free_functions/free.c \

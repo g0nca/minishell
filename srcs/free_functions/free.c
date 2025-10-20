@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/16 14:33:50 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:54:05 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,11 @@ void	free_cmd(char **cmd)
 	while (cmd[i])
 	{
 		free(cmd[i]);
+		cmd[i] = NULL;
 		i++;
 	}
 	free(cmd);
+	cmd = NULL;
 }
 
 void	ft_free(char **str)

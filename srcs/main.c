@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/16 15:40:31 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:11:45 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int ac, char **av, char **envp)
 		process_line(line, shell, token);
 		free(line);
 	}
-	free_struct(shell, 0);
+	free_struct(shell, 1);
 	free(shell);
 	ft_printf_fd(1, "exit\n");
 	return (g_exit_status);
@@ -89,13 +89,14 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 			delete_quotes(&token, shell);
 			shell->token = token;
 			tree = build_execution_tree(token, NULL, shell);
+			shell->tree = tree;
 			execute_tree(tree, shell);
 		}
 		else
 			shell_error(shell, token->value, 1, EXIT_SUCCESS);
 	}
-	free_tokens(&token);
 	free_execution_tree(tree);
+	free_tokens(&token);
 	return (0);
 }
 

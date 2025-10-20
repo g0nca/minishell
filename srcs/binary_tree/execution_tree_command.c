@@ -35,6 +35,7 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 
 void	execute_tree(t_exec_node *node, t_shell *shell)
 {
+
 	if (!node)
 		return ;
 	if (node->type == NODE_COMMAND)

@@ -38,8 +38,9 @@ pid_t	fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 	}
 	if (left_pid == 0)
 	{
+		signal(SIGPIPE, SIG_IGN);
 		setup_pipe_left_child(pipe_fd, node, shell);
-		free_execution_tree(node);
+		free_execution_tree(shell->tree);
 		free_tokens(&shell->token);
 		free(shell->token);
 		g_exit_status = shell->last_exit_status;
@@ -68,8 +69,9 @@ pid_t	fork_right_child(int *pipe_fd, t_exec_node *node,
 	}
 	if (right_pid == 0)
 	{
+		signal(SIGPIPE, SIG_IGN);
 		setup_pipe_right_child(pipe_fd, node, shell);
-		free_execution_tree(node);
+		free_execution_tree(shell->tree);
 		free_tokens(&shell->token);
 		free(shell->token);
 		g_exit_status = shell->last_exit_status;

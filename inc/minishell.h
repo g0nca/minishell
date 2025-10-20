@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/16 13:46:05 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:37:35 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_shell
 	char	*append;
 	char	*heredoc;
 	struct	s_token *token;
+	struct	s_exec_node *tree;
 	t_list	*heredoc_files;
 	pid_t	main_pid;
 }			t_shell;

@@ -45,6 +45,7 @@ pid_t	fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 		free(shell->token);
 		g_exit_status = shell->last_exit_status;
 		free_struct(shell, 1);
+		free(shell);
 		exit(g_exit_status);
 	}
 	return (left_pid);
@@ -75,6 +76,7 @@ pid_t	fork_right_child(int *pipe_fd, t_exec_node *node,
 		free(shell->token);
 		g_exit_status = shell->last_exit_status;
 		free_struct(shell, 1);
+		free(shell);
 		exit(g_exit_status);
 	}
 	return (right_pid);

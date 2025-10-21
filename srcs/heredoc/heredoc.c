@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/16 15:58:25 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/21 14:10:44 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,25 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 	return (0);
 }
 
-static void	heredoc_child(const char *delimiter, int fd)
+static void	heredoc_child(const char *delimiter, int fd, t_shell *shell, char *filename)
 {
 	if (dup2(fd, 42) == -1)
 	{
 		close(fd);
+		free_tokens(&shell->token);
+		free(shell->token);
+		free_struct(shell, 0);
+		free(shell);
 		exit(1);
 	}
 	close(fd);
 	read_heredoc_input(delimiter, 42);
+	free(filename);
 	close(42);
+	free_tokens(&shell->token);
+	free(shell->token);
+	free_struct(shell, 0);
+	free(shell);
 	exit(0);
 }
 
@@ -76,6 +85,8 @@ static char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)
 	}
 	new_node = ft_lstnew(filename);
 	ft_lstadd_back(&shell->heredoc_files, new_node);
+	if (new_node)
+		free(new_node);
 	return (filename);
 }
 
@@ -92,7 +103,7 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
-		heredoc_child(delimiter, fd);
+		heredoc_child(delimiter, fd, shell, filename);
 	else if (pid > 0)
 	{
 		close(fd);

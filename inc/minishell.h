@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/20 15:37:35 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:50:38 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ typedef struct s_shell
 	char	*out;
 	char	*append;
 	char	*heredoc;
-	struct	s_token *token;
-	struct	s_exec_node *tree;
+	struct	s_token			*token;
+	struct	s_exec_node		*tree;
+	struct	s_exec_node		*pointer_to_cmd;
 	t_list	*heredoc_files;
 	pid_t	main_pid;
 }			t_shell;
@@ -197,7 +198,7 @@ char		**tokens_to_argv(t_token *start, t_token *end);
 // execute_tree_build_main.c ========================================
 t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell);
 t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell);
-void		free_execution_tree(t_exec_node *node);
+void		free_execution_tree(t_exec_node *node, int flag);
 void		cleanup_exec_node(t_exec_node *node);
 int			open_input_file(t_exec_node *cmd, char *filename, t_shell *shell);
 int			open_output_file(t_exec_node *cmd, char *filename,

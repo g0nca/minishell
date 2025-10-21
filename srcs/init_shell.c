@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:22:45 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/20 15:38:13 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:50:43 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ t_shell	*init_shell(int ac, char **av, char **envp)
 	shell->heredoc = NULL;
 	shell->token = NULL;
 	shell->tree = NULL;
+	shell->pointer_to_cmd = NULL;
 	return (shell);
 }

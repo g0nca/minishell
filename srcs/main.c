@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/20 16:11:45 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:29:39 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	handle_exit(t_shell *shell, char *line)
 	{
 		exit_status = shell->last_exit_status;
 		printf("exit\n");
-		free_struct(shell, 0);
+		free_struct(shell, 1);
 		free(shell);
 		exit(exit_status);
 	}
@@ -95,8 +95,10 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 		else
 			shell_error(shell, token->value, 1, EXIT_SUCCESS);
 	}
-	free_execution_tree(tree);
+	free_execution_tree(tree, 1);
+	tree = NULL;
 	free_tokens(&token);
+	token = NULL;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/20 13:54:05 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:57:49 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,21 @@ void	free_env(char **env)
 // flag == 0 -> Pai
 void	free_struct(t_shell *shell, int flag)
 {
+	t_list	*next;
+
 	if (!shell)
 		return ;
 	if (flag == 0)
 		cleanup_heredoc_files(shell);
 	free_env(shell->env);
+	while (shell->heredoc_files != ft_lstlast(shell->heredoc_files))
+	{
+		next = shell->heredoc_files->next;
+		free(shell->heredoc_files);
+		shell->heredoc_files = next;
+	}
+	free(shell->heredoc_files);
+	shell->heredoc_files = NULL;
 }
 
 void	free_tokens(t_token **list)

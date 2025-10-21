@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:36:30 by andrade           #+#    #+#             */
-/*   Updated: 2025/10/21 13:40:12 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:17:11 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	cleanup_heredoc_files(t_shell *shell)
 	while (temp)
 	{
 		next = temp->next;
-		if (temp->content)
+		if (temp->content && temp->content != NULL)
 		{
 			unlink((char *)temp->content);
 			free(temp->content);

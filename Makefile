@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
+#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/10/20 11:37:56 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/10/22 10:04:20 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -138,7 +138,7 @@ $(FT_PRINTF):
 
 va: $(NAME) sup
 	@echo "$(BOLD_BLUE)╔══════════════════════════════════════╗"
-	@echo "$(BOLD_BLUE)║    🔍 Running Valgrind...            ║"
+	@echo "$(BOLD_BLUE)║        🔍 Running Valgrind...        ║"
 	@echo "$(BOLD_BLUE)╚══════════════════════════════════════╝$(RESET)"
 	@valgrind $(VALGRINDFLAGS) ./$(NAME)
 # --leak-check=full --> Mostra todos os blocos de memoria que

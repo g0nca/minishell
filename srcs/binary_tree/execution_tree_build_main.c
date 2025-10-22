@@ -43,7 +43,7 @@ void	free_execution_tree(t_exec_node *node, int flag)
 	{
 		free(node->heredoc);
 		node->heredoc = NULL;
-	} 
+	}
 	if (node->fd_in != -1)
 		close(node->fd_in);
 	if (node->fd_out != -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/21 13:29:39 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/22 10:59:09 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	}
 	if (shell)
 		printf("last_exit_status:%d\n", shell->last_exit_status);
-}*/ 
+}*/
 
 /* const char	*node_type_to_str(t_node_type type)
 {

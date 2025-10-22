@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/16 15:47:38 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/22 11:28:22 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,10 @@ char	*get_path_env(char **env)
 static void	handle_direct_path(char **args, t_shell *shell)
 {
 	char		*path;
-	struct stat	path_stat;
 
 	path = args[0];
-	if (ft_strchr(path, '/') == NULL)
-	{
-		shell_error(shell, path, 1, false);
+	if (handle_direct_path_shell_error(path, shell) == 1)
 		return ;
-	}
-	if (stat(path, &path_stat) == -1)
-	{
-		shell_error(shell, path, 2, false);
-		return ;
-	}
-	if (S_ISDIR(path_stat.st_mode))
-	{
-		shell_error(shell, path, 5, false);
-		return ;
-	}
-	if (access(path, X_OK) == -1)
-	{
-		shell_error(shell, path, 20, false);
-		return ;
-	}
 	execve(path, args, shell->env);
 	shell_error(shell, path, 3, false);
 }
@@ -71,7 +52,6 @@ void	handle_env_path_execution(char **args, t_shell *shell)
 		handle_direct_path(args, shell);
 	else
 		return ;
-		//exit(EXIT_SUCCESS);
 }
 
 int	ft_backup_stdio(int *stdin_backup, int *stdout_backup)

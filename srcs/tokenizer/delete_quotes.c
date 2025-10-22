@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:25:28 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/16 15:30:22 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/22 11:00:24 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static char	*remove_quotes_from_token(t_token *token)
 	new_value[j] = '\0';
 	return (new_value);
 }
+
 static bool	check_if_remove(char *token)
 {
 	int		i;
@@ -78,6 +79,7 @@ static bool	check_if_remove(char *token)
 	}
 	return (false);
 }
+
 int	delete_quotes(t_token **list, t_shell *shell)
 {
 	t_token		*current;

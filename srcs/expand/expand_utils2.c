@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:06:55 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/16 14:31:42 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/22 11:08:30 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * Compare a portion of token with environment variable name
- * 
+ *
  * @param env_var The environment variable string to compare
  * @param token The token string containing potential variable reference
  * @param start Starting index of variable name in token
@@ -40,7 +40,7 @@ int	compare_env_name(char *env_var, char *token, int start, int end)
 
 /**
  * Check if a token contains an environment variable that matches env_var
- * 
+ *
  * @param env_var The environment variable string to check
  * @param token The token string to check for variable references
  * @return 0 if match found, 1 otherwise
@@ -73,11 +73,11 @@ int	ft_strcmp_enviroment_variables(char *env_var, char *token)
 /**
  * Handles invalid environment variable expansion by nullifying the node data
  * instead of immediately deleting it to prevent access to freed memory.
- * 
+ *
  * @param list The token node containing the invalid environment variable
  * @param shell The shell structure
  * @return 1 to signal to expander2 that the token needs to be skipped
- 
+
 int	invalid_env_var(t_token *list, t_shell *shell)
 {
 	if (!list)
@@ -133,7 +133,7 @@ int	verifiy_enviroment_var(t_shell *shell, char *token)
  *
  * Return: 0 on success.
  */
-int		remove_old_env_variable(t_token **tokens, t_token *current)
+int	remove_old_env_variable(t_token **tokens, t_token *current)
 {
 	if (current->prev == NULL)
 		*tokens = current->next;

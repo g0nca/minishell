@@ -64,8 +64,7 @@ pid_t	fork_right_child(int *pipe_fd, t_exec_node *node,
 		perror("fork");
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
-		waitpid(left_pid, NULL, 0);
-		return (-1);
+		return (waitpid(left_pid, NULL, 0), -1);
 	}
 	if (right_pid == 0)
 	{

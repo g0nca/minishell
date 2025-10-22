@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:19:36 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/28 10:27:58 by andrade          ###   ########.fr       */
+/*   Updated: 2025/10/22 10:59:56 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,29 @@ void	free_args(char **args)
 		i++;
 	}
 	free(args);
+}
+
+void	ft_free(char **str)
+{
+	if (!str || !*str)
+		return ;
+	free (*str);
+	*str = NULL;
+}
+
+void	free_array_ref(char ***cmd)
+{
+	int	i;
+
+	i = 0;
+	if (!cmd || !(*cmd))
+		return ;
+	while ((*cmd)[i])
+	{
+		ft_free(&(*cmd)[i]);
+		(*cmd)[i] = NULL;
+		i++;
+	}
+	free (*cmd);
+	*cmd = NULL;
 }

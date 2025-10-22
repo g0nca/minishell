@@ -30,12 +30,10 @@ void	execute_command_node(t_exec_node *node, t_shell *shell)
 	else
 		handle_env_path_execution(node->cmd, shell);
 	free_tokens(&cmd_token);
-
 }
 
 void	execute_tree(t_exec_node *node, t_shell *shell)
 {
-
 	if (!node)
 		return ;
 	if (node->type == NODE_COMMAND)

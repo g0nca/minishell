@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:28:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/21 15:57:49 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/22 10:59:53 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	free_env(char **env)
 		free(env[i++]);
 	free(env);
 }
+
 // flag == 1 -> Filho
 // flag == 0 -> Pai
 void	free_struct(t_shell *shell, int flag)
@@ -47,7 +48,7 @@ void	free_struct(t_shell *shell, int flag)
 void	free_tokens(t_token **list)
 {
 	t_token	*next;
-	
+
 	if (!list || !*list)
 		return ;
 	while (*list)
@@ -78,29 +79,4 @@ void	free_cmd(char **cmd)
 	}
 	free(cmd);
 	cmd = NULL;
-}
-
-void	ft_free(char **str)
-{
-	if (!str || !*str)
-		return ;
-	free (*str);
-	*str = NULL;
-}
-
-void	free_array_ref(char ***cmd)
-{
-	int	i;
-
-	i = 0;
-	if (!cmd || !(*cmd))
-		return ;
-	while ((*cmd)[i])
-	{
-		ft_free(&(*cmd)[i]);
-		(*cmd)[i] = NULL;
-		i++;
-	}
-	free (*cmd);
-	*cmd = NULL;
 }

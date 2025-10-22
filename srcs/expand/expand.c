@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:25:27 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/16 14:43:26 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/22 11:10:14 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
 static bool	check_if_expand(t_token *current)
 {
 	int	i;
@@ -26,7 +27,7 @@ static bool	check_if_expand(t_token *current)
 					return (true);
 				i++;
 			}
-		} 
+		}
 		if (current->next)
 			current = current->next;
 		else
@@ -42,7 +43,7 @@ static bool	check_if_expand(t_token *current)
  * function to handle environment variable expansion for each individual token.
  *
  * @param list Pointer to the first token in the list.
- * @param shell Pointer to the shell structure containing the 
+ * @param shell Pointer to the shell structure containing the
  *   environment variables.
  * @return Always returns 0.
  */
@@ -101,7 +102,7 @@ int	expander2(t_token *list, t_shell *shell)
 
 /**
  * Main expander function that processes a token for environment variables
- * 
+ *
  * @param list The token to process
  * @param shell The shell structure
  * @return 0 for normal execution, 1 if token should be skipped
@@ -134,7 +135,7 @@ int	expander3(t_token *list, t_shell *shell)
  * retrieves its value from the environment (envp) and appends it to the result.
  *
  * Non-variable characters are copied directly to the result string.
- * 
+ *
  * Percorre a string de input e copia caractere por caractere
  *   para a string de saída.
  * Quando encontra um '$' seguido de uma variável (ex: $USER),
@@ -176,36 +177,3 @@ char	*expand_variables(const char *input, char **envp, t_token *list)
 	*current = '\0';
 	return (result);
 }
-
-/**
- * @brief Processa a entrada quando encontra aspas,
- *   atualizando flags de contexto.
- *
- * Esta função lida com aspas simples e duplas na string de entrada, alternando
- * os estados `in_single_quotes` ou `in_double_quotes` do token atual. Também
- * avança os ponteiros de entrada e de escrita.
- *
- * @param input Ponteiro para a string de entrada (é avançado dentro da função).
- * @param current Ponteiro para o buffer onde a entrada está a ser copiada.
- * @param wich_quote Indica o tipo de aspas encontrado:
- *   1 para aspas simples ('), 2 para aspas duplas (").
- * @param list Ponteiro para o token atual, cujas
- *   flags de aspas serão atualizadas.
- */
-void	input_with_quotes(const char **input, char **current,
-			int wich_quote, t_token *list)
-{
-	if (wich_quote == 2)
-	{
-		list->in_double_quotes = !list->in_double_quotes;
-		*(*current)++ = *(*input)++;
-	}
-	else if (wich_quote == 1)
-	{
-		list->in_single_quotes = !list->in_single_quotes;
-		*(*current)++ = *(*input)++;
-	}
-}
-
-/* else
-	*(*current)++ = *(*input)++; */

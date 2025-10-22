@@ -6,7 +6,7 @@
 #    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/10/22 10:04:20 by joaomart         ###   ########.fr        #
+#    Updated: 2025/10/22 11:27:44 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/syntax_error/syntax_error4.c \
 				srcs/expand/expand.c \
 				srcs/expand/expand2.c \
+				srcs/expand/expand3.c \
 				srcs/expand/calculate_final_size.c \
 				srcs/expand/expand_utils.c \
 				srcs/expand/expand_utils2.c \
@@ -73,6 +74,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/builtins/ft_exit2.c \
 				srcs/exec/exec.c \
 				srcs/exec/exec2.c \
+				srcs/exec/exec3.c \
 				srcs/signals/signals.c \
 				srcs/heredoc/heredoc.c \
 				srcs/heredoc/heredoc2.c \

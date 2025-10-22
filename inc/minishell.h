@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/21 13:50:38 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/22 11:26:59 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,20 @@ extern int	g_exit_status;
 
 typedef struct s_shell
 {
-	char	**env;
-	char	*temp_heredoc_path;
-	int		last_exit_status;
-	int		running;
-	char	*in;
-	char	*out;
-	char	*append;
-	char	*heredoc;
-	struct	s_token			*token;
-	struct	s_exec_node		*tree;
-	struct	s_exec_node		*pointer_to_cmd;
-	t_list	*heredoc_files;
-	pid_t	main_pid;
-}			t_shell;
+	char					**env;
+	char					*temp_heredoc_path;
+	int						last_exit_status;
+	int						running;
+	char					*in;
+	char					*out;
+	char					*append;
+	char					*heredoc;
+	struct s_token			*token;
+	struct s_exec_node		*tree;
+	struct s_exec_node		*pointer_to_cmd;
+	t_list					*heredoc_files;
+	pid_t					main_pid;
+}							t_shell;
 
 typedef enum e_token_type
 {
@@ -359,6 +359,7 @@ int			too_many_arguments(t_shell *shell);
 
 //exec.c===========================================================
 int			is_builtin(char *cmd);
+int			handle_direct_path_shell_error(char *path, t_shell *shell);
 void		handle_env_path_execution(char **args, t_shell *shell);
 char		*get_path_env(char **env);
 int			try_paths(char **args, t_shell *shell, char *path_env);

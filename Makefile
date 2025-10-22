@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
+#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/10/22 11:27:44 by joaomart         ###   ########.fr        #
+#    Updated: 2025/10/22 15:06:48 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ FT_PRINTF = $(FT_PRINTF_DIR)/ft_printf_fd.a
 LEAKS_LOG		= ./leaks.log
 READLINE_SUPP	= readline.supp
 VALGRINDFLAGS	= -s --suppressions=$(READLINE_SUPP) \
-				  --tool=memcheck --leak-check=full \
+				  --tool=memcheck --trace-children=no --leak-check=full \
 				  --show-leak-kinds=all --track-origins=yes \
 
 ## --trace-children=yes

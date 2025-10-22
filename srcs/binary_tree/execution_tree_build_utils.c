@@ -45,15 +45,14 @@ t_exec_node	*create_pipe_node(t_token *start, t_token *last_pipe,
 	node->append_file = NULL;
 	node->heredoc = NULL;
 	node->left = build_execution_tree(start, last_pipe, shell);
-	if (!node->left)
-		free_execution_tree(node->left, 1);
 	node->right = build_execution_tree(last_pipe->next, end, shell);
-	if (!node->right)
-		free_execution_tree(node->right, 1);
-	if (!node->left && !node->right)
+	if (!node->left || !node->right)
 	{
+		if (node->left)
+			free_execution_tree(node->left, 1);
+		if (node->right)
+			free_execution_tree(node->right, 1);
 		free(node);
-		return (NULL);
 	}
 	return (node);
 }

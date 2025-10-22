@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/22 10:59:09 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/10/22 14:48:25 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 		printf("last_exit_status:%d\n", shell->last_exit_status);
 }*/
 
-/* const char	*node_type_to_str(t_node_type type)
+ const char	*node_type_to_str(t_node_type type)
 {
 	if (type == NODE_COMMAND)
 		return "NODE_COMMAND";
@@ -183,4 +183,4 @@ void	print_exec_tree(t_exec_node *node, int depth)
 		printf("Right:\n");
 		print_exec_tree(node->right, depth + 1);
 	}
-} */
+}

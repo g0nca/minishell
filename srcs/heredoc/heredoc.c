@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/21 15:32:39 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/22 09:13:12 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 		line = readline("heredoc> ");
 		if (!line)
 		{
+			if (g_exit_status == 130)
+				return (130);
 			error_heredoc(delimiter);
 			break ;
 		}
@@ -41,6 +43,8 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 
 static void	heredoc_child(const char *delimiter, int fd, t_shell *shell, char *filename)
 {
+	int exit_code;
+
 	if (dup2(fd, 42) == -1)
 	{
 		close(fd);
@@ -51,7 +55,7 @@ static void	heredoc_child(const char *delimiter, int fd, t_shell *shell, char *f
 		exit(1);
 	}
 	close(fd);
-	read_heredoc_input(delimiter, 42);
+	exit_code = read_heredoc_input(delimiter, 42);
 	free(filename);
 	close(42);
 	free_execution_tree(shell->pointer_to_cmd, 0);
@@ -59,7 +63,7 @@ static void	heredoc_child(const char *delimiter, int fd, t_shell *shell, char *f
 	free(shell->token);
 	free_struct(shell, 1);
 	free(shell);
-	exit(0);
+	exit(exit_code);
 }
 
 static char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)

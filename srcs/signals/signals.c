@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:24:06 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/15 11:11:31 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/22 09:15:13 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	setup_signals(void)
 void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
+	g_exit_status = 130;
 	write(STDOUT_FILENO, "\n", 1);
-	close(42);
-	exit(130);
+	close(STDIN_FILENO);
 }
 
 void	setup_heredoc_signals(void)

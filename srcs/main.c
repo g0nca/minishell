@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/23 13:00:46 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/23 14:26:10 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,25 +80,20 @@ int process_heredocs_in_tree(t_exec_node *node, t_shell *shell)
     
     if (!node)
         return (0);
-    
-    // Processa recursivamente
     if (node->left && process_heredocs_in_tree(node->left, shell) != 0)
         return (-1);
     if (node->right && process_heredocs_in_tree(node->right, shell) != 0)
         return (-1);
-    
-    // Se este nó tem heredoc (delimiter), cria agora
     if (node->heredoc)
     {
         delimiter = node->heredoc;
         heredoc_file = create_heredoc(delimiter, shell);
         free(delimiter);
-        if (!heredoc_file)  // ✅ Heredoc falhou (Ctrl+C)
+        if (!heredoc_file)
         {
             node->heredoc = NULL;
-            return (-1);  // ✅ Retorna erro para parar execução
+            return (-1);
         }
-        
         node->heredoc = heredoc_file;
     }
     

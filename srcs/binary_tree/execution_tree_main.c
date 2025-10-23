@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/21 12:30:38 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/23 14:57:56 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	child_process(t_exec_node *node, t_shell *shell)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_DFL);
 	setup_redirections(shell, node);
 	execute_command_node(node, shell);
 	free_execution_tree(shell->tree, 1);
@@ -33,6 +34,7 @@ static void	parent_process(pid_t pid, t_shell *shell)
 	void	(*prev_sigint)(int);
 
 	prev_sigint = signal(SIGINT, SIG_IGN);
+	signal(SIGPIPE, SIG_IGN);
 	waitpid(pid, &status, 0);
 	signal(SIGINT, prev_sigint);
 	if (my_wifsignaled(status))

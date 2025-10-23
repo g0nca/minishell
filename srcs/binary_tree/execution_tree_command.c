@@ -52,6 +52,7 @@ static void	setup_redirections_input(t_shell *shell, t_exec_node *node)
 		node->fd_in = open(node->heredoc, O_RDONLY);
 	else
 		node->fd_in = open(node->input_file, O_RDONLY); */
+	printf("LAST_REDIR:%s\n", node->last_redir_in);
 	if (node->last_redir_in)
 		node->fd_in = open(node->last_redir_in, O_RDONLY);
 	if (node->fd_in == -1)
@@ -59,6 +60,8 @@ static void	setup_redirections_input(t_shell *shell, t_exec_node *node)
 	dup2(node->fd_in, STDIN_FILENO);
 	close(node->fd_in);
 }
+/* LAST_REDIR quando e um heredoc ele apenas tem guardado o que esta asseguir ao operador do heredoc <<   logo nao vai conseguir abrir nenhum arquivo com aquele nome
+logo vou ter que lhe passar o nome correto do arquivo do heredoc que esta guardado em tmp*/
 
 static void	setup_redirections_output(t_shell *shell, t_exec_node *node)
 {

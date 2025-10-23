@@ -65,7 +65,6 @@ t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell)
 	cmd = create_command_node(start, end);
 	if (!cmd)
 		return (NULL);
-	shell->pointer_to_cmd = cmd;
 	if (process_redirects(&start, cmd, shell) < 0)
 		return (free_execution_tree(cmd, 1), NULL);
 	return (cmd);

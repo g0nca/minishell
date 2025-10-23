@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/22 15:56:24 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/23 13:02:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_shell
 {
 	char					**env;
 	char					*temp_heredoc_path;
+	//int						counter_heredoc;
 	int						last_exit_status;
 	int						running;
 	char					*in;
@@ -43,7 +44,6 @@ typedef struct s_shell
 	char					*heredoc;
 	struct s_token			*token;
 	struct s_exec_node		*tree;
-	struct s_exec_node		*pointer_to_cmd;
 	t_list					*heredoc_files;
 	pid_t					main_pid;
 }							t_shell;
@@ -83,6 +83,7 @@ typedef enum e_node_type
 	NODE_REDIRECT_IN,
 	NODE_REDIRECT_OUT,
 	NODE_REDIRECT_APPEND,
+	HEREDOC,
 	NODE_LEFT,
 	NODE_RIGHT
 }	t_node_type;
@@ -377,6 +378,7 @@ char		*generate_temp_filename(int i);
 int			create_temp_file(char **out_filename);
 void		error_heredoc(const char *delimiter);
 //=================================================================
+int process_heredocs_in_tree(t_exec_node *node, t_shell *shell);
 
 //signals.c========================================================
 void		setup_signals(void);

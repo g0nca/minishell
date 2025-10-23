@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/22 14:48:25 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/23 13:00:46 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,37 @@ static int	check_inside_quotes(t_token *token)
 	}
 	return (0);
 }
+int process_heredocs_in_tree(t_exec_node *node, t_shell *shell)
+{
+    char *delimiter;
+    char *heredoc_file;
+    
+    if (!node)
+        return (0);
+    
+    // Processa recursivamente
+    if (node->left && process_heredocs_in_tree(node->left, shell) != 0)
+        return (-1);
+    if (node->right && process_heredocs_in_tree(node->right, shell) != 0)
+        return (-1);
+    
+    // Se este nó tem heredoc (delimiter), cria agora
+    if (node->heredoc)
+    {
+        delimiter = node->heredoc;
+        heredoc_file = create_heredoc(delimiter, shell);
+        free(delimiter);
+        if (!heredoc_file)  // ✅ Heredoc falhou (Ctrl+C)
+        {
+            node->heredoc = NULL;
+            return (-1);  // ✅ Retorna erro para parar execução
+        }
+        
+        node->heredoc = heredoc_file;
+    }
+    
+    return (0);
+}
 
 int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
@@ -90,6 +121,13 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 			shell->token = token;
 			tree = build_execution_tree(token, NULL, shell);
 			shell->tree = tree;
+			if (process_heredocs_in_tree(tree, shell) != 0)
+			{
+				free_execution_tree(tree, 1);
+				shell->tree = NULL;
+				free_tokens(&token);
+				return (0);
+			}
 			execute_tree(tree, shell);
 		}
 		else
@@ -133,6 +171,8 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 		return "REDIRECT_OUT";
 	else if (type == NODE_REDIRECT_APPEND)
 		return "REDIRECT_APPEND";
+	else if (type == HEREDOC)
+		return "HEREDOC";
 	return "UNKNOWN";
 }
 

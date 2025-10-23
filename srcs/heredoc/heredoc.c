@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/22 15:56:27 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/23 11:47:36 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static void	heredoc_child(const char *delimiter, int fd, t_shell *shell, char *f
 	exit_code = read_heredoc_input(delimiter, 42);
 	free(filename);
 	close(42);
-	free_execution_tree(shell->pointer_to_cmd, 0);
+	free_execution_tree(shell->tree, 1);
+	//free_execution_tree(shell->pointer_to_cmd, 1);
 	free_tokens(&shell->token);
 	free(shell->token);
 	free_struct(shell, 1);

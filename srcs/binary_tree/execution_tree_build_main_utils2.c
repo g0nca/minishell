@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 10:23:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/23 13:59:00 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:08:12 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	handle_heredoc_tree(t_token *curr, t_shell *shell, t_exec_node *cmd)
 			cmd->heredoc = NULL;
 		}
 		cmd->heredoc = ft_strdup(curr->next->value);
+		if (cmd->last_redir_in != NULL)
+			cmd->last_redir_in = NULL;
+		cmd->last_redir_in = curr->next->value;
 		if (!cmd->heredoc)
 			return (-1);
 	}
@@ -37,6 +40,9 @@ int	handle_input_redirect(t_token *curr, t_exec_node *cmd,
 		if (open_input_file(cmd, curr->next->value, shell) < 0)
 			return (-1);
 		cmd->input_file = curr->next->value;
+		if (cmd->last_redir_in != NULL)
+			cmd->last_redir_in = NULL;
+		cmd->last_redir_in = curr->next->value;
 		if (!cmd->input_file)
 			return (-1);
 	}

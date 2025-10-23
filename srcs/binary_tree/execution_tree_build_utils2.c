@@ -56,6 +56,7 @@ static t_exec_node	*initialize_command_node(void)
 	node->output_file = NULL;
 	node->append_file = NULL;
 	node->heredoc = NULL;
+	node->last_redir_in = NULL;
 	return (node);
 }
 

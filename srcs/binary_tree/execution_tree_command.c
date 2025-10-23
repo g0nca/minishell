@@ -48,10 +48,12 @@ static void	setup_redirections_input(t_shell *shell, t_exec_node *node)
 {
 	if (node->fd_in != -1)
 		close(node->fd_in);
-	if (node->heredoc)
+/* 	if (node->heredoc)
 		node->fd_in = open(node->heredoc, O_RDONLY);
 	else
-		node->fd_in = open(node->input_file, O_RDONLY);
+		node->fd_in = open(node->input_file, O_RDONLY); */
+	if (node->last_redir_in)
+		node->fd_in = open(node->last_redir_in, O_RDONLY);
 	if (node->fd_in == -1)
 		shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
 	dup2(node->fd_in, STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/23 13:02:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:05:15 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_exec_node
 	char				*output_file;
 	char				*append_file;
 	char				*heredoc;
+	char				*last_redir_in;
 	t_token				*tokens;
 }						t_exec_node;
 

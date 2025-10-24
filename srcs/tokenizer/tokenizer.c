@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:26:14 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/15 14:00:17 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/24 14:02:46 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token	*tokenizer(char *line, t_shell *shell)
 		else if (ft_isspace(line[i]))
 			i++;
 		else if (line[i])
-			process_token(list, line, &i);
+			process_token(list, line, &i, shell);
 	}
 	check_command(list, shell);
 	return (list);

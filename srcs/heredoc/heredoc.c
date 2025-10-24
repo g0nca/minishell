@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/23 16:16:42 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/24 16:07:30 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static void	heredoc_child(const char *delimiter, int fd, t_shell *shell, char *f
 	free(filename);
 	close(42);
 	free_execution_tree(shell->tree, 1);
-	//free_execution_tree(shell->pointer_to_cmd, 1);
 	free_tokens(&shell->token);
 	free(shell->token);
 	free_struct(shell, 1);
@@ -85,6 +84,7 @@ static char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)
 	{
 		unlink(filename);
 		free(filename);
+		shell->last_exit_status = 130;
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		return (NULL);
@@ -106,6 +106,7 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
 	pid_t	pid;
 	char	*filename;
 
+	g_exit_status = 0;
 	fd = create_temp_file(&filename);
 	if (fd < 0)
 		return (NULL);
@@ -117,6 +118,7 @@ char	*create_heredoc(const char *delimiter, t_shell *shell)
 	{
 		close(fd);
 		waitpid(pid, &status, 0);
+		restore_main_signals();
 		return (heredoc_parent(fd, status, filename, shell));
 	}
 	close(fd);

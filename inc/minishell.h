@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/23 16:05:15 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/24 15:56:45 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef struct s_shell
 {
 	char					**env;
 	char					*temp_heredoc_path;
-	//int						counter_heredoc;
 	int						last_exit_status;
 	int						running;
+	int						heredoc_counter;
 	char					*in;
 	char					*out;
 	char					*append;
@@ -100,7 +100,9 @@ typedef struct s_exec_node
 	char				*output_file;
 	char				*append_file;
 	char				*heredoc;
+	char				**heredoc_delimiters;
 	char				*last_redir_in;
+	int					last_redir_in_type;
 	t_token				*tokens;
 }						t_exec_node;
 
@@ -123,9 +125,9 @@ void		add_final_token(t_token *list, char *joined);
 //========================================================================
 
 // process_token.c ================================================
-void		process_token(t_token *list, char *line, int *i);
+void		process_token(t_token *list, char *line, int *i, t_shell *shell);
 void		process_append_token(t_token *list, int *i);
-void		process_heredoc_token(t_token *list, int *i);
+void		process_heredoc_token(t_token *list, int *i, t_shell *shell);
 void		process_redir_out_token(t_token *list, int *i);
 void		process_redir_in_token(t_token *list, int *i);
 //==================================================================
@@ -395,7 +397,7 @@ void		ft_error(int error, char *str, t_shell *shell);
 //=================================================================
 
 //EXTRAS ==========================================================
-//void		print_tokens(t_token *list, t_shell *shell);
+void		print_tokens(t_token *list, t_shell *shell);
 void		print_exec_tree(t_exec_node *node, int depth);
 //=================================================================
 #endif

@@ -40,7 +40,7 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 		execute_command_tree(node, shell);
 	else if (node->type == NODE_PIPE)
 		execute_pipe_node(node, shell);
-	if (node->heredoc)
+ 	if (node->heredoc)
 		unlink(node->heredoc);
 }
 
@@ -48,20 +48,15 @@ static void	setup_redirections_input(t_shell *shell, t_exec_node *node)
 {
 	if (node->fd_in != -1)
 		close(node->fd_in);
-/* 	if (node->heredoc)
+	if (node->last_redir_in_type == 6)
 		node->fd_in = open(node->heredoc, O_RDONLY);
-	else
-		node->fd_in = open(node->input_file, O_RDONLY); */
-	printf("LAST_REDIR:%s\n", node->last_redir_in);
-	if (node->last_redir_in)
+	else if (node->last_redir_in_type == 3)
 		node->fd_in = open(node->last_redir_in, O_RDONLY);
 	if (node->fd_in == -1)
 		shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
 	dup2(node->fd_in, STDIN_FILENO);
 	close(node->fd_in);
 }
-/* LAST_REDIR quando e um heredoc ele apenas tem guardado o que esta asseguir ao operador do heredoc <<   logo nao vai conseguir abrir nenhum arquivo com aquele nome
-logo vou ter que lhe passar o nome correto do arquivo do heredoc que esta guardado em tmp*/
 
 static void	setup_redirections_output(t_shell *shell, t_exec_node *node)
 {

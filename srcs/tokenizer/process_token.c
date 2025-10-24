@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   process_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:05:18 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/05/28 10:50:26 by andrade          ###   ########.fr       */
+/*   Updated: 2025/10/24 14:04:29 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	process_token(t_token *list, char *line, int *i)
+void	process_token(t_token *list, char *line, int *i, t_shell *shell)
 {
 	if (line[*i] == '|')
 	{
@@ -22,7 +22,7 @@ void	process_token(t_token *list, char *line, int *i)
 	else if (line[*i] == '>' && line[*i + 1] == '>')
 		process_append_token(list, i);
 	else if (line[*i] == '<' && line[*i + 1] == '<')
-		process_heredoc_token(list, i);
+		process_heredoc_token(list, i, shell);
 	else if (line[*i] == '>')
 		process_redir_out_token(list, i);
 	else if (line[*i] == '<')
@@ -37,8 +37,9 @@ void	process_append_token(t_token *list, int *i)
 	*i += 2;
 }
 
-void	process_heredoc_token(t_token *list, int *i)
+void	process_heredoc_token(t_token *list, int *i, t_shell *shell)
 {
+	shell->heredoc_counter++;
 	add_token(list, "<<", TOKEN_HERE_DOC);
 	*i += 2;
 }

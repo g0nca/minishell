@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 10:23:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/24 16:08:11 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 11:34:16 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,11 @@
 
 int handle_heredoc_tree(t_token *curr, t_shell *shell, t_exec_node *cmd)
 {
-    char **new_array;
-    int count;
-    int i;
-    
     (void)shell;
     if (curr->next && curr->next->type == TOKEN_WORD)
     {
-        count = 0;
-        if (cmd->heredoc_delimiters)
-        {
-            while (cmd->heredoc_delimiters[count])
-                count++;
-        }
-        new_array = malloc(sizeof(char *) * (count + 2));
-        if (!new_array)
+        if (update_delimiters_array(cmd, curr->next->value) == -1)
             return (-1);
-        i = 0;
-        while (i < count)
-        {
-            new_array[i] = cmd->heredoc_delimiters[i];
-            i++;
-        }
-        new_array[count] = ft_strdup(curr->next->value);
-        if (!new_array[count])
-        {
-            free(new_array);
-            return (-1);
-        }
-        new_array[count + 1] = NULL;
-        if (cmd->heredoc_delimiters)
-            free(cmd->heredoc_delimiters);
-        cmd->heredoc_delimiters = new_array;
         cmd->last_redir_in = curr->next->value;
         cmd->last_redir_in_type = 6;
     }

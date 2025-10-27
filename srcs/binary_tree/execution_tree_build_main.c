@@ -24,50 +24,53 @@ t_exec_node	*build_execution_tree(t_token *start, t_token *end, t_shell *shell)
 	return (wrap_with_redirects(start, end, shell));
 }
 
-void free_execution_tree(t_exec_node *node, int flag)
+static void free_heredoc_delimiters(char **heredoc_delimiters)
 {
     int i;
     
-    if (!node)
+    if (!heredoc_delimiters)
         return;
-    
-    if (flag == 0)
-    {
-        free_cmd(node->cmd);
-        if (node->heredoc_delimiters)
-        {
-            i = 0;
-            while (node->heredoc_delimiters[i])
-                free(node->heredoc_delimiters[i++]);
-            free(node->heredoc_delimiters);
-        }
-        free(node);
-        return;
-    }
-    
-    if (node->left)
-        free_execution_tree(node->left, 1);
-    if (node->right)
-        free_execution_tree(node->right, 1);
-    
+    i = 0;
+    while (heredoc_delimiters[i])
+        free(heredoc_delimiters[i++]);
+    free(heredoc_delimiters);
+}
+
+static void free_node_simple(t_exec_node *node)
+{
     free_cmd(node->cmd);
-    
+    free_heredoc_delimiters(node->heredoc_delimiters);
+    free(node);
+}
+
+static void free_node_resources(t_exec_node *node)
+{
+    free_cmd(node->cmd);
     if (node->heredoc)
     {
         free(node->heredoc);
         node->heredoc = NULL;
     }
-    if (node->heredoc_delimiters)
-    {
-        i = 0;
-        while (node->heredoc_delimiters[i])
-            free(node->heredoc_delimiters[i++]);
-        free(node->heredoc_delimiters);
-    }
+    free_heredoc_delimiters(node->heredoc_delimiters);
     if (node->fd_in != -1)
         close(node->fd_in);
     if (node->fd_out != -1)
         close(node->fd_out);
-    
+}
+
+void free_execution_tree(t_exec_node *node, int flag)
+{
+    if (!node)
+        return;
+    if (flag == 0)
+    {
+        free_node_simple(node);
+        return;
+    }
+    if (node->left)
+        free_execution_tree(node->left, 1);
+    if (node->right)
+        free_execution_tree(node->right, 1);
+    free_node_resources(node);
     free(node);
 }

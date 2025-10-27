@@ -40,7 +40,7 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 		execute_command_tree(node, shell);
 	else if (node->type == NODE_PIPE)
 		execute_pipe_node(node, shell);
- 	if (node->heredoc)
+	if (node->heredoc)
 		unlink(node->heredoc);
 }
 

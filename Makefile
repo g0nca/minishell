@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
+#    By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/10/23 11:12:32 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/10/27 11:22:52 by joaomart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,6 +79,7 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/heredoc/heredoc.c \
 				srcs/heredoc/heredoc2.c \
 				srcs/heredoc/heredoc3.c \
+				srcs/heredoc/heredoc4.c \
 				srcs/binary_tree/execution_tree_argv.c \
 				srcs/binary_tree/execution_tree_build_main.c \
 				srcs/binary_tree/execution_tree_build_main2.c \

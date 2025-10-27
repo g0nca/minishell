@@ -26,6 +26,7 @@ int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 int	open_output_file(t_exec_node *cmd, char *filename,
 		int append, t_shell *shell)
 {
+	(void)shell;
 	if (cmd->fd_out != -1)
 		close(cmd->fd_out);
 	if (append == 1)

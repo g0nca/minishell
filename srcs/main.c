@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/24 16:07:20 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 10:50:22 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,64 +73,6 @@ static int	check_inside_quotes(t_token *token)
 	}
 	return (0);
 }
-int	process_heredocs_in_tree(t_exec_node *node, t_shell *shell)
-{
-	char	*heredoc_file;
-	int		i;
-
-	if (!node)
-		return (0);
-	if (node->left && process_heredocs_in_tree(node->left, shell) != 0)
-		return (-1);
-	if (node->right && process_heredocs_in_tree(node->right, shell) != 0)
-		return (-1);
-	if (node->heredoc_delimiters)
-	{
-		i = 0;
-		while (node->heredoc_delimiters[i])
-		{
-			heredoc_file = create_heredoc(node->heredoc_delimiters[i], shell);
-			if (!heredoc_file && g_exit_status == 130)
-			{
-				if (node->heredoc)
-				{
-					unlink(node->heredoc);
-					free(node->heredoc);
-					node->heredoc = NULL;
-				}
-				return (-1);
-			}
-			if (!heredoc_file)
-			{
-				if (node->heredoc)
-				{
-					unlink(node->heredoc);
-					free(node->heredoc);
-					node->heredoc = NULL;
-				}
-				return (-1);
-			}
-			if (node->heredoc)
-			{
-				unlink(node->heredoc);
-				free(node->heredoc);
-				node->heredoc = NULL;
-			}
-			node->heredoc = heredoc_file;
-			i++;
-		}
-		i = 0;
-		while (node->heredoc_delimiters[i])
-		{
-			free(node->heredoc_delimiters[i]);
-			i++;
-		}
-		free(node->heredoc_delimiters);
-		node->heredoc_delimiters = NULL;
-	}
-	return (0);
-}
-
 
 int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
@@ -149,12 +91,10 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 			tree = build_execution_tree(token, NULL, shell);
 			shell->tree = tree;
 			if (process_heredocs_in_tree(tree, shell) == 0)
-			{
 				execute_tree(tree, shell);
-			}
+			/* else
+				shell_error(shell, token->value, 1, EXIT_SUCCESS); */
 		}
-		else
-			shell_error(shell, token->value, 1, EXIT_SUCCESS);
 	}
 	free_execution_tree(tree, 1);
 	tree = NULL;

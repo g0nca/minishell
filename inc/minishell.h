@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/24 15:56:45 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 10:14:49 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,6 +380,7 @@ void		remove_token(t_token **head, t_token *to_remove);
 char		*generate_temp_filename(int i);
 int			create_temp_file(char **out_filename);
 void		error_heredoc(const char *delimiter);
+int			process_heredocs_in_tree(t_exec_node *node, t_shell *shell);
 //=================================================================
 int process_heredocs_in_tree(t_exec_node *node, t_shell *shell);
 

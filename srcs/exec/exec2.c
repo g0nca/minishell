@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/27 13:09:13 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 13:14:45 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	handle_env_path_execution(char **args, t_shell *shell)
 {
 	char	*path_env;
 	int		result;
+
 	if (args[0][0] == '/' || (args[0][0] == '.' && args[0][1] == '/'))
 		execve(args[0], args, shell->env);
 	path_env = get_path_env(shell->env);

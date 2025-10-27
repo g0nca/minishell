@@ -6,23 +6,23 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 10:23:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/27 11:34:16 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 11:50:30 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int handle_heredoc_tree(t_token *curr, t_shell *shell, t_exec_node *cmd)
+int	handle_heredoc_tree(t_token *curr, t_shell *shell, t_exec_node *cmd)
 {
-    (void)shell;
-    if (curr->next && curr->next->type == TOKEN_WORD)
-    {
-        if (update_delimiters_array(cmd, curr->next->value) == -1)
-            return (-1);
-        cmd->last_redir_in = curr->next->value;
-        cmd->last_redir_in_type = 6;
-    }
-    return (0);
+	(void)shell;
+	if (curr->next && curr->next->type == TOKEN_WORD)
+	{
+		if (update_delimiters_array(cmd, curr->next->value) == -1)
+			return (-1);
+		cmd->last_redir_in = curr->next->value;
+		cmd->last_redir_in_type = 6;
+	}
+	return (0);
 }
 
 int	handle_input_redirect(t_token *curr, t_exec_node *cmd,

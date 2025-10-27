@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/27 11:08:04 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 11:52:02 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 			shell->tree = tree;
 			if (process_heredocs_in_tree(tree, shell) == 0)
 				execute_tree(tree, shell);
-			/* else
-				shell_error(shell, token->value, 1, EXIT_SUCCESS); */
 		}
 	}
 	free_execution_tree(tree, 1);
@@ -102,7 +100,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	token = NULL;
 	return (0);
 }
-
+/*
 void	print_tokens(t_token *list, t_shell *shell)
 {
 	int		i;
@@ -186,4 +184,4 @@ void	print_exec_tree(t_exec_node *node, int depth)
 		printf("Right:\n");
 		print_exec_tree(node->right, depth + 1);
 	}
-}
+}*/

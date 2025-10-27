@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:03 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/24 16:07:30 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 11:23:06 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ static int	read_heredoc_input(const char *delimiter, int fd)
 	return (0);
 }
 
-static void	heredoc_child(const char *delimiter, int fd, t_shell *shell, char *filename)
+void	heredoc_child(const char *delimiter, int fd,
+		t_shell *shell, char *filename)
 {
-	int exit_code;
+	int	exit_code;
 
 	if (dup2(fd, 42) == -1)
 	{
@@ -66,29 +67,30 @@ static void	heredoc_child(const char *delimiter, int fd, t_shell *shell, char *f
 	exit(exit_code);
 }
 
-static char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)
+static int	handle_heredoc_interrupt(int status, char *filename, t_shell *shell)
 {
-	t_list		*new_node;
+	if ((my_wifsignaled(status) && my_wtermsig(status) == SIGINT)
+		|| (my_wifexited(status) && manual_wexitstatus(status) == 130))
+	{
+		unlink(filename);
+		free(filename);
+		if (my_wifexited(status))
+			shell->last_exit_status = 130;
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		return (1);
+	}
+	return (0);
+}
+
+char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)
+{
+	t_list	*new_node;
 
 	close(fd);
 	restore_main_signals();
-	if (my_wifsignaled(status) && my_wtermsig(status) == SIGINT)
-	{
-		unlink(filename);
-		free(filename);
-		rl_replace_line("", 0);
-		rl_on_new_line();
+	if (handle_heredoc_interrupt(status, filename, shell))
 		return (NULL);
-	}
-	if (my_wifexited(status) && manual_wexitstatus(status) == 130)
-	{
-		unlink(filename);
-		free(filename);
-		shell->last_exit_status = 130;
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		return (NULL);
-	}
 	new_node = ft_lstnew(filename);
 	if (!new_node)
 	{
@@ -97,34 +99,4 @@ static char	*heredoc_parent(int fd, int status, char *filename, t_shell *shell)
 	}
 	ft_lstadd_back(&shell->heredoc_files, new_node);
 	return (filename);
-}
-
-char	*create_heredoc(const char *delimiter, t_shell *shell)
-{
-	int		fd;
-	int		status;
-	pid_t	pid;
-	char	*filename;
-
-	g_exit_status = 0;
-	fd = create_temp_file(&filename);
-	if (fd < 0)
-		return (NULL);
-	signal(SIGINT, SIG_IGN);
-	pid = fork();
-	if (pid == 0)
-		heredoc_child(delimiter, fd, shell, filename);
-	else if (pid > 0)
-	{
-		close(fd);
-		waitpid(pid, &status, 0);
-		restore_main_signals();
-		return (heredoc_parent(fd, status, filename, shell));
-	}
-	close(fd);
-	shell->temp_heredoc_path = filename;
-	unlink(filename);
-	free(filename);
-	restore_main_signals();
-	return (NULL);
 }

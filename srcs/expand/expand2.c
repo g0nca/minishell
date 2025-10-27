@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:29:58 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/24 11:23:29 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:43:46 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,9 @@ void	copy_env_value(const char **input, char **current, char **envp)
 		handle_question_mark(input, current);
 		return ;
 	}
-	if (ft_isalpha(**input) || **input == '_')
+	if (**input == '!')
+		*(*current)++ = '\0';
+	if (ft_isalnum(**input) || **input == '_' || **input == '!')
 	{
 		handle_env_variable_expansion(input, current, envp);
 		return ;

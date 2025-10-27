@@ -62,7 +62,7 @@ static void	setup_redirections_output(t_shell *shell, t_exec_node *node)
 {
 	if (node->append_file)
 	{
-		node->fd_out = open(node->append_file, O_WRONLY
+			node->fd_out = open(node->append_file, O_WRONLY
 				| O_CREAT | O_APPEND, 0644);
 	}
 	else
@@ -71,7 +71,7 @@ static void	setup_redirections_output(t_shell *shell, t_exec_node *node)
 				| O_CREAT | O_TRUNC, 0644);
 	}
 	if (node->fd_out == -1)
-		shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
+		shell_error(shell, "Open file error\n", 50, EXIT_SUCCESS);
 	dup2(node->fd_out, STDOUT_FILENO);
 	close(node->fd_out);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:37:53 by andrade           #+#    #+#             */
-/*   Updated: 2025/10/27 14:45:28 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:00:39 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_check_n_flag(t_token **current)
 	return (n_flag);
 }
 
-void	ft_print_tokens(t_token *current)
+void	ft_print_tokens(t_token *current, t_shell *shell)
 {
 	while (current)
 	{
@@ -70,7 +70,23 @@ void	ft_print_tokens(t_token *current)
 		}
 		else
 		{
-			ft_printf_fd(1, "%s", current->value);
+			if (current->value[0] == '~'
+				&& (current->value[1] == '\0' || current->value[1] == '/' ))
+			{
+				char *home = cd_getenv(shell, "HOME");
+				if (!home)
+					home = getenv("HOME");
+				if (home)
+				{
+					char *expanded = ft_strjoin(home, current->value + 1);
+					ft_printf_fd(1, "%s", expanded);
+					free(expanded);
+				}
+				else
+					ft_printf_fd(1, "%s", current->value);
+			}
+			else
+				ft_printf_fd(1, "%s", current->value);
 		}
 		current = current->next;
 		if (current && !(current->type == TOKEN_REDIR_IN
@@ -89,7 +105,7 @@ void	ft_echo(t_token *list, t_shell *shell)
 	current = list->next;
 	ft_skip_redirections(&current);
 	n_flag = ft_check_n_flag(&current);
-	ft_print_tokens(current);
+	ft_print_tokens(current, shell);
 	if (!n_flag)
 		ft_printf_fd(1, "\n");
 	shell->last_exit_status = EXIT_SUCCESS;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/27 14:26:08 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:58:39 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,7 +321,7 @@ void		run_builtin(t_token *cmd, t_shell *shell);
 // builtins/*.c =================================================
 //echo:
 void		ft_echo(t_token *list, t_shell *shell);
-void		ft_print_tokens(t_token *current);
+void		ft_print_tokens(t_token *current, t_shell *shell);
 int			ft_check_n_flag(t_token **current);
 void		ft_skip_redirections(t_token **current);
 //pwd:

@@ -21,6 +21,10 @@ char	**tokens_to_argv(t_token *start, t_token *end)
 	argv = malloc(sizeof(char *) * (count + 1));
 	if (!argv)
 		return (NULL);
+<<<<<<< HEAD
 	fill_argv_array(start, end, argv, &count);
+=======
+	fill_argv_array(start, end, argv, count);
+>>>>>>> PIPES
 	return (argv);
 }

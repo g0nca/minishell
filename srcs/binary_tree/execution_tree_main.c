@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   execution_tree_main.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
 /*   Updated: 2025/10/28 12:42:20 by ggomes-v         ###   ########.fr       */
+=======
+/*   By: ggomes-v <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
+/*   Updated: 2025/05/29 11:03:14 by ggomes-v         ###   ########.fr       */
+>>>>>>> PIPES
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+<<<<<<< HEAD
 static void	child_process(t_exec_node *node, t_shell *shell)
 {
 	signal(SIGINT, SIG_DFL);
@@ -84,12 +92,53 @@ static void	execute_external_command(t_exec_node *node, t_shell *shell)
 		child_process(node, shell);
 	else if (pid > 0)
 		parent_process(pid, shell);
+=======
+void	handle_child_process(t_exec_node *node, t_shell *shell)
+{
+	execute_tree(node, shell);
+	exit(shell->last_exit_status);
+}
+
+void	handle_parent_process(pid_t pid, t_shell *shell)
+{
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (manual_wifexited(status))
+		shell->last_exit_status = manual_wexitstatus(status);
+	else
+		shell->last_exit_status = 1;
+>>>>>>> PIPES
 }
 
 void	execute_command_tree(t_exec_node *node, t_shell *shell)
 {
+<<<<<<< HEAD
 	if (is_builtin(node->cmd[0]))
 		execute_builtin_with_redirects(node, shell);
 	else if (node->cmd != NULL)
 		execute_external_command(node, shell);
+=======
+	pid_t	pid;
+
+	if (!node)
+		return ;
+	if (node->type == NODE_COMMAND
+		&& node->fd_in == -1 && node->fd_out == -1)
+	{
+		execute_tree(node, shell);
+		return ;
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		shell->last_exit_status = 1;
+		return ;
+	}
+	if (pid == 0)
+		handle_child_process(node, shell);
+	else
+		handle_parent_process(pid, shell);
+>>>>>>> PIPES
 }

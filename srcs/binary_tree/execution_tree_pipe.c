@@ -12,6 +12,7 @@
 
 #include "../../inc/minishell.h"
 
+<<<<<<< HEAD
 void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node,
 			t_shell *shell)
 {
@@ -24,10 +25,30 @@ void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node,
 		dup2(node->left->fd_out, STDOUT_FILENO);
 	close(pipe_fd[1]);
 	execute_tree(node->left, shell);
+=======
+int	manual_wifexited(int status)
+{
+	return ((status & 0x7f) == 0);
+}
+
+int	manual_wexitstatus(int status)
+{
+	return ((status & 0xff00) >> 8);
+}
+
+void	setup_pipe_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
+{
+	close(pipe_fd[0]);
+	dup2(pipe_fd[1], STDOUT_FILENO);
+	close(pipe_fd[1]);
+	execute_tree(node->left, shell);
+	exit(shell->last_exit_status);
+>>>>>>> PIPES
 }
 
 void	setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 {
+<<<<<<< HEAD
 	if (!node || !node->right)
 		return ;
 	close(pipe_fd[1]);
@@ -37,6 +58,13 @@ void	setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 		dup2(node->right->fd_in, STDIN_FILENO);
 	close(pipe_fd[0]);
 	execute_tree(node->right, shell);
+=======
+	close(pipe_fd[1]);
+	dup2(pipe_fd[0], STDIN_FILENO);
+	close(pipe_fd[0]);
+	execute_tree(node->right, shell);
+	exit(shell->last_exit_status);
+>>>>>>> PIPES
 }
 
 void	handle_pipe_parent(int *pipe_fd, pid_t left_pid,
@@ -46,6 +74,7 @@ void	handle_pipe_parent(int *pipe_fd, pid_t left_pid,
 
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
+<<<<<<< HEAD
 	if (left_pid > 0)
 		waitpid(left_pid, &status, 0);
 	if (right_pid > 0)
@@ -54,4 +83,12 @@ void	handle_pipe_parent(int *pipe_fd, pid_t left_pid,
 		if (my_wifexited(status))
 			shell->last_exit_status = manual_wexitstatus(status);
 	}
+=======
+	waitpid(left_pid, &status, 0);
+	waitpid(right_pid, &status, 0);
+	if (manual_wifexited(status))
+		shell->last_exit_status = manual_wexitstatus(status);
+	else
+		shell->last_exit_status = 1;
+>>>>>>> PIPES
 }

@@ -32,6 +32,7 @@ void	tokenizer_word(t_token *list, int *i, char *line)
 	char	*joined;
 	int		type_quotes;
 
+<<<<<<< HEAD
 	type_quotes = 0;
 	joined = NULL;
 	if (!list || !i || !line)
@@ -48,6 +49,51 @@ void	tokenizer_word(t_token *list, int *i, char *line)
 			return ;
 	}
 	add_final_token(list, joined);
+=======
+    type_quotes = 0;
+    joined = NULL;
+    if (!list || !i || !line)
+        return;
+    // Process all characters in current word
+    while (line[*i] && !ft_isspace(line[*i]) &&
+           line[*i] != '|' && line[*i] != '<' && line[*i] != '>')
+    {
+        if (line[*i] == '\'' || line[*i] == '\"')
+            word = handle_quoted_text(line, i, &type_quotes, list);
+        else
+            word = handle_regular_text(line, i);
+        joined = join_word(joined, word);
+        if (!joined)
+            return ;
+    }
+    // Add the final token to the list
+    add_final_token(list, joined);
+}
+// Function to handle quoted text in tokenizer
+char *handle_quoted_text(char *line, int *i, int *type_quotes, t_token *list)
+{
+    char quote;
+    char *word;
+    int start;
+    int end;
+    
+    quote = line[*i];
+    *type_quotes = ternary_operator(list, quote);
+    start = *i;           // Marca a posição da aspa inicial
+    (*i)++;               // Avança para dentro das aspas
+
+    while (line[*i] && line[*i] != quote)
+        (*i)++;           // Avança até encontrar a aspa de fechamento
+
+    if (line[*i] == quote)
+        (*i)++;           // Inclui a aspa de fechamento no recorte final
+
+    end = *i;
+
+    // Caso haja outra aspa imediatamente a seguir (ex: 'abc'"def")
+    word = ft_strndup(&line[start], end - start); // Inclui aspas
+    return (word);
+>>>>>>> PIPES
 }
 
 /**

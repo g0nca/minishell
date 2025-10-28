@@ -26,8 +26,11 @@ pid_t	fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 {
 	pid_t	left_pid;
 
+<<<<<<< HEAD
 	if (!node->left)
 		return (0);
+=======
+>>>>>>> PIPES
 	left_pid = fork();
 	if (left_pid == -1)
 	{
@@ -37,6 +40,7 @@ pid_t	fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 		return (-1);
 	}
 	if (left_pid == 0)
+<<<<<<< HEAD
 	{
 		signal(SIGPIPE, SIG_IGN);
 		setup_pipe_left_child(pipe_fd, node, shell);
@@ -48,6 +52,9 @@ pid_t	fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell)
 		free(shell);
 		exit(g_exit_status);
 	}
+=======
+		setup_pipe_left_child(pipe_fd, node, shell);
+>>>>>>> PIPES
 	return (left_pid);
 }
 
@@ -56,14 +63,18 @@ pid_t	fork_right_child(int *pipe_fd, t_exec_node *node,
 {
 	pid_t	right_pid;
 
+<<<<<<< HEAD
 	if (!node->right)
 		return (0);
+=======
+>>>>>>> PIPES
 	right_pid = fork();
 	if (right_pid == -1)
 	{
 		perror("fork");
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
+<<<<<<< HEAD
 		return (waitpid(left_pid, NULL, 0), -1);
 	}
 	if (right_pid == 0)
@@ -78,6 +89,13 @@ pid_t	fork_right_child(int *pipe_fd, t_exec_node *node,
 		free(shell);
 		exit(g_exit_status);
 	}
+=======
+		waitpid(left_pid, NULL, 0);
+		return (-1);
+	}
+	if (right_pid == 0)
+		setup_pipe_right_child(pipe_fd, node, shell);
+>>>>>>> PIPES
 	return (right_pid);
 }
 
@@ -89,6 +107,7 @@ void	execute_pipe_node(t_exec_node *node, t_shell *shell)
 
 	if (create_pipe_and_check(pipe_fd) == -1)
 		return ;
+<<<<<<< HEAD
 	if (node->left)
 		left_pid = fork_left_child(pipe_fd, node, shell);
 	else
@@ -105,6 +124,12 @@ void	execute_pipe_node(t_exec_node *node, t_shell *shell)
 		right_pid = 0;
 		shell->last_exit_status = 1;
 	}
+=======
+	left_pid = fork_left_child(pipe_fd, node, shell);
+	if (left_pid == -1)
+		return ;
+	right_pid = fork_right_child(pipe_fd, node, shell, left_pid);
+>>>>>>> PIPES
 	if (right_pid == -1)
 		return ;
 	handle_pipe_parent(pipe_fd, left_pid, right_pid, shell);

@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:37:53 by andrade           #+#    #+#             */
-/*   Updated: 2025/10/27 16:00:39 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/10/28 09:09:25 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,49 +52,6 @@ int	ft_check_n_flag(t_token **current)
 		ft_skip_redirections(current);
 	}
 	return (n_flag);
-}
-
-void	ft_print_tokens(t_token *current, t_shell *shell)
-{
-	while (current)
-	{
-		if (current->type == TOKEN_REDIR_IN
-			|| current->type == TOKEN_REDIR_OUT
-			|| current->type == TOKEN_APPEND
-			|| current->type == TOKEN_HERE_DOC)
-		{
-			current = current->next;
-			if (current)
-				current = current->next;
-			continue ;
-		}
-		else
-		{
-			if (current->value[0] == '~'
-				&& (current->value[1] == '\0' || current->value[1] == '/' ))
-			{
-				char *home = cd_getenv(shell, "HOME");
-				if (!home)
-					home = getenv("HOME");
-				if (home)
-				{
-					char *expanded = ft_strjoin(home, current->value + 1);
-					ft_printf_fd(1, "%s", expanded);
-					free(expanded);
-				}
-				else
-					ft_printf_fd(1, "%s", current->value);
-			}
-			else
-				ft_printf_fd(1, "%s", current->value);
-		}
-		current = current->next;
-		if (current && !(current->type == TOKEN_REDIR_IN
-				|| current->type == TOKEN_REDIR_OUT
-				|| current->type == TOKEN_APPEND
-				|| current->type == TOKEN_HERE_DOC))
-			ft_printf_fd(1, " ");
-	}
 }
 
 void	ft_echo(t_token *list, t_shell *shell)

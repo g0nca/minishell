@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_tree_build_main_utils2.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 10:23:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/27 15:03:34 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 09:07:35 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	handle_input_redirect(t_token *curr, t_exec_node *cmd,
 int	handle_output_redirect(t_token *curr, t_exec_node *cmd,
 		t_shell *shell)
 {
-	//printf("curr->next:%s\nType_type:%d\n", curr->next->value, curr->next->type);
 	if (curr->next && curr->next->type == TOKEN_WORD)
 	{
 		if (open_output_file(cmd, curr->next->value, false, shell) < 0)

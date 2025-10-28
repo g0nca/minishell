@@ -6,7 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/27 15:58:39 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/10/28 09:14:58 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,10 @@ void		input_with_quotes(const char **input, char **current,
 void		copy_env_value(const char **input, char **current, char **envp);
 char		*get_env_value(const char *name, char **envp);
 int			should_skip_expansion(t_token *list, t_shell *shell);
+void		handle_double_dollar(const char **input, char **current);
+void		handle_question_mark(const char **input, char **current);
+void		handle_env_variable_expansion(const char **input,
+				char **current, char **envp);
 //===============================================================
 
 // calculate_final_size.c =======================================

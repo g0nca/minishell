@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/28 10:30:13 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 12:42:20 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,42 @@ static void	parent_process(pid_t pid, t_shell *shell)
 		shell->last_exit_status = manual_wexitstatus(status);
 }
 
-void	execute_command_tree(t_exec_node *node, t_shell *shell)
+static void	execute_builtin_with_redirects(t_exec_node *node, t_shell *shell)
 {
-	pid_t	pid;
-	int		stdin_backup;
-	int		stdout_backup;
+	int	stdin_backup;
+	int	stdout_backup;
 
-	if (is_builtin(node->cmd[0]))
+	stdin_backup = dup(STDIN_FILENO);
+	stdout_backup = dup(STDOUT_FILENO);
+	if (setup_redirections(shell, node) != 0)
 	{
-		stdin_backup = dup(STDIN_FILENO);
-		stdout_backup = dup(STDOUT_FILENO);
-		if (setup_redirections(shell, node) != 0)
-		{
-			shell->last_exit_status = 1;
-			close(stdin_backup);
-			close(stdout_backup);
-			return ;
-		}
-		execute_command_node(node, shell);
-		dup2(stdin_backup, STDIN_FILENO);
-		dup2(stdout_backup, STDOUT_FILENO);
+		shell->last_exit_status = 1;
 		close(stdin_backup);
 		close(stdout_backup);
+		return ;
 	}
+	execute_command_node(node, shell);
+	dup2(stdin_backup, STDIN_FILENO);
+	dup2(stdout_backup, STDOUT_FILENO);
+	close(stdin_backup);
+	close(stdout_backup);
+}
+
+static void	execute_external_command(t_exec_node *node, t_shell *shell)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+		child_process(node, shell);
+	else if (pid > 0)
+		parent_process(pid, shell);
+}
+
+void	execute_command_tree(t_exec_node *node, t_shell *shell)
+{
+	if (is_builtin(node->cmd[0]))
+		execute_builtin_with_redirects(node, shell);
 	else if (node->cmd != NULL)
-	{
-		pid = fork();
-		if (pid == 0)
-			child_process(node, shell);
-		else if (pid > 0)
-			parent_process(pid, shell);
-	}
+		execute_external_command(node, shell);
 }

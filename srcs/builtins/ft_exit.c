@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:59:40 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/28 12:27:44 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 12:37:04 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	ft_exit(t_shell *shell, t_token *args)
 		if (ft_strlen_exit(arg1) <= 19)
 		{
 			if (ft_strcmp(arg1, "9223372036854775808") == 0
-				|| ft_strcmp(arg1, "-9223372036854775809") == 0 || !is_valid_number(arg1))
+				|| ft_strcmp(arg1, "-9223372036854775809") == 0
+				|| !is_valid_number(arg1))
 				is_not_number(shell, arg1);
 			else
 				exit_code = normalize_exit_code(ft_atol(arg1));

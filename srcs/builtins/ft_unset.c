@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:46:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/28 12:23:48 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 12:35:46 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,8 @@ void	ft_unset(t_token *cmdargs, t_shell *shell)
 	current = cmdargs->next;
 	while (current)
 	{
-		if (!current->value || !is_valid_identifier(current->value))
-		{
-			//shell_error(shell, current->value, 10, false);
-			//shell->last_exit_status = 1;
-		}
-		else
-		{
-			remove_env_var(shell, current->value);
-			shell->last_exit_status = 0;
-		}
+		remove_env_var(shell, current->value);
+		shell->last_exit_status = 0;
 		current = current->next;
 	}
 }

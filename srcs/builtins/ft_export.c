@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:36:51 by joaomart          #+#    #+#             */
-/*   Updated: 2025/09/17 09:05:32 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/10/28 11:28:30 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	handle_export_argument(t_shell *shell, char *arg)
 	{
 		if (find_env_index(shell->env, arg) == -1)
 			env_add(shell, arg);
-		shell->last_exit_status = 0;
+		//shell->last_exit_status = 0;
 	}
 }
 

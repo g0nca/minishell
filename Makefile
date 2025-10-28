@@ -6,7 +6,7 @@
 #    By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:14:40 by ggomes-v          #+#    #+#              #
-#    Updated: 2025/10/28 15:52:11 by ggomes-v         ###   ########.fr        #
+#    Updated: 2025/10/28 15:53:23 by ggomes-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,20 +93,11 @@ MINISHELL_SRCS = srcs/main.c \
 				srcs/binary_tree/execution_tree_build_main_utils3.c \
 				srcs/binary_tree/execution_tree_command.c \
 				srcs/binary_tree/execution_tree_command2.c \
-				srcs/redirects/heredoc.c \
-				srcs/redirects/heredoc2.c \
-				srcs/redirects/redirects.c \
-				srcs/binary_tree/execution_tree_argv.c \
-				srcs/binary_tree/execution_tree_build_main.c \
-				srcs/binary_tree/execution_tree_build_utils.c \
-				srcs/binary_tree/execution_tree_command.c \
 				srcs/binary_tree/execution_tree_main.c \
 				srcs/binary_tree/execution_tree_pipe_helpers.c \
 				srcs/binary_tree/execution_tree_pipe.c \
 				srcs/binary_tree/execution_tree_redirect_utils.c \
 				srcs/binary_tree/execution_tree_token_utils.c
-				srcs/binary_tree/execution_tree_redirect.c \
-				srcs/binary_tree/execution_tree_token_utils.c 
 
 MINISHELL_OBJS_DIR = srcs/objs
 MINISHELL_OBJS = $(patsubst srcs/%.c, $(MINISHELL_OBJS_DIR)/%.o, $(MINISHELL_SRCS))

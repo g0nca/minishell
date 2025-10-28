@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:03:59 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/08 12:40:33 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 12:30:46 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	validate_redirect_target(const char *line, int i, t_shell *shell)
 		i++;
 	if (!line[i])
 	{
-		shell_error(shell, (char *)line, 7, EXIT_SUCCESS);
+		shell_error(shell, "`newline'", 7, EXIT_SUCCESS);
 		return (-1);
 	}
 	if (is_redirect(line[i]))

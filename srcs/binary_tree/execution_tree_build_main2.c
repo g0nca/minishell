@@ -23,13 +23,19 @@ int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell)
 	return (0);
 }
 
+<<<<<<< HEAD
 int	open_output_file(t_exec_node *cmd, char *filename,
 		int append, t_shell *shell)
+=======
+int  open_output_file(t_exec_node *cmd, char *filename,
+        int append, t_shell *shell)
+>>>>>>> Redirects_22_09
 {
 	(void)shell;
 	if (cmd->fd_out != -1)
 		close(cmd->fd_out);
 	if (append == 1)
+<<<<<<< HEAD
 		cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		cmd->fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -57,6 +63,38 @@ static int	process_redirects(t_token **start, t_exec_node *cmd,
 		curr = curr->next;
 	}
 	return (0);
+=======
+        fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    else
+		fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd_out == -1)
+    {
+        shell_error(shell, filename, 3, EXIT_SUCCESS);
+        return (-1);
+    }
+	else 
+		cmd->fd_out = fd_out;
+    return (0);
+}
+
+static int process_redirects(t_token **start, t_exec_node *cmd, 
+                           t_shell *shell, t_redirs *redirs)
+{
+    t_token *curr;
+    
+    curr = *start;
+    while (curr && curr->next)
+    {
+        if (curr->type == TOKEN_PIPE)
+            break;
+            
+        if (process_single_redirect(&curr, cmd, shell, redirs) < 0)
+            return (-1);
+            
+        curr = curr->next;
+    }
+    return (0);
+>>>>>>> Redirects_22_09
 }
 
 t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell)
@@ -66,7 +104,22 @@ t_exec_node	*wrap_with_redirects(t_token *start, t_token *end, t_shell *shell)
 	cmd = create_command_node(start, end);
 	if (!cmd)
 		return (NULL);
+<<<<<<< HEAD
 	if (process_redirects(&start, cmd, shell) < 0)
 		return (free_execution_tree(cmd, 1), NULL);
+=======
+	//ft_printf_fd(1, "TEST\n");
+	if (process_redirects(&start, cmd, shell, &redirs) < 0)
+	{
+		//shell_error(shell, "", 15, EXIT_SUCCESS);
+		return (free_execution_tree(cmd), NULL);
+	}
+	//print_exec_tree(cmd, 0);
+	/*if (apply_redirects(cmd, &redirs) < 0)
+	{
+		shell->last_exit_status = 1;
+		return (free_execution_tree(cmd), NULL);
+	}*/
+>>>>>>> Redirects_22_09
 	return (cmd);
 }

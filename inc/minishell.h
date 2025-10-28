@@ -7,10 +7,14 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2025/10/28 12:44:58 by ggomes-v         ###   ########.fr       */
 =======
 /*   Updated: 2025/05/29 14:15:32 by ggomes-v         ###   ########.fr       */
 >>>>>>> PIPES
+=======
+/*   Updated: 2025/09/24 10:10:12 by ggomes-v         ###   ########.fr       */
+>>>>>>> Redirects_22_09
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,6 +319,22 @@ int			add_token_to_argv(char **argv, int i, char *value);
 void execute_command_tree(t_exec_node *node, t_shell *shell);
 void handle_child_process(t_exec_node *node, t_shell *shell);
 void handle_parent_process(pid_t pid, t_shell *shell);
+//===================================================================
+// execute_tree_build_main_utils.c ==================================
+int process_single_redirect(t_token **curr_ptr, t_exec_node *cmd, 
+                                  t_shell *shell, t_redirs *redirs);
+int  open_output_file(t_exec_node *cmd, char *filename,
+        int append, t_shell *shell);
+int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell);
+//===================================================================
+// execute_tree_build_main_utils2.c =================================
+int handle_heredoc_tree(t_token *curr, t_shell *shell, t_redirs *redirs);
+int handle_input_redirect(t_token *curr, t_exec_node *cmd, 
+                                t_shell *shell, t_redirs *redirs);
+int handle_output_redirect(t_token *curr, t_exec_node *cmd, 
+                                 t_shell *shell, t_redirs *redirs);
+int handle_append_redirect(t_token *curr, t_exec_node *cmd, 
+                                 t_shell *shell, t_redirs *redirs);
 //===================================================================
 
 // execution_tree_command.c =========================================

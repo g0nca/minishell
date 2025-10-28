@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/28 11:16:41 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 12:44:58 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ void		handle_pipe_parent(int *pipe_fd, pid_t left_pid,
 
 // execute_tree_redirect_utils.c ================================
 int			is_redirection(t_token_type type);
-int		setup_redirections(t_shell *shell, t_exec_node *node);
+int			setup_redirections(t_shell *shell, t_exec_node *node);
 //===============================================================
 
 // execute_tree_token_utils.c ===================================

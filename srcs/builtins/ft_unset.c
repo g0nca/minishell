@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrade <andrade@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:46:10 by joaomart          #+#    #+#             */
-/*   Updated: 2025/05/27 21:41:36 by andrade          ###   ########.fr       */
+/*   Updated: 2025/10/28 12:23:48 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	ft_unset(t_token *cmdargs, t_shell *shell)
 	{
 		if (!current->value || !is_valid_identifier(current->value))
 		{
-			shell_error(shell, current->value, 10, false);
-			shell->last_exit_status = 1;
+			//shell_error(shell, current->value, 10, false);
+			//shell->last_exit_status = 1;
 		}
 		else
 		{

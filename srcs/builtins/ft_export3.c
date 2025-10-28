@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:51:31 by andrade           #+#    #+#             */
-/*   Updated: 2025/10/09 14:12:09 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 12:25:44 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void	process_export_assignment(t_shell *shell, char *arg)
 	free(key);
 	free(clean_value);
 	free(new_env_entry);
-	shell->last_exit_status = 0;
+	if (shell->last_exit_status == 0)
+		shell->last_exit_status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/28 15:55:17 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 15:56:05 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ typedef struct s_token
 	struct s_token	*prev;
 }					t_token;
 
-
 typedef enum e_node_type
 {
 	NODE_COMMAND,
@@ -86,9 +85,7 @@ typedef enum e_node_type
 	NODE_REDIRECT_APPEND,
 	HEREDOC,
 	NODE_LEFT,
-	NODE_RIGHT,
-	NODE_WORD,
-	NODE_REDIR_PATH
+	NODE_RIGHT
 }	t_node_type;
 
 typedef struct s_exec_node
@@ -109,23 +106,6 @@ typedef struct s_exec_node
 	t_token				*tokens;
 }						t_exec_node;
 
-typedef enum e_node_type {
-    NODE_COMMAND,
-    NODE_PIPE,
-    NODE_REDIRECT_IN,
-    NODE_REDIRECT_OUT,
-    NODE_REDIRECT_APPEND
-} t_node_type;
-
-typedef struct s_exec_node {
-    t_node_type         type;
-    char                **cmd;
-    struct s_exec_node  *left;
-    struct s_exec_node  *right;
-    int                 fd_in;
-    int                 fd_out;
-} t_exec_node;
-
 typedef struct s_parser
 {
 	int		i;
@@ -136,16 +116,13 @@ typedef struct s_parser
 int			main(int ac, char **av, char **envp);
 int			main_auxiliar(char *line, t_shell *shell, t_token *token);
 
-
-
-//  tokenizer.c ====================================================
-t_token *tokenizer(char *line, t_shell *shell);
-void add_token(t_token *list, char *val, t_token_type type);
-void add_token_to_list(t_token *list, t_token *new_token);
-t_token *create_token(char *val, t_token_type type);
-void add_final_token(t_token *list, char *joined);
-//========================================================================
-
+// tokenizer.c ==================================================
+t_token		*tokenizer(char *line, t_shell *shell);
+void		add_token(t_token *list, char *val, t_token_type type);
+void		add_token_to_list(t_token *list, t_token *new_token);
+t_token		*create_token(char *val, t_token_type type);
+void		add_final_token(t_token *list, char *joined);
+//===============================================================
 
 // process_token.c ==============================================
 void		process_token(t_token *list, char *line, int *i, t_shell *shell);
@@ -286,7 +263,6 @@ void		handle_pipe_parent(int *pipe_fd, pid_t left_pid,
 				pid_t right_pid, t_shell *shell);
 //===============================================================
 
-<<<<<<< HEAD
 // execute_tree_redirect_utils.c ================================
 int			is_redirection(t_token_type type);
 int			setup_redirections(t_shell *shell, t_exec_node *node);
@@ -299,85 +275,6 @@ void		fill_argv_array(t_token *start, t_token *end,
 				char **argv, int *count);
 int			add_token_to_argv(char **argv, int i, char *value);
 //===============================================================
-=======
-// execution_tree_main.c=============================================
-void execute_command_tree(t_exec_node *node, t_shell *shell);
-void handle_child_process(t_exec_node *node, t_shell *shell);
-void handle_parent_process(pid_t pid, t_shell *shell);
-//===================================================================
-// execute_tree_build_main_utils.c ==================================
-int process_single_redirect(t_token **curr_ptr, t_exec_node *cmd, 
-                                  t_shell *shell, t_redirs *redirs);
-int  open_output_file(t_exec_node *cmd, char *filename,
-        int append, t_shell *shell);
-int	open_input_file(t_exec_node *cmd, char *filename, t_shell *shell);
-//===================================================================
-// execute_tree_build_main_utils2.c =================================
-int handle_heredoc_tree(t_token *curr, t_shell *shell, t_redirs *redirs);
-int handle_input_redirect(t_token *curr, t_exec_node *cmd, 
-                                t_shell *shell, t_redirs *redirs);
-int handle_output_redirect(t_token *curr, t_exec_node *cmd, 
-                                 t_shell *shell, t_redirs *redirs);
-int handle_append_redirect(t_token *curr, t_exec_node *cmd, 
-                                 t_shell *shell, t_redirs *redirs);
-//===================================================================
-
-// execution_tree_command.c =========================================
-void execute_tree(t_exec_node *node, t_shell *shell);
-void setup_file_descriptors(t_exec_node *node);
-t_token *create_token_chain(char **cmd);
-void execute_command_node(t_exec_node *node, t_shell *shell);
-void free_cmd(char **cmd);
-//===================================================================
-
-// execution_tree_redirect.c ========================================
-void execute_input_redirect(t_exec_node *node, t_shell *shell);
-void execute_output_redirect(t_exec_node *node, t_shell *shell);
-//===================================================================
-
-// execution_tree_argv.c ============================================
-char **tokens_to_argv(t_token *start, t_token *end);
-//===================================================================
-
-// execute_tree_build_main.c ========================================
-t_exec_node *build_execution_tree(t_token *start, t_token *end);
-void free_execution_tree(t_exec_node *node);
-//===================================================================
-
-// execution_tree_build_utils.c =====================================
-t_token *find_last_pipe(t_token *start, t_token *end);
-t_exec_node *create_pipe_node(t_token *start, t_token *last_pipe, t_token *end);
-t_node_type get_redirect_node_type(t_token_type type);
-t_exec_node *create_command_node(t_token *start, t_token *end);
-//===================================================================
-
-// execute_tree_pipe_helpers.c ======================================
-pid_t fork_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell, pid_t left_pid);
-pid_t fork_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
-void execute_pipe_node(t_exec_node *node, t_shell *shell);
-int create_pipe_and_check(int *pipe_fd);
-//===================================================================
-
-// execute_tree_pipe.c ==============================================
-int manual_wifexited(int status);
-int manual_wexitstatus(int status);
-void setup_pipe_left_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
-void setup_pipe_right_child(int *pipe_fd, t_exec_node *node, t_shell *shell);
-void handle_pipe_parent(int *pipe_fd, pid_t left_pid, pid_t right_pid, t_shell *shell);
-//===================================================================
-
-// execute_tree_redirect_utils.c ====================================
-t_exec_node *create_redirect_node(t_token *start, t_token *curr, t_token *end);
-t_exec_node *find_and_create_redirect_node(t_token *start, t_token *end);
-int is_redirection(t_token_type type);
-//===================================================================
-
-// execute_tree_token_utils.c =======================================
-int count_valid_tokens(t_token *start, t_token *end);
-void cleanup_argv_on_error(char **argv, int count);
-void fill_argv_array(t_token *start, t_token *end, char **argv, int count);
-//===================================================================
->>>>>>> PIPES
 
 // syntax_error.c ===============================================
 int			check_double_pipes(const char *line, t_shell *shell);
@@ -484,7 +381,6 @@ int			ft_backup_stdio(int *stdin_backup, int *stdout_backup);
 void		ft_restore_stdio(int stdin_backup, int stdout_backup);
 //===============================================================
 
-<<<<<<< HEAD
 //heredoc.c======================================================
 void		handle_heredoc(t_token *token, t_shell *shell);
 int			process_heredoc(t_token *token, t_shell *shell);
@@ -500,12 +396,6 @@ char		*heredoc_parent(int fd, int status, char *filename, t_shell *shell);
 void		heredoc_child(const char *delimiter, int fd,
 				t_shell *shell, char *filename);
 //===============================================================
-=======
-//EXTRAS ==========================================================
-void print_tokens(t_token *list, t_shell *shell);
-//void print_tokens_without_shell(t_token *list);
-//========================================================================
->>>>>>> PIPES
 
 //signals.c======================================================
 void		setup_signals(void);
@@ -518,17 +408,7 @@ void		restore_main_signals(void);
 //error.c =======================================================
 void		shell_error(t_shell *shell, char *str, int error, bool exit_flag);
 void		ft_error(int error, char *str, t_shell *shell);
-<<<<<<< HEAD
 //===============================================================
-=======
-//=================================================================
-
-//EXTRAS ==========================================================
-void	print_tokens(t_token *list, t_shell *shell);
-void	print_exec_tree(t_exec_node *node, int depth);
-const char	*node_type_to_str(t_node_type type);
-//=================================================================
->>>>>>> fix_errors
 
 //EXTRAS ========================================================
 void		print_tokens(t_token *list, t_shell *shell);

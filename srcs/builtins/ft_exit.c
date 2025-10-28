@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:59:40 by joaomart          #+#    #+#             */
-/*   Updated: 2025/10/16 13:39:54 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 12:19:44 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static int	is_valid_number(const char *str)
 	while (str[i] == '+')
 		i++;
 	if (!str[i])
+		return (0);
+	if (i > 1)
 		return (0);
 	while (str[i])
 	{
@@ -77,7 +79,8 @@ void	ft_exit(t_shell *shell, t_token *args)
 	arg1 = get_token_value(args, 1);
 	arg2 = get_token_value(args, 2);
 	if (arg1 && arg2)
-		too_many_arguments(shell);
+		if (too_many_arguments(shell) == 0)
+			return ;
 	if (arg1)
 	{
 		if (ft_strlen_exit(arg1) <= 19)

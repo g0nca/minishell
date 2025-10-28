@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:46:00 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/09/17 09:05:01 by joaomart         ###   ########.fr       */
+/*   Updated: 2025/10/28 12:02:51 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ int	too_many_arguments(t_shell *shell)
 {
 	ft_printf_fd(2, "minishell: exit: too many arguments\n");
 	shell->last_exit_status = 1;
-	exit(1);
+	shell->running = 1;
+	//exit(1);
+	return (0);
 }

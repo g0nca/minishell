@@ -6,23 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2025/10/28 12:44:58 by ggomes-v         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/29 14:15:32 by ggomes-v         ###   ########.fr       */
->>>>>>> PIPES
-=======
-/*   Updated: 2025/09/24 10:10:12 by ggomes-v         ###   ########.fr       */
->>>>>>> Redirects_22_09
-=======
-/*   Updated: 2025/06/16 15:47:13 by ggomes-v         ###   ########.fr       */
->>>>>>> SolveRedirs-16/06
-=======
-/*   Updated: 2025/09/19 15:53:56 by ggomes-v         ###   ########.fr       */
->>>>>>> fix_errors
+/*   Updated: 2025/10/28 15:55:17 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +76,7 @@ typedef struct s_token
 	struct s_token	*prev;
 }					t_token;
 
-<<<<<<< HEAD
+
 typedef enum e_node_type
 {
 	NODE_COMMAND,
@@ -100,14 +84,11 @@ typedef enum e_node_type
 	NODE_REDIRECT_IN,
 	NODE_REDIRECT_OUT,
 	NODE_REDIRECT_APPEND,
-<<<<<<< HEAD
 	HEREDOC,
 	NODE_LEFT,
-	NODE_RIGHT
-=======
+	NODE_RIGHT,
 	NODE_WORD,
 	NODE_REDIR_PATH
->>>>>>> fix_errors
 }	t_node_type;
 
 typedef struct s_exec_node
@@ -127,7 +108,7 @@ typedef struct s_exec_node
 	int					last_redir_in_type;
 	t_token				*tokens;
 }						t_exec_node;
-=======
+
 typedef enum e_node_type {
     NODE_COMMAND,
     NODE_PIPE,
@@ -145,8 +126,6 @@ typedef struct s_exec_node {
     int                 fd_out;
 } t_exec_node;
 
->>>>>>> PIPES
-
 typedef struct s_parser
 {
 	int		i;
@@ -157,15 +136,8 @@ typedef struct s_parser
 int			main(int ac, char **av, char **envp);
 int			main_auxiliar(char *line, t_shell *shell, t_token *token);
 
-<<<<<<< HEAD
-// tokenizer.c ==================================================
-t_token		*tokenizer(char *line, t_shell *shell);
-void		add_token(t_token *list, char *val, t_token_type type);
-void		add_token_to_list(t_token *list, t_token *new_token);
-t_token		*create_token(char *val, t_token_type type);
-void		add_final_token(t_token *list, char *joined);
-//===============================================================
-=======
+
+
 //  tokenizer.c ====================================================
 t_token *tokenizer(char *line, t_shell *shell);
 void add_token(t_token *list, char *val, t_token_type type);
@@ -173,7 +145,7 @@ void add_token_to_list(t_token *list, t_token *new_token);
 t_token *create_token(char *val, t_token_type type);
 void add_final_token(t_token *list, char *joined);
 //========================================================================
->>>>>>> PIPES
+
 
 // process_token.c ==============================================
 void		process_token(t_token *list, char *line, int *i, t_shell *shell);

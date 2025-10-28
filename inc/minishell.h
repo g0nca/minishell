@@ -9,6 +9,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2025/10/28 12:44:58 by ggomes-v         ###   ########.fr       */
 =======
 /*   Updated: 2025/05/29 14:15:32 by ggomes-v         ###   ########.fr       */
@@ -19,6 +20,9 @@
 =======
 /*   Updated: 2025/06/16 15:47:13 by ggomes-v         ###   ########.fr       */
 >>>>>>> SolveRedirs-16/06
+=======
+/*   Updated: 2025/09/19 15:53:56 by ggomes-v         ###   ########.fr       */
+>>>>>>> fix_errors
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +100,14 @@ typedef enum e_node_type
 	NODE_REDIRECT_IN,
 	NODE_REDIRECT_OUT,
 	NODE_REDIRECT_APPEND,
+<<<<<<< HEAD
 	HEREDOC,
 	NODE_LEFT,
 	NODE_RIGHT
+=======
+	NODE_WORD,
+	NODE_REDIR_PATH
+>>>>>>> fix_errors
 }	t_node_type;
 
 typedef struct s_exec_node
@@ -537,7 +546,17 @@ void		restore_main_signals(void);
 //error.c =======================================================
 void		shell_error(t_shell *shell, char *str, int error, bool exit_flag);
 void		ft_error(int error, char *str, t_shell *shell);
+<<<<<<< HEAD
 //===============================================================
+=======
+//=================================================================
+
+//EXTRAS ==========================================================
+void	print_tokens(t_token *list, t_shell *shell);
+void	print_exec_tree(t_exec_node *node, int depth);
+const char	*node_type_to_str(t_node_type type);
+//=================================================================
+>>>>>>> fix_errors
 
 //EXTRAS ========================================================
 void		print_tokens(t_token *list, t_shell *shell);

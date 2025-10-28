@@ -8,6 +8,7 @@
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2025/10/28 11:18:07 by ggomes-v         ###   ########.fr       */
 =======
 /*   Updated: 2025/05/29 14:26:12 by ggomes-v         ###   ########.fr       */
@@ -15,6 +16,9 @@
 =======
 /*   Updated: 2025/06/02 16:18:56 by ggomes-v         ###   ########.fr       */
 >>>>>>> SolveRedirs
+=======
+/*   Updated: 2025/09/19 15:43:54 by ggomes-v         ###   ########.fr       */
+>>>>>>> fix_errors
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +102,7 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 		delete_quotes(&token, shell);
 		shell->token = token;
 		tree = build_execution_tree(token, NULL, shell);
+<<<<<<< HEAD
 		shell->tree = tree;
 		if (tree)
 		{
@@ -105,6 +110,10 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 				execute_tree(tree, shell);
 		}
 <<<<<<< HEAD
+=======
+		print_exec_tree(tree, 0);
+		execute_tree(tree, shell);
+>>>>>>> fix_errors
 	}
 	free_execution_tree(tree, 1);
 	tree = NULL;
@@ -122,7 +131,81 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 >>>>>>> PIPES
 }
 
+<<<<<<< HEAD
 /* void	print_tokens(t_token *list, t_shell *shell)
+=======
+#include <stdio.h>
+
+// Função auxiliar para imprimir o tipo de nó em string
+const char	*node_type_to_str(t_node_type type)
+{
+	if (type == NODE_COMMAND)
+		return "NODE_COMMAND";
+	else if (type == NODE_PIPE)
+		return "PIPE";
+	else if (type == NODE_REDIRECT_IN)
+		return "REDIRECT_IN";
+	else if (type == NODE_REDIRECT_OUT)
+		return "REDIRECT_OUT";
+	else if (type == NODE_REDIRECT_APPEND)
+		return "REDIRECT_APPEND";
+	else if (type == NODE_REDIR_PATH)
+		return "NODE_REDIR_PATH";
+	else if (type == NODE_WORD)
+		return "NODE_WORD";
+	return "UNKNOWN";
+}
+
+// Função para imprimir a árvore de execução
+void	print_exec_tree(t_exec_node *node, int depth)
+{
+	int	i;
+
+	if (!node)
+		return;
+
+	// Indentação para ver hierarquia
+	for (i = 0; i < depth; i++)
+		printf("  ");
+
+	printf("Node Type: %s\n", node_type_to_str(node->type));
+
+	// Imprimir comando se existir
+	if (node->cmd)
+	{
+		for (i = 0; node->cmd[i]; i++)
+		{
+			int j;
+			for (j = 0; j < depth; j++)
+				printf("  ");
+			printf("  cmd[%d][%s]: %s\n", i, node_type_to_str(node->type), node->cmd[i]);
+		}
+	}
+
+	// Mostrar fds
+	for (i = 0; i < depth; i++)
+		printf("  ");
+	printf("  fd_in: %d, fd_out: %d\n", node->fd_in, node->fd_out);
+
+	// Recursão para os filhos
+	if (node->left)
+	{
+		for (i = 0; i < depth; i++)
+			printf("  ");
+		printf("Left:\n");
+		print_exec_tree(node->left, depth + 1);
+	}
+	if (node->right)
+	{
+		for (i = 0; i < depth; i++)
+			printf("  ");
+		printf("Right:\n");
+		print_exec_tree(node->right, depth + 1);
+	}
+}
+
+void	print_tokens(t_token *list, t_shell *shell)
+>>>>>>> fix_errors
 {
 <<<<<<< HEAD
 	int		i;

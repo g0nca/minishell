@@ -21,16 +21,16 @@ static int	fill_command_array(t_exec_node *node, t_token *start, t_token *end)
 	i = 0;
 	while (current && current != end)
 	{
-		if (current->type == TOKEN_CMD || current->type == TOKEN_WORD)
+		if (current->type != -1)
 		{
 			if (handle_command_token(node, current, &i) == -1)
 				return (-1);
 			current = current->next;
 		}
-		else if (is_redirection_token(current->type))
+		/*else if (is_redirection_token(current->type))
 		{
 			skip_redirection_token(&current, end);
-		}
+		}*/
 		else if (current->type == TOKEN_PIPE)
 			break ;
 		else

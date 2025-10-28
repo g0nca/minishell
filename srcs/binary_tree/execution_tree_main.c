@@ -7,6 +7,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/10/28 12:42:20 by ggomes-v         ###   ########.fr       */
 =======
 /*   By: ggomes-v <marvin@42.fr>                    +#+  +:+       +#+        */
@@ -14,6 +15,9 @@
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
 /*   Updated: 2025/05/29 11:03:14 by ggomes-v         ###   ########.fr       */
 >>>>>>> PIPES
+=======
+/*   Updated: 2025/09/17 14:57:08 by ggomes-v         ###   ########.fr       */
+>>>>>>> fix_errors
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +62,7 @@ static void	parent_process(pid_t pid, t_shell *shell)
 			shell->last_exit_status = 131;
 		}
 	}
+<<<<<<< HEAD
 	else
 		shell->last_exit_status = manual_wexitstatus(status);
 }
@@ -109,6 +114,9 @@ void	handle_parent_process(pid_t pid, t_shell *shell)
 	else
 		shell->last_exit_status = 1;
 >>>>>>> PIPES
+=======
+	shell->last_exit_status = manual_wexitstatus(status);
+>>>>>>> fix_errors
 }
 
 void	execute_command_tree(t_exec_node *node, t_shell *shell)

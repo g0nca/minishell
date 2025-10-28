@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:01:13 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/23 16:20:18 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 10:30:13 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,13 @@ void	execute_command_tree(t_exec_node *node, t_shell *shell)
 	{
 		stdin_backup = dup(STDIN_FILENO);
 		stdout_backup = dup(STDOUT_FILENO);
-		setup_redirections(shell, node);
+		if (setup_redirections(shell, node) != 0)
+		{
+			shell->last_exit_status = 1;
+			close(stdin_backup);
+			close(stdout_backup);
+			return ;
+		}
 		execute_command_node(node, shell);
 		dup2(stdin_backup, STDIN_FILENO);
 		dup2(stdout_backup, STDOUT_FILENO);

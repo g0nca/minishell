@@ -46,10 +46,12 @@ void	handle_pipe_parent(int *pipe_fd, pid_t left_pid,
 
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	waitpid(left_pid, &status, 0);
-	waitpid(right_pid, &status, 0);
-	if (my_wifexited(status))
-		shell->last_exit_status = manual_wexitstatus(status);
-	else
-		shell->last_exit_status = 1;
+	if (left_pid > 0)
+		waitpid(left_pid, &status, 0);
+	if (right_pid > 0)
+	{
+		waitpid(right_pid, &status, 0);
+		if (my_wifexited(status))
+			shell->last_exit_status = manual_wexitstatus(status);
+	}
 }

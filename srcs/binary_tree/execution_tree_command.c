@@ -44,7 +44,7 @@ void	execute_tree(t_exec_node *node, t_shell *shell)
 		unlink(node->heredoc);
 }
 
-static void	setup_redirections_input(t_shell *shell, t_exec_node *node)
+static int	setup_redirections_input(t_shell *shell, t_exec_node *node)
 {
 	if (node->fd_in != -1)
 		close(node->fd_in);
@@ -53,12 +53,16 @@ static void	setup_redirections_input(t_shell *shell, t_exec_node *node)
 	else if (node->last_redir_in_type == 3)
 		node->fd_in = open(node->last_redir_in, O_RDONLY);
 	if (node->fd_in == -1)
+	{
 		shell_error(shell, "Open file error\n", 50, EXIT_FAILURE);
+		return (-1);
+	}
 	dup2(node->fd_in, STDIN_FILENO);
 	close(node->fd_in);
+	return (0);
 }
 
-static void	setup_redirections_output(t_shell *shell, t_exec_node *node)
+static int	setup_redirections_output(t_shell *shell, t_exec_node *node)
 {
 	if (node->append_file)
 	{
@@ -71,15 +75,26 @@ static void	setup_redirections_output(t_shell *shell, t_exec_node *node)
 				| O_CREAT | O_TRUNC, 0644);
 	}
 	if (node->fd_out == -1)
+	{
 		shell_error(shell, "Open file error\n", 50, EXIT_SUCCESS);
+		return (-1);
+	}
 	dup2(node->fd_out, STDOUT_FILENO);
 	close(node->fd_out);
+	return (0);
 }
 
-void	setup_redirections(t_shell *shell, t_exec_node *node)
+int	setup_redirections(t_shell *shell, t_exec_node *node)
 {
 	if (node->input_file || node->heredoc)
-		setup_redirections_input(shell, node);
+	{
+		if (setup_redirections_input(shell, node) != 0)
+			return (-1);
+	}
 	if (node->output_file || node->append_file)
-		setup_redirections_output(shell, node);
+	{
+		if (setup_redirections_output(shell, node) != 0)
+			return (-1);
+	}
+	return (0);
 }

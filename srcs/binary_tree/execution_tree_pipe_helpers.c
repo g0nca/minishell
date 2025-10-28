@@ -89,10 +89,22 @@ void	execute_pipe_node(t_exec_node *node, t_shell *shell)
 
 	if (create_pipe_and_check(pipe_fd) == -1)
 		return ;
-	left_pid = fork_left_child(pipe_fd, node, shell);
+	if (node->left)
+		left_pid = fork_left_child(pipe_fd, node, shell);
+	else
+	{
+		left_pid = 0;
+		shell->last_exit_status = 1;
+	}
 	if (left_pid == -1)
 		return ;
-	right_pid = fork_right_child(pipe_fd, node, shell, left_pid);
+	if (node->right)
+		right_pid = fork_right_child(pipe_fd, node, shell, left_pid);
+	else
+	{
+		right_pid = 0;
+		shell->last_exit_status = 1;
+	}
 	if (right_pid == -1)
 		return ;
 	handle_pipe_parent(pipe_fd, left_pid, right_pid, shell);

@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:20:09 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/27 14:21:27 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 10:52:19 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,6 @@ int	main(int ac, char **av, char **envp)
 	return (g_exit_status);
 }
 
-static int	check_inside_quotes(t_token *token)
-{
-	if (token && token->value)
-	{
-		if (ft_strcmp(token->value, "\"\"") == 0
-			|| ft_strcmp(token->value, "\'\'") == 0)
-			return (-1);
-	}
-	return (0);
-}
-
 int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 {
 	t_exec_node	*tree;
@@ -84,24 +73,25 @@ int	main_auxiliar(char *line, t_shell *shell, t_token *token)
 	if (token)
 	{
 		expander(&token, shell);
-		if (check_inside_quotes(token) == 0)
+		delete_quotes(&token, shell);
+		shell->token = token;
+		tree = build_execution_tree(token, NULL, shell);
+		shell->tree = tree;
+		if (tree)
 		{
-			delete_quotes(&token, shell);
-			shell->token = token;
-			tree = build_execution_tree(token, NULL, shell);
-			shell->tree = tree;
 			if (process_heredocs_in_tree(tree, shell) == 0)
 				execute_tree(tree, shell);
 		}
 	}
 	free_execution_tree(tree, 1);
 	tree = NULL;
+	shell->tree = NULL;
 	free_tokens(&token);
 	token = NULL;
 	return (0);
 }
 
-void	print_tokens(t_token *list, t_shell *shell)
+/* void	print_tokens(t_token *list, t_shell *shell)
 {
 	int		i;
 	t_token	*current;
@@ -118,7 +108,7 @@ void	print_tokens(t_token *list, t_shell *shell)
 	}
 	if (shell)
 		printf("last_exit_status:%d\n", shell->last_exit_status);
-}
+} */
 /*
  const char	*node_type_to_str(t_node_type type)
 {
@@ -145,13 +135,11 @@ void	print_exec_tree(t_exec_node *node, int depth)
 	if (!node)
 		return;
 
-	// Indentação para ver hierarquia
 	for (i = 0; i < depth; i++)
 		printf("  ");
 
 	printf("Node Type: %s\n", node_type_to_str(node->type));
 
-	// Imprimir comando se existir
 	if (node->cmd)
 	{
 		for (i = 0; node->cmd[i]; i++)
@@ -164,12 +152,10 @@ void	print_exec_tree(t_exec_node *node, int depth)
 		}
 	}
 
-	// Mostrar fds
 	for (i = 0; i < depth; i++)
 		printf("  ");
 	printf("  fd_in: %d, fd_out: %d\n", node->fd_in, node->fd_out);
 
-	// Recursão para os filhos
 	if (node->left)
 	{
 		for (i = 0; i < depth; i++)

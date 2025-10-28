@@ -66,7 +66,7 @@ static int	setup_redirections_output(t_shell *shell, t_exec_node *node)
 {
 	if (node->append_file)
 	{
-			node->fd_out = open(node->append_file, O_WRONLY
+		node->fd_out = open(node->append_file, O_WRONLY
 				| O_CREAT | O_APPEND, 0644);
 	}
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:29:58 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/27 15:43:46 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 09:14:50 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
  * @note A string resultante do PID é alocada dinamicamente
  *   via `ft_itoa` e libertada internamente.
  */
-static void	handle_double_dollar(const char **input, char **current)
+void	handle_double_dollar(const char **input, char **current)
 {
 	char	*pid_str;
 	int		pid;
@@ -55,7 +55,7 @@ static void	handle_double_dollar(const char **input, char **current)
 	(*input)++;
 }
 
-static void	handle_question_mark(const char **input, char **current)
+void	handle_question_mark(const char **input, char **current)
 {
 	char	*status_str;
 	int		i;
@@ -117,7 +117,7 @@ static char	*extract_variable_name(const char **input)
 	return (var);
 }
 
-static void	handle_env_variable_expansion(const char **input,
+void	handle_env_variable_expansion(const char **input,
 			char **current, char **envp)
 {
 	char	*var;
@@ -135,54 +135,4 @@ static void	handle_env_variable_expansion(const char **input,
 		while (value[i])
 			*(*current)++ = value[i++];
 	}
-}
-
-/**
- * @brief Expande uma variável de ambiente
- *   e copia o seu valor para o buffer de resultado.
- *
- * Esta função analisa a variável a partir do ponteiro `input`,
- *   determina o tipo de expansão
- * (como `$$`, `$?`, ou `$VAR`), e copia o valor correspondente
- *   para o buffer apontado por `current`.
- * O ponteiro `input` é avançado até depois do nome da variável.
- *
- * Comportamentos suportados:
- * - `$$` : substituído pelo PID atual.
- * - `$?` : substituído pelo código de saída da última execução.
- * - `$VAR` : substituído pelo valor da variável de ambiente `VAR`.
- * - Qualquer outro caractere após `$` é tratado
- *   como literal e apenas o `$` é copiado.
- *
- * @param input Ponteiro para a string de entrada contendo
- *   o símbolo `$` seguido do nome da variável.
- * Este ponteiro é atualizado internamente para 
- *   apontar após a variável processada.
- * @param current Ponteiro para o buffer de resultado
- *   onde o valor expandido será escrito.
- * Este ponteiro é avançado após a escrita.
- * @param envp Array de strings com as variáveis de
- *   ambiente no formato "VAR=valor".
- */
-void	copy_env_value(const char **input, char **current, char **envp)
-{
-	(*input)++;
-	if (**input == '$')
-	{
-		handle_double_dollar(input, current);
-		return ;
-	}
-	if (**input == '?')
-	{
-		handle_question_mark(input, current);
-		return ;
-	}
-	if (**input == '!')
-		*(*current)++ = '\0';
-	if (ft_isalnum(**input) || **input == '_' || **input == '!')
-	{
-		handle_env_variable_expansion(input, current, envp);
-		return ;
-	}
-	*(*current)++ = '$';
 }

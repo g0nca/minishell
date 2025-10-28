@@ -6,7 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:14:44 by ggomes-v          #+#    #+#             */
-/*   Updated: 2025/10/28 10:30:23 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 11:16:41 by ggomes-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,10 @@ void		input_with_quotes(const char **input, char **current,
 void		copy_env_value(const char **input, char **current, char **envp);
 char		*get_env_value(const char *name, char **envp);
 int			should_skip_expansion(t_token *list, t_shell *shell);
+void		handle_double_dollar(const char **input, char **current);
+void		handle_question_mark(const char **input, char **current);
+void		handle_env_variable_expansion(const char **input,
+				char **current, char **envp);
 //===============================================================
 
 // calculate_final_size.c =======================================
@@ -321,7 +325,7 @@ void		run_builtin(t_token *cmd, t_shell *shell);
 // builtins/*.c =================================================
 //echo:
 void		ft_echo(t_token *list, t_shell *shell);
-void		ft_print_tokens(t_token *current);
+void		ft_print_tokens(t_token *current, t_shell *shell);
 int			ft_check_n_flag(t_token **current);
 void		ft_skip_redirections(t_token **current);
 //pwd:

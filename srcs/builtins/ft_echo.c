@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:37:53 by andrade           #+#    #+#             */
-/*   Updated: 2025/10/27 14:45:28 by ggomes-v         ###   ########.fr       */
+/*   Updated: 2025/10/28 09:09:25 by joaomart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,33 +54,6 @@ int	ft_check_n_flag(t_token **current)
 	return (n_flag);
 }
 
-void	ft_print_tokens(t_token *current)
-{
-	while (current)
-	{
-		if (current->type == TOKEN_REDIR_IN
-			|| current->type == TOKEN_REDIR_OUT
-			|| current->type == TOKEN_APPEND
-			|| current->type == TOKEN_HERE_DOC)
-		{
-			current = current->next;
-			if (current)
-				current = current->next;
-			continue ;
-		}
-		else
-		{
-			ft_printf_fd(1, "%s", current->value);
-		}
-		current = current->next;
-		if (current && !(current->type == TOKEN_REDIR_IN
-				|| current->type == TOKEN_REDIR_OUT
-				|| current->type == TOKEN_APPEND
-				|| current->type == TOKEN_HERE_DOC))
-			ft_printf_fd(1, " ");
-	}
-}
-
 void	ft_echo(t_token *list, t_shell *shell)
 {
 	t_token	*current;
@@ -89,7 +62,7 @@ void	ft_echo(t_token *list, t_shell *shell)
 	current = list->next;
 	ft_skip_redirections(&current);
 	n_flag = ft_check_n_flag(&current);
-	ft_print_tokens(current);
+	ft_print_tokens(current, shell);
 	if (!n_flag)
 		ft_printf_fd(1, "\n");
 	shell->last_exit_status = EXIT_SUCCESS;

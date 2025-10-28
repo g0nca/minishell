@@ -6,11 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:54:02 by joaomart          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2025/07/07 11:10:57 by ggomes-v         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/29 14:15:25 by ggomes-v         ###   ########.fr       */
->>>>>>> PIPES
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +15,6 @@
 void	ft_pwd(t_shell *shell)
 {
 	char	*pwd;
-<<<<<<< HEAD
 
 	pwd = cd_getenv(shell, "PWD");
 	if (pwd)
@@ -28,8 +23,6 @@ void	ft_pwd(t_shell *shell)
 		shell->last_exit_status = EXIT_SUCCESS;
 		return ;
 	}
-=======
->>>>>>> PIPES
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{

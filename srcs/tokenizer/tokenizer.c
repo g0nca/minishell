@@ -91,7 +91,6 @@ void	add_token_to_list(t_token *list, t_token *new_token)
 	}
 	list->size++;
 }
-<<<<<<< HEAD
 
 void	add_final_token(t_token *list, char *joined)
 {
@@ -99,13 +98,4 @@ void	add_final_token(t_token *list, char *joined)
 		return ;
 	add_token(list, joined, TOKEN_WORD);
 	free(joined);
-=======
-// Function to add the final token to the list with the correct quote
-void add_final_token(t_token *list, char *joined)
-{
-    if (!joined)
-        return;
-    add_token(list, joined, TOKEN_WORD);
-    free(joined);
->>>>>>> PIPES
 }

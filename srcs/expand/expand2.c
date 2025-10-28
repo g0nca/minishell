@@ -6,11 +6,7 @@
 /*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:29:58 by ggomes-v          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2025/10/28 09:14:50 by joaomart         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/29 10:00:12 by ggomes-v         ###   ########.fr       */
->>>>>>> PIPES
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +36,6 @@
  */
 void	handle_double_dollar(const char **input, char **current)
 {
-<<<<<<< HEAD
 	char	*pid_str;
 	int		pid;
 	int		i;
@@ -108,53 +103,6 @@ static char	*extract_variable_name(const char **input)
 	int			i;
 	const char	*tmp;
 
-=======
-    char    *pid_str;
-    int     pid;
-    int     i;
-
-    pid = getpid();
-    pid_str = ft_itoa(pid);
-    if (pid_str)
-    {
-        i = 0;
-        while (pid_str[i])
-        {
-            *(*current)++ = pid_str[i];
-            i++;
-        }
-            free(pid_str);
-    }
-    (*input)++; // consome o segundo '$'
-}
-
-static void    handle_question_mark(const char **input, char ** current)
-{
-    char    *status_str;
-    int     i;
-
-    status_str = ft_itoa(g_exit_status);
-    if (status_str)
-    {
-        i = 0;
-        while (status_str[i])
-        {
-            *(*current)++ = status_str[i];
-            i++;
-        }
-        free(status_str);
-    }
-    (*input)++;
-}
-
-static char *extract_variable_name(const char **input)
-{
-	const char	*tmp;
-	char		*var;
-	int			var_len;
-	int			i;
-
->>>>>>> PIPES
 	tmp = *input;
 	var_len = 0;
 	i = 0;
@@ -169,13 +117,8 @@ static char *extract_variable_name(const char **input)
 	return (var);
 }
 
-<<<<<<< HEAD
 void	handle_env_variable_expansion(const char **input,
 			char **current, char **envp)
-=======
-static void	handle_env_variable_expansion(const char **input,
-		char **current, char **envp)
->>>>>>> PIPES
 {
 	char	*var;
 	char	*value;
@@ -193,42 +136,3 @@ static void	handle_env_variable_expansion(const char **input,
 			*(*current)++ = value[i++];
 	}
 }
-<<<<<<< HEAD
-=======
-
-/**
-  * @brief Copies the value of an environment variable to the result buffer.
-  *
-  * This function parses the variable name starting from the given input pointer,
-  * retrieves its value from the environment, 
-  * and writes it to the `current` result pointer.
-  *
-  * @param input Pointer to the input string containing 
-  * the variable name (e.g., "$USER").
-  *              The pointer is advanced past the variable after processing.
-  * @param current Pointer to the result buffer where the 
-  * variable's value will be written.
-  *                The pointer is advanced after writing the value.
-  * @param envp Array of environment variables in the format "VAR=value".
-*/
-void	copy_env_value(const char **input, char **current, char **envp)
-{
-	(*input)++;
-	if (**input == '$')
-	{
-		handle_double_dollar(input, current);
-		return ;
-	}
-	if (**input == '?')
-	{
-		handle_question_mark(input, current);
-		return ;
-	}
-	if (ft_isalpha(**input) || **input == '_')
-	{
-		handle_env_variable_expansion(input, current, envp);
-		return ;
-	}
-	*(*current)++ = '$';
-}
->>>>>>> PIPES

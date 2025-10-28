@@ -6,11 +6,7 @@
 /*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:36:30 by andrade           #+#    #+#             */
-<<<<<<< HEAD:srcs/heredoc/heredoc2.c
 /*   Updated: 2025/10/21 15:17:11 by ggomes-v         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/29 11:23:53 by ggomes-v         ###   ########.fr       */
->>>>>>> PIPES:srcs/redirects/heredoc2.c
 /*                                                                            */
 /* ************************************************************************** */
 

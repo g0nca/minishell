@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggomes-v <ggomes-v@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaomart <joaomart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:53:57 by joaomart          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2025/10/27 13:14:45 by joaomart         ###   ########.fr       */
-=======
-/*   Updated: 2025/07/07 15:09:08 by ggomes-v         ###   ########.fr       */
->>>>>>> Fix_TestGonca
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +36,7 @@ static void	handle_direct_path(char **args, t_shell *shell)
 	execve(path, args, shell->env);
 	shell_error(shell, path, 3, false);
 }
-static void	absolute_path(char **args, t_shell *shell)
-{
-	char *path;
-	path = args[0];
-	execve(path, args, shell->env);
-}
+
 void	handle_env_path_execution(char **args, t_shell *shell)
 {
 	char	*path_env;
@@ -55,7 +46,7 @@ void	handle_env_path_execution(char **args, t_shell *shell)
 		execve(args[0], args, shell->env);
 	path_env = get_path_env(shell->env);
 	if (!path_env)
-		absolute_path(args, shell);
+		shell_error(shell, args[0], 1, false);
 	result = try_paths(args, shell, path_env);
 	if (result == 0)
 		handle_direct_path(args, shell);
